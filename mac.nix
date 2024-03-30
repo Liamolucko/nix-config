@@ -33,29 +33,6 @@
     '')
   ];
 
-  # It's too slow without Rosetta.
-  # (Well, it might be better if we use qemu-user instead of qemu-system but I'm sick of working on this.)
-  # Honestly I think it'd probably be easier to just use `Virtualization.framework` directly than trying to deal with anyone else's CLIs around them with their bespoke CLIs and magic. Then mimic `qemu-vm.nix`'s interface.
-  # launchd.daemons.vivado-vm = {
-  #   serviceConfig = {
-  #     ProgramArguments = [
-  #       "/bin/sh"
-  #       "-c"
-  #       "/bin/wait4path /nix/store &amp;&amp; exec ${
-  #         self.nixosConfigurations."vivado-vm".config.system.build.vm
-  #       }/bin/run-nixos-vm"
-  #     ];
-  #     KeepAlive = true;
-  #     RunAtLoad = true;
-  #     WorkingDirectory = "/var/lib/vivado-vm";
-  #   };
-  # };
-  # system.activationScripts.vivadoWorkingDirectory = {
-  #   text = ''
-  #     mkdir -p /var/lib/vivado-vm
-  #   '';
-  # };
-
   users.users.liam.home = "/Users/liam";
   home-manager.users.liam = import ./home-mac.nix;
 
