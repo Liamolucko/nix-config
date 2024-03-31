@@ -28,6 +28,8 @@
     fsType = "virtiofs";
   };
 
+  networking.hostName = "vivado-vm";
+
   nix.settings.experimental-features = "nix-command flakes";
 
   programs.fish.enable = true;
@@ -55,6 +57,7 @@
 
   environment.systemPackages = [
     pkgs.alacritty
+    pkgs.git # needs to be installed to use flakes in git repos
     pkgs.vivado
     pkgs.xilinx-shell
   ];
