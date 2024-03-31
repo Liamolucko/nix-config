@@ -100,11 +100,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1711790047,
-        "narHash": "sha256-orihtHJQyBNDaK/uc1+uH18170TLsaGRKK2IMsJSfbA=",
+        "lastModified": 1711843762,
+        "narHash": "sha256-7s9EP1jOxOVFUDXGooKB21+Tgj8OOvKPaSfEwewDhfA=",
         "owner": "Liamolucko",
         "repo": "nix-os161",
-        "rev": "039dfc73cd656d5388e0e465be255cc7578c79a3",
+        "rev": "2ac37649c517a07ea07f36556f912999508659ab",
         "type": "github"
       },
       "original": {

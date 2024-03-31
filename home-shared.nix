@@ -9,6 +9,7 @@
     pkgs.gh
     pkgs.gnupg
     pkgs.gtkwave
+    pkgs.nix-output-monitor
     pkgs.nixfmt-rfc-style
     pkgs.nodejs
     pkgs.nodePackages.pnpm

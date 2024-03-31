@@ -37,7 +37,7 @@
         system = "aarch64-darwin";
         modules = [
           { home-manager.users.liam.nixpkgs.overlays = overlays; }
-          home-manager.nixosModules.home-manager
+          home-manager.darwinModules.home-manager
           ./mac.nix
         ];
       };
