@@ -78,9 +78,10 @@
     enable = true;
     package = pkgs.vscodium;
     extensions = with pkgs.vscode-marketplace; [
-      pkief.material-icon-theme
       mshr-h.veriloghdl
       nathanridley.autotrim
+      pkief.material-icon-theme
+      stkb.rewrap
     ];
     userSettings = {
       "diffEditor.ignoreTrimWhitespace" = false;
@@ -89,7 +90,7 @@
       "editor.fontSize" = 15;
       "editor.formatOnSave" = true;
       "editor.inlayHints.enabled" = "off";
-      "editor.minimap.enabled" = "off";
+      "editor.minimap.enabled" = false;
       "editor.smoothScrolling" = true;
       "editor.suggest.showWords" = false;
       "terminal.integrated.cursorStyle" = "underline";
