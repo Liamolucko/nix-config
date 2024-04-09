@@ -9,11 +9,13 @@
     pkgs.gh
     pkgs.gnupg
     pkgs.gtkwave
+    pkgs.kitty
     pkgs.nix-output-monitor
     pkgs.nixfmt-rfc-style
     pkgs.nodejs
     pkgs.nodePackages.pnpm
     pkgs.rsync
+    pkgs.ruff
     pkgs.tree-sitter
     pkgs.typst
     # pkgs.verible # broken on macos right now
