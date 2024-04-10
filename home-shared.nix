@@ -30,6 +30,7 @@
     # COMP3891
     pkgs.bear
     pkgs.bmake
+    pkgs.clang-tools
     pkgs.os161-binutils
     pkgs.os161-gcc
     pkgs.os161-gdb
