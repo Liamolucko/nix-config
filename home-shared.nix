@@ -80,6 +80,9 @@
   programs.vscode = {
     enable = true;
     package = pkgs.vscodium;
+    enableExtensionUpdateCheck = false;
+    enableUpdateCheck = false;
+    mutableExtensionsDir = false;
     extensions = with pkgs.vscode-marketplace; [
       mshr-h.veriloghdl
       nathanridley.autotrim
