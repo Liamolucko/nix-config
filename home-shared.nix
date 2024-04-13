@@ -37,6 +37,16 @@
     pkgs.sys161
   ];
 
+  home.sessionVariables = {
+    # R = don't mess with control characters (i.e. make colours work)
+    # S = truncate lines instead of wrapping
+    #
+    # As well as wanting it to behave that way, another reason I'm setting this is
+    # because it stops Git from setting it and setting X, which breaks mouse
+    # scrolling.
+    LESS = "RS";
+  };
+
   # This needs to be specified both inside and outside of home-manager, so that
   # outside it I can set fish as my shell and inside it I can configure stuff.
   programs.fish.enable = true;
@@ -76,6 +86,26 @@
   programs.fish.shellInit = ''
     set fish_greeting ""
   '';
+
+  programs.git = {
+    enable = true;
+    userName = "Liam Murphy";
+    userEmail = "liampm32@gmail.com";
+    signing = {
+      key = "0A01FCF4B19F9B8D";
+      signByDefault = true;
+    };
+    delta = {
+      enable = true;
+      # Delta's light/dark detection seems to somehow cause it to start off scrolled
+      # to the right in Zed's terminal, so tell it we're using dark mode up front to
+      # get it to skip detecting it; TODO file an issue about this
+      options.dark = true;
+    };
+    extraConfig = {
+      push.autoSetupRemote = true;
+    };
+  };
 
   programs.vscode = {
     enable = true;
