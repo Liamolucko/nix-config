@@ -29,6 +29,9 @@
     pkgs.wasm-pack
     pkgs.wasm-tools
 
+    # COMP3211
+    pkgs.vhdl-ls
+
     # COMP3891
     pkgs.bear
     pkgs.bmake
@@ -136,9 +139,9 @@
       "workbench.iconTheme" = "material-icon-theme";
       "workbench.startupEditor" = "none";
 
-      "verilog.formatting.verilogHDL.formatter" = "verible-verilog-format";
+      # "verilog.formatting.verilogHDL.formatter" = "verible-verilog-format";
       "verilog.languageServer.rustHdl.enabled" = true;
-      "verilog.languageServer.veribleVerilogLs.enabled" = true;
+      # "verilog.languageServer.veribleVerilogLs.enabled" = true;
       "verilog.linting.linter" = "verilator";
 
       "[systemverilog]" = {

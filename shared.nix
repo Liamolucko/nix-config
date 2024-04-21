@@ -3,7 +3,9 @@
 {
   nix.settings.experimental-features = "nix-command flakes";
   services.nix-daemon.enable = true;
+
   nix.gc.automatic = true;
+  nix.settings.keep-outputs = true;
 
   programs.fish.enable = true;
   users.users.liam.shell = pkgs.fish;
