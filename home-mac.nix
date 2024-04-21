@@ -17,7 +17,6 @@
     # really go fix it at some point.
     pkgs.gnused
     pkgs.musescore
-    pkgs.rclone
     pkgs.utm
   ];
   home.sessionVariables = {

@@ -35,7 +35,6 @@
 
   homebrew = {
     enable = true;
-    cleanup = "zap";
     taps = [ "macos-fuse-t/homebrew-cask" ];
     casks = [
       "eloston-chromium"
@@ -44,6 +43,11 @@
       "fuse-t-sshfs"
       "jumpcut"
     ];
+    onActivation = {
+      cleanup = "uninstall";
+      autoUpdate = true;
+      upgrade = true;
+    };
   };
 
   users.users.liam.home = "/Users/liam";
