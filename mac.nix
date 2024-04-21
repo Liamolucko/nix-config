@@ -33,6 +33,19 @@
     '')
   ];
 
+  homebrew = {
+    enable = true;
+    cleanup = "zap";
+    taps = [ "macos-fuse-t/homebrew-cask" ];
+    casks = [
+      "eloston-chromium"
+      "firefox"
+      "fuse-t"
+      "fuse-t-sshfs"
+      "jumpcut"
+    ];
+  };
+
   users.users.liam.home = "/Users/liam";
   home-manager.users.liam = import ./home-mac.nix;
 

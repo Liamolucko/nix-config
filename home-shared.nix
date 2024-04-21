@@ -2,6 +2,8 @@
 {
   home.packages = [
     pkgs.cargo-binstall
+    pkgs.cargo-fuzz
+    pkgs.bat
     pkgs.binaryen
     pkgs.deno
     pkgs.emscripten # needed by tree-sitter
@@ -9,6 +11,7 @@
     pkgs.gh
     pkgs.gnupg
     pkgs.gtkwave
+    pkgs.httplz
     pkgs.kitty
     pkgs.nix-output-monitor
     pkgs.nixfmt-rfc-style
@@ -16,6 +19,8 @@
     pkgs.nodePackages.pnpm
     pkgs.rsync
     pkgs.ruff
+    pkgs.rustup
+    pkgs.samply
     pkgs.tree-sitter
     pkgs.typst
     # pkgs.verible # broken on macos right now
@@ -24,13 +29,10 @@
     pkgs.wasm-pack
     pkgs.wasm-tools
 
-    # COMP6991
-    pkgs.cargo-insta
-
     # COMP3891
     pkgs.bear
     pkgs.bmake
-    pkgs.clang-tools
+    pkgs.clang-tools # apple clangd doesn't infer architecture from compiler name
     pkgs.os161-binutils
     pkgs.os161-gcc
     pkgs.os161-gdb
