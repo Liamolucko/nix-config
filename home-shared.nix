@@ -8,7 +8,6 @@
     pkgs.binaryen
     pkgs.deno
     pkgs.emscripten # needed by tree-sitter
-    pkgs.geckodriver
     pkgs.gh
     pkgs.gnupg
     pkgs.gtkwave
@@ -19,6 +18,7 @@
     pkgs.nixfmt-rfc-style
     pkgs.nodejs
     pkgs.nodePackages.pnpm
+    pkgs.openfpgaloader
     pkgs.rsync
     pkgs.ruff
     pkgs.rustup
