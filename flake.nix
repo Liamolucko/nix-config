@@ -34,9 +34,12 @@
         # note: this always builds for x86 regardless of the host system (which is what
         # I want).
         nix-xilinx.overlay
+        self.overlays.default
       ];
     in
     {
+      overlays.default = final: prev: { calyx-lsp = final.callPackage ./pkgs/calyx-lsp.nix { }; };
+
       darwinConfigurations."Liams-Laptop" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
@@ -55,7 +58,15 @@
         ];
       };
     }
-    // flake-utils.lib.eachDefaultSystem (system: {
-      formatter = nixpkgs.legacyPackages.${system}.nixfmt-rfc-style;
-    });
+    // flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+        overlay = self.overlays.default pkgs pkgs;
+      in
+      {
+        formatter = pkgs.nixfmt-rfc-style;
+        packages.calyx-lsp = overlay.calyx-lsp;
+      }
+    );
 }

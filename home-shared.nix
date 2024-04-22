@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
   home.packages = [
+    pkgs.calyx-lsp
     pkgs.cargo-binstall
     pkgs.cargo-fuzz
     pkgs.bat
@@ -12,6 +13,7 @@
     pkgs.gnupg
     pkgs.gtkwave
     pkgs.httplz
+    pkgs.jdk
     pkgs.kitty
     pkgs.nix-output-monitor
     pkgs.nixfmt-rfc-style
@@ -21,11 +23,14 @@
     pkgs.ruff
     pkgs.rustup
     pkgs.samply
+    pkgs.stdenv.cc
     pkgs.tree-sitter
     pkgs.typst
+    pkgs.uv
     # pkgs.verible # broken on macos right now
     pkgs.verilator
     pkgs.wabt
+    pkgs.wasm-bindgen-cli
     pkgs.wasm-pack
     pkgs.wasm-tools
 
@@ -119,6 +124,7 @@
     enableUpdateCheck = false;
     mutableExtensionsDir = false;
     extensions = with pkgs.vscode-marketplace; [
+      calyxir.calyx
       mshr-h.veriloghdl
       nathanridley.autotrim
       pkief.material-icon-theme

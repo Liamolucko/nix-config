@@ -56,15 +56,17 @@
   users.mutableUsers = false;
 
   environment.systemPackages = [
-    pkgs.alacritty
     pkgs.git # needs to be installed to use flakes in git repos
+    pkgs.kitty
+    # Note to self: enshrine the LIBRARY_PATH workaround in nix-xilinx
+    # (or figure out why it works on arch)
+    # also make it compatible with FEX etc.
     pkgs.vivado
     pkgs.xilinx-shell
   ];
 
-  services.xserver.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.displayManager.sddm.wayland.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
 
   # Shared memory is broken in Rosetta right now, so turn it off.
@@ -89,6 +91,13 @@
         '';
     })
   ];
+
+  # boot.binfmt.registrations.box64 = {
+  #   interpreter = lib.getExe pkgs.box64;
+  #   # Copied from `magics` in `<nixpkgs>/nixos/modules/system/boot/binfmt.nix`.
+  #   magicOrExtension = ''\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x3e\x00'';
+  #   mask = ''\xff\xff\xff\xff\xff\xfe\xfe\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'';
+  # };
 
   virtualisation.rosetta.enable = true;
   services.spice-vdagentd.enable = true;
