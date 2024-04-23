@@ -98,6 +98,23 @@
   #   magicOrExtension = ''\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x3e\x00'';
   #   mask = ''\xff\xff\xff\xff\xff\xfe\xfe\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'';
   # };
+  # boot.binfmt.registrations.FEX-x86_64 = {
+  #   wrapInterpreterInShell = false;
+  #   # A translation of "${pkgs.fex}/share/binfmts/FEX-x86_64".
+  #   interpreter = "${pkgs.fex}/bin/FEXInterpreter";
+  #   magicOrExtension = ''\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x3e\x00'';
+  #   offset = 0;
+  #   mask = ''\xff\xff\xff\xff\xff\xfe\xfe\x00\x00\x00\x00\xff\xff\xff\xff\xff\xfe\xff\xff\xff'';
+  #   matchCredentials = true;
+  #   fixBinary = true;
+  #   preserveArgvZero = true;
+  #   # FEX also specifies an additional flag here, `expose_interpreter optional`:
+  #   # this seems to have been set in advance of it being added to the kernel in
+  #   # https://lore.kernel.org/lkml/20230907204256.3700336-1-gpiccoli@igalia.com/.
+  #   # But that hasn't been merged so there's no point specifying it, plus NixOS
+  #   # doesn't support it in the first place (unsurprisingly).
+  # };
+  # nix.settings.extra-platforms = [ "x86_64-linux" ];
 
   virtualisation.rosetta.enable = true;
   services.spice-vdagentd.enable = true;

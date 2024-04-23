@@ -19,6 +19,7 @@
     pkgs.nodejs
     pkgs.nodePackages.pnpm
     pkgs.openfpgaloader
+    pkgs.ripgrep
     pkgs.rsync
     pkgs.ruff
     pkgs.rustup

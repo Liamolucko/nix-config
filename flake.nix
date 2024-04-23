@@ -38,7 +38,10 @@
       ];
     in
     {
-      overlays.default = final: prev: { calyx-lsp = final.callPackage ./pkgs/calyx-lsp.nix { }; };
+      overlays.default = final: prev: {
+        calyx-lsp = final.callPackage ./pkgs/calyx-lsp.nix { };
+        fex = final.callPackage ./pkgs/fex.nix { };
+      };
 
       darwinConfigurations."Liams-Laptop" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
@@ -66,7 +69,7 @@
       in
       {
         formatter = pkgs.nixfmt-rfc-style;
-        packages.calyx-lsp = overlay.calyx-lsp;
+        packages = overlay;
       }
     );
 }
