@@ -41,6 +41,7 @@
       overlays.default = final: prev: {
         calyx-lsp = final.callPackage ./pkgs/calyx-lsp.nix { };
         fex = final.callPackage ./pkgs/fex.nix { };
+        llvm-mctoll = final.callPackage ./pkgs/llvm-mctoll.nix { };
       };
 
       darwinConfigurations."Liams-Laptop" = nix-darwin.lib.darwinSystem {
