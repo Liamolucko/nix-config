@@ -37,15 +37,6 @@
 
     # COMP3211
     pkgs.vhdl-ls
-
-    # COMP3891
-    pkgs.bear
-    pkgs.bmake
-    pkgs.clang-tools # apple clangd doesn't infer architecture from compiler name
-    pkgs.os161-binutils
-    pkgs.os161-gcc
-    pkgs.os161-gdb
-    pkgs.sys161
   ];
 
   home.sessionVariables = {
