@@ -3,6 +3,7 @@
   home.packages = [
     pkgs.calyx-lsp
     pkgs.cargo-binstall
+    pkgs.cargo-expand
     pkgs.cargo-fuzz
     pkgs.bat
     pkgs.binaryen
