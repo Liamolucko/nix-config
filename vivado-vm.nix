@@ -37,7 +37,7 @@
     isNormalUser = true;
     home = "/home/vivado";
     createHome = true;
-    password = "vivado";
+    initialPassword = "vivado";
     extraGroups = [ "wheel" ];
     shell = pkgs.fish;
   };
