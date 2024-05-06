@@ -37,7 +37,6 @@
         prjxray-db = final.callPackage ./pkgs/prjxray-db.nix { };
         prjxray-tools = final.callPackage ./pkgs/prjxray-tools.nix { };
         vtr = final.callPackage ./pkgs/vtr.nix { };
-        f4pga-install-dir = final.callPackage ./pkgs/f4pga-install-dir.nix { };
 
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
           (python-final: python-prev: {

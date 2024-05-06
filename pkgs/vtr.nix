@@ -8,6 +8,7 @@
   capnproto-java,
   flex,
   pkg-config,
+  tbb_2021_11,
   zlib,
 # TODO add withGraphics
 }:
@@ -41,10 +42,10 @@ stdenv.mkDerivation {
     flex
     pkg-config
   ];
-  buildInputs = [ zlib ];
-  # Having TBB would be nice for parallelism but the mac version is broken and I
-  # can't seem to rebuild it locally (which is an issue for fixing it).
-  # TODO: uhh, given the performance results this seems very very relevant
+  buildInputs = [
+    tbb_2021_11
+    zlib
+  ];
 
   meta = {
     description = "Open Source CAD Flow for FPGA Research";
