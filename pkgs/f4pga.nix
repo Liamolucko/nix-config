@@ -1,3 +1,9 @@
+# TODO:
+# - upstream to nixpkgs
+# - try enabling PGO for VTR
+# - quicklogic support
+# - proper checkPhases
+# - make python packages more consistent (e.g. decide if we're using build-system/dependencies or not, always use setuptools/wheel)
 {
   lib,
   callPackage,

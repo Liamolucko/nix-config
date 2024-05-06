@@ -44,6 +44,7 @@ stdenv.mkDerivation {
   buildInputs = [ zlib ];
   # Having TBB would be nice for parallelism but the mac version is broken and I
   # can't seem to rebuild it locally (which is an issue for fixing it).
+  # TODO: uhh, given the performance results this seems very very relevant
 
   meta = {
     description = "Open Source CAD Flow for FPGA Research";

@@ -1,12 +1,14 @@
+# TODO: possibly incorporate https://github.com/chipsalliance/fasm/pull/87
 {
   lib,
   buildPythonPackage,
   fetchFromGitHub,
   cmake,
+  setuptools,
+  wheel,
   antlr4_9,
   cython,
   jre_headless,
-  libuuid,
   textx,
 }:
 buildPythonPackage {
@@ -28,11 +30,13 @@ buildPythonPackage {
     cmake
     jre_headless
   ];
-  buildInputs = [
-    libuuid
-    antlr4_9.runtime.cpp
+  buildInputs = [ antlr4_9.runtime.cpp ];
+
+  build-system = [
+    setuptools
+    wheel
+    cython
   ];
-  build-system = [ cython ];
   dependencies = [ textx ];
 
   # setup.py drives the build, not cmake.
