@@ -45,14 +45,13 @@
         prjxray-db = final.callPackage ./pkgs/prjxray-db.nix { };
         prjxray-tools = final.callPackage ./pkgs/prjxray-tools.nix { };
         vtr = final.callPackage ./pkgs/vtr.nix { };
-        f4pga = final.callPackage ./pkgs/f4pga.nix { };
         f4pga-install-dir = final.callPackage ./pkgs/f4pga-install-dir.nix { };
 
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
           (python-final: python-prev: {
             fasm = python-final.callPackage ./pkgs/fasm.nix { };
-            f4pga = python-final.callPackage ./pkgs/f4pga-py.nix { };
-            f4pga-xc-fasm = python-final.callPackage ./pkgs/f4pga-xc-fasm.nix { };
+            f4pga = python-final.callPackage ./pkgs/f4pga.nix { };
+            xc-fasm = python-final.callPackage ./pkgs/xc-fasm.nix { };
             prjxray = python-final.callPackage ./pkgs/prjxray.nix { };
             pyjson5 = python-final.callPackage ./pkgs/pyjson5.nix { };
           })

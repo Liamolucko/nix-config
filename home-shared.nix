@@ -1,4 +1,11 @@
 { pkgs, ... }:
+let
+  f4pga = pkgs.python3Packages.f4pga;
+  archDefs = [
+    f4pga.archDefs.xc7a50t
+    f4pga.archDefs.xc7a200t
+  ];
+in
 {
   home.packages = [
     pkgs.calyx-lsp
@@ -9,6 +16,7 @@
     pkgs.binaryen
     pkgs.deno
     pkgs.emscripten # needed by tree-sitter
+    (f4pga.override { inherit archDefs; })
     pkgs.gh
     pkgs.gnupg
     pkgs.gtkwave
