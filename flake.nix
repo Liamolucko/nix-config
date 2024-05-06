@@ -8,10 +8,6 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
-    nix-vscode-extensions.inputs.nixpkgs.follows = "nixpkgs";
-    nix-os161.url = "github:Liamolucko/nix-os161";
-    nix-os161.inputs.nixpkgs.follows = "nixpkgs";
     nix-xilinx.url = "gitlab:doronbehar/nix-xilinx";
     nix-xilinx.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -23,14 +19,10 @@
       flake-utils,
       nix-darwin,
       home-manager,
-      nix-vscode-extensions,
-      nix-os161,
       nix-xilinx,
     }:
     let
       overlays = [
-        nix-vscode-extensions.overlays.default
-        nix-os161.overlays.default
         # note: this always builds for x86 regardless of the host system (which is what
         # I want).
         nix-xilinx.overlay
