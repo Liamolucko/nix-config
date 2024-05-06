@@ -43,9 +43,6 @@ in
     pkgs.wasm-bindgen-cli
     pkgs.wasm-pack
     pkgs.wasm-tools
-
-    # COMP3211
-    pkgs.vhdl-ls
   ];
 
   home.sessionVariables = {
@@ -115,46 +112,6 @@ in
     };
     extraConfig = {
       push.autoSetupRemote = true;
-    };
-  };
-
-  programs.vscode = {
-    enable = true;
-    package = pkgs.vscodium;
-    enableExtensionUpdateCheck = false;
-    enableUpdateCheck = false;
-    mutableExtensionsDir = false;
-    extensions = with pkgs.vscode-marketplace; [
-      calyxir.calyx
-      mshr-h.veriloghdl
-      nathanridley.autotrim
-      pkief.material-icon-theme
-      stkb.rewrap
-    ];
-    userSettings = {
-      "diffEditor.ignoreTrimWhitespace" = false;
-      "editor.bracketPairColorization.enabled" = false;
-      "editor.fontFamily" = "'Zed Mono', monospace";
-      "editor.fontSize" = 15;
-      "editor.formatOnSave" = true;
-      "editor.inlayHints.enabled" = "off";
-      "editor.minimap.enabled" = false;
-      "editor.smoothScrolling" = true;
-      "editor.suggest.showWords" = false;
-      "terminal.integrated.cursorStyle" = "underline";
-      "terminal.integrated.fontSize" = 15;
-      "workbench.iconTheme" = "material-icon-theme";
-      "workbench.startupEditor" = "none";
-
-      # "verilog.formatting.verilogHDL.formatter" = "verible-verilog-format";
-      "verilog.languageServer.rustHdl.enabled" = true;
-      # "verilog.languageServer.veribleVerilogLs.enabled" = true;
-      "verilog.linting.linter" = "verilator";
-
-      "[systemverilog]" = {
-        "editor.defaultFormatter" = "mshr-h.veriloghdl";
-        "editor.tabSize" = 2;
-      };
     };
   };
 
