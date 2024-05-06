@@ -37,11 +37,13 @@
         prjxray-db = final.callPackage ./pkgs/prjxray-db.nix { };
         prjxray-tools = final.callPackage ./pkgs/prjxray-tools.nix { };
         vtr = final.callPackage ./pkgs/vtr.nix { };
+        xc-fasm = with final.python3Packages; toPythonApplication xc-fasm;
 
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
           (python-final: python-prev: {
             fasm = python-final.callPackage ./pkgs/fasm.nix { };
-            f4pga = python-final.callPackage ./pkgs/f4pga.nix { };
+            # We want the application version of xc-fasm, not the package version.
+            f4pga = python-final.callPackage ./pkgs/f4pga.nix { xc-fasm = final.xc-fasm; };
             xc-fasm = python-final.callPackage ./pkgs/xc-fasm.nix { };
             prjxray = python-final.callPackage ./pkgs/prjxray.nix { };
             pyjson5 = python-final.callPackage ./pkgs/pyjson5.nix { };

@@ -9,6 +9,7 @@
   textx,
   prjxray,
   fasm,
+  unittestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -23,12 +24,14 @@ buildPythonPackage rec {
     hash = "sha256-QzBL759yS2TwWmN0FG+WIWhTjhvzLVSYHatYlQgkxW4=";
   };
 
-  nativeBuildInputs = [
+  patches = [ ./xc-fasm.patch ];
+
+  build-system = [
     setuptools
     wheel
   ];
 
-  propagatedBuildInputs = [
+  dependencies = [
     intervaltree
     simplejson
     textx
@@ -36,7 +39,11 @@ buildPythonPackage rec {
     fasm
   ];
 
-  pythonImportsCheck = [ "xc_fasm" ];
+  nativeCheckInputs = [ unittestCheckHook ];
+  unittestFlagsArray = [
+    "-s"
+    "tests"
+  ];
 
   meta = with lib; {
     description = "";

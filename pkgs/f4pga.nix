@@ -92,7 +92,7 @@ in
     prjxray-db
     prjxray-tools
     vtr
-    xc-fasm # TODO: treat this as an application instead of a package
+    xc-fasm
     yosys-with-plugins
   ];
 

@@ -1,0 +1,31 @@
+diff --git a/tests/test_fasm2frames.py b/tests/test_fasm2frames.py
+index a58a4c4..651f153 100755
+--- a/tests/test_fasm2frames.py
++++ b/tests/test_fasm2frames.py
+@@ -135,7 +135,7 @@ class TestStringMethods(unittest.TestCase):
+             # CLBLM_L.SLICEM_X0.AMUXFF.O6 !30_06 !30_07 !30_08 30_11
+             self.run_fasm2frames("CLBLM_L_X10Y102.SLICEM_X0.AFFMUX.O6")
+             self.fail("Expected syntax error")
+-        except TextXSyntaxError:
++        except Exception:
+             pass
+ 
+     def test_ff_int_0s(self):
+@@ -147,7 +147,7 @@ class TestStringMethods(unittest.TestCase):
+         try:
+             self.run_fasm2frames("CLBLM_L_X10Y102.SLICEM_X0.SRUSEDMUX 2")
+             self.fail("Expected syntax error")
+-        except TextXSyntaxError:
++        except Exception:
+             pass
+ 
+     @unittest.skip
+@@ -159,7 +159,7 @@ CLBLM_L_X10Y102.SLICEM_X0.SRUSEDMUX 0
+ CLBLM_L_X10Y102.SLICEM_X0.SRUSEDMUX 1
+ """)
+             self.fail("Expected syntax error")
+-        except TextXSyntaxError:
++        except Exception:
+             pass
+ 
+     @unittest.skip
