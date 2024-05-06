@@ -42,6 +42,21 @@
         calyx-lsp = final.callPackage ./pkgs/calyx-lsp.nix { };
         fex = final.callPackage ./pkgs/fex.nix { };
         llvm-mctoll = final.callPackage ./pkgs/llvm-mctoll.nix { };
+        prjxray-db = final.callPackage ./pkgs/prjxray-db.nix { };
+        prjxray-tools = final.callPackage ./pkgs/prjxray-tools.nix { };
+        vtr = final.callPackage ./pkgs/vtr.nix { };
+        f4pga = final.callPackage ./pkgs/f4pga.nix { };
+        f4pga-install-dir = final.callPackage ./pkgs/f4pga-install-dir.nix { };
+
+        pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
+          (python-final: python-prev: {
+            fasm = python-final.callPackage ./pkgs/fasm.nix { };
+            f4pga = python-final.callPackage ./pkgs/f4pga-py.nix { };
+            f4pga-xc-fasm = python-final.callPackage ./pkgs/f4pga-xc-fasm.nix { };
+            prjxray = python-final.callPackage ./pkgs/prjxray.nix { };
+            pyjson5 = python-final.callPackage ./pkgs/pyjson5.nix { };
+          })
+        ];
       };
 
       darwinConfigurations."Liams-Laptop" = nix-darwin.lib.darwinSystem {
@@ -65,12 +80,11 @@
     // flake-utils.lib.eachDefaultSystem (
       system:
       let
-        pkgs = nixpkgs.legacyPackages.${system};
-        overlay = self.overlays.default pkgs pkgs;
+        pkgs = nixpkgs.legacyPackages.${system}.extend self.overlays.default;
       in
       {
         formatter = pkgs.nixfmt-rfc-style;
-        packages = overlay;
+        packages = pkgs;
       }
     );
 }

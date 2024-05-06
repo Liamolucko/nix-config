@@ -1,0 +1,42 @@
+--- a/libs/EXTERNAL/libinterchange/cmake/cxx_static/CMakeLists.txt
++++ b/libs/EXTERNAL/libinterchange/cmake/cxx_static/CMakeLists.txt
+@@ -3,15 +3,11 @@ set(PROTOS LogicalNetlist.capnp PhysicalNetlist.capnp DeviceResources.capnp Refe
+ 
+ set(INTERCHANGE_SCHEMA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../interchange)
+ 
+-find_program(WGET wget REQUIRED)
+-
+ set(JAVA_SCHEMA ${CMAKE_CURRENT_BINARY_DIR}/schema/capnp/java.capnp)
+ add_custom_command(
+     OUTPUT ${JAVA_SCHEMA}
+     COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/schema/capnp/
+-    COMMAND ${WGET}
+-        https://raw.githubusercontent.com/capnproto/capnproto-java/master/compiler/src/main/schema/capnp/java.capnp
+-        -O ${JAVA_SCHEMA}
++    COMMAND cp @capnprotoJavaSrc@/compiler/src/main/schema/capnp/java.capnp ${JAVA_SCHEMA}
+     )
+ add_custom_target(
+     get_java_capnp_schema
+diff --git a/libs/libvtrcapnproto/CMakeLists.txt b/libs/libvtrcapnproto/CMakeLists.txt
+index cd97b0ec4..bd6548af4 100644
+--- a/libs/libvtrcapnproto/CMakeLists.txt
++++ b/libs/libvtrcapnproto/CMakeLists.txt
+@@ -35,7 +35,6 @@ if (VPR_ENABLE_INTERCHANGE)
+     set(IC_DIR ${CMAKE_SOURCE_DIR}/libs/EXTERNAL/libinterchange/interchange)
+     set(CAPNPC_SRC_PREFIX ${IC_DIR})
+ 
+-    find_program(WGET wget REQUIRED)
+     find_package(ZLIB REQUIRED)
+ 
+     # Add Java schema
+@@ -43,9 +42,7 @@ if (VPR_ENABLE_INTERCHANGE)
+     add_custom_command(
+         OUTPUT ${JAVA_SCHEMA}
+         COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/schema/capnp/
+-        COMMAND ${WGET}
+-            https://raw.githubusercontent.com/capnproto/capnproto-java/master/compiler/src/main/schema/capnp/java.capnp
+-            -O ${JAVA_SCHEMA}
++        COMMAND cp @capnprotoJavaSrc@/compiler/src/main/schema/capnp/java.capnp ${JAVA_SCHEMA}
+     )
+ 
+     add_custom_target(
