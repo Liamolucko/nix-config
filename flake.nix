@@ -50,7 +50,6 @@
             f4pga = python-final.callPackage ./pkgs/f4pga.nix { xc-fasm = final.xc-fasm; };
             xc-fasm = python-final.callPackage ./pkgs/xc-fasm.nix { };
             prjxray = python-final.callPackage ./pkgs/prjxray.nix { };
-            pyjson5 = python-final.callPackage ./pkgs/pyjson5.nix { };
           })
         ];
       };
