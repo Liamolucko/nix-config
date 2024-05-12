@@ -53,7 +53,6 @@
     home.stateVersion = "23.11";
     programs.home-manager.enable = true;
   };
-  users.mutableUsers = false;
 
   environment.systemPackages = [
     pkgs.git # needs to be installed to use flakes in git repos
