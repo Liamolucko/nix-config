@@ -31,7 +31,7 @@
     in
     {
       overlays.default = final: prev: {
-        calyx-lsp = final.callPackage ./pkgs/calyx-lsp.nix { };
+        calyx-lsp = final.callPackage ./pkgs/calyx-lsp { };
         # TODO: fasm has a binary that we should package but there's already something
         # else with that name, what to call it?
         f4pga = with final.python3Packages; toPythonApplication xc-fasm;
@@ -40,6 +40,7 @@
         prjxray = with final.python3Packages; toPythonApplication prjxray;
         prjxray-db = final.callPackage ./pkgs/prjxray-db.nix { };
         prjxray-tools = final.callPackage ./pkgs/prjxray-tools.nix { };
+        swim = final.callPackage ./pkgs/swim { };
         vtr = final.callPackage ./pkgs/vtr.nix { };
         xc-fasm = with final.python3Packages; toPythonApplication xc-fasm;
 

@@ -34,6 +34,7 @@ in
     pkgs.rustup
     pkgs.samply
     pkgs.stdenv.cc
+    pkgs.swim
     pkgs.tree-sitter
     pkgs.typst
     pkgs.uv
