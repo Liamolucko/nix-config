@@ -40,6 +40,7 @@
         prjxray = with final.python3Packages; toPythonApplication prjxray;
         prjxray-db = final.callPackage ./pkgs/prjxray-db.nix { };
         prjxray-tools = final.callPackage ./pkgs/prjxray-tools.nix { };
+        spade-language-server = final.callPackage ./pkgs/spade-language-server { };
         swim = final.callPackage ./pkgs/swim { };
         vtr = final.callPackage ./pkgs/vtr.nix { };
         xc-fasm = with final.python3Packages; toPythonApplication xc-fasm;

@@ -33,6 +33,7 @@ in
     pkgs.ruff
     pkgs.rustup
     pkgs.samply
+    pkgs.spade-language-server
     pkgs.stdenv.cc
     pkgs.swim
     pkgs.tree-sitter

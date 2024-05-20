@@ -2,12 +2,17 @@
   lib,
   rustPlatform,
   fetchFromGitLab,
-  pkg-config,
-  openssl,
   stdenv,
   darwin,
 }:
-
+let
+  spadeSrc = fetchFromGitLab {
+    owner = "spade-lang";
+    repo = "spade";
+    rev = "899bf3b33697b952e14429811a9351ca80c3f2eb";
+    hash = "sha256-bzcwz1XcihjPVuyjpRVNXgZdLxFE/+d8gDAE7LvQUBc=";
+  };
+in
 rustPlatform.buildRustPackage rec {
   pname = "spade-language-server";
   version = "unstable-2024-05-19";
@@ -27,6 +32,11 @@ rustPlatform.buildRustPackage rec {
       "swim-0.8.0" = "sha256-tbB07hFdWsCfDrk8YOdcW0IG584F3g9a0xlcYfgZIqk=";
     };
   };
+  # Spade assumes it's being built in its monorepo; add some of the folders it
+  # expects to the vendor dir to get it to work.
+  postPatch = ''
+    ln -s ${spadeSrc}/{stdlib,prelude} ../cargo-vendor-dir
+  '';
 
   buildInputs = lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.SystemConfiguration ];
 
