@@ -39,7 +39,6 @@
     casks = [
       "eloston-chromium"
       "firefox"
-      "fuse-t"
       "fuse-t-sshfs"
       "jumpcut"
     ];
