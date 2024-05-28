@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 let
   f4pga = pkgs.python3Packages.f4pga;
   archDefs = [
@@ -22,6 +22,7 @@ in
     pkgs.gtkwave
     pkgs.httplz
     pkgs.jdk
+    pkgs.jq
     pkgs.kitty
     pkgs.nix-output-monitor
     pkgs.nixfmt-rfc-style
@@ -45,6 +46,13 @@ in
     pkgs.wasm-bindgen-cli
     pkgs.wasm-pack
     pkgs.wasm-tools
+
+    # COMP2511
+    pkgs.gradle
+    pkgs.jdt-language-server
+
+    # COMP3311
+    pkgs.postgresql
   ];
 
   home.sessionVariables = {
@@ -55,6 +63,7 @@ in
     # because it stops Git from setting it and setting X, which breaks mouse
     # scrolling.
     LESS = "RS";
+    PGDATA = "${config.home.homeDirectory}/.local/share/postgresql";
   };
 
   # This needs to be specified both inside and outside of home-manager, so that
@@ -115,6 +124,11 @@ in
     extraConfig = {
       push.autoSetupRemote = true;
     };
+  };
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
   };
 
   home.stateVersion = "23.11";
