@@ -34,7 +34,7 @@
         calyx-lsp = final.callPackage ./pkgs/calyx-lsp { };
         # TODO: fasm has a binary that we should package but there's already something
         # else with that name, what to call it?
-        f4pga = with final.python3Packages; toPythonApplication xc-fasm;
+        f4pga = with final.python3Packages; toPythonApplication f4pga;
         fex = final.callPackage ./pkgs/fex.nix { };
         llvm-mctoll = final.callPackage ./pkgs/llvm-mctoll.nix { };
         prjxray = with final.python3Packages; toPythonApplication prjxray;
@@ -49,7 +49,7 @@
           (python-final: python-prev: {
             fasm = python-final.callPackage ./pkgs/fasm.nix { };
             # We want the application version of xc-fasm, not the package version.
-            f4pga = python-final.callPackage ./pkgs/f4pga.nix { xc-fasm = final.xc-fasm; };
+            f4pga = python-final.callPackage ./pkgs/f4pga { xc-fasm = final.xc-fasm; };
             xc-fasm = python-final.callPackage ./pkgs/xc-fasm.nix { };
             prjxray = python-final.callPackage ./pkgs/prjxray.nix { };
           })
