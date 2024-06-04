@@ -29,6 +29,7 @@ in
     pkgs.nodejs
     pkgs.nodePackages.pnpm
     pkgs.openfpgaloader
+    pkgs.pulldown-cmark
     pkgs.ripgrep
     pkgs.rsync
     pkgs.ruff
