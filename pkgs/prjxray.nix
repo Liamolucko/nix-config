@@ -25,4 +25,7 @@ buildPythonPackage {
     pyyaml
     simplejson
   ];
+
+  # The tests rely on litex which I don't want to package just for this.
+  doCheck = false;
 }

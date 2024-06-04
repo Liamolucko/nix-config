@@ -23,6 +23,13 @@ stdenv.mkDerivation {
 
   nativeBuildInputs = [ cmake ];
 
+  # We should be running test-cpp as well, but the tests aren't run in CI so
+  # they've bitrotted and don't compile.
+  checkPhase = ''
+    make -C .. test-tools
+  '';
+  doCheck = true;
+
   meta = {
     description = "Documenting the Xilinx 7-series bit-stream format";
     homepage = "https://github.com/f4pga/prjxray";
