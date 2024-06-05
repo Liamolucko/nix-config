@@ -1,0 +1,13 @@
+diff --git a/xc_fasm/xc_fasm.py b/xc_fasm/xc_fasm.py
+index 6da704d..2103587 100755
+--- a/xc_fasm/xc_fasm.py
++++ b/xc_fasm/xc_fasm.py
+@@ -47,7 +47,7 @@ def main():
+     parser.add_argument(
+         '--debug', action='store_true', help="Print debug dump")
+     parser.add_argument(
+-        '--frm2bit', default="xc7frames2bit", help="xc7frames2bit tool.")
++        '--frm2bit', default="@xc7frames2bit@", help="xc7frames2bit tool.")
+     parser.add_argument('--fn_in', help='Input FPGA assembly (.fasm) file')
+     parser.add_argument('--bit_out', help='Output FPGA bitstream (.bit) file')
+     parser.add_argument(

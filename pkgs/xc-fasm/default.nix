@@ -8,6 +8,7 @@
   simplejson,
   textx,
   prjxray,
+  prjxray-tools,
   fasm,
   unittestCheckHook,
 }:
@@ -24,7 +25,15 @@ buildPythonPackage rec {
     hash = "sha256-QzBL759yS2TwWmN0FG+WIWhTjhvzLVSYHatYlQgkxW4=";
   };
 
-  patches = [ ./xc-fasm.patch ];
+  patches = [
+    ./no-path.patch
+    ./dont-assume-textx.patch
+  ];
+
+  postPatch = ''
+    substituteInPlace xc_fasm/xc_fasm.py \
+      --subst-var-by xc7frames2bit ${prjxray-tools}/bin/xc7frames2bit
+  '';
 
   build-system = [
     setuptools

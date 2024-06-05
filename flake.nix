@@ -50,7 +50,7 @@
             fasm = python-final.callPackage ./pkgs/fasm.nix { };
             # We want the application version of xc-fasm, not the package version.
             f4pga = python-final.callPackage ./pkgs/f4pga { xc-fasm = final.xc-fasm; };
-            xc-fasm = python-final.callPackage ./pkgs/xc-fasm.nix { };
+            xc-fasm = python-final.callPackage ./pkgs/xc-fasm { };
             prjxray = python-final.callPackage ./pkgs/prjxray.nix { };
           })
         ];
