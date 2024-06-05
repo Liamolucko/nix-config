@@ -40,7 +40,6 @@
       "eloston-chromium"
       "firefox"
       "fuse-t-sshfs"
-      "jumpcut"
     ];
     onActivation = {
       cleanup = "uninstall";

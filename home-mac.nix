@@ -16,6 +16,7 @@
     # I've been doing this since long before that issue was opened though, I should
     # really go fix it at some point.
     pkgs.gnused
+    pkgs.maccy
     pkgs.musescore
     pkgs.utm
   ];
