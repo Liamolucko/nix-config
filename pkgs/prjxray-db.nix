@@ -22,7 +22,7 @@ stdenv.mkDerivation {
   # This ends up accidentally triggering `make clean-artix7-db`.
   dontBuild = true;
   installPhase = ''
-    mkdir -p $out
+    mkdir $out
     cp -r artix7 kintex7 spartan7 zynq7 $out
   '';
 
