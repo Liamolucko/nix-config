@@ -35,6 +35,7 @@
         # TODO: fasm has a binary that we should package but there's already something
         # else with that name, what to call it?
         f4pga = with final.python3Packages; toPythonApplication f4pga;
+        f4pga-arch-defs = final.callPackage ./pkgs/f4pga-arch-defs.nix { };
         fex = final.callPackage ./pkgs/fex.nix { };
         llvm-mctoll = final.callPackage ./pkgs/llvm-mctoll.nix { };
         prjxray = with final.python3Packages; toPythonApplication prjxray;
@@ -42,7 +43,7 @@
         prjxray-tools = final.callPackage ./pkgs/prjxray-tools.nix { };
         spade-language-server = final.callPackage ./pkgs/spade-language-server { };
         swim = final.callPackage ./pkgs/swim { };
-        vtr = final.callPackage ./pkgs/vtr.nix { };
+        vtr = final.callPackage ./pkgs/vtr { };
         xc-fasm = with final.python3Packages; toPythonApplication xc-fasm;
 
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [

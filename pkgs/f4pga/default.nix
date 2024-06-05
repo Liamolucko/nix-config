@@ -2,7 +2,7 @@
 # - upstream to nixpkgs
 # - try enabling PGO for VTR
 # - quicklogic support
-# - enable tests for f4pga / prjxray
+# - enable tests for f4pga (requires quicklogic support)
 #
 # upstreaming order:
 # stage 1:
@@ -43,7 +43,7 @@
   xc-fasm,
   yosys,
   yosys-symbiflow,
-  archDefs ? null,
+  installDir ? null,
 }:
 let
   # something's going wrong with compiling the tests (C++ version mismatch?) so
@@ -69,8 +69,6 @@ let
       yosys-symbiflow'.xdc
     ];
   };
-
-  archDefsPkg = callPackage ../f4pga-arch-defs.nix { };
 
   self = buildPythonPackage {
     pname = "f4pga";
@@ -131,15 +129,11 @@ let
     #
     # I guess we could patch instead? There's only one centralised place that sets
     # it (context.py) so it'd be easy.
-    makeWrapperArgs =
-      if archDefs != null then
-        [
-          "--set"
-          "F4PGA_INSTALL_DIR"
-          "${archDefsPkg.installDir archDefs}"
-        ]
-      else
-        [ ];
+    makeWrapperArgs = lib.optionals (installDir != null) [
+      "--set"
+      "F4PGA_INSTALL_DIR"
+      installDir
+    ];
 
     postFixup =
       let
@@ -164,4 +158,4 @@ let
     };
   };
 in
-self // { archDefs = archDefsPkg; }
+self

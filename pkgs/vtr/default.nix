@@ -11,6 +11,7 @@
   tbb_2021_11,
   zlib,
 # TODO add withGraphics
+# TODO add withPgo (if it's deterministic?)
 }:
 let
   rev = "a7fae8fb2";
@@ -28,7 +29,10 @@ stdenv.mkDerivation {
     hash = "sha256-deGnquGWXibkzkgB2gWcJ8SojV38kvSUpx7v0RIRRnI=";
   };
 
-  patches = [ ./vtr.patch ];
+  patches = [
+    ./no-wget.patch
+    ./fix-symlinks.patch # TODO upstream
+  ];
   postPatch = ''
     substituteInPlace \
       libs/EXTERNAL/libinterchange/cmake/cxx_static/CMakeLists.txt \

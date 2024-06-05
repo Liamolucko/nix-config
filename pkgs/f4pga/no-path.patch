@@ -43,9 +43,18 @@ index 925bf22..79e0cf7 100644
              str(Path(ctx.takes.eblif).resolve()),
              "--device",
 diff --git a/f4pga/flows/common_modules/place_constraints.py b/f4pga/flows/common_modules/place_constraints.py
-index 1eababf..432d3d8 100644
+index 1eababf..171da6c 100644
 --- a/f4pga/flows/common_modules/place_constraints.py
 +++ b/f4pga/flows/common_modules/place_constraints.py
+@@ -34,7 +34,7 @@ class PlaceConstraintsModule(Module):
+                 common_sub(
+                     *(
+                         [
+-                            "python3",
++                            "@wrappedPython@",
+                             ctx.values.script,
+                             "--net",
+                             ctx.takes.net,
 @@ -45,7 +45,7 @@ class PlaceConstraintsModule(Module):
                              "--input",
                              ctx.takes.io_place,
@@ -212,9 +221,18 @@ index b22f86a..c935eab 100755
  \${BUILDDIR}/\${TOP}.net: \${BUILDDIR}/\${TOP}.eblif \${BUILDDIR}/\${TOP}.sdc\n\
  	cd \${BUILDDIR} && symbiflow_pack -e \${TOP}.eblif -f \${FAMILY} -d \${DEVICE} -s \${SDC} -c \${PNR_CORNER} >> $LOG_FILE 2>&1\n\
 diff --git a/f4pga/wrappers/sh/quicklogic/synth.f4pga.sh b/f4pga/wrappers/sh/quicklogic/synth.f4pga.sh
-index 232f67f..b66c3f3 100755
+index 232f67f..3639831 100755
 --- a/f4pga/wrappers/sh/quicklogic/synth.f4pga.sh
 +++ b/f4pga/wrappers/sh/quicklogic/synth.f4pga.sh
+@@ -79,7 +79,7 @@ export SYNTH_JSON=${TOP}_io.json
+ export OUT_SYNTH_V=${TOP}_synth.v
+ export OUT_EBLIF=${TOP}.eblif
+ export OUT_FASM_EXTRA=${TOP}_fasm_extra.fasm
+-export PYTHON3=$(which python3)
++export PYTHON3=@wrappedPython@
+ 
+ if [ -s $PCF ]; then
+   export PCF_FILE=$PCF
 @@ -107,7 +107,7 @@ else
    fi
  fi
@@ -234,18 +252,21 @@ index 232f67f..b66c3f3 100755
 +  -p "$yosys_cmds $yosys_read_cmds tcl $('@wrappedPython@' -m f4pga.wrappers.tcl "${FAMILY}")" \
    -l "${TOP}_synth.log"
 diff --git a/f4pga/wrappers/sh/xc7/synth.f4pga.sh b/f4pga/wrappers/sh/xc7/synth.f4pga.sh
-index 6848e69..cffcc7a 100755
+index 6848e69..3f411a7 100755
 --- a/f4pga/wrappers/sh/xc7/synth.f4pga.sh
 +++ b/f4pga/wrappers/sh/xc7/synth.f4pga.sh
-@@ -74,7 +74,7 @@ export OUT_SDC="${TOP}.sdc"
+@@ -74,9 +74,9 @@ export OUT_SDC="${TOP}.sdc"
  export SYNTH_JSON="${TOP}_io.json"
  export OUT_SYNTH_V="${TOP}_synth.v"
  export OUT_EBLIF="${TOP}.eblif"
 -export PART_JSON=`realpath ${DATABASE_DIR:-$(prjxray-config)}/$DEVICE/$PART/part.json`
 +export PART_JSON=`realpath ${DATABASE_DIR:-@prjxray-db@}/$DEVICE/$PART/part.json`
  export OUT_FASM_EXTRA="${TOP}_fasm_extra.fasm"
- export PYTHON3="${PYTHON3:-$(which python3)}"
+-export PYTHON3="${PYTHON3:-$(which python3)}"
++export PYTHON3=@wrappedPython@
  
+ yosys_read_cmds=""
+ yosys_files="${VERILOG_FILES[*]}"
 @@ -84,7 +84,7 @@ if [ -n "$SURELOG_CMD" ]; then
    yosys_read_cmds="plugin -i uhdm; read_verilog_with_uhdm ${SURELOG_CMD[*]} ${VERILOG_FILES[*]}"
    yosys_files=""

@@ -1,10 +1,12 @@
 { pkgs, config, ... }:
 let
-  f4pga = pkgs.python3Packages.f4pga;
-  archDefs = [
-    f4pga.archDefs.xc7a50t
-    f4pga.archDefs.xc7a200t
-  ];
+  f4pgaInstallDir = pkgs.symlinkJoin {
+    name = "f4pga-install-dir";
+    paths = [
+      pkgs.f4pga-arch-defs.xc7a50t
+      pkgs.f4pga-arch-defs.xc7a200t
+    ];
+  };
 in
 {
   home.packages = [
@@ -16,7 +18,7 @@ in
     pkgs.binaryen
     pkgs.deno
     pkgs.emscripten # needed by tree-sitter
-    (f4pga.override { inherit archDefs; })
+    (pkgs.f4pga.override { installDir = f4pgaInstallDir; })
     pkgs.gh
     pkgs.gnupg
     pkgs.gtkwave
