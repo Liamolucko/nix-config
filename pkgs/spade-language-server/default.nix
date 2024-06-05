@@ -7,10 +7,10 @@
 }:
 let
   spadeSrc = fetchFromGitLab {
-    owner = "spade-lang";
+    owner = "Liamolucko";
     repo = "spade";
-    rev = "899bf3b33697b952e14429811a9351ca80c3f2eb";
-    hash = "sha256-bzcwz1XcihjPVuyjpRVNXgZdLxFE/+d8gDAE7LvQUBc=";
+    rev = "85e44f44d83e9a4a8604e7fe9244fcce1e8d1885";
+    hash = "sha256-cQweIm64c0xfJHnyjbCxEgyuEwsJYmLZ/Ztp/oIGeW4=";
   };
 in
 rustPlatform.buildRustPackage rec {
@@ -20,15 +20,15 @@ rustPlatform.buildRustPackage rec {
   src = fetchFromGitLab {
     owner = "Liamolucko";
     repo = "spade-language-server";
-    rev = "3c56462d555143c9beb5522d6c3a5f1781c95945";
-    hash = "sha256-241YKeVUAYCDC6w3vdkU4WubJ820jvoG4FYcUJXYTD4=";
+    rev = "16526103dbe77c3bab15a56e3fd4b242a27af7d9";
+    hash = "sha256-GzYLwpiSok8y53wJHsqcyMJPQ5pnNdred9th+bOxfcM=";
   };
 
   cargoLock = {
     lockFile = ./Cargo.lock;
     outputHashes = {
       "codespan-0.12.0" = "sha256-3F2006BR3hyhxcUTaQiOjzTEuRECKJKjIDyXonS/lrE=";
-      "spade-0.8.0" = "sha256-pu/h/XBcLa+wJvZ7L+g9tKIwIdaG2TyVFhKmRmz9TA0=";
+      "spade-0.8.0" = "sha256-ahHn1tjqXfUXe6z2T0OVycpAo5NYhmWQbiHs9Ia0RLw=";
       "swim-0.8.0" = "sha256-tbB07hFdWsCfDrk8YOdcW0IG584F3g9a0xlcYfgZIqk=";
     };
   };
