@@ -6,6 +6,7 @@
   cmake,
   bison,
   capnproto-java,
+  eigen,
   flex,
   pkg-config,
   tbb_2021_11,
@@ -47,6 +48,7 @@ stdenv.mkDerivation {
     pkg-config
   ];
   buildInputs = [
+    eigen
     tbb_2021_11
     zlib
   ];
