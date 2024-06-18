@@ -1,13 +1,4 @@
 { pkgs, config, ... }:
-let
-  f4pgaInstallDir = pkgs.symlinkJoin {
-    name = "f4pga-install-dir";
-    paths = [
-      pkgs.f4pga-arch-defs.xc7a50t
-      pkgs.f4pga-arch-defs.xc7a200t
-    ];
-  };
-in
 {
   home.packages = [
     pkgs.calyx-lsp
@@ -18,7 +9,7 @@ in
     pkgs.binaryen
     pkgs.deno
     pkgs.emscripten # needed by tree-sitter
-    (pkgs.f4pga.override { installDir = f4pgaInstallDir; })
+    (pkgs.f4pga.override { installDir = pkgs.f4pga-arch-defs.xc7a50t; })
     pkgs.gh
     pkgs.gnupg
     pkgs.gtkwave

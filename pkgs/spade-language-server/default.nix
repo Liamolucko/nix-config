@@ -15,7 +15,7 @@ let
 in
 rustPlatform.buildRustPackage rec {
   pname = "spade-language-server";
-  version = "unstable-2024-05-19";
+  version = "0-unstable-2024-05-19";
 
   src = fetchFromGitLab {
     owner = "Liamolucko";

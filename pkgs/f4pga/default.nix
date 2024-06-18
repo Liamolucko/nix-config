@@ -32,6 +32,7 @@
   getopt,
   lxml,
   makeBinaryWrapper,
+  makePythonPath,
   prjxray,
   prjxray-db,
   prjxray-tools,
@@ -137,15 +138,13 @@ let
 
     postFixup =
       let
-        pythonPath = lib.concatStringsSep ":" (
-          map (pkg: "${pkg}/${python.sitePackages}") ([ (placeholder "out") ] ++ self.requiredPythonModules)
-        );
+        pythonPath = makePythonPath ([ (placeholder "out") ] ++ self.requiredPythonModules);
       in
       ''
         # Based on https://github.com/NixOS/nixpkgs/blob/b4d7dd85b54def064726d1668917f2265023305d/pkgs/development/interpreters/python/wrapper.nix#L45.
         #
         # TODO: does it matter that we don't set NIX_PYTHONPREFIX here?
-        makeWrapper ${python}/bin/python $out/bin/.f4pga-python \
+        makeWrapper ${python.interpreter} $out/bin/.f4pga-python \
           --set NIX_PYTHONEXECUTABLE ${python}/bin/python \
           --set NIX_PYTHONPATH '${pythonPath}' \
           --set PYTHONNOUSERSITE "true"

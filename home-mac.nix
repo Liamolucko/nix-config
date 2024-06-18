@@ -16,6 +16,7 @@
     # I've been doing this since long before that issue was opened though, I should
     # really go fix it at some point.
     pkgs.gnused
+    # TODO add a launch agent for this
     pkgs.maccy
     pkgs.musescore
     pkgs.utm

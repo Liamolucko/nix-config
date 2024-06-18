@@ -9,7 +9,7 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "swim";
-  version = "unstable-2024-05-15";
+  version = "0.8.0-unstable-2024-05-15";
 
   src = fetchFromGitLab {
     owner = "spade-lang";
@@ -19,7 +19,7 @@ rustPlatform.buildRustPackage rec {
     fetchSubmodules = true;
   };
 
-  cargoHash = "sha256-9OO9NyYxVx70KaXctS55MqZ649N30qSMsdmwDFdToXI=";
+  cargoHash = "sha256-/Ma+ICaTXg1HnbsMqLwg3T6+tgu0s9ScDyHyhsdZhgU=";
 
   buildInputs = lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.SystemConfiguration ];
 

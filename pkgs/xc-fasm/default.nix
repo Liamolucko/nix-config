@@ -15,7 +15,7 @@
 
 buildPythonPackage rec {
   pname = "xc-fasm";
-  version = "unstable-2022-02-28";
+  version = "0-unstable-2022-02-28";
   pyproject = true;
 
   src = fetchFromGitHub {
