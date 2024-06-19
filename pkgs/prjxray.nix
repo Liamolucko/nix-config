@@ -28,4 +28,9 @@ buildPythonPackage {
 
   # The tests rely on litex which I don't want to package just for this.
   doCheck = false;
+
+  # Remove broken fasm2frames
+  postFixup = ''
+    rm -rf $out/bin
+  '';
 }

@@ -22,6 +22,8 @@
     pkgs.utm
   ];
 
+  # TODO: add a launchd agent for rclone nfsmount
+
   programs.fish.shellInit = ''
     eval "$(/opt/homebrew/bin/brew shellenv)"
   '';

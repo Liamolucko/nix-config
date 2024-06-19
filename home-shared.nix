@@ -43,6 +43,9 @@
     pkgs.wasm-pack
     pkgs.wasm-tools
 
+    # ARTS2692
+    pkgs.rsyntaxtree
+
     # COMP2511
     pkgs.gradle
     pkgs.jdt-language-server
