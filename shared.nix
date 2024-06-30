@@ -1,8 +1,15 @@
-# Config that could theoretically, in future, be shared between all my systems.
-{ pkgs, ... }:
+# Config that's shared between all my systems.
+{ pkgs, lib, ... }:
 {
   nix.settings.experimental-features = "nix-command flakes";
-  services.nix-daemon.enable = true;
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "1password"
+      "steam"
+      "steam-original"
+      "steam-run"
+    ];
 
   nix.gc.automatic = true;
   nix.settings.keep-outputs = true;

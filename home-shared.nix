@@ -9,7 +9,8 @@
     pkgs.binaryen
     pkgs.deno
     pkgs.emscripten # needed by tree-sitter
-    (pkgs.f4pga.override { installDir = pkgs.f4pga-arch-defs.xc7a50t; })
+    # (pkgs.f4pga.override { installDir = pkgs.f4pga-arch-defs.xc7a50t; })
+    pkgs.file
     pkgs.gh
     pkgs.gnupg
     pkgs.gtkwave
@@ -50,6 +51,7 @@
   ];
 
   home.sessionVariables = {
+    EDITOR = "zed --wait";
     # R = don't mess with control characters (i.e. make colours work)
     # S = truncate lines instead of wrapping
     #

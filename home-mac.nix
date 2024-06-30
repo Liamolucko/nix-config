@@ -21,9 +21,6 @@
     pkgs.musescore
     pkgs.utm
   ];
-  home.sessionVariables = {
-    EDITOR = "zed --wait";
-  };
 
   programs.fish.shellInit = ''
     eval "$(/opt/homebrew/bin/brew shellenv)"

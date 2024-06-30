@@ -4,6 +4,8 @@
   fetchFromGitLab,
   stdenv,
   darwin,
+  openssl,
+  pkg-config,
 }:
 let
   spadeSrc = fetchFromGitLab {
@@ -38,7 +40,10 @@ rustPlatform.buildRustPackage rec {
     ln -s ${spadeSrc}/{stdlib,prelude} ../cargo-vendor-dir
   '';
 
-  buildInputs = lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.SystemConfiguration ];
+  nativeBuildInputs = lib.optionals stdenv.isLinux [ pkg-config ];
+  buildInputs =
+    lib.optionals stdenv.isLinux [ openssl ]
+    ++ lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.SystemConfiguration ];
 
   meta = with lib; {
     description = "";

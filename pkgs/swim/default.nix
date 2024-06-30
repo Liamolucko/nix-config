@@ -5,6 +5,8 @@
   stdenv,
   darwin,
   gitMinimal,
+  openssl,
+  pkg-config,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -21,7 +23,10 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-/Ma+ICaTXg1HnbsMqLwg3T6+tgu0s9ScDyHyhsdZhgU=";
 
-  buildInputs = lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.SystemConfiguration ];
+  nativeBuildInputs = lib.optionals stdenv.isLinux [ pkg-config ];
+  buildInputs =
+    lib.optionals stdenv.isLinux [ openssl ]
+    ++ lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.SystemConfiguration ];
 
   nativeCheckInputs = [ gitMinimal ];
   checkFlags = [
