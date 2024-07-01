@@ -9,7 +9,10 @@
   home.homeDirectory = "/home/liam";
 
   home.packages = [
+    pkgs.caffeine-ng
     pkgs.firefox
+    pkgs.trashy
+    pkgs.usbutils
     pkgs.zed-editor
   ];
 

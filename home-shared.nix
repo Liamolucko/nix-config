@@ -5,6 +5,7 @@
     pkgs.cargo-binstall
     pkgs.cargo-expand
     pkgs.cargo-fuzz
+    pkgs.clang-tools
     pkgs.bat
     pkgs.binaryen
     pkgs.deno

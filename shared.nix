@@ -13,6 +13,7 @@
 
   nix.gc.automatic = true;
   nix.settings.keep-outputs = true;
+  nix.channel.enable = false;
 
   programs.fish.enable = true;
   users.users.liam.shell = pkgs.fish;
