@@ -44,8 +44,10 @@
         rsyntaxtree = final.callPackage ./pkgs/rsyntaxtree { };
         spade-language-server = final.callPackage ./pkgs/spade-language-server { };
         swim = final.callPackage ./pkgs/swim { };
+        vivado = final.callPackage ./pkgs/vivado { };
         vtr = final.callPackage ./pkgs/vtr { };
         xc-fasm = with final.python3Packages; toPythonApplication xc-fasm;
+        xilinx-installer = final.callPackage ./pkgs/xilinx-installer { };
 
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
           (python-final: python-prev: {
