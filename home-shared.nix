@@ -14,6 +14,7 @@
     ];
 
   home.packages = [
+    pkgs.btop
     pkgs.calyx-lsp
     pkgs.cargo-binstall
     pkgs.cargo-expand
