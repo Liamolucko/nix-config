@@ -1,9 +1,15 @@
-{ pkgs, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 {
   nixpkgs.config.allowUnfreePredicate =
     pkg:
     builtins.elem (lib.getName pkg) [
-      "vivado"
+      "vivado-base"
+      "vivado-artix7"
       "xinstall"
     ];
 
