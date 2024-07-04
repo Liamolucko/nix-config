@@ -47,7 +47,7 @@
         vivado = final.callPackage ./pkgs/vivado { };
         vtr = final.callPackage ./pkgs/vtr { };
         xc-fasm = with final.python3Packages; toPythonApplication xc-fasm;
-        xilinx-installer = final.callPackage ./pkgs/xilinx-installer { };
+        xinstall = final.callPackage ./pkgs/xinstall { };
 
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
           (python-final: python-prev: {

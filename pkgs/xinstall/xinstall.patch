@@ -1,0 +1,43 @@
+diff --git a/bin/setup-boot-loader.sh b/bin/setup-boot-loader.sh
+index a12bc1a..b1d89de 100644
+--- a/bin/setup-boot-loader.sh
++++ b/bin/setup-boot-loader.sh
+@@ -24,7 +24,7 @@ TMP_LD_LIBRARY_PATH=/tmp/TMP_LD_LIB_PATH${NOW}
+ mkdir -p ${TMP_LD_LIBRARY_PATH}  
+ 
+ PLAT_LIB=${root}/lib/lnx64.o
+-X_JAVA_HOME=${root}/tps/lnx64/jre17.0.7_7
++X_JAVA_HOME=@javaHome@
+ ARGS=${ARGS}\ -DLOAD_64_NATIVE=true
+ LDLIBPATH_SCRIPT="${root}/bin/ldlibpath.sh"
+ if [ -x "$LDLIBPATH_SCRIPT" ]; then
+diff --git a/xsetup b/xsetup
+index 134d0f4..7c271e9 100644
+--- a/xsetup
++++ b/xsetup
+@@ -27,18 +27,6 @@ else
+   mkdir -p ${userHome}/.Xilinx/xinstall
+ fi
+ 
+-# ERROR out if this installation is running on 32 bit OS 
+-# and does not support 32 bit installation 
+-if [ "$(uname -m)" != "x86_64" ]; then
+-    # check that the 32 bit library directory exist or not
+-    lnx32LibDir="${workingDir}/lib/lnx32.o"
+-    if [ ! -d $lnx32LibDir ]; then
+-   	   # terminate with an ERROR
+-       echo "ERROR: This installation is not supported on 32 bit platforms."
+-       exit 1;
+-    fi  
+-fi
+-
+ # GUI Setup
+ ARGS=${ARGS}\ --add-opens=java.base/java.nio=ALL-UNNAMED\ --add-opens=java.desktop/sun.swing=ALL-UNNAMED\ --add-opens=java.desktop/javax.swing=ALL-UNNAMED\ --add-opens=java.desktop/javax.swing.tree=ALL-UNNAMED\ --add-opens=java.desktop/sun.awt.X11=ALL-UNNAMED
+ ARGS=${ARGS}\ -Dswing.aatext=true\ -Dswing.plaf.metal.controlFont=Tahoma\ -Dswing.plaf.metal.userFont=Tahoma\ -Dswing.boldMetal=false\ -Dawt.useSystemAAFontSettings=on
+@@ -120,5 +108,5 @@ fi
+ # used as java.io.tmpdir. delete the temp. directory once 
+ # the java app is exited.
+ ###########################################################
+-/bin/rm -rf ${TMP_LD_LIBRARY_PATH}
++rm -rf ${TMP_LD_LIBRARY_PATH}
+ exit $exitCode

@@ -1,0 +1,63 @@
+diff --git a/Vivado/2023.2/scripts/ISEWrap.sh b/Vivado/2023.2/scripts/ISEWrap.sh
+index 3234044..5a96e1e 100755
+--- a/Vivado/2023.2/scripts/ISEWrap.sh
++++ b/Vivado/2023.2/scripts/ISEWrap.sh
+@@ -62,7 +62,7 @@ ISE_HOSTCORE=$(awk '/^processor/{print $3}' /proc/cpuinfo | wc -l)
+ ISE_MEMTOTAL=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
+ 
+ ISE_BEGINFILE=.$ISE_STEP.begin.rst
+-/bin/touch $ISE_BEGINFILE
++touch $ISE_BEGINFILE
+ echo "<?xml version=\"1.0\"?>"                                                                     >> $ISE_BEGINFILE
+ echo "<ProcessHandle Version=\"1\" Minor=\"0\">"                                                   >> $ISE_BEGINFILE
+ echo "    <Process Command=\"$ISE_STEP\" Owner=\"$ISE_USER\" Host=\"$ISE_HOST\" Pid=\"$ISE_PID\" HostCore=\"$ISE_HOSTCORE\" HostMemory=\"$ISE_MEMTOTAL\">" >> $ISE_BEGINFILE
+@@ -76,9 +76,9 @@ wait $ISE_PID
+ RETVAL=$?
+ if [ $RETVAL -eq 0 ]
+ then
+-    /bin/touch .$ISE_STEP.end.rst
++    touch .$ISE_STEP.end.rst
+ else
+-    /bin/touch .$ISE_STEP.error.rst
++    touch .$ISE_STEP.error.rst
+ fi
+ 
+ exit $RETVAL
+diff --git a/Vivado/2023.2/scripts/ISEWrapReports.sh b/Vivado/2023.2/scripts/ISEWrapReports.sh
+index 832ea9e..05fb5d2 100755
+--- a/Vivado/2023.2/scripts/ISEWrapReports.sh
++++ b/Vivado/2023.2/scripts/ISEWrapReports.sh
+@@ -34,7 +34,7 @@ ISE_HOST=$HOST     #csh
+ fi
+ ISE_USER=$USER
+ ISE_BEGINFILE=.$stepName.begin
+-/bin/touch $ISE_BEGINFILE
++touch $ISE_BEGINFILE
+ echo "<?xml version=\"1.0\"?>"                                                                     >> $ISE_BEGINFILE
+ echo "<ProcessHandle Version=\"1\" Minor=\"0\">"                                                   >> $ISE_BEGINFILE
+ echo "    <Process Command=\"$ISE_STEP\" Owner=\"$ISE_USER\" Host=\"$ISE_HOST\" Pid=\"$ISE_PID\">" >> $ISE_BEGINFILE
+@@ -48,9 +48,9 @@ wait $ISE_PID
+ RETVAL=$?
+ if [ $RETVAL -eq 0 ]
+ then
+-    /bin/touch .$stepName.end
++    touch .$stepName.end
+ else
+-    /bin/touch .$stepName.error
++    touch .$stepName.error
+ fi
+ 
+ exit $RETVAL
+diff --git a/Vivado/2023.2/scripts/paUtil.tcl b/Vivado/2023.2/scripts/paUtil.tcl
+index 87f60c0..48b93a1 100755
+--- a/Vivado/2023.2/scripts/paUtil.tcl
++++ b/Vivado/2023.2/scripts/paUtil.tcl
+@@ -1011,7 +1011,7 @@ namespace eval paUtil {
+ 	    foreach run $runList {
+ 	       # TODO - test these runs to make sure they completed correctly
+ 	       # TODO - need to touch these files to tell EA all is well that ends well
+-	       puts $FILEOUT "/bin/touch $workDir/$floorplan/$run/.queue.rst"
++	       puts $FILEOUT "touch $workDir/$floorplan/$run/.queue.rst"
+ 	    }
+ 	    puts $FILEOUT "$runParCmd $scriptList > $workDir/runPar.log 2>&1"
+ 	    close $FILEOUT

@@ -1,5 +1,12 @@
 { pkgs, config, ... }:
 {
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "vivado"
+      "xinstall"
+    ];
+
   home.packages = [
     pkgs.calyx-lsp
     pkgs.cargo-binstall
