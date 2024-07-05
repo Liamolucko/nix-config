@@ -7,15 +7,15 @@
   temurin-jre-bin,
 }:
 let
-  suffix = "1013_2256";
+  suffix = "0522_2023";
 in
 stdenv.mkDerivation rec {
   pname = "xinstall";
-  version = "2023.2";
+  version = "2024.1";
   src = requireFile rec {
     name = "FPGAs_AdaptiveSoCs_Unified_${version}_${suffix}_Lin64.bin";
     url = "https://www.xilinx.com/member/forms/download/xef.html?filename=${name}";
-    hash = "sha256-n6ilMK18728mPzu41hLEBhPLMin8JE9CcC1NECuIgu4=";
+    hash = "sha256-mgStIGvg2a/Z0RzXmXtOaXhIXu5E9H1MCNB9vDDLLx4=";
   };
 
   unpackCmd = "$curSrc --noexec --keep";

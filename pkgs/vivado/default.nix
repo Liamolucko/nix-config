@@ -1,13 +1,14 @@
 { callPackage, symlinkJoin }:
 let
   meta = import ./meta.nix;
+  modules = builtins.listToAttrs (
+    builtins.map (module: {
+      inherit (module) name;
+      value = callPackage ./common.nix { inherit module; };
+    }) (builtins.filter (module: module ? name) meta.modules)
+  );
 in
-builtins.listToAttrs (
-  builtins.map (module: {
-    inherit (module) name;
-    value = callPackage ./common.nix { inherit module; };
-  }) meta.modules
-)
+modules
 // {
   # A customised version of symlinkJoin that replaces all the paths to the
   # original derivations in bin wrappers, desktop entries etc. with paths to the
@@ -30,4 +31,18 @@ builtins.listToAttrs (
           '';
       }
     );
+
+  # Versions of all the modules which have debug logging enabled and all the
+  # archives available, so that you can run `archive-list.sh` on their output and
+  # figure out what archives a module requires.
+  archiveTests = builtins.mapAttrs (
+    name: pkg:
+    pkg.override (old: {
+      module = old.module // {
+        debug = true;
+        archives = import ./test-archives.nix;
+      };
+    })
+  ) modules;
+  depsTest = callPackage ./common.nix { module = import ./deps-test-module.nix; };
 }

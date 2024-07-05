@@ -8,8 +8,13 @@ let
   vivado = pkgs.vivado.joinModules {
     name = "vivado";
     paths = [
-      pkgs.vivado.base
+      pkgs.vivado.adds-common-links
+      pkgs.vivado.vivado
+      pkgs.vivado.ise
       pkgs.vivado.artix7
+
+      pkgs.vivado.docnav
+      pkgs.vivado.vitis-hls
     ];
   };
 in

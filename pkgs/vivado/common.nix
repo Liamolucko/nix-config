@@ -4,8 +4,13 @@
 #
 # TODO:
 # - Remove 'Add Design Tools or Devices' desktop entry, it's broken due to removing .xinstall (and would have crashed anyway when trying to modify the Nix store).
-# - Probably disable autostart for xic, or just remove it altogether
-# - Update to 2024.1, obviously
+# - Try making a fake existing install of Vivado which already has the base modules that you don't want to install installed, so that this will work with the full tarball
+#   - hey, I wonder if that would have the extra benefit of not expanding archives that are shared between modules twice?
+# - define a proper interface instead of expecting people to know what all the modules and their dependencies are
+# - one way to solve the issue of things assuming vivado's already been installed, while still retaining most of the benefits here, is to do a two-stage installation: always install the minimal version of vivado in the first stage, and then in the second stage install any bonus stuff.
+#   since all the addons are way smaller than the base vivado installation, even though there'll be some duplicate work most of it will have already been done and so tweaking your extra modules will still be reasonably speedy.
+#   it's also a hell of a lot more supported - we can simply use the .xinstall as intended (well, if we can manage to smuggle the archives into it anyway. haven't actually messed with that yet.)
+#   - that would also fix the issue i've just discovered where only one module's stuff is showing up the in the 'Xilinx Design Tools' menu
 {
   lib,
   stdenv,
@@ -22,8 +27,8 @@
   module,
 }:
 let
-  version = "2023.2";
-  suffix = "1013_2256";
+  version = "2024.1";
+  suffix = "0522_2023";
 
   meta = import ./meta.nix;
   requireArchive =
@@ -51,21 +56,65 @@ let
       hash = meta.hashes.${basename};
     };
 
-  archives = builtins.map requireArchive (lib.unique module.archives);
+  moduleMap = builtins.listToAttrs (
+    builtins.map (module: {
+      name = module.configName;
+      value = module;
+    }) meta.modules
+  );
+  # Returns the names of all the modules another module loosely depends on, plus the module itself.
+  looseRequiredModules =
+    module:
+    [ module.configName ]
+    ++ builtins.concatLists (
+      builtins.map (name: looseRequiredModules moduleMap.${name}) (module.looseDeps or [ ])
+    );
+  # Returns the names of all the modules another module tightly depends on, plus the module itself.
+  tightRequiredModules =
+    module:
+    [ module.configName ]
+    ++ builtins.concatLists (
+      builtins.map (name: tightRequiredModules moduleMap.${name}) (module.tightDeps or [ ])
+    );
+
+  modules = builtins.filter (
+    # Installing Vivado requires that at least one device is included in the
+    # downloadRecord.dat; to avoid hardcoding one of them, include all the modules
+    # that we can without accidentally installing something extra.
+    otherMod:
+    otherMod ? internalName
+    && (
+      module.allModules or false
+      || otherMod.configName == module.configName
+      || !(otherMod.base or false) && !(builtins.elem otherMod.configName (looseRequiredModules module))
+    )
+  ) meta.modules;
+  modulesXml = lib.concatStrings (
+    builtins.map (module: ''
+      <entry>
+        <key>${module.internalName}</key>
+        <value>${module.configName}</value>
+      </entry>
+    '') modules
+  );
+
   downloadRecord = writeText "download-record" ''
     <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
     <installationRecord imageVersion="NA" originalVersion="${version}" version="${version}">
       <installedModules>
-        ${module.xml}
+        ${modulesXml}
       </installedModules>
       <installedPackage>WebPACKEdition_Web</installedPackage>
       <installedProduct>VivadoProd</installedProduct>
     </installationRecord>
   '';
 
+  archives = builtins.map requireArchive (lib.unique (module.archives ++ meta.xinstallArchives));
   archiveCmds = builtins.concatStringsSep "\n" (
     builtins.map (archive: "ln -s '${archive}' $out/payload/'${archive.name}'") archives
   );
+  # TODO: I just noticed something about PAYLOAD_LOCATION_FROM_USER in the logs...
+  # could we sidestep this?
   installer = runCommand "vivado-installer" { } ''
     mkdir $out
     ${lib.getExe xorg.lndir} ${xinstall} $out
@@ -74,7 +123,26 @@ let
     ${archiveCmds}
   '';
 
-  modulesCfg = if module.configName != null then "${module.configName}:1" else "";
+  modulesCfg = lib.concatStringsSep "," (
+    builtins.map
+      (
+        otherMod:
+        "${otherMod.configName}:${
+          if builtins.elem otherMod.configName (tightRequiredModules module) then "1" else "0"
+        }"
+      )
+      (
+        builtins.filter (
+          otherMod:
+          otherMod.configName == module.configName
+          # For some reason ISE refuses to install if the base modules are configured (in
+          # either direction). It makes no sense, but it's not like configuring them has
+          # any effect anyway so sure.
+          || (!(otherMod.base or false) && !(module.ignoreHidden or false && otherMod.hidden or false))
+        ) meta.modules
+      )
+  );
+  debugFlag = lib.optionalString (module ? debug) "-x";
 in
 stdenv.mkDerivation rec {
   pname = "vivado-${module.name}";
@@ -95,7 +163,7 @@ stdenv.mkDerivation rec {
       --subst-var-by out $out/opt/Xilinx \
       --subst-var-by modules '${modulesCfg}'
 
-    ./xsetup -a XilinxEULA,3rdPartyEULA -b Install -c install_config.txt
+    ./xsetup -a XilinxEULA,3rdPartyEULA -b Install -c install_config.txt ${debugFlag}
 
     rm -rf $out/opt/Xilinx/.xinstall
 
@@ -106,7 +174,7 @@ stdenv.mkDerivation rec {
       ln -s ${temurin-jre-bin} "$jre"
     done
 
-    if [ -e $out/opt/Xilinx/Vivado/${version}/lib ]; then
+    if [ -e $out/opt/Xilinx/Vivado/${version}/lib/lnx64.o ]; then
       ln -s ${libxcrypt-legacy}/lib/libcrypt.so.1 $out/opt/Xilinx/Vivado/${version}/lib/lnx64.o
       ln -s ${ncurses5}/lib/libtinfo.so.5 $out/opt/Xilinx/Vivado/${version}/lib/lnx64.o
       ln -s ${xorg.libX11}/lib/libX11.so.6 $out/opt/Xilinx/Vivado/${version}/lib/lnx64.o
@@ -139,11 +207,12 @@ stdenv.mkDerivation rec {
   '';
 
   postFixup = ''
-    for exe in $(find $out -executable -type f); do
-        isELF "$exe" || continue
-        echo "patching $exe"
-        patchelf --set-interpreter "$(cat $NIX_BINTOOLS/nix-support/dynamic-linker)" "$exe" || true
-    done
+    local exe
+    while IFS= read -r -d "" exe; do
+      isELF "$exe" || continue
+      echo "patching $exe"
+      patchelf --set-interpreter "$(cat $NIX_BINTOOLS/nix-support/dynamic-linker)" "$exe" || true
+    done < <(find "$out" -executable -type f -print0)
 
     cd $out/opt/Xilinx
     patchPhase
