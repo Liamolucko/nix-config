@@ -1,0 +1,18 @@
+diff --git a/f4pga/utils/eblif.py b/f4pga/utils/eblif.py
+index 0d5d6d4..eacbcfb 100644
+--- a/f4pga/utils/eblif.py
++++ b/f4pga/utils/eblif.py
+@@ -79,8 +79,11 @@ def parse_blif(f):
+             elif ctype in sub_level:
+                 if ctype not in current:
+                     current[ctype] = {}
+-                key, value = args[-1].split(maxsplit=1)
+-                current[ctype][key] = value
++                args = args[-1].split(maxsplit=1)
++                if len(args) < 2:
++                    current[ctype][args[0]] = None
++                else:
++                    current[ctype][args[0]] = args[1]
+             else:
+                 current[ctype] = args[-1].split()
+             continue

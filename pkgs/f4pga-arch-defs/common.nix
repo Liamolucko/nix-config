@@ -1,0 +1,300 @@
+{
+  lib,
+  pkgsCross,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  runCommand,
+  symlinkJoin,
+  capnproto,
+  cmake,
+  fusesoc,
+  haskellPackages,
+  icestorm,
+  libxml2,
+  ninja,
+  nodejs,
+  openocd,
+  prjxray-db,
+  prjxray-tools,
+  python3,
+  qlf-fasm,
+  quicklogic-fasm,
+  quicklogic-timings-importer,
+  tinyfpgab,
+  tinyprog,
+  v2x,
+  verilog,
+  vtr,
+  xc-fasm,
+  yapf,
+  yosys,
+  yosys-symbiflow,
+  family,
+  device,
+}:
+let
+  lowrisc-edalize = python3.pkgs.edalize.overrideAttrs {
+    src = fetchFromGitHub {
+      owner = "lowRISC";
+      repo = "edalize";
+      # latest commit on 'ot' branch as of 2024-06-08
+      rev = "5ae2c3e1ca306e27d81ce5fcc769f62cb7ac42d0";
+      hash = "sha256-iIf7bUBE2SeS/TByUNL9wI1LswlHTmgHYGJltWXNUWE=";
+    };
+    # The normal edalize tries to disable tests which don't exist yet.
+    disabledTestPaths = [
+      "tests/test_apicula.py"
+      "tests/test_ascentlint.py"
+      "tests/test_diamond.py"
+      "tests/test_ghdl.py"
+      "tests/test_icarus.py"
+      "tests/test_icestorm.py"
+      "tests/test_ise.py"
+      "tests/test_mistral.py"
+      "tests/test_openlane.py"
+      "tests/test_oxide.py"
+      "tests/test_quartus.py"
+      "tests/test_radiant.py"
+      "tests/test_spyglass.py"
+      "tests/test_symbiyosys.py"
+      "tests/test_trellis.py"
+      "tests/test_vcs.py"
+      "tests/test_veribleformat.py"
+      "tests/test_veriblelint.py"
+      "tests/test_vivado.py"
+      "tests/test_xcelium.py"
+      "tests/test_xsim.py"
+    ];
+  };
+  lowrisc-fusesoc = (fusesoc.override { edalize = lowrisc-edalize; }).overrideAttrs {
+    src = fetchFromGitHub {
+      owner = "lowRISC";
+      repo = "fusesoc";
+      # latest commit on 'ot' branch as of 2024-06-08
+      rev = "14dfc825ced58fe1fb343662fa80fc4fbd0fdc50";
+      hash = "sha256-Q+Q/X/hgpdzrHke2kXaXAsTp+8p1wRJi2pvtOKwd1/Q=";
+    };
+  };
+
+  # TODO: it seems like this repo has built artifacts commited to it, maybe
+  # rebuild them?
+  # (It's a similar story to prjxray-db, except that that requires unfree software
+  # (Vivado) to be built and this doesn't.)
+  qlfpga-symbiflow-plugins = fetchFromGitHub {
+    owner = "QuickLogic-Corp";
+    repo = "qlfpga-symbiflow-plugins";
+    rev = "6a773c76c66e08fa107c6940fa345674c206354e";
+    hash = "sha256-8TiBGUfoJ5+FMIzl2SzUHWJSUwV1vp3ipH4xm/GaBwI=";
+  };
+
+  # For some godforsaken reason, f4pga-arch-defs expects sv2v to be on PATH with
+  # the name zachjs-sv2v instead.
+  zachjs-sv2v = runCommand "zachjs-sv2v" { } ''
+    mkdir -p $out/bin
+    ln -s ${haskellPackages.sv2v}/bin/sv2v $out/bin/zachjs-sv2v
+  '';
+
+  src = fetchFromGitHub {
+    owner = "f4pga";
+    repo = "f4pga-arch-defs";
+    # From https://f4pga.readthedocs.io/en/latest/development/changes.html#id1
+    rev = "66a976d";
+    hash = "sha256-YaDhwAzAJbkwMoydW5AoHmhAkKIe7hDhlxMkmKy70Sw=";
+    fetchSubmodules = true;
+  };
+
+  # We need to use their vendored version of litex-boards, since it predates
+  # `litex_boards.targets.arty` being renamed to
+  # `litex_boards.targets.digilent_arty`.
+  #
+  # And then we have to use the vendored versions of everything else litex-related
+  # too to make them compatible.
+  litex = python3.pkgs.litex.overridePythonAttrs (old: {
+    version = "2020.12-unstable-2021-02-09";
+    src = "${src}/third_party/litex";
+    patches = [
+      # Backport of https://github.com/enjoy-digital/litex/pull/1476.
+      #
+      # TODO: I also applied the fix to some more CPUs that that PR doesn't; test if
+      # those CPUs are just broken right now upstream, and send a PR if so.
+      ./litex-riscv-zicsr.patch
+      # Backport of https://github.com/enjoy-digital/litex/pull/943.
+      ./litex-getfullargspec.patch
+      (fetchpatch {
+        url = "https://github.com/enjoy-digital/litex/pull/896.patch";
+        hash = "sha256-2tFdeMcOWyjlZwnFbEN5De5E1cLk8gqItdqbKp/IF8I=";
+      })
+    ];
+    dependencies = old.dependencies ++ [ python3.pkgs.pythondata-software-compiler-rt ];
+    preCheck = ''
+      # test_cpu doesn't exist yet in this version.
+      rm test/test_ecc.py
+    '';
+  });
+
+  litedram = python3.pkgs.litedram.overridePythonAttrs {
+    version = "2020.12-unstable-2021-02-02";
+    src = "${src}/third_party/litedram";
+    dependencies = [
+      litex
+      python3.pkgs.pyyaml
+    ];
+  };
+
+  liteiclink = python3.pkgs.liteiclink.overridePythonAttrs {
+    version = "2022.04-unstable-2022-06-28";
+    src = "${src}/third_party/liteiclink";
+    dependencies = [
+      litex
+      python3.pkgs.pyyaml
+    ];
+  };
+  liteeth = python3.pkgs.liteeth.overridePythonAttrs {
+    version = "2022.04-unstable-2022-07-29";
+    src = "${src}/third_party/liteeth";
+    dependencies = [
+      liteiclink
+      litex
+      python3.pkgs.pyyaml
+    ];
+    # Dependabot automatically updated liteeth as far as it could without causing it
+    # to become incompatible with the vendored version of litex and break the build;
+    # however, it did become incompatible enough for liteeth's tests to fail.
+    doCheck = false;
+  };
+
+  litex-boards = python3.pkgs.litex-boards.overridePythonAttrs {
+    version = "2020.12-unstable-2021-02-04";
+    src = "${src}/third_party/litex-boards";
+    dependencies = [ litex ];
+  };
+
+  # These packages are referenced from scripts that have PYTHONPATH overridden,
+  # meaning that they need to be bundled with the interpreter so that they're
+  # accessible without being on PYTHONPATH.
+  pythonWithPackages = python3.withPackages (p: [
+    p.f4pga
+    p.fasm
+    p.hilbertcurve_1
+    p.lxml
+    p.numpy
+    p.ply
+    p.progressbar2
+    p.pycapnp
+    p.simplejson
+  ]);
+
+  # something's going wrong with compiling the tests (C++ version mismatch?) so
+  # disable them for now
+  design_introspection = yosys-symbiflow.design_introspection.overrideAttrs { doCheck = false; };
+  yosys-symbiflow' = yosys-symbiflow.override {
+    yosys-symbiflow = {
+      inherit design_introspection;
+    };
+  };
+  # same for sdc
+  sdc = yosys-symbiflow'.sdc.overrideAttrs { doCheck = false; };
+  yosysWithPlugins = symlinkJoin {
+    name = "${yosys.name}-with-plugins";
+    paths = [
+      yosys
+      design_introspection
+      yosys-symbiflow.fasm
+      yosys-symbiflow.params
+      yosys-symbiflow.ql-iob
+      # yosys-symbiflow.ql-qlf # broken
+      sdc
+      yosys-symbiflow'.xdc
+    ];
+    # When the yosys binary is a symlink, it runs into an issue on Linux where the
+    # xdc plugin ends up looking in the original yosys derivation instead of the
+    # joined one for some of its data, and can't find it. So copy it and make sure
+    # there's no symlink to be accidentally resolved in the first place.
+    #
+    # I still don't really understand what went wrong though... `proc_share_dirname`
+    # is used both for resolving the plugins themselves and by xdc to find its data,
+    # so how are the plugins getting resolved properly if it's returning the wrong
+    # path in xdc's case?
+    postBuild = ''
+      real_yosys=$(realpath $out/bin/yosys)
+      rm $out/bin/yosys
+      cp $real_yosys $out/bin/yosys
+    '';
+  };
+
+  # For some reason VPR segfaults on darwin while building this if TBB is enabled.
+  vtr' = vtr.override { enableTbb = !stdenv.isDarwin; };
+in
+stdenv.mkDerivation rec {
+  pname = "f4pga-arch-defs-${device}";
+  version = "0-unstable-2022-09-08";
+  inherit src;
+
+  patches = [
+    ./no-wget.patch
+    ./fix-ql-pinmap-install.patch # TODO upstream
+  ];
+
+  nativeBuildInputs = [
+    # Put this first so that it comes before the regular (propagated) python and
+    # takes precedence.
+    pythonWithPackages
+    cmake
+    lowrisc-fusesoc
+    zachjs-sv2v
+    icestorm
+    libxml2
+    ninja # not _needed_ but nicer (CI uses it)
+    nodejs
+    openocd
+    prjxray-tools
+    # See litedram for how this works.
+    pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.cc
+    pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.bintools
+    python3.pkgs.flake8
+    litedram
+    liteeth
+    litex-boards
+    python3.pkgs.mako
+    python3.pkgs.pytest
+    python3.pkgs.pythondata-cpu-vexriscv
+    python3.pkgs.sdf-timing
+    python3.pkgs.termcolor
+    qlf-fasm
+    quicklogic-fasm
+    quicklogic-timings-importer
+    tinyfpgab
+    tinyprog
+    v2x
+    verilog
+    vtr'
+    xc-fasm
+    yapf
+    yosysWithPlugins
+  ];
+
+  postPatch = ''
+    substituteInPlace quicklogic/common/cmake/quicklogic_env.cmake \
+      --subst-var-by qlfpga-symbiflow-plugins ${qlfpga-symbiflow-plugins}
+    patchShebangs --build utils/quiet_cmd.sh
+  '';
+  # fusesoc puts a cache in $HOME, so set it.
+  preConfigure = ''
+    export HOME=$PWD
+  '';
+  cmakeFlags = [
+    "-DPRJXRAY_DB_DIR=${prjxray-db}"
+    "-DYOSYS_DATADIR=${yosysWithPlugins}/share/yosys"
+    "-DOPENOCD_DATADIR=${openocd}/share/openocd"
+    "-DVPR_CAPNP_SCHEMA_DIR=${vtr'}/share/vtr"
+    "-DINSTALL_DEVICES=${device}"
+  ];
+  prefix = "${placeholder "out"}/${family}";
+
+  meta = {
+    description = "FOSS architecture definitions of FPGA hardware useful for doing PnR device generation";
+    homepage = "https://github.com/f4pga/f4pga-arch-defs";
+    license = lib.licenses.isc;
+  };
+}

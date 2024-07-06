@@ -1,0 +1,20 @@
+diff --git a/quicklogic/common/cmake/quicklogic_install.cmake b/quicklogic/common/cmake/quicklogic_install.cmake
+index a083c73d..7b4a270b 100644
+--- a/quicklogic/common/cmake/quicklogic_install.cmake
++++ b/quicklogic/common/cmake/quicklogic_install.cmake
+@@ -182,11 +182,11 @@ function(DEFINE_QL_PINMAP_CSV_INSTALL_TARGET)
+   set(DEVICE_TYPE ${DEFINE_QL_PINMAP_CSV_INSTALL_TARGET_DEVICE_TYPE})
+   set(PACKAGE ${DEFINE_QL_PINMAP_CSV_INSTALL_TARGET_PACKAGE})
+ 
+-  get_target_property_required(NO_INSTALL ${ARCH} NO_INSTALL)
+-  if(${NO_INSTALL})
+-    message(STATUS "Architecture ${ARCH} not set for install")
++  check_device_install(${DEVICE} DO_INSTALL)
++  if (NOT DO_INSTALL)
++    message(STATUS "Skipping installation of pinmap for package ${FABRIC_PACKAGE} of device ${DEVICE}-${PACKAGE}")
+     return()
+-  endif()
++  endif ()
+ 
+   get_target_property_required(PINMAP ${BOARD} PINMAP)
+   get_file_location(PINMAP_FILE ${PINMAP})

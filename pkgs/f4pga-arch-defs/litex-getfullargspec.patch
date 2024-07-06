@@ -1,0 +1,26 @@
+diff --git a/litex/soc/integration/soc_core.py b/litex/soc/integration/soc_core.py
+index c6b4cf920..292c4c935 100644
+--- a/litex/soc/integration/soc_core.py
++++ b/litex/soc/integration/soc_core.py
+@@ -324,7 +324,7 @@ def soc_core_argdict(args):
+     if rom_file is not None:
+         args.integrated_rom_init = get_mem_data(rom_file, "little") # FIXME: endianness
+         args.integrated_rom_size = len(args.integrated_rom_init)*4
+-    for a in inspect.getargspec(SoCCore.__init__).args:
++    for a in inspect.getfullargspec(SoCCore.__init__).args:
+         if a not in ["self", "platform"]:
+             if a in ["with_uart", "with_timer", "with_ctrl"]:
+                 arg = not getattr(args, a.replace("with", "no"), True)
+diff --git a/litex/soc/integration/soc_sdram.py b/litex/soc/integration/soc_sdram.py
+index 31cb0380b..c12b4bffd 100644
+--- a/litex/soc/integration/soc_sdram.py
++++ b/litex/soc/integration/soc_sdram.py
+@@ -67,7 +67,7 @@ def soc_sdram_args(parser):
+ 
+ def soc_sdram_argdict(args):
+     r = soc_core_argdict(args)
+-    for a in inspect.getargspec(SoCSDRAM.__init__).args:
++    for a in inspect.getfullargspec(SoCSDRAM.__init__).args:
+         if a not in ["self", "platform", "clk_freq"]:
+             arg = getattr(args, a, None)
+             if arg is not None:

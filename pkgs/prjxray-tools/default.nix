@@ -20,6 +20,7 @@ stdenv.mkDerivation {
     hash = "sha256-nfbbOR+sS6qXRJad/31Le+4gPPh/psAIeSeu6wnS7gM=";
     fetchSubmodules = true;
   };
+  patches = [ ./no-abs-bash.patch ];
 
   nativeBuildInputs = [ cmake ];
 

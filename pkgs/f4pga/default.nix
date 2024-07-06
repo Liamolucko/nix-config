@@ -57,7 +57,7 @@ let
   };
   # same for sdc
   sdc = yosys-symbiflow'.sdc.overrideAttrs { doCheck = false; };
-  yosys-with-plugins = symlinkJoin {
+  yosysWithPlugins = symlinkJoin {
     name = "${yosys.name}-with-plugins";
     paths = [
       yosys
@@ -85,7 +85,10 @@ let
       fetchSubmodules = true;
     };
 
-    patches = [ ./no-path.patch ];
+    patches = [
+      ./no-path.patch
+      ./params-without-values.patch # TODO upstream
+    ];
 
     nativeBuildInputs = [ makeBinaryWrapper ];
 
@@ -123,7 +126,7 @@ let
         --subst-var-by xc7frames2bit ${prjxray-tools}/bin/xc7frames2bit \
         --subst-var-by vtr ${vtr} \
         --subst-var-by xcfasm ${xc-fasm}/bin/xcfasm \
-        --subst-var-by yosys ${yosys-with-plugins}/bin/yosys
+        --subst-var-by yosys ${yosysWithPlugins}/bin/yosys
     '';
 
     # TODO: this doesn't work if you use it as a library.

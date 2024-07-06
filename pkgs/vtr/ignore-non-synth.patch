@@ -1,0 +1,16 @@
+diff --git a/vpr/src/base/read_blif.cpp b/vpr/src/base/read_blif.cpp
+index 2425a18d2..5d42d6c74 100644
+--- a/vpr/src/base/read_blif.cpp
++++ b/vpr/src/base/read_blif.cpp
+@@ -248,6 +248,11 @@ struct BlifAllocCallback : public blifparse::Callback {
+     void subckt(std::string subckt_model, std::vector<std::string> ports, std::vector<std::string> nets) override {
+         VTR_ASSERT(ports.size() == nets.size());
+ 
++        // Copied from https://github.com/YosysHQ/nextpnr/blob/ba293437e02e01e09936d029d80d78ad601fc4e7/frontend/frontend_base.h#L451-L452
++        if (subckt_model == "$scopeinfo" || subckt_model == "$print" || subckt_model == "$check") {
++          return;
++        }
++
+         const t_model* blk_model = find_model(subckt_model);
+ 
+         //We name the subckt based on the net it's first output pin drives

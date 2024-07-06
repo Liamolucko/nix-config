@@ -8,14 +8,23 @@
   capnproto-java,
   eigen,
   flex,
+  perl,
   pkg-config,
+  python3,
   tbb_2021_11,
+  time,
   zlib,
+  enableTbb ? true,
 # TODO add withGraphics
 # TODO add withPgo (if it's deterministic?)
 }:
 let
   rev = "a7fae8fb2";
+  python = python3.withPackages (p: [
+    p.lxml
+    p.prettytable
+    p.psutil
+  ]);
 in
 stdenv.mkDerivation {
   pname = "vtr";
@@ -33,6 +42,11 @@ stdenv.mkDerivation {
   patches = [
     ./no-wget.patch
     ./fix-symlinks.patch # TODO upstream
+    ./ignore-non-synth.patch # TODO upstream
+    (fetchpatch {
+      url = "https://github.com/verilog-to-routing/vtr-verilog-to-routing/pull/2438.patch";
+      hash = "sha256-v9S59GrjOpwXhmdzYuikAXCMkkDYKY//fKvT6cyxIEE=";
+    })
   ];
   postPatch = ''
     substituteInPlace \
@@ -49,9 +63,19 @@ stdenv.mkDerivation {
   ];
   buildInputs = [
     eigen
-    tbb_2021_11
     zlib
+  ] ++ lib.optionals enableTbb [ tbb_2021_11 ];
+
+  doCheck = true;
+  nativeCheckInputs = [
+    perl
+    time
   ];
+  # Leave on the default `make test` unit tests, but then also run the regression
+  # tests afterwards.
+  postCheck = ''
+    ${python.interpreter} ../run_reg_test.py vtr_reg_basic -skip_qor
+  '';
 
   meta = {
     description = "Open Source CAD Flow for FPGA Research";

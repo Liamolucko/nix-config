@@ -1,0 +1,10 @@
+diff --git a/Makefile.tools_tests b/Makefile.tools_tests
+index 6022623e..f1326ec7 100644
+--- a/Makefile.tools_tests
++++ b/Makefile.tools_tests
+@@ -1,4 +1,4 @@
+-SHELL=/bin/bash
++SHELL=bash
+ BITREAD = build/tools/bitread
+ BITS2RBT = build/tools/bits2rbt/bits2rbt
+ TEST_DATA_PATH = lib/test_data

@@ -1,0 +1,188 @@
+diff --git a/litex/soc/cores/cpu/blackparrot/core.py b/litex/soc/cores/cpu/blackparrot/core.py
+index 0ab7d4c01..1755669f9 100644
+--- a/litex/soc/cores/cpu/blackparrot/core.py
++++ b/litex/soc/cores/cpu/blackparrot/core.py
+@@ -40,8 +40,8 @@ from litex.soc.cores.cpu import CPU, CPU_GCC_TRIPLE_RISCV64
+ CPU_VARIANTS = ["standard", "sim"]
+ 
+ GCC_FLAGS = {
+-    "standard": "-march=rv64ima -mabi=lp64 ",
+-    "sim":      "-march=rv64ima -mabi=lp64 ",
++    "standard": "-march=rv64i2p0_ma -mabi=lp64 ",
++    "sim":      "-march=rv64i2p0_ma -mabi=lp64 ",
+ }
+ 
+ class BlackParrotRV64(CPU):
+diff --git a/litex/soc/cores/cpu/cv32e40p/core.py b/litex/soc/cores/cpu/cv32e40p/core.py
+index 2073abd93..0b7f380f5 100644
+--- a/litex/soc/cores/cpu/cv32e40p/core.py
++++ b/litex/soc/cores/cpu/cv32e40p/core.py
+@@ -19,15 +19,15 @@ from litex.soc.cores.cpu import CPU, CPU_GCC_TRIPLE_RISCV32
+ CPU_VARIANTS = ["standard", "full"]
+ 
+ GCC_FLAGS = {
+-    #                       /-------- Base ISA
+-    #                       |/------- Hardware Multiply + Divide
+-    #                       ||/----- Atomics
+-    #                       |||/---- Compressed ISA
+-    #                       ||||/--- Single-Precision Floating-Point
+-    #                       |||||/-- Double-Precision Floating-Point
+-    #                       imacfd
+-    "standard": "-march=rv32imc    -mabi=ilp32 ",
+-    "full":     "-march=rv32imfc   -mabi=ilp32 ",
++    #                       /------------ Base ISA
++    #                       |    /------- Hardware Multiply + Divide
++    #                       |    |/----- Atomics
++    #                       |    ||/---- Compressed ISA
++    #                       |    |||/--- Single-Precision Floating-Point
++    #                       |    ||||/-- Double-Precision Floating-Point
++    #                       i    macfd
++    "standard": "-march=rv32i2p0_mc    -mabi=ilp32 ",
++    "full":     "-march=rv32i2p0_mfc   -mabi=ilp32 ",
+ }
+ 
+ obi_layout = [
+diff --git a/litex/soc/cores/cpu/minerva/core.py b/litex/soc/cores/cpu/minerva/core.py
+index d02df7600..aa7e5f0bc 100644
+--- a/litex/soc/cores/cpu/minerva/core.py
++++ b/litex/soc/cores/cpu/minerva/core.py
+@@ -30,7 +30,7 @@ class Minerva(CPU):
+ 
+     @property
+     def gcc_flags(self):
+-        flags =  "-march=rv32im "
++        flags =  "-march=rv32i2p0_m "
+         flags += "-mabi=ilp32 "
+         flags += "-D__minerva__ "
+         return flags
+diff --git a/litex/soc/cores/cpu/picorv32/core.py b/litex/soc/cores/cpu/picorv32/core.py
+index 8f870dc17..b7bc1cdc0 100644
+--- a/litex/soc/cores/cpu/picorv32/core.py
++++ b/litex/soc/cores/cpu/picorv32/core.py
+@@ -20,15 +20,15 @@ from litex.soc.cores.cpu import CPU, CPU_GCC_TRIPLE_RISCV32
+ CPU_VARIANTS = ["minimal", "standard"]
+ 
+ GCC_FLAGS = {
+-    #                               /-------- Base ISA
+-    #                               |/------- Hardware Multiply + Divide
+-    #                               ||/----- Atomics
+-    #                               |||/---- Compressed ISA
+-    #                               ||||/--- Single-Precision Floating-Point
+-    #                               |||||/-- Double-Precision Floating-Point
+-    #                               imacfd
+-    "minimal":          "-march=rv32i      -mabi=ilp32 ",
+-    "standard":         "-march=rv32im     -mabi=ilp32 ",
++    #                               /------------ Base ISA
++    #                               |    /------- Hardware Multiply + Divide
++    #                               |    |/----- Atomics
++    #                               |    ||/---- Compressed ISA
++    #                               |    |||/--- Single-Precision Floating-Point
++    #                               |    ||||/-- Double-Precision Floating-Point
++    #                               i    macfd
++    "minimal":          "-march=rv32i2p0       -mabi=ilp32 ",
++    "standard":         "-march=rv32i2p0_m     -mabi=ilp32 ",
+ }
+ 
+ 
+diff --git a/litex/soc/cores/cpu/rocket/core.py b/litex/soc/cores/cpu/rocket/core.py
+index c1962f16d..31d92e950 100644
+--- a/litex/soc/cores/cpu/rocket/core.py
++++ b/litex/soc/cores/cpu/rocket/core.py
+@@ -48,11 +48,11 @@ CPU_VARIANTS = {
+ }
+ 
+ GCC_FLAGS = {
+-    "standard": "-march=rv64imac   -mabi=lp64 ",
+-    "linux":    "-march=rv64imac   -mabi=lp64 ",
+-    "linuxd":   "-march=rv64imac   -mabi=lp64 ",
+-    "linuxq":   "-march=rv64imac   -mabi=lp64 ",
+-    "full":     "-march=rv64imafdc -mabi=lp64 ",
++    "standard": "-march=rv64i2p0_mac   -mabi=lp64 ",
++    "linux":    "-march=rv64i2p0_mac   -mabi=lp64 ",
++    "linuxd":   "-march=rv64i2p0_mac   -mabi=lp64 ",
++    "linuxq":   "-march=rv64i2p0_mac   -mabi=lp64 ",
++    "full":     "-march=rv64i2p0_mafdc -mabi=lp64 ",
+ }
+ 
+ AXI_DATA_WIDTHS = {
+diff --git a/litex/soc/cores/cpu/serv/core.py b/litex/soc/cores/cpu/serv/core.py
+index e49475bb1..90ee05c90 100644
+--- a/litex/soc/cores/cpu/serv/core.py
++++ b/litex/soc/cores/cpu/serv/core.py
+@@ -30,7 +30,7 @@ class SERV(CPU):
+ 
+     @property
+     def gcc_flags(self):
+-        flags =  "-march=rv32i "
++        flags =  "-march=rv32i2p0_ "
+         flags += "-mabi=ilp32 "
+         flags += "-D__serv__ "
+         return flags
+diff --git a/litex/soc/cores/cpu/vexriscv/core.py b/litex/soc/cores/cpu/vexriscv/core.py
+index c4e612e76..c79f54462 100644
+--- a/litex/soc/cores/cpu/vexriscv/core.py
++++ b/litex/soc/cores/cpu/vexriscv/core.py
+@@ -40,28 +40,28 @@ CPU_VARIANTS = {
+ 
+ 
+ GCC_FLAGS = {
+-    #                               /-------- Base ISA
+-    #                               |/------- Hardware Multiply + Divide
+-    #                               ||/----- Atomics
+-    #                               |||/---- Compressed ISA
+-    #                               ||||/--- Single-Precision Floating-Point
+-    #                               |||||/-- Double-Precision Floating-Point
+-    #                               imacfd
+-    "minimal":          "-march=rv32i      -mabi=ilp32",
+-    "minimal+debug":    "-march=rv32i      -mabi=ilp32",
+-    "lite":             "-march=rv32i      -mabi=ilp32",
+-    "lite+debug":       "-march=rv32i      -mabi=ilp32",
+-    "standard":         "-march=rv32im     -mabi=ilp32",
+-    "standard+debug":   "-march=rv32im     -mabi=ilp32",
+-    "imac":             "-march=rv32imac   -mabi=ilp32",
+-    "imac+debug":       "-march=rv32imac   -mabi=ilp32",
+-    "full":             "-march=rv32im     -mabi=ilp32",
+-    "full+debug":       "-march=rv32im     -mabi=ilp32",
+-    "linux":            "-march=rv32ima    -mabi=ilp32",
+-    "linux+debug":      "-march=rv32ima    -mabi=ilp32",
+-    "linux+no-dsp":     "-march=rv32ima    -mabi=ilp32",
+-    "secure":           "-march=rv32ima    -mabi=ilp32",
+-    "secure+debug":     "-march=rv32ima    -mabi=ilp32",
++    #                               /------------ Base ISA
++    #                               |    /------- Hardware Multiply + Divide
++    #                               |    |/----- Atomics
++    #                               |    ||/---- Compressed ISA
++    #                               |    |||/--- Single-Precision Floating-Point
++    #                               |    ||||/-- Double-Precision Floating-Point
++    #                               i    macfd
++    "minimal":          "-march=rv32i2p0       -mabi=ilp32",
++    "minimal+debug":    "-march=rv32i2p0       -mabi=ilp32",
++    "lite":             "-march=rv32i2p0       -mabi=ilp32",
++    "lite+debug":       "-march=rv32i2p0       -mabi=ilp32",
++    "standard":         "-march=rv32i2p0_m     -mabi=ilp32",
++    "standard+debug":   "-march=rv32i2p0_m     -mabi=ilp32",
++    "imac":             "-march=rv32i2p0_mac   -mabi=ilp32",
++    "imac+debug":       "-march=rv32i2p0_mac   -mabi=ilp32",
++    "full":             "-march=rv32i2p0_m     -mabi=ilp32",
++    "full+debug":       "-march=rv32i2p0_m     -mabi=ilp32",
++    "linux":            "-march=rv32i2p0_ma    -mabi=ilp32",
++    "linux+debug":      "-march=rv32i2p0_ma    -mabi=ilp32",
++    "linux+no-dsp":     "-march=rv32i2p0_ma    -mabi=ilp32",
++    "secure":           "-march=rv32i2p0_ma    -mabi=ilp32",
++    "secure+debug":     "-march=rv32i2p0_ma    -mabi=ilp32",
+ }
+ 
+ 
+diff --git a/litex/soc/cores/cpu/vexriscv_smp/core.py b/litex/soc/cores/cpu/vexriscv_smp/core.py
+index 59d34fc7b..a6aea8c54 100644
+--- a/litex/soc/cores/cpu/vexriscv_smp/core.py
++++ b/litex/soc/cores/cpu/vexriscv_smp/core.py
+@@ -102,7 +102,7 @@ class VexRiscvSMP(CPU):
+ 
+     @property
+     def gcc_flags(self):
+-        flags =  " -march=rv32ima -mabi=ilp32"
++        flags =  " -march=rv32i2p0_ma -mabi=ilp32"
+         flags += " -D__vexriscv__"
+         flags += " -DUART_POLLING"
+         return flags
