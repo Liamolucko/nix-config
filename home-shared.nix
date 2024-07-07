@@ -27,7 +27,6 @@
     pkgs.gnupg
     pkgs.gtkwave
     pkgs.httplz
-    pkgs.jdk
     pkgs.jq
     pkgs.kitty
     pkgs.nix-output-monitor
@@ -36,6 +35,7 @@
     pkgs.nodePackages.pnpm
     pkgs.openfpgaloader
     pkgs.pulldown-cmark
+    pkgs.rclone
     pkgs.ripgrep
     pkgs.rsync
     pkgs.ruff
@@ -64,6 +64,8 @@
     # COMP3311
     pkgs.postgresql
   ];
+
+  programs.java.enable = true;
 
   home.sessionVariables = {
     EDITOR = "zed --wait";
@@ -140,6 +142,40 @@
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
+  };
+
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscodium;
+    enableExtensionUpdateCheck = false;
+    enableUpdateCheck = false;
+    mutableExtensionsDir = false;
+    extensions = with pkgs.vscode-marketplace; [
+      mateocerquetella.xcode-12-theme
+      nathanridley.autotrim
+      pkief.material-icon-theme
+      redhat.java
+      vscjava.vscode-java-debug
+      vscjava.vscode-java-pack # does nothing but makes vscode shut up about recommended extensions
+      vscjava.vscode-java-test
+    ];
+    userSettings = {
+      "diffEditor.ignoreTrimWhitespace" = false;
+      "editor.bracketPairColorization.enabled" = false;
+      "editor.fontFamily" = "'Zed Mono', monospace";
+      "editor.fontSize" = 15;
+      "editor.formatOnSave" = true;
+      "editor.inlayHints.enabled" = "off";
+      "editor.minimap.enabled" = false;
+      "editor.smoothScrolling" = true;
+      "editor.suggest.showWords" = false;
+      "redhat.telemetry.enabled" = false;
+      "terminal.integrated.cursorStyle" = "underline";
+      "terminal.integrated.fontSize" = 15;
+      "workbench.colorTheme" = "Xcode Default (Dark Customized Version)";
+      "workbench.iconTheme" = "material-icon-theme";
+      "workbench.startupEditor" = "none";
+    };
   };
 
   home.stateVersion = "23.11";

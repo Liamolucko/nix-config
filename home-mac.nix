@@ -16,11 +16,18 @@
     # I've been doing this since long before that issue was opened though, I should
     # really go fix it at some point.
     pkgs.gnused
-    # TODO add a launch agent for this
-    pkgs.maccy
     pkgs.musescore
     pkgs.utm
   ];
+
+  launchd.agents.maccy = {
+    enable = true;
+    config = {
+      Label = "org.nixos.maccy";
+      Program = "${pkgs.maccy}/Applications/Maccy.app/Contents/MacOS/Maccy";
+      KeepAlive = true;
+    };
+  };
 
   # TODO: add a launchd agent for rclone nfsmount
 

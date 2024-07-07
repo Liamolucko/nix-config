@@ -10,6 +10,8 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nix-xilinx.url = "gitlab:doronbehar/nix-xilinx";
     nix-xilinx.inputs.nixpkgs.follows = "nixpkgs";
+    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+    nix-vscode-extensions.inputs.nixpkgs.follows = "nixpkgs";
     mini-compile-commands = {
       url = "github:danielbarter/mini_compile_commands";
       flake = false;
@@ -24,10 +26,12 @@
       nix-darwin,
       home-manager,
       nix-xilinx,
+      nix-vscode-extensions,
       mini-compile-commands,
     }:
     let
       overlays = [
+        nix-vscode-extensions.overlays.default
         # note: this always builds for x86 regardless of the host system (which is what
         # I want).
         nix-xilinx.overlay
