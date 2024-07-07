@@ -11,13 +11,11 @@
     config = {
       # QEMU can only start VMs with 8 cores right now for some reason.
       virtualisation.cores = 8;
-      # Allow building x86 stuff.
-      boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
+      # The default 3GB doesn't seem to be enough for f4pga-arch-defs.
+      virtualisation.darwin-builder.memorySize = 8 * 1024;
+      # Vivado is ~30GB, so use a 50GB disk for some breathing room.
+      virtualisation.darwin-builder.diskSize = 50 * 1024;
     };
-    systems = [
-      "aarch64-linux"
-      "x86_64-linux"
-    ];
   };
 
   # Workaround for https://github.com/zed-industries/zed/issues/4360.

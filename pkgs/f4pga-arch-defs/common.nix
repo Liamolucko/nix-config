@@ -99,7 +99,7 @@ let
     owner = "f4pga";
     repo = "f4pga-arch-defs";
     # From https://f4pga.readthedocs.io/en/latest/development/changes.html#id1
-    rev = "66a976d";
+    rev = "66a976d26bd837e34cd6d1b0cf68735703248d06";
     hash = "sha256-YaDhwAzAJbkwMoydW5AoHmhAkKIe7hDhlxMkmKy70Sw=";
     fetchSubmodules = true;
   };
