@@ -14,6 +14,7 @@ stdenv.mkDerivation rec {
   version = "2024.1";
   src = requireFile rec {
     name = "FPGAs_AdaptiveSoCs_Unified_${version}_${suffix}_Lin64.bin";
+    # TODO: add a note about using chmod +x first
     url = "https://www.xilinx.com/member/forms/download/xef.html?filename=${name}";
     hash = "sha256-mgStIGvg2a/Z0RzXmXtOaXhIXu5E9H1MCNB9vDDLLx4=";
   };
