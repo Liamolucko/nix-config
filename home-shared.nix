@@ -12,7 +12,6 @@
 
   home.packages = [
     pkgs.btop
-    pkgs.calyx-lsp
     pkgs.cargo-binstall
     pkgs.cargo-expand
     pkgs.cargo-fuzz
@@ -41,9 +40,7 @@
     pkgs.ruff
     pkgs.rustup
     pkgs.samply
-    pkgs.spade-language-server
     pkgs.stdenv.cc
-    pkgs.swim
     pkgs.tinymist
     pkgs.tree-sitter
     pkgs.typst

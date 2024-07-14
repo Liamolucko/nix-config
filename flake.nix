@@ -40,18 +40,14 @@
     in
     {
       overlays.default = final: prev: {
-        calyx-lsp = final.callPackage ./pkgs/calyx-lsp { };
         # TODO: fasm has a binary that we should package but there's already something
         # else with that name, what to call it?
         f4pga = with final.python3Packages; toPythonApplication f4pga;
         f4pga-arch-defs = final.callPackage ./pkgs/f4pga-arch-defs { };
         fex = final.callPackage ./pkgs/fex.nix { };
-        llvm-mctoll = final.callPackage ./pkgs/llvm-mctoll.nix { };
         prjxray-db = final.callPackage ./pkgs/prjxray-db.nix { };
         prjxray-tools = final.callPackage ./pkgs/prjxray-tools { };
         rsyntaxtree = final.callPackage ./pkgs/rsyntaxtree { };
-        spade-language-server = final.callPackage ./pkgs/spade-language-server { };
-        swim = final.callPackage ./pkgs/swim { };
         tinyfpgab = final.callPackage ./pkgs/tinyfpgab { };
         v2x = final.callPackage ./pkgs/v2x { };
         vivado = final.callPackage ./pkgs/vivado { };
