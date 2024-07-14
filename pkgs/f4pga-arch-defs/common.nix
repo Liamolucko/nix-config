@@ -1,3 +1,4 @@
+# TODO: fix ibex_arty.sdc being a broken symlink
 {
   lib,
   pkgsCross,
@@ -224,7 +225,7 @@ let
   };
 
   # For some reason VPR segfaults on darwin while building this if TBB is enabled.
-  vtr' = vtr.override { enableTbb = !stdenv.isDarwin; };
+  vtr' = vtr.override { enableTbb = !(stdenv.isDarwin && family == "xc7"); };
 in
 stdenv.mkDerivation rec {
   pname = "f4pga-arch-defs-${device}";

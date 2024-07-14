@@ -44,6 +44,7 @@
     pkgs.spade-language-server
     pkgs.stdenv.cc
     pkgs.swim
+    pkgs.tinymist
     pkgs.tree-sitter
     pkgs.typst
     pkgs.uv

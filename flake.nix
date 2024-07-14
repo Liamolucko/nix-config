@@ -77,6 +77,11 @@
             litedram = python-final.callPackage ./pkgs/litedram { };
             liteeth = python-final.callPackage ./pkgs/liteeth { };
             liteiclink = python-final.callPackage ./pkgs/liteiclink { };
+            litepcie = python-final.callPackage ./pkgs/litepcie { };
+            litesata = python-final.callPackage ./pkgs/litesata { };
+            litescope = python-final.callPackage ./pkgs/litescope { };
+            litesdcard = python-final.callPackage ./pkgs/litesdcard { };
+            litespi = python-final.callPackage ./pkgs/litespi { };
             litex = python-final.callPackage ./pkgs/litex { };
             litex-boards = python-final.callPackage ./pkgs/litex-boards { };
             prjxray = python-final.callPackage ./pkgs/prjxray.nix { };
@@ -84,6 +89,7 @@
             pythondata-cpu-serv = python-final.callPackage ./pkgs/pythondata/cpu-serv.nix { };
             pythondata-cpu-vexriscv = python-final.callPackage ./pkgs/pythondata/cpu-vexriscv.nix { };
             pythondata-misc-tapcfg = python-final.callPackage ./pkgs/pythondata/misc-tapcfg.nix { };
+            pythondata-misc-usb-ohci = python-final.callPackage ./pkgs/pythondata/misc-usb-ohci.nix { };
             pythondata-software-compiler-rt =
               python-final.callPackage ./pkgs/pythondata/software-compiler-rt.nix
                 { };
@@ -121,7 +127,11 @@
       darwinConfigurations."Liams-Laptop" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
-          { home-manager.users.liam.nixpkgs.overlays = overlays; }
+          "${nixpkgs}/nixos/modules/misc/nixpkgs-flake.nix"
+          {
+            home-manager.users.liam.nixpkgs.overlays = overlays;
+            nixpkgs.flake.source = nixpkgs.outPath;
+          }
           home-manager.darwinModules.home-manager
           ./mac.nix
         ];

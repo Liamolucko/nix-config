@@ -33,6 +33,7 @@ buildPythonPackage rec {
     wheel
   ];
 
+  # TODO: cd into $out so that the version in /tmp/nix-build-* isn't accessible (same as pythonImportsCheck).
   checkPhase = ''
     runHook preCheck
     ${python.interpreter} test.py

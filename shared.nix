@@ -14,6 +14,8 @@
   nix.gc.automatic = true;
   nix.settings.keep-outputs = true;
 
+  fonts.packages = [ pkgs.noto-fonts ];
+
   programs.fish.enable = true;
   users.users.liam.shell = pkgs.fish;
   home-manager.users.liam = import ./home-shared.nix;

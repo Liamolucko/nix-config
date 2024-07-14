@@ -11,6 +11,13 @@
 #   since all the addons are way smaller than the base vivado installation, even though there'll be some duplicate work most of it will have already been done and so tweaking your extra modules will still be reasonably speedy.
 #   it's also a hell of a lot more supported - we can simply use the .xinstall as intended (well, if we can manage to smuggle the archives into it anyway. haven't actually messed with that yet.)
 #   - that would also fix the issue i've just discovered where only one module's stuff is showing up the in the 'Xilinx Design Tools' menu
+# - Alternatively... I have a suspicion that the desktop / menu entries and such are generated via. install scripts. If we disable the install scripts when installing each module, and then run the installer one last time on the `symlinkJoin`'d modules with a (fake) `instRecord.dat` that shows those scripts not being run, would it run them then and pick up on all the things that need to be included in the menu?
+#   - oh, I don't see any way to disable the install scripts in the first place though.
+# - ...I wonder what API Vivado is using to load its dynamic libraries? Would it be possible to convert them into macOS dylibs and then run on Mac?
+#   - analogous to what wine does with PE?
+#   - we'd have to pray that it only uses pure POSIX though, otherwise that'd amount to making a Wine-esque thingy for running linux stuff on mac which is a bad idea.
+#   - wait, I'm pretty sure there's something that links to libX11... yeah no way.
+# - do something about xlicdiag being in both vivado and vitis hls; easiest answer is probably to just hardcode only including vitis_hls and apcc from vitis hls, since those plus xlicdiag are the only 3 binaries it has anyway.
 {
   lib,
   stdenv,
