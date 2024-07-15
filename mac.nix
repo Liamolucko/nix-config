@@ -34,12 +34,9 @@
 
   homebrew = {
     enable = true;
-    taps = [ "macos-fuse-t/homebrew-cask" ];
     casks = [
       "eloston-chromium"
       "firefox"
-      "fuse-t"
-      "fuse-t-sshfs"
     ];
     onActivation = {
       cleanup = "uninstall";
