@@ -1,11 +1,12 @@
 {
   lib,
-  python3,
+  # This doesn't work with Python 3.12 because it relies on distutils.
+  python311,
   fetchFromGitHub,
   yosys,
 }:
 
-python3.pkgs.buildPythonApplication rec {
+python311.pkgs.buildPythonApplication rec {
   pname = "v2x";
   version = "0-unstable-2022-05-16";
   pyproject = true;
@@ -18,19 +19,19 @@ python3.pkgs.buildPythonApplication rec {
   };
 
   build-system = [
-    python3.pkgs.setuptools
-    python3.pkgs.wheel
+    python311.pkgs.setuptools
+    python311.pkgs.wheel
   ];
 
   dependencies = [
-    python3.pkgs.lxml
-    python3.pkgs.pyjson
-    python3.pkgs.vtr-xml-utils
+    python311.pkgs.lxml
+    python311.pkgs.pyjson
+    python311.pkgs.vtr-xml-utils
   ];
 
   nativeCheckInputs = [
-    python3.pkgs.pytestCheckHook
-    python3.pkgs.pytest-runner
+    python311.pkgs.pytestCheckHook
+    python311.pkgs.pytest-runner
     yosys
   ];
   # This test relies on the precise output of yosys, and now fails because it's

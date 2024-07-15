@@ -13,6 +13,7 @@
   unittestCheckHook,
 }:
 
+# TODO: use buildPythonApplication instead
 buildPythonPackage rec {
   pname = "xc-fasm";
   version = "0-unstable-2022-02-28";

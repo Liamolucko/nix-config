@@ -1,6 +1,7 @@
 # TODO: fix ibex_arty.sdc being a broken symlink
 {
   lib,
+  pkgs,
   pkgsCross,
   stdenv,
   fetchFromGitHub,
@@ -19,6 +20,7 @@
   prjxray-db,
   prjxray-tools,
   python3,
+  python311,
   qlf-fasm,
   quicklogic-fasm,
   quicklogic-timings-importer,
@@ -35,7 +37,7 @@
   device,
 }:
 let
-  lowrisc-edalize = python3.pkgs.edalize.overrideAttrs {
+  lowrisc-edalize = python311.pkgs.edalize.overrideAttrs {
     src = fetchFromGitHub {
       owner = "lowRISC";
       repo = "edalize";
@@ -68,15 +70,26 @@ let
       "tests/test_xsim.py"
     ];
   };
-  lowrisc-fusesoc = (fusesoc.override { edalize = lowrisc-edalize; }).overrideAttrs {
-    src = fetchFromGitHub {
-      owner = "lowRISC";
-      repo = "fusesoc";
-      # latest commit on 'ot' branch as of 2024-06-08
-      rev = "14dfc825ced58fe1fb343662fa80fc4fbd0fdc50";
-      hash = "sha256-Q+Q/X/hgpdzrHke2kXaXAsTp+8p1wRJi2pvtOKwd1/Q=";
-    };
-  };
+  # TODO: pin this to Python 3.11 upstream, it's broken there too.
+  lowrisc-fusesoc =
+    (python311.pkgs.callPackage "${pkgs.path}/pkgs/tools/package-management/fusesoc" {
+      edalize = lowrisc-edalize;
+    }).overridePythonAttrs
+      {
+        src = fetchFromGitHub {
+          owner = "lowRISC";
+          repo = "fusesoc";
+          # latest commit on 'ot' branch as of 2024-06-08
+          rev = "14dfc825ced58fe1fb343662fa80fc4fbd0fdc50";
+          hash = "sha256-Q+Q/X/hgpdzrHke2kXaXAsTp+8p1wRJi2pvtOKwd1/Q=";
+        };
+        postFixup = ''
+          # Don't add Python to PATH, since then we end up using Python 3.11 when we want
+          # Python 3.12.
+          mv $out/bin/{.fusesoc-wrapped,fusesoc}
+          wrapProgram $out/bin/fusesoc $makeWrapperArgs
+        '';
+      };
 
   # TODO: it seems like this repo has built artifacts commited to it, maybe
   # rebuild them?
@@ -101,8 +114,16 @@ let
     repo = "f4pga-arch-defs";
     # From https://f4pga.readthedocs.io/en/latest/development/changes.html#id1
     rev = "66a976d26bd837e34cd6d1b0cf68735703248d06";
-    hash = "sha256-YaDhwAzAJbkwMoydW5AoHmhAkKIe7hDhlxMkmKy70Sw=";
+    hash = "sha256-xcLhx48g8mf5PZg0e8WlpsPayTuUfee92B14ogseI8Y=";
     fetchSubmodules = true;
+    postFetch = ''
+      # This folder contains files named both XilPM.pdf and xilpm.pdf, causing
+      # problems on Darwin's case-insensitive filesystem and resulting in different
+      # hashes between Darwin and Linux.
+      #
+      # Just get rid of it, we don't need it.
+      rm -rf $out/third_party/prjuray/third_party/embeddedsw/lib/sw_services/xilpm/doc
+    '';
   };
 
   # We need to use their vendored version of litex-boards, since it predates
@@ -169,6 +190,9 @@ let
     version = "2020.12-unstable-2021-02-04";
     src = "${src}/third_party/litex-boards";
     dependencies = [ litex ];
+    # I'm not pulling in matching old versions of everything in the LiteX ecosystem
+    # just to run these tests.
+    doCheck = false;
   };
 
   # These packages are referenced from scripts that have PYTHONPATH overridden,
@@ -178,12 +202,19 @@ let
     p.f4pga
     p.fasm
     p.hilbertcurve_1
+    litedram
+    liteeth
+    litex-boards
     p.lxml
+    p.mako
     p.numpy
     p.ply
     p.progressbar2
     p.pycapnp
+    p.pythondata-cpu-vexriscv
+    p.sdf-timing
     p.simplejson
+    p.termcolor
   ]);
 
   # something's going wrong with compiling the tests (C++ version mismatch?) so
@@ -235,6 +266,7 @@ stdenv.mkDerivation rec {
   patches = [
     ./no-wget.patch
     ./fix-ql-pinmap-install.patch # TODO upstream
+    ./use-bins.patch # maybe upstream?
   ];
 
   nativeBuildInputs = [
@@ -254,14 +286,7 @@ stdenv.mkDerivation rec {
     pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.cc
     pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.bintools
     python3.pkgs.flake8
-    litedram
-    liteeth
-    litex-boards
-    python3.pkgs.mako
     python3.pkgs.pytest
-    python3.pkgs.pythondata-cpu-vexriscv
-    python3.pkgs.sdf-timing
-    python3.pkgs.termcolor
     qlf-fasm
     quicklogic-fasm
     quicklogic-timings-importer
@@ -274,6 +299,12 @@ stdenv.mkDerivation rec {
     yapf
     yosysWithPlugins
   ];
+
+  # It seems like PYTHONPATH is overriding the baked-in PYTHONPATHs of our Python
+  # binaries (specifically v2x), and breaking them because it's providing Python
+  # 3.12 modules where Python 3.11 modules are needed; so turn it off and rely
+  # wholly on `withPackages` instead.
+  dontAddPythonPath = true;
 
   postPatch = ''
     substituteInPlace quicklogic/common/cmake/quicklogic_env.cmake \

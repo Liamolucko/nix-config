@@ -28,7 +28,7 @@ buildPythonPackage {
 
   nativeBuildInputs = [
     cmake
-    jre_headless
+    jre_headless # TODO use jre_minimal instead
   ];
   buildInputs = [ antlr4_9.runtime.cpp ];
 

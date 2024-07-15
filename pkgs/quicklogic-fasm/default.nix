@@ -4,6 +4,7 @@
   fetchFromGitHub,
 }:
 
+# TODO: since one of the ways you're supposed to use this is with python3 -m, it should probablty use buildPythonPackage.
 python3.pkgs.buildPythonApplication rec {
   pname = "quicklogic-fasm";
   version = "0-unstable-2020-07-14";

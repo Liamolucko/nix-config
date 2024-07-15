@@ -13,13 +13,15 @@
   pytestCheckHook,
 }:
 let
-  yapf_0_24 = yapf.overrideAttrs rec {
+  yapf_0_24 = yapf.overridePythonAttrs rec {
     version = "0.24.0";
     src = fetchPypi {
       pname = "yapf";
       inherit version;
       hash = "sha256-zrtvrzXJAnwImWwHgxuJcfPWfA62FSafZt/X5oFf3Co=";
     };
+    # Some tests fail with Python 3.12.
+    doCheck = false;
   };
 in
 buildPythonPackage rec {

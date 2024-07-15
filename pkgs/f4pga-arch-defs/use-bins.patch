@@ -1,0 +1,48 @@
+diff --git a/common/cmake/v2x.cmake b/common/cmake/v2x.cmake
+index b78e8ccd..3bcca5f7 100644
+--- a/common/cmake/v2x.cmake
++++ b/common/cmake/v2x.cmake
+@@ -92,7 +92,7 @@ function(V2X)
+       ${DEPENDS_LIST}
+     COMMAND
+     ${CMAKE_COMMAND} -E env YOSYS=${YOSYS}
+-      ${PYTHON3} -m v2x --mode=pb_type ${TOP_ARG}
++      v2x --mode=pb_type ${TOP_ARG}
+       -o ${CMAKE_CURRENT_BINARY_DIR}/${V2X_NAME}.pb_type.xml ${FIRST_SOURCE}
+       ${INCLUDE_ARG}
+   )
+@@ -106,7 +106,7 @@ function(V2X)
+       ${DEPENDS_LIST}
+     COMMAND
+     ${CMAKE_COMMAND} -E env YOSYS=${YOSYS}
+-      ${PYTHON3} -m v2x --mode=model ${TOP_ARG}
++      v2x --mode=model ${TOP_ARG}
+       -o ${CMAKE_CURRENT_BINARY_DIR}/${V2X_NAME}.model.xml ${FIRST_SOURCE}
+       ${INCLUDE_ARG}
+   )
+diff --git a/quicklogic/common/cmake/quicklogic_device.cmake b/quicklogic/common/cmake/quicklogic_device.cmake
+index 7e437400..a9b51ddb 100644
+--- a/quicklogic/common/cmake/quicklogic_device.cmake
++++ b/quicklogic/common/cmake/quicklogic_device.cmake
+@@ -103,7 +103,7 @@ function(QUICKLOGIC_DEFINE_DEVICE_TYPE)
+     add_custom_command(
+       OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${SDF_TIMING_FILE}
+       COMMAND ${CMAKE_COMMAND} -E make_directory ${SDF_TIMING_DIR}
+-      COMMAND ${PYTHON3} -m quicklogic_timings_importer
++      COMMAND quicklogic_timings_importer
+         ${LIB_TIMING_FILE}
+         ${SDF_TIMING_FILE}
+         ${IMPORTER_OPTS}
+diff --git a/xilinx/xc7/tests/soc/ibex/generate.py b/xilinx/xc7/tests/soc/ibex/generate.py
+index 5ed060d1..e34c50cb 100644
+--- a/xilinx/xc7/tests/soc/ibex/generate.py
++++ b/xilinx/xc7/tests/soc/ibex/generate.py
+@@ -37,7 +37,7 @@ def run_fusesoc(ibex_tmp_dir, soc, part, f_log):
+ 
+     subprocess.check_call(
+         (
+-            'python3 -mfusesoc.main --cores-root={ibex_tmp_dir} run ' +
++            'fusesoc --cores-root={ibex_tmp_dir} run ' +
+             '--target=synth --setup {soc} --part {part}'
+         ).format(ibex_tmp_dir=ibex_tmp_dir, soc=soc, part=part),
+         stdout=f_log,
