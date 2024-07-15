@@ -44,8 +44,8 @@
         # else with that name, what to call it?
         f4pga = with final.python3Packages; toPythonApplication f4pga;
         f4pga-arch-defs = final.callPackage ./pkgs/f4pga-arch-defs { };
-        fex = final.callPackage ./pkgs/fex.nix { };
-        prjxray-db = final.callPackage ./pkgs/prjxray-db.nix { };
+        fex = final.callPackage ./pkgs/fex { };
+        prjxray-db = final.callPackage ./pkgs/prjxray-db { };
         prjxray-tools = final.callPackage ./pkgs/prjxray-tools { };
         rsyntaxtree = final.callPackage ./pkgs/rsyntaxtree { };
         tinyfpgab = final.callPackage ./pkgs/tinyfpgab { };
@@ -67,7 +67,7 @@
           (python-final: python-prev: {
             # We want the application version of xc-fasm, not the package version.
             f4pga = python-final.callPackage ./pkgs/f4pga { xc-fasm = final.xc-fasm; };
-            fasm = python-final.callPackage ./pkgs/fasm.nix { };
+            fasm = python-final.callPackage ./pkgs/fasm { };
             fasm-utils = python-final.callPackage ./pkgs/fasm-utils { };
             hilbertcurve_1 = python-final.callPackage ./pkgs/hilbertcurve/1.nix { };
             litedram = python-final.callPackage ./pkgs/litedram { };
@@ -80,8 +80,8 @@
             litespi = python-final.callPackage ./pkgs/litespi { };
             litex = python-final.callPackage ./pkgs/litex { };
             litex-boards = python-final.callPackage ./pkgs/litex-boards { };
-            prjxray = python-final.callPackage ./pkgs/prjxray.nix { };
-            pyjson = python-final.callPackage ./pkgs/pyjson.nix { };
+            prjxray = python-final.callPackage ./pkgs/prjxray { };
+            pyjson = python-final.callPackage ./pkgs/pyjson { };
             pythondata-cpu-serv = python-final.callPackage ./pkgs/pythondata/cpu-serv.nix { };
             pythondata-cpu-vexriscv = python-final.callPackage ./pkgs/pythondata/cpu-vexriscv.nix { };
             pythondata-misc-tapcfg = python-final.callPackage ./pkgs/pythondata/misc-tapcfg.nix { };
@@ -90,7 +90,7 @@
               python-final.callPackage ./pkgs/pythondata/software-compiler-rt.nix
                 { };
             pythondata-software-picolibc = python-final.callPackage ./pkgs/pythondata/software-picolibc.nix { };
-            sdf-timing = python-final.callPackage ./pkgs/sdf-timing.nix { };
+            sdf-timing = python-final.callPackage ./pkgs/sdf-timing { };
             vtr-xml-utils = python-final.callPackage ./pkgs/vtr-xml-utils { };
             xc-fasm = python-final.callPackage ./pkgs/xc-fasm { };
 
