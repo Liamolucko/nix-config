@@ -125,6 +125,7 @@
         modules = [
           "${nixpkgs}/nixos/modules/misc/nixpkgs-flake.nix"
           {
+            nixpkgs.overlays = overlays;
             home-manager.users.liam.nixpkgs.overlays = overlays;
             nixpkgs.flake.source = nixpkgs.outPath;
           }

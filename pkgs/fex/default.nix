@@ -26,14 +26,19 @@ llvmPackages.stdenv.mkDerivation rec {
     fetchSubmodules = true;
   };
 
-  patches = lib.optionals doCheck [
-    (substituteAll {
-      src = ./cross-includes.patch;
-      i686Libs = pkgsCross.gnu32.glibc.dev;
-      x86_64Libs = pkgsCross.gnu64.glibc.dev;
-      aarch64Libs = pkgsCross.aarch64-multiplatform.glibc.dev;
-    })
-  ];
+  patches =
+    [
+      ./check-home.patch
+      ./realpath.patch
+    ]
+    ++ lib.optionals doCheck [
+      (substituteAll {
+        src = ./cross-includes.patch;
+        i686Libs = pkgsCross.gnu32.glibc.dev;
+        x86_64Libs = pkgsCross.gnu64.glibc.dev;
+        aarch64Libs = pkgsCross.aarch64-multiplatform.glibc.dev;
+      })
+    ];
 
   nativeBuildInputs = [
     cmake
@@ -60,9 +65,6 @@ llvmPackages.stdenv.mkDerivation rec {
     python3.pkgs.libclang
   ];
   preCheck = ''
-    # Make FEXServer store its state in the working directory.
-    export HOME=$PWD
-
     patchelf \
       --set-interpreter ${pkgsCross.gnu64.glibc}/lib/ld-linux-x86-64.so.2 \
       $(find ../External/{fex-posixtest-bins/conformance,fex-gvisor-tests-bins,fex-gcc-target-tests-bins/64} -type f -executable)

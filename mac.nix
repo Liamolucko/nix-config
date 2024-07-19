@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   imports = [ ./shared.nix ];
 
@@ -8,13 +8,23 @@
     enable = true;
     ephemeral = true;
     maxJobs = 8;
+    systems = [
+      "i686-linux"
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
     config = {
+      imports = [ modules/fex.nix ];
+      nixpkgs.overlays = config.nixpkgs.overlays;
+
       # QEMU can only start VMs with 8 cores right now for some reason.
       virtualisation.cores = 8;
       # The default 3GB doesn't seem to be enough for f4pga-arch-defs.
       virtualisation.darwin-builder.memorySize = 8 * 1024;
       # Vivado is ~30GB, so use a 50GB disk for some breathing room.
       virtualisation.darwin-builder.diskSize = 50 * 1024;
+
+      programs.fex.enable = true;
     };
   };
 

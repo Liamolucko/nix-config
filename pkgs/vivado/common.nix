@@ -18,6 +18,9 @@
 #   - we'd have to pray that it only uses pure POSIX though, otherwise that'd amount to making a Wine-esque thingy for running linux stuff on mac which is a bad idea.
 #   - wait, I'm pretty sure there's something that links to libX11... yeah no way.
 # - do something about xlicdiag being in both vivado and vitis hls; easiest answer is probably to just hardcode only including vitis_hls and apcc from vitis hls, since those plus xlicdiag are the only 3 binaries it has anyway.
+# - Ok so it seems like xinstall with an instRecord always operates in web mode; maybe try doing a normal install on top of an existing installation and see if it picks that up?
+# - Ok so it doesn't autodetect an existing install, so trickery is required; but we could still do trickery on top of an existing install so that scripts don't fail (and it might lead to everything getting included in menus? Depends if it generates that based on what it just installed or what's there.)
+# - Unless... we never actually tried combining instRecord.dat with faking the 100GB tarball. That might work?
 {
   lib,
   stdenv,

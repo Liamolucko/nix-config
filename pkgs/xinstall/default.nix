@@ -19,7 +19,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-mgStIGvg2a/Z0RzXmXtOaXhIXu5E9H1MCNB9vDDLLx4=";
   };
 
-  unpackCmd = "$curSrc --noexec --keep";
+  unpackCmd = "sh $curSrc --noexec --keep";
 
   patches = [ ./xinstall.patch ];
   postPatch = ''
