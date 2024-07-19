@@ -52,10 +52,6 @@ llvmPackages.stdenv.mkDerivation rec {
   cmakeFlags = [
     "-DUSE_LINKER=lld"
     "-DBUILD_TESTS=${if doCheck then "True" else "False"}"
-    "-DCMAKE_C_COMPILER_AR=${llvmPackages.stdenv.cc}/bin/ar"
-    "-DCMAKE_C_COMPILER_RANLIB=${llvmPackages.stdenv.cc}/bin/ranlib"
-    "-DCMAKE_CXX_COMPILER_AR=${llvmPackages.stdenv.cc}/bin/ar"
-    "-DCMAKE_CXX_COMPILER_RANLIB=${llvmPackages.stdenv.cc}/bin/ranlib"
   ];
 
   doCheck = true;
