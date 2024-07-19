@@ -11,13 +11,13 @@
     || builtins.elem (lib.getName pkg) [ "xinstall" ];
 
   home.packages = [
+    pkgs.bat
+    pkgs.binaryen
     pkgs.btop
     pkgs.cargo-binstall
     pkgs.cargo-expand
     pkgs.cargo-fuzz
     pkgs.clang-tools
-    pkgs.bat
-    pkgs.binaryen
     pkgs.deno
     pkgs.emscripten # needed by tree-sitter
     # (pkgs.f4pga.override { installDir = pkgs.f4pga-arch-defs.xc7a50t; })
@@ -47,6 +47,7 @@
     pkgs.uv
     # pkgs.verible # broken on macos right now
     pkgs.verilator
+    pkgs.vesktop
     pkgs.wabt
     pkgs.wasm-bindgen-cli
     pkgs.wasm-pack
