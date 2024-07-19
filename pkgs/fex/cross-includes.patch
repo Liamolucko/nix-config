@@ -1,0 +1,29 @@
+diff --git a/Scripts/StructPackVerifier.py b/Scripts/StructPackVerifier.py
+index 4716e7976..cd1a19cfe 100755
+--- a/Scripts/StructPackVerifier.py
++++ b/Scripts/StructPackVerifier.py
+@@ -656,21 +656,21 @@ def main():
+         BaseArgs.append(sys.argv[ArgIndex])
+ 
+     args_x86_32 = [
+-        "-I/usr/i686-linux-gnu/include",
++        "-I@i686Libs@/include",
+         "-O2",
+         "-m32",
+         "--target=i686-linux-unknown",
+     ]
+ 
+     args_x86_64 = [
+-        "-I/usr/x86_64-linux-gnu/include",
++        "-I@x86_64Libs@/include",
+         "-O2",
+         "--target=x86_64-linux-unknown",
+         "-D_M_X86_64",
+     ]
+ 
+     args_aarch64 = [
+-        "-I/usr/aarch64-linux-gnu/include",
++        "-I@aarch64Libs@/include",
+         "-O2",
+         "--target=aarch64-linux-unknown",
+         "-D_M_ARM_64",
