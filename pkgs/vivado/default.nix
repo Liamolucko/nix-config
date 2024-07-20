@@ -1,48 +1,140 @@
-{ callPackage, symlinkJoin }:
+{
+  lib,
+  callPackage,
+  runCommand,
+  writeText,
+  makeWrapper,
+  libxcrypt-legacy,
+  ncurses5,
+  xinstall,
+  xorg,
+  zlib,
+  meta ? import ./meta.nix,
+  modules ? [ ],
+  extraPaths ? [ ],
+}:
 let
-  meta = import ./meta.nix;
-  modules = builtins.listToAttrs (
-    builtins.map (module: {
-      inherit (module) name;
-      value = callPackage ./common.nix { inherit module; };
-    }) (builtins.filter (module: module ? name) meta.modules)
+  modulesXml = lib.concatStrings (
+    lib.mapAttrsToList (name: value: ''
+      <entry>
+        <key>${value.internalName}</key>
+        <value>${name}</value>
+      </entry>
+    '') (lib.filterAttrs (name: value: value ? internalName) meta.modules)
   );
-in
-modules
-// {
-  # A customised version of symlinkJoin that replaces all the paths to the
-  # original derivations in bin wrappers, desktop entries etc. with paths to the
-  # joined derivation, since the whole point of joining modules together is so
-  # that Vivado can see the newly-linked-in modules, which won't be the case if
-  # you invoke it from directly within the base module where it has no knowledge
-  # of the later joined derivation.
-  joinModules =
-    opts:
-    let
-      sedExprs = builtins.concatStringsSep " " (builtins.map (path: "-e s@'${path}'@$out@g") opts.paths);
-    in
-    symlinkJoin (
-      opts
-      // {
-        postBuild =
-          opts.postBuild or ""
-          + ''
-            find $out/{bin,share,etc} -type l -exec sed -i ${sedExprs} '{}' ';'
-          '';
-      }
-    );
+  downloadRecord = writeText "download-record" ''
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <installationRecord imageVersion="NA" originalVersion="${meta.version}" version="${meta.version}">
+      <installedModules>
+        ${modulesXml}
+      </installedModules>
+      <installedPackage>WebPACKEdition_Web</installedPackage>
+      <installedProduct>VivadoProd</installedProduct>
+    </installationRecord>
+  '';
 
-  # Versions of all the modules which have debug logging enabled and all the
-  # archives available, so that you can run `archive-list.sh` on their output and
-  # figure out what archives a module requires.
-  archiveTests = builtins.mapAttrs (
-    name: pkg:
-    pkg.override (old: {
-      module = old.module // {
-        debug = true;
+  # The downloadRecord.dat is necessary to bypass xinstall's check that you've
+  # selected at least one device: it seems to base it on the downloaded modules
+  # instead of what you've actually selected, so if we always include all modules
+  # we won't run into that error.
+  stage1-installer = runCommand "vivado-stage1-installer" { } ''
+    mkdir $out
+    ${lib.getExe xorg.lndir} ${xinstall} $out
+    cp ${downloadRecord} $out/data/downloadRecord.dat
+  '';
+
+  stage1 = callPackage ./common.nix {
+    xinstall = stage1-installer;
+    inherit meta;
+    pname = "vivado-base";
+    archives = meta.baseArchives;
+    postBuild = ''
+      ln -s ${libxcrypt-legacy}/lib/libcrypt.so.1 $out/opt/Xilinx/Vivado/${meta.version}/lib/lnx64.o
+      ln -s ${ncurses5}/lib/libtinfo.so.5 $out/opt/Xilinx/Vivado/${meta.version}/lib/lnx64.o
+      ln -s ${xorg.libX11}/lib/libX11.so.6 $out/opt/Xilinx/Vivado/${meta.version}/lib/lnx64.o
+      ln -s ${zlib}/lib/libz.so.1 $out/opt/Xilinx/Vivado/${meta.version}/lib/lnx64.o
+    '';
+  };
+
+  stage2-installer = xinstall.overrideAttrs {
+    name = "vivado-stage2-installer";
+    src = "${stage1}/opt/Xilinx/.xinstall/Vivado_${meta.version}";
+    unpackCmd = "";
+    postFixup = ''
+      substituteInPlace $out/data/instRecord.dat \
+        --replace-fail ${stage1}/opt/Xilinx @out@
+    '';
+  };
+
+  linkExtraPaths = lib.concatStringsSep "\n" (
+    lib.map (path: "${lib.getExe xorg.lndir} ${path} $out/opt/Xilinx") (
+      [ "${stage1}/opt/Xilinx" ] ++ extraPaths
+    )
+  );
+
+  stage2 = callPackage ./common.nix {
+    xinstall = stage2-installer;
+    inherit meta modules;
+    archives = lib.sort lib.lessThan (
+      lib.unique (lib.concatMap (mod: meta.modules.${mod}.archives) modules)
+    );
+    nativeBuildInputs = [ makeWrapper ];
+    preBuild = ''
+      substituteInPlace data/instRecord.dat \
+        --subst-var-by out $out/opt/Xilinx
+
+      mkdir -p $out/opt/Xilinx
+      ${linkExtraPaths}
+
+      # Make .xinstall a copy instead of a symlink so that the installer can modify
+      # it.
+      rm -rf $out/opt/Xilinx/.xinstall
+      cp -r ${stage1}/opt/Xilinx/.xinstall $out/opt/Xilinx/.xinstall
+      chmod -R +w $out/opt/Xilinx/.xinstall
+
+      # The installer checks for existing desktop/menu entries here to see what it has
+      # to include in the new versions.
+      mkdir .local
+      cp -r ${stage1}/share .local/share
+      cp -r ${stage1}/etc/xdg .config
+      chmod -R +w .local/share .config
+    '';
+
+    postBuild = ''
+      rm -rf $out/opt/Xilinx/.xinstall
+
+      mkdir $out/bin
+      for exe in $(ls $out/opt/Xilinx/Vivado/${meta.version}/bin); do
+        if ! echo "$exe" | grep -E 'loader|unwrapped|.*\.sh'; then
+          # We have to make wrappers instead of symlinks because Vivado looks for all its
+          # stuff relative to the binary you're running, so putting them in the wrong spot
+          # breaks it.
+          makeWrapper "$out/opt/Xilinx/Vivado/${meta.version}/bin/$exe" "$out/bin/$exe"
+        fi
+      done
+
+      # Replace all the desktop entries' references to the previous derivation with
+      # the new one, so that when Vivado's run through them it can see the new modules
+      # that have been installed.
+      find $out/{share,etc} -type f -exec sed -i "s@${stage1}@$out@" '{}' ';'
+    '';
+  };
+in
+stage2
+// {
+  archiveTests =
+    lib.mapAttrs (
+      name: value:
+      stage2.override {
+        modules = [ name ];
         archives = import ./test-archives.nix;
+        debug = true;
+      }
+    ) meta.modules
+    // {
+      base = stage1.override {
+        archives = import ./test-archives.nix;
+        debug = true;
       };
-    })
-  ) modules;
-  depsTest = callPackage ./common.nix { module = import ./deps-test-module.nix; };
+    };
 }

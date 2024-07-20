@@ -7,8 +7,11 @@
 {
   nixpkgs.config.allowUnfreePredicate =
     pkg:
-    builtins.match "vivado-.*" (lib.getName pkg) != null
-    || builtins.elem (lib.getName pkg) [ "xinstall" ];
+    builtins.elem (lib.getName pkg) [
+      "vivado"
+      "vivado-base"
+      "xinstall"
+    ];
 
   home.packages = [
     pkgs.bat

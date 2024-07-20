@@ -4,7 +4,7 @@
   requireFile,
   # The regular `jre` works fine, but I don't want to require downloading two
   # different JREs for xinstall and Vivado.
-  temurin-jre-bin,
+  temurin-jre-bin-21,
 }:
 let
   suffix = "0522_2023";
@@ -24,7 +24,7 @@ stdenv.mkDerivation rec {
   patches = [ ./xinstall.patch ];
   postPatch = ''
     substituteInPlace bin/setup-boot-loader.sh \
-      --subst-var-by javaHome '${temurin-jre-bin}'
+      --subst-var-by javaHome '${temurin-jre-bin-21}'
     rm -rf tps
   '';
 
