@@ -6,7 +6,7 @@
 # - Remove 'Add Design Tools or Devices' desktop entry, it's broken due to removing .xinstall (and would have crashed anyway when trying to modify the Nix store).
 # - do something about xlicdiag being in both vivado and vitis hls; easiest answer is probably to just hardcode only including vitis_hls and apcc from vitis hls, since those plus xlicdiag are the only 3 binaries it has anyway.
 # - The desktop entries' filenames contain timestamps, get rid of those.
-{
+args@{
   lib,
   requireFile,
   runCommand,
@@ -21,6 +21,7 @@
   nativeBuildInputs ? [ ],
   preBuild ? "",
   postBuild ? "",
+  ...
 }:
 let
   requireArchive =
@@ -75,20 +76,41 @@ in
 # Use runCommand instead of mkDerivation because the default hooks are not
 # designed to handle this volume of data, and run extremely slowly; plus most of
 # them aren't useful to us.
+#
+# TODO: would it be better to instead just use mkDerivation with `dontFixup = true`?
 runCommand "${pname}-${meta.version}"
-  {
-    inherit pname;
-    inherit (meta) version;
-    # glibc is there for getconf.
-    nativeBuildInputs = [ glibc ] ++ nativeBuildInputs;
+  (
+    {
+      inherit pname;
+      inherit (meta) version;
 
-    meta = {
-      description = "Design software for AMD adaptive SoCs and FPGAs";
-      homepage = "https://www.xilinx.com/products/design-tools/vivado.html";
-      license = lib.licenses.unfree;
-      platforms = [ "x86_64-linux" ];
-    };
-  }
+      # glibc is there for getconf.
+      nativeBuildInputs = [ glibc ] ++ nativeBuildInputs;
+
+      meta = {
+        description = "Design software for AMD adaptive SoCs and FPGAs";
+        homepage = "https://www.xilinx.com/products/design-tools/vivado.html";
+        license = lib.licenses.unfree;
+        platforms = [ "x86_64-linux" ];
+      };
+    }
+    // (lib.removeAttrs args [
+      "lib"
+      "requireFile"
+      "runCommand"
+      "glibc"
+      "temurin-jre-bin-21"
+      "xinstall"
+      "meta"
+      "pname"
+      "modules"
+      "archives"
+      "debug"
+      "nativeBuildInputs"
+      "preBuild"
+      "postBuild"
+    ])
+  )
   ''
     cp -r ${xinstall}/* .
 

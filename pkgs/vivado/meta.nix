@@ -1485,6 +1485,26 @@
     # Configurable modules.
     "DocNav" = {
       internalName = "DocNav_MODULE";
+      nativeBuildInputs = pkgs: [
+        pkgs.autoPatchelfHook
+        pkgs.qt5.wrapQtAppsHook
+      ];
+      buildInputs = pkgs: [
+        pkgs.qt5.qtserialport
+        pkgs.qt5.qtwebengine
+      ];
+      postBuild = ''
+        rm -rf $out/opt/Xilinx/DocNav/{lib,libexec,plugins,translations}
+        patchelf $out/opt/Xilinx/DocNav/docnav \
+          --replace-needed libcrypto.so.10 libcrypto.so \
+          --replace-needed libssl.so.10 libssl.so
+        autoPatchelf $out/opt/Xilinx/DocNav
+        wrapQtApp $out/opt/Xilinx/DocNav/docnav
+
+        # Using a symlink works here because it's already wrapped, meaning that the
+        # original binary still gets invoked from its original path.
+        ln -s $out/opt/Xilinx/DocNav/docnav $out/bin
+      '';
       archives = [
         "docnav_0002"
         "docnav_0003"

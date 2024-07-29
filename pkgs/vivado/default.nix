@@ -1,10 +1,11 @@
 {
   lib,
+  pkgs,
   callPackage,
   runCommand,
   writeText,
-  makeWrapper,
   libxcrypt-legacy,
+  makeWrapper,
   ncurses5,
   xinstall,
   xorg,
@@ -78,7 +79,10 @@ let
     archives = lib.sort lib.lessThan (
       lib.unique (lib.concatMap (mod: meta.modules.${mod}.archives) modules)
     );
-    nativeBuildInputs = [ makeWrapper ];
+    nativeBuildInputs = [
+      makeWrapper
+    ] ++ lib.concatMap (mod: (meta.modules.${mod}.nativeBuildInputs or (x: [ ])) pkgs) modules;
+    buildInputs = lib.concatMap (mod: (meta.modules.${mod}.buildInputs or (x: [ ])) pkgs) modules;
     preBuild = ''
       substituteInPlace data/instRecord.dat \
         --subst-var-by out $out/opt/Xilinx
@@ -100,6 +104,7 @@ let
       chmod -R +w .local/share .config
     '';
 
+    # TODO: use some variant of `substitute` instead of sed? (And do it during copying it over in the first place in preBuild)
     postBuild = ''
       rm -rf $out/opt/Xilinx/.xinstall
 
@@ -117,6 +122,8 @@ let
       # the new one, so that when Vivado's run through them it can see the new modules
       # that have been installed.
       find $out/{share,etc} -type f -exec sed -i "s@${stage1}@$out@" '{}' ';'
+
+      ${lib.concatMapStrings (mod: meta.modules.${mod}.postBuild or "") modules}
     '';
   };
 in
