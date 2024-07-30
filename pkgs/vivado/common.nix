@@ -141,6 +141,9 @@ runCommand "${pname}-${meta.version}"
       cp -r .config/* $out/etc/xdg
     fi
 
+    cd $out/opt/Xilinx
+    patchPhase
+
     local exe
     while IFS= read -r -d "" exe; do
       isELF "$exe" || continue

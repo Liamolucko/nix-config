@@ -1,0 +1,136 @@
+diff --git a/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/ies/sim.tcl b/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/ies/sim.tcl
+index 8acbea2..9a2fa9a 100644
+--- a/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/ies/sim.tcl
++++ b/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/ies/sim.tcl
+@@ -498,7 +498,7 @@ proc usf_ies_write_compile_script {} {
+     return 1
+   }
+ 
+-  puts $fh_scr "#!/bin/bash -f"
++  puts $fh_scr "#!/usr/bin/env bash -f"
+   xcs_write_script_header $fh_scr "compile" "ies"
+   if { {} != $tool_path } {
+     puts $fh_scr "\n# installation path setting"
+@@ -646,7 +646,7 @@ proc usf_ies_write_elaborate_script {} {
+     return 1
+   }
+  
+-  puts $fh_scr "#!/bin/bash -f"
++  puts $fh_scr "#!/usr/bin/env bash -f"
+   xcs_write_script_header $fh_scr "elaborate" "ies"
+   if { {} != $tool_path } {
+     puts $fh_scr "\n# installation path setting"
+@@ -895,7 +895,7 @@ proc usf_ies_write_simulate_script {} {
+     return 1
+   }
+ 
+-  puts $fh_scr "#!/bin/bash -f"
++  puts $fh_scr "#!/usr/bin/env bash -f"
+   xcs_write_script_header $fh_scr "simulate" "ies"
+   if { {} != $tool_path } {
+     puts $fh_scr "\n# installation path setting"
+@@ -1025,7 +1025,7 @@ proc usf_ies_create_setup_script {} {
+     return 1
+   }
+ 
+-  puts $fh_scr "#!/bin/bash -f"
++  puts $fh_scr "#!/usr/bin/env bash -f"
+   xcs_write_script_header $fh_scr "setup" "ies"
+ 
+   puts $fh_scr "\n# Script usage"
+diff --git a/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/modelsim/common/utils.tcl b/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/modelsim/common/utils.tcl
+index a5fb7b2..329eadb 100644
+--- a/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/modelsim/common/utils.tcl
++++ b/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/modelsim/common/utils.tcl
+@@ -344,10 +344,7 @@ proc xcs_get_shell_env {} {
+   # Argument Usage:
+   # Return Value:
+ 
+-  set shell_env "#!/bin/bash -f"
+-  if { [rdi::is_ubuntu] } {
+-    set shell_env "#!/usr/bin/env bash"
+-  }
++  set shell_env "#!/usr/bin/env bash"
+   return $shell_env
+ } 
+ 
+diff --git a/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/questa/common/utils.tcl b/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/questa/common/utils.tcl
+index a5fb7b2..329eadb 100644
+--- a/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/questa/common/utils.tcl
++++ b/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/questa/common/utils.tcl
+@@ -344,10 +344,7 @@ proc xcs_get_shell_env {} {
+   # Argument Usage:
+   # Return Value:
+ 
+-  set shell_env "#!/bin/bash -f"
+-  if { [rdi::is_ubuntu] } {
+-    set shell_env "#!/usr/bin/env bash"
+-  }
++  set shell_env "#!/usr/bin/env bash"
+   return $shell_env
+ } 
+ 
+diff --git a/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/vcs/common/utils.tcl b/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/vcs/common/utils.tcl
+index a5fb7b2..329eadb 100644
+--- a/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/vcs/common/utils.tcl
++++ b/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/vcs/common/utils.tcl
+@@ -344,10 +344,7 @@ proc xcs_get_shell_env {} {
+   # Argument Usage:
+   # Return Value:
+ 
+-  set shell_env "#!/bin/bash -f"
+-  if { [rdi::is_ubuntu] } {
+-    set shell_env "#!/usr/bin/env bash"
+-  }
++  set shell_env "#!/usr/bin/env bash"
+   return $shell_env
+ } 
+ 
+diff --git a/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/xcelium/common/utils.tcl b/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/xcelium/common/utils.tcl
+index a5fb7b2..329eadb 100644
+--- a/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/xcelium/common/utils.tcl
++++ b/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/xcelium/common/utils.tcl
+@@ -344,10 +344,7 @@ proc xcs_get_shell_env {} {
+   # Argument Usage:
+   # Return Value:
+ 
+-  set shell_env "#!/bin/bash -f"
+-  if { [rdi::is_ubuntu] } {
+-    set shell_env "#!/usr/bin/env bash"
+-  }
++  set shell_env "#!/usr/bin/env bash"
+   return $shell_env
+ } 
+ 
+diff --git a/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/xsim/common/utils.tcl b/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/xsim/common/utils.tcl
+index a5fb7b2..329eadb 100644
+--- a/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/xsim/common/utils.tcl
++++ b/Vivado/2024.1/data/XilinxTclStore/tclapp/xilinx/xsim/common/utils.tcl
+@@ -344,10 +344,7 @@ proc xcs_get_shell_env {} {
+   # Argument Usage:
+   # Return Value:
+ 
+-  set shell_env "#!/bin/bash -f"
+-  if { [rdi::is_ubuntu] } {
+-    set shell_env "#!/usr/bin/env bash"
+-  }
++  set shell_env "#!/usr/bin/env bash"
+   return $shell_env
+ } 
+ 
+diff --git a/Vivado/2024.1/scripts/sim/common/utils.tcl b/Vivado/2024.1/scripts/sim/common/utils.tcl
+index d94dea7..9fa5f70 100755
+--- a/Vivado/2024.1/scripts/sim/common/utils.tcl
++++ b/Vivado/2024.1/scripts/sim/common/utils.tcl
+@@ -343,10 +343,7 @@ proc xcs_get_shell_env {} {
+   # Argument Usage:
+   # Return Value:
+ 
+-  set shell_env "#!/bin/bash -f"
+-  if { [rdi::is_ubuntu] } {
+-    set shell_env "#!/usr/bin/env bash"
+-  }
++  set shell_env "#!/usr/bin/env bash"
+   return $shell_env
+ } 
+ 

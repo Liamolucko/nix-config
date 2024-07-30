@@ -1,0 +1,13 @@
+diff --git a/Vivado/2024.1/bin/xelab b/Vivado/2024.1/bin/xelab
+index 1a09604..7254c02 100755
+--- a/Vivado/2024.1/bin/xelab
++++ b/Vivado/2024.1/bin/xelab
+@@ -31,7 +31,7 @@
+ # Loader arguments:
+ #   -exec   -- Name of executable to launch
+ ##
+-RDI_PROG=`basename "$0"`
++RDI_PROG=xelab
+ export RDI_USE_JDK21=1
+ export _RDI_NEEDS_PYTHON=True
+ "$RDI_BINROOT"/loader -exec $RDI_PROG "$@"

@@ -1,7 +1,7 @@
-diff --git a/Vivado/2023.2/scripts/ISEWrap.sh b/Vivado/2023.2/scripts/ISEWrap.sh
-index 3234044..5a96e1e 100755
---- a/Vivado/2023.2/scripts/ISEWrap.sh
-+++ b/Vivado/2023.2/scripts/ISEWrap.sh
+diff --git a/Vivado/2024.1/scripts/ISEWrap.sh b/Vivado/2024.1/scripts/ISEWrap.sh
+index 649b87f..dd6664c 100755
+--- a/Vivado/2024.1/scripts/ISEWrap.sh
++++ b/Vivado/2024.1/scripts/ISEWrap.sh
 @@ -62,7 +62,7 @@ ISE_HOSTCORE=$(awk '/^processor/{print $3}' /proc/cpuinfo | wc -l)
  ISE_MEMTOTAL=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
  
@@ -23,10 +23,10 @@ index 3234044..5a96e1e 100755
  fi
  
  exit $RETVAL
-diff --git a/Vivado/2023.2/scripts/ISEWrapReports.sh b/Vivado/2023.2/scripts/ISEWrapReports.sh
-index 832ea9e..05fb5d2 100755
---- a/Vivado/2023.2/scripts/ISEWrapReports.sh
-+++ b/Vivado/2023.2/scripts/ISEWrapReports.sh
+diff --git a/Vivado/2024.1/scripts/ISEWrapReports.sh b/Vivado/2024.1/scripts/ISEWrapReports.sh
+index 72e96c1..104aa90 100755
+--- a/Vivado/2024.1/scripts/ISEWrapReports.sh
++++ b/Vivado/2024.1/scripts/ISEWrapReports.sh
 @@ -34,7 +34,7 @@ ISE_HOST=$HOST     #csh
  fi
  ISE_USER=$USER
@@ -48,10 +48,10 @@ index 832ea9e..05fb5d2 100755
  fi
  
  exit $RETVAL
-diff --git a/Vivado/2023.2/scripts/paUtil.tcl b/Vivado/2023.2/scripts/paUtil.tcl
+diff --git a/Vivado/2024.1/scripts/paUtil.tcl b/Vivado/2024.1/scripts/paUtil.tcl
 index 87f60c0..48b93a1 100755
---- a/Vivado/2023.2/scripts/paUtil.tcl
-+++ b/Vivado/2023.2/scripts/paUtil.tcl
+--- a/Vivado/2024.1/scripts/paUtil.tcl
++++ b/Vivado/2024.1/scripts/paUtil.tcl
 @@ -1011,7 +1011,7 @@ namespace eval paUtil {
  	    foreach run $runList {
  	       # TODO - test these runs to make sure they completed correctly

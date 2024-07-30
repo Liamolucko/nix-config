@@ -2,6 +2,7 @@
   lib,
   pkgs,
   callPackage,
+  buildFHSEnv,
   runCommand,
   writeText,
   libxcrypt-legacy,
@@ -34,6 +35,16 @@ let
     </installationRecord>
   '';
 
+  # xelab assumes that GCC is available at /usr/bin/gcc, so we have to use an FHS
+  # env.
+  #
+  # TODO: I think we only previously tried patching /usr/bin/gcc out of the vivado binary... what if we try doing it to specifically xelab instead?
+  xelab-fhs = buildFHSEnv {
+    name = "xelab-fhs";
+    targetPkgs = pkgs: [ pkgs.gcc ];
+    runScript = "";
+  };
+
   # The downloadRecord.dat is necessary to bypass xinstall's check that you've
   # selected at least one device: it seems to base it on the downloaded modules
   # instead of what you've actually selected, so if we always include all modules
@@ -49,11 +60,30 @@ let
     inherit meta;
     pname = "vivado-base";
     archives = meta.baseArchives;
+    patches = [
+      # Required for the GUI's detection of when runs have finished to work.
+      ./no-abs-touch.patch
+      # Required for the generated simulation scripts to work.
+      ./no-abs-bash.patch
+      # There's no way to fake the argv[0] of a shell script, as far as I'm aware, so
+      # we need to patch it.
+      ./xelab-argv0.patch
+    ];
+    nativeBuildInputs = [ makeWrapper ];
     postBuild = ''
       ln -s ${libxcrypt-legacy}/lib/libcrypt.so.1 $out/opt/Xilinx/Vivado/${meta.version}/lib/lnx64.o
       ln -s ${ncurses5}/lib/libtinfo.so.5 $out/opt/Xilinx/Vivado/${meta.version}/lib/lnx64.o
       ln -s ${xorg.libX11}/lib/libX11.so.6 $out/opt/Xilinx/Vivado/${meta.version}/lib/lnx64.o
       ln -s ${zlib}/lib/libz.so.1 $out/opt/Xilinx/Vivado/${meta.version}/lib/lnx64.o
+
+      ln -s ${libxcrypt-legacy}/lib/libcrypt.so.1 $out/opt/Xilinx/Vitis_HLS/${meta.version}/lib/lnx64.o
+      ln -s ${ncurses5}/lib/libtinfo.so.5 $out/opt/Xilinx/Vitis_HLS/${meta.version}/lib/lnx64.o
+      ln -s ${xorg.libX11}/lib/libX11.so.6 $out/opt/Xilinx/Vitis_HLS/${meta.version}/lib/lnx64.o
+      ln -s ${zlib}/lib/libz.so.1 $out/opt/Xilinx/Vitis_HLS/${meta.version}/lib/lnx64.o
+
+      mv $out/opt/Xilinx/Vivado/${meta.version}/bin/{xelab,.xelab-wrapped}
+      makeWrapper ${xelab-fhs}/bin/xelab-fhs $out/opt/Xilinx/Vivado/${meta.version}/bin/xelab \
+        --add-flags $out/opt/Xilinx/Vivado/${meta.version}/bin/.xelab-wrapped
     '';
   };
 
@@ -117,6 +147,9 @@ let
           makeWrapper "$out/opt/Xilinx/Vivado/${meta.version}/bin/$exe" "$out/bin/$exe"
         fi
       done
+
+      makeWrapper $out/opt/Xilinx/Vitis_HLS/${meta.version}/bin/vitis_hls $out/bin/vitis_hls
+      makeWrapper $out/opt/Xilinx/Vitis_HLS/${meta.version}/bin/apcc $out/bin/apcc
 
       # Replace all the desktop entries' references to the previous derivation with
       # the new one, so that when Vivado's run through them it can see the new modules
