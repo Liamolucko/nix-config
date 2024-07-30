@@ -1,17 +1,9 @@
 { pkgs, ... }:
 {
-  imports = [ ./shared.nix ];
-
-  nix.channel.enable = false;
-
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  networking.networkmanager.enable = true;
-
-  time.timeZone = "Australia/Sydney";
-
-  i18n.defaultLocale = "en_AU.UTF-8";
+  imports = [
+    ./shared.nix
+    ./linux-minimal.nix
+  ];
 
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
@@ -26,21 +18,6 @@
   };
 
   services.libinput.enable = true;
-
-  users.users.liam = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ];
-  };
-
-  programs.gnupg.agent.enable = true;
-
-  services.openssh.enable = true;
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    publish.enable = true;
-    publish.addresses = true;
-  };
 
   programs.steam.enable = true;
   programs._1password-gui.enable = true;

@@ -128,6 +128,9 @@
             nixpkgs.overlays = overlays;
             home-manager.users.liam.nixpkgs.overlays = overlays;
             nixpkgs.flake.source = nixpkgs.outPath;
+            # Seems like nix-darwin's default has higher precedence, so we have to do it
+            # manually.
+            nix.nixPath = [ "nixpkgs=flake:nixpkgs" ];
           }
           home-manager.darwinModules.home-manager
           ./mac.nix
@@ -149,6 +152,15 @@
           { nixpkgs.overlays = overlays; }
           home-manager.nixosModules.home-manager
           ./vivado-vm.nix
+        ];
+      };
+
+      nixosConfigurations."pi4" = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        modules = [
+          { nixpkgs.overlays = overlays; }
+          home-manager.nixosModules.home-manager
+          ./pi4.nix
         ];
       };
     }

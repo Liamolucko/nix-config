@@ -5,6 +5,8 @@
   ...
 }:
 {
+  imports = [ modules/fex.nix ];
+
   boot.initrd.availableKernelModules = [
     "virtio_pci"
     "xhci_pci"
@@ -60,7 +62,7 @@
     # Note to self: enshrine the LIBRARY_PATH workaround in nix-xilinx
     # (or figure out why it works on arch)
     # also make it compatible with FEX etc.
-    pkgs.vivado
+    # pkgs.vivado
     pkgs.xilinx-shell
   ];
 

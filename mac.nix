@@ -21,8 +21,8 @@
       virtualisation.cores = 8;
       # The default 3GB doesn't seem to be enough for f4pga-arch-defs.
       virtualisation.darwin-builder.memorySize = 8 * 1024;
-      # Vivado is ~30GB, so use a 50GB disk for some breathing room.
-      virtualisation.darwin-builder.diskSize = 50 * 1024;
+      # Vivado is ~30GB, so use a 60GB disk for some breathing room.
+      virtualisation.darwin-builder.diskSize = 60 * 1024;
 
       programs.fex.enable = true;
     };

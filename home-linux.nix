@@ -31,7 +31,6 @@ in
   home.packages = [
     pkgs.caffeine-ng
     pkgs.firefox
-    pkgs.trashy
     pkgs.usbutils
     vivado
     pkgs.zed-editor

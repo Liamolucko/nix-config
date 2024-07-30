@@ -10,7 +10,6 @@
 
   home.packages = [
     pkgs.colima
-    pkgs.darwin.trash
     pkgs.docker
     # Workaround for https://github.com/rustwasm/wasm-bindgen/issues/3646.
     # I've been doing this since long before that issue was opened though, I should
