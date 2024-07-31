@@ -20,6 +20,7 @@
   boot.loader.generic-extlinux-compatible.enable = true;
 
   networking.hostName = "pi4";
+  services.openssh.enable = true;
 
   environment.systemPackages = [ pkgs.kitty.terminfo ];
   programs.fex.enable = true;

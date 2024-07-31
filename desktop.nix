@@ -44,6 +44,9 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "liam-desktop";
+  services.openssh.enable = true;
+
+  home-manager.users.liam = import ./home-desktop.nix;
 
   system.stateVersion = "24.05";
 }

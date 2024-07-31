@@ -15,7 +15,7 @@
 
   environment.systemPackages = [
     pkgs.bat
-    pkgs.btop
+    (pkgs.btop.override { rocmSupport = pkgs.stdenv.system == "x86_64-linux"; })
     pkgs.deno
     pkgs.file
     pkgs.gh

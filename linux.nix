@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   imports = [
     ./shared.nix
@@ -19,7 +19,7 @@
 
   services.libinput.enable = true;
 
-  programs.steam.enable = true;
+  programs.steam.enable = lib.mkDefault true;
   programs._1password-gui.enable = true;
 
   home-manager.users.liam = import ./home-linux.nix;

@@ -8,6 +8,8 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-apple-silicon.url = "github:tpwrules/nixos-apple-silicon";
+    nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs";
     nix-xilinx.url = "gitlab:doronbehar/nix-xilinx";
     nix-xilinx.inputs.nixpkgs.follows = "nixpkgs";
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
@@ -25,6 +27,7 @@
       flake-utils,
       nix-darwin,
       home-manager,
+      nixos-apple-silicon,
       nix-xilinx,
       nix-vscode-extensions,
       mini-compile-commands,
@@ -47,14 +50,14 @@
         fex = final.callPackage ./pkgs/fex { };
         prjxray-db = final.callPackage ./pkgs/prjxray-db { };
         prjxray-tools = final.callPackage ./pkgs/prjxray-tools { };
+        qlf-fasm = final.callPackage ./pkgs/qlf-fasm { };
+        quicklogic-fasm = final.callPackage ./pkgs/quicklogic-fasm { };
+        quicklogic-timings-importer = final.callPackage ./pkgs/quicklogic-timings-importer { };
         rsyntaxtree = final.callPackage ./pkgs/rsyntaxtree { };
         tinyfpgab = final.callPackage ./pkgs/tinyfpgab { };
         v2x = final.callPackage ./pkgs/v2x { };
         vivado = final.callPackage ./pkgs/vivado { };
         vtr = final.callPackage ./pkgs/vtr { };
-        quicklogic-fasm = final.callPackage ./pkgs/quicklogic-fasm { };
-        quicklogic-timings-importer = final.callPackage ./pkgs/quicklogic-timings-importer { };
-        qlf-fasm = final.callPackage ./pkgs/qlf-fasm { };
         xc-fasm = with final.python3Packages; toPythonApplication xc-fasm;
         xinstall = final.callPackage ./pkgs/xinstall { };
 
@@ -161,6 +164,19 @@
           { nixpkgs.overlays = overlays; }
           home-manager.nixosModules.home-manager
           ./pi4.nix
+        ];
+      };
+
+      nixosConfigurations."liam-asahi" = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        modules = [
+          {
+            nixpkgs.overlays = overlays;
+            home-manager.users.liam.nixpkgs.overlays = overlays;
+          }
+          nixos-apple-silicon.nixosModules.default
+          home-manager.nixosModules.home-manager
+          ./asahi.nix
         ];
       };
     }

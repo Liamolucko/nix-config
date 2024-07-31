@@ -18,7 +18,6 @@
 
   programs.gnupg.agent.enable = true;
 
-  services.openssh.enable = true;
   services.avahi = {
     enable = true;
     nssmdns4 = true;
