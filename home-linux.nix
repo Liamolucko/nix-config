@@ -8,11 +8,14 @@
   home.username = "liam";
   home.homeDirectory = "/home/liam";
 
+  home.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+  };
+
   home.packages = [
     pkgs.caffeine-ng
     pkgs.firefox
     pkgs.usbutils
-    pkgs.zed-editor
   ];
 
   programs.ssh = {

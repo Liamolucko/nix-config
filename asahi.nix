@@ -31,12 +31,16 @@
     ];
   };
 
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 16 * 1024;
+    }
+  ];
+
   # Other configuration
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = false;
-
-  # The default detection doesn't seem to work with flakes.
-  hardware.asahi.peripheralFirmwareDirectory = /boot/asahi;
 
   networking.wireless.iwd = {
     enable = true;
@@ -46,8 +50,12 @@
 
   networking.hostName = "liam-asahi";
 
+  hardware.asahi.useExperimentalGPUDriver = true;
+
   # TODO: get working w/ FEX.
   programs.steam.enable = false;
+
+  home-manager.users.liam = import ./home-asahi.nix;
 
   system.stateVersion = "24.05";
 }

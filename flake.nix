@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-small.url = "github:NixOS/nixpkgs/nixos-unstable-small";
     flake-utils.url = "github:numtide/flake-utils";
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -24,6 +25,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs-small,
       flake-utils,
       nix-darwin,
       home-manager,
@@ -65,6 +67,7 @@
           # Rebase of https://github.com/capnproto/capnproto/pull/1130.
           patches = [ ./capnproto-fix-large-writes.patch ];
         };
+        zed-editor = final.callPackage "${nixpkgs-small}/pkgs/by-name/ze/zed-editor/package.nix" {};
 
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
           (python-final: python-prev: {

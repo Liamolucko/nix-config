@@ -20,5 +20,8 @@ let
   };
 in
 {
-  home.packages = [ vivado ];
+  home.packages = [
+    vivado
+    pkgs.zed-editor
+  ];
 }
