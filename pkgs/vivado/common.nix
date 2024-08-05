@@ -49,22 +49,28 @@ let
       hash = meta.hashes.${basename};
     };
 
-  archiveCmds = lib.concatStringsSep "\n" (
-    lib.map (
-      archiveName:
-      let
-        archive = requireArchive archiveName;
-      in
-      if lib.elem archiveName archives then
-        "ln -s '${archive}' $out/'${archive.name}'"
-      else
-        "touch $out/'${archive.name}'"
-    ) (lib.attrNames meta.hashes)
-  );
-  payload = runCommand "payload" { } ''
-    mkdir -p $out
-    ${archiveCmds}
-  '';
+  mkPayload =
+    archives:
+    let
+      archiveCmds = lib.concatStringsSep "\n" (
+        lib.map (
+          archiveName:
+          let
+            archive = requireArchive archiveName;
+          in
+          if lib.elem archiveName archives then
+            "ln -s '${archive}' $out/'${archive.name}'"
+          else
+            "touch $out/'${archive.name}'"
+        ) (lib.attrNames meta.hashes)
+      );
+    in
+    runCommand "payload" { } ''
+      mkdir -p $out
+      ${archiveCmds}
+    '';
+
+  payload = mkPayload archives;
 
   modulesCfg = lib.concatStringsSep "," (
     lib.map (module: "${module}:${if lib.elem module modules then "1" else "0"}") (
@@ -86,6 +92,10 @@ runCommand "${pname}-${meta.version}"
 
       # glibc is there for getconf.
       nativeBuildInputs = [ glibc ] ++ nativeBuildInputs;
+
+      passthru = {
+        inherit mkPayload;
+      };
 
       meta = {
         description = "Design software for AMD adaptive SoCs and FPGAs";

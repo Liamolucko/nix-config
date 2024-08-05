@@ -13,7 +13,6 @@
   };
 
   home.packages = [
-    pkgs.caffeine-ng
     pkgs.firefox
     pkgs.usbutils
   ];

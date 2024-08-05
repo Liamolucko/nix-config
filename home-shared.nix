@@ -15,6 +15,7 @@
     # (pkgs.f4pga.override { installDir = pkgs.f4pga-arch-defs.xc7a50t; })
     pkgs.gtkwave
     pkgs.kitty
+    pkgs.nixd
     pkgs.nixfmt-rfc-style
     pkgs.nodejs
     pkgs.nodePackages.pnpm
