@@ -42,7 +42,8 @@ GEM
       rsvg2
 
 PLATFORMS
-  arm64-darwin-23
+  universal-darwin
+  universal-linux
 
 DEPENDENCIES
   rsyntaxtree
