@@ -1,10 +1,8 @@
 {
   lib,
   pkgsCross,
-  llvmPackages,
+  llvmPackages_17,
   substituteAll,
-  symlinkJoin,
-  writeTextFile,
   fetchFromGitHub,
   cmake,
   gitMinimal,
@@ -15,7 +13,10 @@
   python3,
   SDL2,
 }:
-llvmPackages.stdenv.mkDerivation rec {
+let
+  libclang = python3.pkgs.libclang.override { llvmPackages = llvmPackages_17; };
+in
+llvmPackages_17.stdenv.mkDerivation rec {
   pname = "fex";
   version = "2407";
   src = fetchFromGitHub {
@@ -45,7 +46,7 @@ llvmPackages.stdenv.mkDerivation rec {
   nativeBuildInputs = [
     cmake
     gitMinimal
-    llvmPackages.bintools # for lld
+    llvmPackages_17.bintools # for lld
     ninja
     pkg-config
     python3
@@ -64,7 +65,7 @@ llvmPackages.stdenv.mkDerivation rec {
   doCheck = true;
   nativeCheckInputs = [
     nasm
-    python3.pkgs.libclang
+    libclang
   ];
   preCheck = ''
     patchelf \
