@@ -32,22 +32,15 @@
     pkgs.wasm-pack
     pkgs.wasm-tools
 
-    # ARTS2692
-    pkgs.rsyntaxtree
-
     # COMP2511
     pkgs.gradle
     pkgs.jdt-language-server
-
-    # COMP3311
-    pkgs.postgresql
   ];
 
   programs.java.enable = true;
 
   home.sessionVariables = {
     EDITOR = "zed --wait";
-    PGDATA = "${config.home.homeDirectory}/.local/share/postgresql";
   };
 
   programs.vscode = {
