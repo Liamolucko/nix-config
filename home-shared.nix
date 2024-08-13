@@ -50,6 +50,7 @@
       dark = "Xcode High Contrast Dark";
     };
     buffer_font_size = 14;
+    auto_update = pkgs.stdenv.isDarwin;
     features = {
       inline_completion_provider = "none";
     };
