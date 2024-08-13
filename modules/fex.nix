@@ -26,6 +26,7 @@ in
 {
   options = {
     programs.fex.enable = lib.mkEnableOption "Enable the use of FEX to run x86 and x86_64 binaries";
+    programs.fex.package = lib.mkPackageOption pkgs "fex" { };
   };
 
   config = lib.mkIf cfg.enable {

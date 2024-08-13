@@ -18,12 +18,12 @@ let
 in
 llvmPackages_17.stdenv.mkDerivation rec {
   pname = "fex";
-  version = "2407";
+  version = "2408";
   src = fetchFromGitHub {
     owner = "FEX-Emu";
     repo = "FEX";
     rev = "FEX-${version}";
-    hash = "sha256-an7Cc3HsKxjnulOog9FqZZuvLNumyGH237hqN6ykzlU=";
+    hash = "sha256-6V9LDZm1dxm301JBjfk7+9J+QbkvMLMRZW9Tzip4LwM=";
     fetchSubmodules = true;
   };
 
@@ -39,7 +39,6 @@ llvmPackages_17.stdenv.mkDerivation rec {
         # they're already in the binary cache as a result of Hydra building it.
         i686Libs = pkgsCross.gnu32.stdenv.cc.libc_dev;
         x86_64Libs = pkgsCross.gnu64.stdenv.cc.libc_dev;
-        aarch64Libs = pkgsCross.aarch64-multiplatform.stdenv.cc.libc_dev;
       })
     ];
 
@@ -98,4 +97,10 @@ llvmPackages_17.stdenv.mkDerivation rec {
     # VM; paper over the difference by disabling it.
     echo 'write_test' >> ../unittests/gvisor-tests/Disabled_Tests
   '';
+
+  meta = {
+    description = "Fast usermode x86 and x86-64 emulator for Arm64 Linux";
+    homepage = "https://fex-emu.com";
+    license = lib.licenses.mit;
+  };
 }
