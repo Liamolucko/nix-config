@@ -9,12 +9,11 @@
 let
   suffix = "0522_2023";
 in
-stdenv.mkDerivation rec {
+stdenv.mkDerivation (finalAttrs: {
   pname = "xinstall";
   version = "2024.1";
   src = requireFile rec {
-    name = "FPGAs_AdaptiveSoCs_Unified_${version}_${suffix}_Lin64.bin";
-    # TODO: add a note about using chmod +x first
+    name = "FPGAs_AdaptiveSoCs_Unified_${finalAttrs.version}_${suffix}_Lin64.bin";
     url = "https://www.xilinx.com/member/forms/download/xef.html?filename=${name}";
     hash = "sha256-mgStIGvg2a/Z0RzXmXtOaXhIXu5E9H1MCNB9vDDLLx4=";
   };
@@ -40,4 +39,4 @@ stdenv.mkDerivation rec {
     license = lib.licenses.unfree;
     platforms = [ "x86_64-linux" ];
   };
-}
+})

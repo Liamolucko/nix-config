@@ -34,10 +34,9 @@ buildPythonPackage rec {
 
   nativeCheckInputs = [ unittestCheckHook ];
 
-  meta = with lib; {
+  meta = {
     description = "Small footprint and configurable Ethernet core";
     homepage = "https://github.com/enjoy-digital/liteeth";
-    license = licenses.bsd2;
-    maintainers = with maintainers; [ ];
+    license = lib.licenses.bsd2;
   };
 }

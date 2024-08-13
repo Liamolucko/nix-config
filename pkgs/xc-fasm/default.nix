@@ -55,9 +55,9 @@ buildPythonPackage rec {
     "tests"
   ];
 
-  meta = with lib; {
-    description = "";
+  meta = {
+    description = "Library to convert FASM files to bitstream";
     homepage = "https://github.com/chipsalliance/f4pga-xc-fasm";
-    license = licenses.asl20;
+    license = lib.licenses.asl20;
   };
 }

@@ -28,10 +28,9 @@ buildPythonPackage rec {
 
   nativeCheckInputs = [ unittestCheckHook ];
 
-  meta = with lib; {
+  meta = {
     description = "Small footprint and configurable SDCard core";
     homepage = "https://github.com/enjoy-digital/litesdcard";
-    license = licenses.bsd2;
-    maintainers = with maintainers; [ ];
+    license = lib.licenses.bsd2;
   };
 }

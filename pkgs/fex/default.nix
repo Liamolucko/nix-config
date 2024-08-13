@@ -2,7 +2,7 @@
   lib,
   pkgsCross,
   llvmPackages_17,
-  substituteAll,
+  replaceVars,
   fetchFromGitHub,
   cmake,
   gitMinimal,
@@ -16,13 +16,13 @@
 let
   libclang = python3.pkgs.libclang.override { llvmPackages = llvmPackages_17; };
 in
-llvmPackages_17.stdenv.mkDerivation rec {
+llvmPackages_17.stdenv.mkDerivation (finalAttrs: {
   pname = "fex";
   version = "2408";
   src = fetchFromGitHub {
     owner = "FEX-Emu";
     repo = "FEX";
-    rev = "FEX-${version}";
+    rev = "FEX-${finalAttrs.version}";
     hash = "sha256-6V9LDZm1dxm301JBjfk7+9J+QbkvMLMRZW9Tzip4LwM=";
     fetchSubmodules = true;
   };
@@ -32,9 +32,8 @@ llvmPackages_17.stdenv.mkDerivation rec {
       ./check-home.patch
       ./realpath.patch
     ]
-    ++ lib.optionals doCheck [
-      (substituteAll {
-        src = ./cross-includes.patch;
+    ++ lib.optionals finalAttrs.doCheck [
+      (replaceVars ./cross-includes.patch {
         # These versions of glibc are the versions used by `stdenv.cc`, meaning that
         # they're already in the binary cache as a result of Hydra building it.
         i686Libs = pkgsCross.gnu32.stdenv.cc.libc_dev;
@@ -58,7 +57,7 @@ llvmPackages_17.stdenv.mkDerivation rec {
 
   cmakeFlags = [
     "-DUSE_LINKER=lld"
-    "-DBUILD_TESTS=${if doCheck then "True" else "False"}"
+    "-DBUILD_TESTS=${if finalAttrs.doCheck then "True" else "False"}"
   ];
 
   doCheck = true;
@@ -103,4 +102,4 @@ llvmPackages_17.stdenv.mkDerivation rec {
     homepage = "https://fex-emu.com";
     license = lib.licenses.mit;
   };
-}
+})

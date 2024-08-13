@@ -19,9 +19,7 @@
 # - f4pga
 {
   lib,
-  callPackage,
   buildPythonPackage,
-  buildEnv,
   symlinkJoin,
   fetchFromGitHub,
   python,
@@ -37,7 +35,6 @@
   prjxray-db,
   prjxray-tools,
   python-constraint,
-  pytest,
   pyyaml,
   simplejson,
   vtr,

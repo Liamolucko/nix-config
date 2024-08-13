@@ -29,11 +29,10 @@ python3.pkgs.buildPythonApplication rec {
   nativeCheckInputs = [ python3.pkgs.pytestCheckHook ];
   pytestFlagsArray = [ "test.py" ];
 
-  meta = with lib; {
+  meta = {
     description = "Programmer for the TinyFPGA B2 boards";
     homepage = "https://pypi.org/project/tinyfpgab";
-    license = licenses.gpl3Only; # TODO should it be gpl3Plus? I don't see an 'or later' anywhere
-    maintainers = with maintainers; [ ];
+    license = lib.licenses.gpl3Only; # TODO should it be gpl3Plus? I don't see an 'or later' anywhere
     mainProgram = "tinyfpgab";
   };
 }

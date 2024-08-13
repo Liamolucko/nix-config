@@ -37,10 +37,9 @@ buildPythonPackage rec {
     "test_serwb_init.py"
   ];
 
-  meta = with lib; {
+  meta = {
     description = "Small footprint and configurable Inter-Chip communication cores";
     homepage = "https://github.com/enjoy-digital/liteiclink";
-    license = licenses.bsd2;
-    maintainers = with maintainers; [ ];
+    license = lib.licenses.bsd2;
   };
 }

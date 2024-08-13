@@ -31,10 +31,9 @@ buildPythonPackage rec {
     rm test/test_examples.py # Depends on litex-boards.
   '';
 
-  meta = with lib; {
+  meta = {
     description = "Small footprint and configurable embedded FPGA logic analyzer";
     homepage = "https://github.com/enjoy-digital/litescope";
-    license = licenses.bsd2;
-    maintainers = with maintainers; [ ];
+    license = lib.licenses.bsd2;
   };
 }

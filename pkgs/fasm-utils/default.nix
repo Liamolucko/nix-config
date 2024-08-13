@@ -25,10 +25,9 @@ buildPythonPackage rec {
 
   pythonImportsCheck = [ "fasm_utils" ];
 
-  meta = with lib; {
+  meta = {
     description = "Set of tools for creating FASM assemblers for the Symbiflow project";
     homepage = "https://github.com/QuickLogic-Corp/quicklogic-fasm-utils";
-    license = licenses.asl20;
-    maintainers = with maintainers; [ ];
+    license = lib.licenses.asl20;
   };
 }

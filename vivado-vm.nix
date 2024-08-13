@@ -1,9 +1,4 @@
-{
-  pkgs,
-  config,
-  lib,
-  ...
-}:
+{ pkgs, lib, ... }:
 {
   imports = [ modules/fex.nix ];
 

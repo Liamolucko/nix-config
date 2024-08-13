@@ -1,4 +1,4 @@
-{ modulesPath, pkgs, ... }:
+{ pkgs, ... }:
 {
   imports = [
     ./linux-minimal.nix

@@ -27,11 +27,10 @@ python3.pkgs.buildPythonApplication rec {
 
   pythonImportsCheck = [ "quicklogic_timings_importer" ];
 
-  meta = with lib; {
+  meta = {
     description = "Importer of timing data from Quicklogic EOS-S3 to SDF";
     homepage = "https://github.com/antmicro/quicklogic-timings-importer";
-    license = licenses.asl20;
-    maintainers = with maintainers; [ ];
+    license = lib.licenses.asl20;
     mainProgram = "quicklogic-timings-importer";
   };
 }

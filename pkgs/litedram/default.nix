@@ -95,10 +95,9 @@ buildPythonPackage rec {
     "'test_[!ip]*'"
   ];
 
-  meta = with lib; {
+  meta = {
     description = "Small footprint and configurable DRAM core";
     homepage = "https://github.com/enjoy-digital/litedram";
-    license = licenses.bsd2;
-    maintainers = with maintainers; [ ];
+    license = lib.licenses.bsd2;
   };
 }

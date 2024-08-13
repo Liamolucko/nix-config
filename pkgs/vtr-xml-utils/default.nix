@@ -32,10 +32,9 @@ buildPythonPackage rec {
     pytest-runner
   ];
 
-  meta = with lib; {
-    description = "";
+  meta = {
+    description = "Utilities for working with VtR XML Files";
     homepage = "https://github.com/chipsalliance/vtr-xml-utils";
-    license = licenses.asl20;
-    maintainers = with maintainers; [ ];
+    license = lib.licenses.asl20;
   };
 }

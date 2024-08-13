@@ -40,10 +40,9 @@ buildPythonPackage rec {
     runHook postCheck
   '';
 
-  meta = with lib; {
+  meta = {
     description = "Python module containing data files for ${name} ${kind} (for use with LiteX)";
     homepage = "https://github.com/litex-hub/pythondata-${kind}-${name}";
-    license = license licenses;
-    maintainers = with maintainers; [ ];
+    license = license lib.licenses;
   };
 }

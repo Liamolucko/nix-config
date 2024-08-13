@@ -25,11 +25,10 @@ python3.pkgs.buildPythonApplication rec {
   # TODO: some tests are currently being skipped because QLF_FASM_DB_ROOT is unset.
   nativeCheckInputs = [ python3.pkgs.pytestCheckHook ];
 
-  meta = with lib; {
+  meta = {
     description = "FASM to/from bitstream converter for QuickLogic qlf FPGA device family";
     homepage = "https://github.com/QuickLogic-Corp/ql_fasm";
-    license = licenses.asl20;
-    maintainers = with maintainers; [ ];
+    license = lib.licenses.asl20;
     mainProgram = "qlf-fasm";
   };
 }

@@ -28,11 +28,10 @@ python3.pkgs.buildPythonApplication rec {
 
   pythonImportsCheck = [ "quicklogic_fasm" ];
 
-  meta = with lib; {
+  meta = {
     description = "Tools, scripts and resources for generating a bitstream from the FASM files for the QuickLogic FPGAs";
     homepage = "https://github.com/antmicro/quicklogic-fasm";
-    license = licenses.asl20;
-    maintainers = with maintainers; [ ];
+    license = lib.licenses.asl20;
     mainProgram = "quicklogic-fasm";
   };
 }

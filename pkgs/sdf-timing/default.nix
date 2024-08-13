@@ -5,7 +5,6 @@
   setuptools,
   setuptools_scm,
   wheel,
-  pytest,
   yapf,
   tox,
   ply,
@@ -50,9 +49,9 @@ buildPythonPackage rec {
 
   nativeCheckInputs = [ pytestCheckHook ];
 
-  meta = with lib; {
+  meta = {
     description = "Python library for working Standard Delay Format (SDF) Timing Annotation files";
     homepage = "https://github.com/chipsalliance/python-sdf-timing";
-    license = licenses.asl20;
+    license = lib.licenses.asl20;
   };
 }

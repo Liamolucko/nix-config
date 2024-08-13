@@ -38,11 +38,10 @@ python311.pkgs.buildPythonApplication rec {
   # changed over the years.
   disabledTests = [ "test_pbtype_generation_with_vlog_to_pbtype" ];
 
-  meta = with lib; {
+  meta = {
     description = "Tool for converting specialized annotated Verilog models into XML needed for Verilog to Routing flow";
     homepage = "https://github.com/chipsalliance/f4pga-v2x";
-    license = licenses.asl20;
-    maintainers = with maintainers; [ ];
+    license = lib.licenses.asl20;
     mainProgram = "v2x";
   };
 }

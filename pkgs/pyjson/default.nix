@@ -23,9 +23,9 @@ buildPythonPackage rec {
 
   pythonImportsCheck = [ "pyjson" ];
 
-  meta = with lib; {
+  meta = {
     description = "Compare the similarities between two JSONs";
     homepage = "https://pypi.org/project/pyjson";
-    license = licenses.mit;
+    license = lib.licenses.mit;
   };
 }

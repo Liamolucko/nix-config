@@ -1,8 +1,6 @@
 {
-  lib,
   buildPythonPackage,
   prjxray-tools,
-  pythonPackages,
   fasm,
   intervaltree,
   numpy,

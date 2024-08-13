@@ -34,10 +34,9 @@ buildPythonPackage rec {
     ${lib.getExe stdenv.cc} test/model/scrambler.c -o test/model/scrambler
   '';
 
-  meta = with lib; {
+  meta = {
     description = "Small footprint and configurable SATA core";
     homepage = "https://github.com/enjoy-digital/litesata";
-    license = licenses.bsd2;
-    maintainers = with maintainers; [ ];
+    license = lib.licenses.bsd2;
   };
 }

@@ -3,7 +3,6 @@
   stdenv,
   buildPythonPackage,
   fetchFromGitHub,
-  fetchurl,
   setuptools,
   wheel,
   litedram,
@@ -85,10 +84,9 @@ buildPythonPackage rec {
     rm litex_boards/targets/{gsd_orangecrab,kosagi_fomu,logicbone}.py
   '';
 
-  meta = with lib; {
+  meta = {
     description = "LiteX boards files";
     homepage = "https://github.com/litex-hub/litex-boards";
-    license = licenses.bsd2;
-    maintainers = with maintainers; [ ];
+    license = lib.licenses.bsd2;
   };
 }

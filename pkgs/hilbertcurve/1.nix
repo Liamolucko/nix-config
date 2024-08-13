@@ -26,10 +26,9 @@ buildPythonPackage rec {
 
   nativeCheckInputs = [ pytestCheckHook ];
 
-  meta = with lib; {
+  meta = {
     description = "Maps between 1-D space filling hilbert curve and N-D coordinates";
     homepage = "https://github.com/galtay/hilbertcurve";
-    license = licenses.mit;
-    maintainers = with maintainers; [ ];
+    license = lib.licenses.mit;
   };
 }

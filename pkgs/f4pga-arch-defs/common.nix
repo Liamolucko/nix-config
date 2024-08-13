@@ -8,9 +8,7 @@
   fetchpatch,
   runCommand,
   symlinkJoin,
-  capnproto,
   cmake,
-  fusesoc,
   haskellPackages,
   icestorm,
   libxml2,
@@ -258,7 +256,7 @@ let
   # For some reason VPR segfaults on darwin while building this if TBB is enabled.
   vtr' = vtr.override { enableTbb = !(stdenv.isDarwin && family == "xc7"); };
 in
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   pname = "f4pga-arch-defs-${device}";
   version = "0-unstable-2022-09-08";
   inherit src;

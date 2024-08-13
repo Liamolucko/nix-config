@@ -1,5 +1,5 @@
 # Config that's shared between all my systems.
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   imports = [ ./minimal.nix ];
 

@@ -48,11 +48,10 @@ buildPythonPackage rec {
     rm test/test_{ecc,cpu}.py
   '';
 
-  meta = with lib; {
+  meta = {
     description = "Build your hardware, easily";
     homepage = "https://github.com/enjoy-digital/litex";
     changelog = "https://github.com/enjoy-digital/litex/blob/${src.rev}/CHANGES.md";
-    license = licenses.bsd2;
-    maintainers = with maintainers; [ ];
+    license = lib.licenses.bsd2;
   };
 }
