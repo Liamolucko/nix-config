@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 {
   imports = [
     ./shared.nix
@@ -21,6 +21,9 @@
 
   environment.systemPackages = [
     pkgs.firefox
+    pkgs.kdePackages.kclock
+    pkgs.libreoffice
+    pkgs.rhythmbox
     pkgs.usbutils
   ];
 

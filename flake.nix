@@ -156,7 +156,10 @@
       nixosConfigurations."liam-desktop" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          { home-manager.users.liam.nixpkgs.overlays = overlays; }
+          {
+            nixpkgs.overlays = overlays;
+            home-manager.users.liam.nixpkgs.overlays = overlays;
+          }
           home-manager.nixosModules.home-manager
           ./desktop.nix
         ];

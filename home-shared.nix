@@ -13,6 +13,9 @@
       dark = "Xcode High Contrast Dark";
     };
     buffer_font_size = 14;
+    # Needed for some of the symbols nix-output-monitor uses.
+    # (This doesn't actually work yet but should once nixpkgs gets Zed 0.147.2.)
+    buffer_font_fallbacks = [ "Noto Sans Symbols 2" ];
     auto_update = pkgs.stdenv.isDarwin;
     features = {
       inline_completion_provider = "none";
