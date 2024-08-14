@@ -3,6 +3,7 @@
   name,
   hash,
   license,
+  doCheck ? true,
 }:
 {
   lib,
@@ -33,6 +34,7 @@ buildPythonPackage rec {
     wheel
   ];
 
+  inherit doCheck;
   # TODO: cd into $out so that the version in /tmp/nix-build-* isn't accessible (same as pythonImportsCheck).
   checkPhase = ''
     runHook preCheck
