@@ -1,13 +1,5 @@
 { lib, ... }:
 {
-  nixpkgs.config.allowUnfreePredicate =
-    pkg:
-    builtins.elem (lib.getName pkg) [
-      "vivado"
-      "vivado-base"
-      "xinstall"
-    ];
-
   home.sessionVariables = {
     # R = don't mess with control characters (i.e. make colours work)
     # S = truncate lines instead of wrapping

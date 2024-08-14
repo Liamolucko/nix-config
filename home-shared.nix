@@ -1,42 +1,5 @@
 { pkgs, ... }:
 {
-  home.packages = [
-    pkgs.binaryen
-    pkgs.cargo-binstall
-    pkgs.cargo-expand
-    pkgs.cargo-fuzz
-    pkgs.clang-tools
-    pkgs.emscripten # needed by tree-sitter
-    # (pkgs.f4pga.override { installDir = pkgs.f4pga-arch-defs.xc7a50t; })
-    pkgs.gtkwave
-    pkgs.kitty
-    pkgs.nixd
-    pkgs.nixfmt-rfc-style
-    pkgs.nodejs
-    pkgs.nodePackages.pnpm
-    pkgs.openfpgaloader
-    pkgs.pulldown-cmark
-    pkgs.rclone
-    pkgs.ruff
-    pkgs.samply
-    pkgs.stdenv.cc
-    pkgs.tinymist
-    pkgs.tree-sitter
-    pkgs.typst
-    pkgs.uv
-    # pkgs.verible # broken on macos right now
-    pkgs.verilator
-    pkgs.vesktop
-    pkgs.wabt
-    pkgs.wasm-bindgen-cli
-    pkgs.wasm-pack
-    pkgs.wasm-tools
-
-    # COMP2511
-    pkgs.gradle
-    pkgs.jdt-language-server
-  ];
-
   programs.java.enable = true;
 
   home.sessionVariables = {

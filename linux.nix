@@ -19,6 +19,11 @@
 
   services.libinput.enable = true;
 
+  environment.systemPackages = [
+    pkgs.firefox
+    pkgs.usbutils
+  ];
+
   programs.steam.enable = lib.mkDefault true;
   programs._1password-gui.enable = true;
 

@@ -8,17 +8,6 @@
   home.username = "liam";
   home.homeDirectory = "/Users/liam";
 
-  home.packages = [
-    pkgs.colima
-    pkgs.docker
-    # Workaround for https://github.com/rustwasm/wasm-bindgen/issues/3646.
-    # I've been doing this since long before that issue was opened though, I should
-    # really go fix it at some point.
-    pkgs.gnused
-    pkgs.musescore
-    pkgs.utm
-  ];
-
   launchd.agents.maccy = {
     enable = true;
     config = {

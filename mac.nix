@@ -55,6 +55,17 @@
     };
   };
 
+  environment.systemPackages = [
+    pkgs.colima
+    pkgs.docker
+    # Workaround for https://github.com/rustwasm/wasm-bindgen/issues/3646.
+    # I've been doing this since long before that issue was opened though, I should
+    # really go fix it at some point.
+    pkgs.gnused
+    pkgs.musescore
+    pkgs.utm
+  ];
+
   users.users.liam.home = "/Users/liam";
   home-manager.users.liam = import ./home-mac.nix;
 

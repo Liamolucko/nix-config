@@ -1,4 +1,13 @@
-{ config, ... }:
+{ pkgs, config, ... }:
+let
+  vivado = pkgs.vivado.override {
+    modules = [
+      "Artix-7"
+      "DocNav"
+    ];
+    extraPaths = [ pkgs.digilent-board-files ];
+  };
+in
 {
   imports = [ ./linux.nix ];
 
@@ -46,7 +55,10 @@
   networking.hostName = "liam-desktop";
   services.openssh.enable = true;
 
-  home-manager.users.liam = import ./home-desktop.nix;
+  environment.systemPackages = [
+    vivado
+    pkgs.zed-editor
+  ];
 
   system.stateVersion = "24.05";
 }

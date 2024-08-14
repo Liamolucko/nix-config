@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   imports = [ ./linux.nix ];
 
@@ -52,10 +52,10 @@
 
   hardware.asahi.useExperimentalGPUDriver = true;
 
+  environment.systemPackages = [ (pkgs.zed-editor.override { withGLES = true; }) ];
+
   # TODO: get working w/ FEX.
   programs.steam.enable = false;
-
-  home-manager.users.liam = import ./home-asahi.nix;
 
   system.stateVersion = "24.05";
 }
