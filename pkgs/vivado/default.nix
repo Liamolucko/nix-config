@@ -68,6 +68,8 @@ let
       # There's no way to fake the argv[0] of a shell script, as far as I'm aware, so
       # we need to patch it.
       ./xelab-argv0.patch
+      # Allows Vivado to run on aarch64 (via Rosetta or FEX).
+      ./ignore-arch.patch
     ];
     nativeBuildInputs = [ makeWrapper ];
     postBuild = ''

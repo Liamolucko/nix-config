@@ -8,10 +8,14 @@
       "steam"
       "steam-original"
       "steam-run"
+      "vivado"
+      "vivado-base"
+      "xinstall"
     ];
 
   nix.gc.automatic = true;
   nix.settings.keep-outputs = true;
+  nix.package = pkgs.lix;
 
   environment.systemPackages = [
     pkgs.bat

@@ -1,6 +1,15 @@
 { pkgs, lib, ... }:
+let
+  vivado = pkgs.pkgsx86_64Linux.vivado.override {
+    modules = [ "Artix-7" ];
+    extraPaths = [ pkgs.digilent-board-files ];
+  };
+in
 {
-  imports = [ modules/fex.nix ];
+  imports = [
+    ./linux-minimal.nix
+    modules/fex.nix
+  ];
 
   boot.initrd.availableKernelModules = [
     "virtio_pci"
@@ -8,7 +17,6 @@
     "usbhid"
     "usb_storage"
   ];
-  networking.useDHCP = lib.mkDefault true;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -27,39 +35,7 @@
 
   networking.hostName = "vivado-vm";
 
-  nix.settings.experimental-features = "nix-command flakes";
-
-  programs.fish.enable = true;
-  users.users.vivado = {
-    isNormalUser = true;
-    home = "/home/vivado";
-    createHome = true;
-    initialPassword = "vivado";
-    extraGroups = [ "wheel" ];
-    shell = pkgs.fish;
-  };
-  home-manager.users.vivado = {
-    home.username = "vivado";
-    home.homeDirectory = "/home/vivado";
-    home.file.".config/xilinx/nix.sh" = {
-      text = ''
-        INSTALL_DIR=/mnt/Xilinx
-        VERSION=2023.2
-      '';
-    };
-    home.stateVersion = "23.11";
-    programs.home-manager.enable = true;
-  };
-
-  environment.systemPackages = [
-    pkgs.git # needs to be installed to use flakes in git repos
-    pkgs.kitty
-    # Note to self: enshrine the LIBRARY_PATH workaround in nix-xilinx
-    # (or figure out why it works on arch)
-    # also make it compatible with FEX etc.
-    # pkgs.vivado
-    pkgs.xilinx-shell
-  ];
+  environment.systemPackages = [ vivado ];
 
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;

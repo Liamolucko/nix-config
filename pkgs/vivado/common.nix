@@ -94,7 +94,7 @@ runCommand "${pname}-${meta.version}"
       nativeBuildInputs = [ glibc ] ++ nativeBuildInputs;
 
       passthru = {
-        inherit mkPayload;
+        inherit mkPayload xinstall;
       };
 
       meta = {

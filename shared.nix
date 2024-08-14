@@ -3,7 +3,5 @@
 {
   imports = [ ./minimal.nix ];
 
-  fonts.packages = [ pkgs.noto-fonts ];
-
   home-manager.users.liam = import ./home-shared.nix;
 }

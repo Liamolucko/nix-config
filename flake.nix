@@ -10,8 +10,6 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-apple-silicon.url = "github:tpwrules/nixos-apple-silicon";
     nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs";
-    nix-xilinx.url = "gitlab:doronbehar/nix-xilinx";
-    nix-xilinx.inputs.nixpkgs.follows = "nixpkgs";
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
     nix-vscode-extensions.inputs.nixpkgs.follows = "nixpkgs";
     mini-compile-commands = {
@@ -28,21 +26,22 @@
       nix-darwin,
       home-manager,
       nixos-apple-silicon,
-      nix-xilinx,
       nix-vscode-extensions,
       mini-compile-commands,
     }:
     let
       overlays = [
         nix-vscode-extensions.overlays.default
-        # note: this always builds for x86 regardless of the host system (which is what
-        # I want).
-        nix-xilinx.overlay
         self.overlays.default
       ];
     in
     {
       overlays.default = final: prev: {
+        pkgsx86_64Linux = import nixpkgs {
+          localSystem = "x86_64-linux";
+          inherit (final) config overlays;
+        };
+
         # TODO: fasm has a binary that we should package but there's already something
         # else with that name, what to call it?
         f4pga = with final.python3Packages; toPythonApplication f4pga;
@@ -60,6 +59,20 @@
         vtr = final.callPackage ./pkgs/vtr { };
         xc-fasm = with final.python3Packages; toPythonApplication xc-fasm;
         xinstall = final.callPackage ./pkgs/xinstall { };
+
+        digilent-board-files =
+          let
+            repo = final.fetchFromGitHub {
+              owner = "Digilent";
+              repo = "vivado-boards";
+              rev = "8ed4f9981da1d80badb0b1f65e250b2dbf7a564d";
+              hash = "sha256-yb0Z4+1at3U7ZnH9Db3siHTBIMV4bHUaTu/y3dq+Y0k=";
+            };
+          in
+          final.runCommand "digilent-board-files" { } ''
+            mkdir -p $out/Vivado/${final.vivado.version}/data/boards
+            cp -r ${repo}/new/board_files $out/Vivado/${final.vivado.version}/data/boards/board_files
+          '';
 
         capnproto = prev.capnproto.overrideAttrs {
           # Rebase of https://github.com/capnproto/capnproto/pull/1130.
