@@ -89,6 +89,7 @@
             litedram = python-final.callPackage ./pkgs/litedram { };
             liteeth = python-final.callPackage ./pkgs/liteeth { };
             liteiclink = python-final.callPackage ./pkgs/liteiclink { };
+            litejesd204b = python-final.callPackage ./pkgs/litejesd204b { };
             litepcie = python-final.callPackage ./pkgs/litepcie { };
             litesata = python-final.callPackage ./pkgs/litesata { };
             litescope = python-final.callPackage ./pkgs/litescope { };
@@ -122,6 +123,7 @@
                 { };
             pythondata-software-picolibc = python-final.callPackage ./pkgs/pythondata/software-picolibc.nix { };
             sdf-timing = python-final.callPackage ./pkgs/sdf-timing { };
+            valentyusb = python-final.callPackage ./pkgs/valentyusb { };
             vtr-xml-utils = python-final.callPackage ./pkgs/vtr-xml-utils { };
             xc-fasm = python-final.callPackage ./pkgs/xc-fasm { };
 
