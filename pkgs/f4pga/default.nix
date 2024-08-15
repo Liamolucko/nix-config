@@ -44,27 +44,17 @@
   installDir ? null,
 }:
 let
-  # something's going wrong with compiling the tests (C++ version mismatch?) so
-  # disable them for now
-  design_introspection = yosys-symbiflow.design_introspection.overrideAttrs { doCheck = false; };
-  yosys-symbiflow' = yosys-symbiflow.override {
-    yosys-symbiflow = {
-      inherit design_introspection;
-    };
-  };
-  # same for sdc
-  sdc = yosys-symbiflow'.sdc.overrideAttrs { doCheck = false; };
   yosysWithPlugins = symlinkJoin {
     name = "${yosys.name}-with-plugins";
     paths = [
       yosys
-      design_introspection
+      yosys-symbiflow.design_introspection
       yosys-symbiflow.fasm
       yosys-symbiflow.params
       yosys-symbiflow.ql-iob
       # yosys-symbiflow.ql-qlf # broken
-      sdc
-      yosys-symbiflow'.xdc
+      yosys-symbiflow.sdc
+      yosys-symbiflow.xdc
     ];
   };
 
