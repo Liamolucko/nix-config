@@ -19,6 +19,7 @@
   pythondata-software-picolibc,
   terminus_font,
   unittestCheckHook,
+  valentyusb,
 }:
 let
   terminus-font-src = stdenv.mkDerivation {
@@ -69,19 +70,13 @@ buildPythonPackage rec {
     pythondata-software-compiler-rt
     pythondata-software-picolibc
     unittestCheckHook
-    # I'm not packaging valentyusb right now because it's a bit dodgy: LiteX uses a
-    # fork of it, and I don't want to pretend it's official by naming it an
-    # unprefixed `valentyusb`.
+    valentyusb
   ];
   # TODO: should the ter-u16b fix go in litex itself?
   preCheck = ''
     # Stop LiteX trying to `wget` these.
     cp ${terminus-font-src}/ter-u16b.bdf .
     cp ${litehyperbus}/litehyperbus/core/hyperbus.py .
-
-    # Remove stuff that depends on valentyusb for now.
-    # This happens after installation, so they'll still be in the output.
-    rm litex_boards/targets/{gsd_orangecrab,kosagi_fomu,logicbone}.py
   '';
 
   meta = {
