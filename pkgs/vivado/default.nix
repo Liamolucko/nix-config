@@ -37,8 +37,6 @@ let
 
   # xelab assumes that GCC is available at /usr/bin/gcc, so we have to use an FHS
   # env.
-  #
-  # TODO: I think we only previously tried patching /usr/bin/gcc out of the vivado binary... what if we try doing it to specifically xelab instead?
   xelab-fhs = buildFHSEnv {
     name = "xelab-fhs";
     targetPkgs = pkgs: [ pkgs.gcc ];
@@ -179,4 +177,5 @@ stage2
         debug = true;
       };
     };
+  inherit stage1;
 }

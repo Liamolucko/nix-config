@@ -1,11 +1,5 @@
-# Unfortunately this only works for synthesis, not simulation, since
-# /usr/bin/gcc is hardcoded in. Replacing all instances of "/usr/bin/gcc" with
-# "gcc" doesn't work, so it seems like the path must be constructed at runtime.
-#
 # TODO:
 # - Remove 'Add Design Tools or Devices' desktop entry, it's broken due to removing .xinstall (and would have crashed anyway when trying to modify the Nix store).
-# - do something about xlicdiag being in both vivado and vitis hls; easiest answer is probably to just hardcode only including vitis_hls and apcc from vitis hls, since those plus xlicdiag are the only 3 binaries it has anyway.
-# - The desktop entries' filenames contain timestamps, get rid of those.
 args@{
   lib,
   requireFile,
@@ -78,6 +72,8 @@ let
     )
   );
   debugFlag = lib.optionalString debug "-x";
+
+  timestampStrip = ''s/_[0-9]*\.\(desktop\|directory\)/\.\1/'';
 in
 # Use runCommand instead of mkDerivation because the default hooks are not
 # designed to handle this volume of data, and run extremely slowly; plus most of
@@ -162,6 +158,17 @@ runCommand "${pname}-${meta.version}"
     done < <(find "$out" -executable -type f -print0)
 
     patchShebangs --host $out
+
+    # Strip the timestamps off of Vivado's desktop entries to make it reproducible.
+    find $out/share -type f \
+      -exec bash -c 'mv "$0" "$(echo -n "$0" | sed "${timestampStrip}")"' '{}' ';'
+    find $out/etc/xdg -type f \
+      -exec sed -i "${timestampStrip}" '{}' ';'
+
+    # The order these <shortcut> entries show up in is non-deterministic, and they
+    # aren't needed anyway, so delete them.
+    find $out/opt/Xilinx/.xinstall -type f -name instRecord.dat \
+      -exec bash -c 'tmpfile="$(mktemp)"; cp "$0" "$tmpfile" && grep -v "<shortcut>" "$tmpfile" > "$0"' '{}' ';'
 
     ${postBuild}
   ''
