@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   programs.java.enable = true;
 
@@ -80,6 +80,7 @@
     };
     "lsp" = {
       "rust-analyzer" = {
+        binary.path = lib.getExe pkgs.rust-analyzer;
         initialization_options = {
           checkOnSave.command = "clippy";
           imports.granularity.group = "module";

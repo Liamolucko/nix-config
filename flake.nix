@@ -224,6 +224,29 @@
         packages = pkgs // {
           mccPackages = builtins.mapAttrs (name: value: value.override { stdenv = mcc-env; }) pkgs;
         };
+
+        checks.basys3-vivado =
+          pkgs.runCommand "basys3-vivado"
+            {
+              nativeBuildInputs = [
+                pkgs.pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.cc
+                pkgs.pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.bintools
+                pkgs.glibcLocales
+                pkgs.meson
+                pkgs.ninja
+                pkgs.python311
+                pkgs.python311.pkgs.litex-boards
+                pkgs.python311.pkgs.pythondata-cpu-vexriscv
+                pkgs.python311.pkgs.pythondata-software-compiler-rt
+                pkgs.python311.pkgs.pythondata-software-picolibc
+                (pkgs.vivado.override { modules = [ "Artix-7" ]; })
+              ];
+            }
+            ''
+              # Vivado needs to be able to write to $HOME.
+              export HOME="$PWD"
+              python -m litex_boards.targets.digilent_basys3 --output-dir "$out" --build
+            '';
       }
     );
 }

@@ -15,6 +15,12 @@
 
   nix.gc.automatic = true;
   nix.settings.keep-outputs = true;
+  nix.settings.diff-hook = pkgs.writeShellScript "diff-hook" ''
+    exec >&2
+    echo "For derivation $3:"
+    /run/current-system/sw/bin/diff -r "$1" "$2"
+  '';
+  nix.settings.run-diff-hook = true;
   nix.package = pkgs.lix;
 
   environment.systemPackages = [
