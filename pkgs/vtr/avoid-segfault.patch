@@ -1,0 +1,14 @@
+diff --git a/vpr/test/test_compressed_grid.cpp b/vpr/test/test_compressed_grid.cpp
+index 86c2d1f66..2d8d3a740 100644
+--- a/vpr/test/test_compressed_grid.cpp
++++ b/vpr/test/test_compressed_grid.cpp
+@@ -330,6 +330,8 @@ TEST_CASE("test_compressed_grid", "[vpr_compressed_grid]") {
+         REQUIRE(grid_loc == t_physical_tile_loc{98, 98, 0});
+     }
+ 
++    logical_block_types.clear();
++
+ }
+ 
+ } // namespace
+\ No newline at end of file

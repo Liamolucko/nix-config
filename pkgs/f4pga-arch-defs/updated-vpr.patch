@@ -1,0 +1,12 @@
+diff --git a/utils/lib/rr_graph_capnp/graph2.py b/utils/lib/rr_graph_capnp/graph2.py
+index e66d9278..9f6e2e80 100644
+--- a/utils/lib/rr_graph_capnp/graph2.py
++++ b/utils/lib/rr_graph_capnp/graph2.py
+@@ -471,6 +471,7 @@ class Graph(object):
+         for out_segment, segment in zip(segments, self.graph.segments):
+             out_segment.id = segment.id
+             out_segment.name = segment.name
++            out_segment.resType = "general"
+ 
+             if segment.timing:
+                 timing = out_segment.timing

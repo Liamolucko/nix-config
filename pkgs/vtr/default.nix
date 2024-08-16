@@ -5,40 +5,44 @@
   fetchpatch,
   cmake,
   bison,
+  clang,
   capnproto-java,
   eigen,
   flex,
+  libffi,
   pkg-config,
+  python3,
+  readline,
   tbb_2021_11,
+  tcl,
   zlib,
   enableTbb ? true,
 # TODO add withGraphics
 # TODO add withPgo (if it's deterministic?)
 }:
-let
-  rev = "a7fae8fb2";
-in
 stdenv.mkDerivation {
   pname = "vtr";
-  # This isn't some weird pre-release version, the commit hash is actually part of
-  # the version number (as they're formatted on Anaconda, anyway).
-  version = "v8.0.0_6959_g${rev}";
+  version = "8.0.0-unstable-2024-08-03";
 
   src = fetchFromGitHub {
     owner = "verilog-to-routing";
     repo = "vtr-verilog-to-routing";
-    inherit rev;
-    hash = "sha256-deGnquGWXibkzkgB2gWcJ8SojV38kvSUpx7v0RIRRnI=";
+    rev = "49de5fb78364771b440b69dc95622d0db52e01f3";
+    hash = "sha256-PemW7B/pjMVPlUFOADLoVJRxXFalPcS+sP08ps/3xZM=";
+    fetchSubmodules = true;
   };
 
   patches = [
     ./no-wget.patch
-    ./fix-symlinks.patch # TODO upstream
-    ./ignore-non-synth.patch # TODO upstream
-    (fetchpatch {
-      url = "https://github.com/verilog-to-routing/vtr-verilog-to-routing/pull/2438.patch";
-      hash = "sha256-v9S59GrjOpwXhmdzYuikAXCMkkDYKY//fKvT6cyxIEE=";
-    })
+    ./yosys-fix-clang-build.patch
+    # TODO upstream
+    ./fix-backwards-ifdefs.patch
+    ./fix-symlinks.patch
+    ./ignore-non-synth.patch
+    ./add-missing-includes.patch
+    ./avoid-segfault.patch
+    ./clear-properly.patch
+    ./fix-uninit.patch
   ];
   postPatch = ''
     substituteInPlace \
@@ -50,13 +54,24 @@ stdenv.mkDerivation {
   nativeBuildInputs = [
     cmake
     bison
+    clang # Used to compile yosys
     flex
+    libffi
     pkg-config
+    python3
+    tcl
   ];
   buildInputs = [
     eigen
+    readline
     zlib
   ] ++ lib.optionals enableTbb [ tbb_2021_11 ];
+
+  preConfigure = lib.optionalString stdenv.isDarwin ''
+    cmakeFlagsArray+=(
+      -DCMAKE_SHARED_LINKER_FLAGS="-undefined dynamic_lookup"
+    )
+  '';
 
   doCheck = true;
 

@@ -1,0 +1,86 @@
+diff --git a/utils/fasm/test/test_fasm.cpp b/utils/fasm/test/test_fasm.cpp
+index b70021182..e624273ce 100644
+--- a/utils/fasm/test/test_fasm.cpp
++++ b/utils/fasm/test/test_fasm.cpp
+@@ -238,9 +238,9 @@ static std::string get_pin_feature (size_t inode) {
+ TEST_CASE("fasm_integration_test", "[fasm]") {
+     bool is_flat = false;
+     {
+-        t_vpr_setup vpr_setup;
+-        t_arch arch;
+-        t_options options;
++        t_vpr_setup vpr_setup = t_vpr_setup();
++        t_arch arch = t_arch();
++        t_options options = t_options();
+         const char *argv[] = {
+             "test_vpr",
+             kArchFile,
+@@ -299,9 +299,9 @@ TEST_CASE("fasm_integration_test", "[fasm]") {
+         vpr_free_all(arch, vpr_setup);
+     }
+ 
+-    t_vpr_setup vpr_setup;
+-    t_arch arch;
+-    t_options options;
++    t_vpr_setup vpr_setup = t_vpr_setup();
++    t_arch arch = t_arch();
++    t_options options = t_options();
+     const char *argv[] = {
+         "test_vpr",
+         kArchFile,
+diff --git a/vpr/test/test_interchange_netlist.cpp b/vpr/test/test_interchange_netlist.cpp
+index 2af1b33a9..8f21da529 100644
+--- a/vpr/test/test_interchange_netlist.cpp
++++ b/vpr/test/test_interchange_netlist.cpp
+@@ -14,7 +14,7 @@ static constexpr const char kArchFile[] = "testarch.device";
+ 
+ TEST_CASE("read_interchange_netlist", "[vpr]") {
+     t_arch arch;
+-    t_vpr_setup vpr_setup;
++    t_vpr_setup vpr_setup = t_vpr_setup();
+ 
+     std::vector<t_physical_tile_type> physical_tile_types;
+     std::vector<t_logical_block_type> logical_block_types;
+diff --git a/vpr/test/test_setup_noc.cpp b/vpr/test/test_setup_noc.cpp
+index 4c6f0a394..bd5d7b4dd 100644
+--- a/vpr/test/test_setup_noc.cpp
++++ b/vpr/test/test_setup_noc.cpp
+@@ -706,7 +706,7 @@ TEST_CASE("test_setup_noc", "[vpr_setup_noc]") {
+     t_arch arch;
+ 
+     // create the logical router list
+-    t_noc_inf noc_info;
++    t_noc_inf noc_info = t_noc_inf();
+ 
+     // pointer to each logical router
+     t_router* temp_router = nullptr;
+diff --git a/vpr/test/test_vpr.cpp b/vpr/test/test_vpr.cpp
+index 4945c56c0..0d469c81d 100644
+--- a/vpr/test/test_vpr.cpp
++++ b/vpr/test/test_vpr.cpp
+@@ -120,9 +120,9 @@ TEST_CASE("read_rr_graph_metadata", "[vpr]") {
+     short switch_id = -1;
+ 
+     {
+-        t_vpr_setup vpr_setup;
+-        t_arch arch;
+-        t_options options;
++        t_vpr_setup vpr_setup = t_vpr_setup();
++        t_arch arch = t_arch();
++        t_options options = t_options();
+         const char* argv[] = {
+             "test_vpr",
+             kArchFile,
+@@ -179,9 +179,9 @@ TEST_CASE("read_rr_graph_metadata", "[vpr]") {
+     REQUIRE(sink_inode != -1);
+     REQUIRE(switch_id != -1);
+ 
+-    t_vpr_setup vpr_setup;
+-    t_arch arch;
+-    t_options options;
++    t_vpr_setup vpr_setup = t_vpr_setup();
++    t_arch arch = t_arch();
++    t_options options = t_options();
+     const char* argv[] = {
+         "test_vpr",
+         kArchFile,

@@ -256,6 +256,7 @@ stdenv.mkDerivation {
     ./no-wget.patch
     ./fix-ql-pinmap-install.patch # TODO upstream
     ./use-bins.patch # maybe upstream?
+    ./updated-vpr.patch
   ];
 
   nativeBuildInputs = [

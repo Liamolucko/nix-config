@@ -1,0 +1,12 @@
+diff --git a/vpr/src/noc/noc_storage.cpp b/vpr/src/noc/noc_storage.cpp
+index f3fe939ee..df6080d66 100644
+--- a/vpr/src/noc/noc_storage.cpp
++++ b/vpr/src/noc/noc_storage.cpp
+@@ -247,6 +247,7 @@ void NocStorage::clear_noc() {
+     link_storage.clear();
+     router_outgoing_links_list.clear();
+     router_incoming_links_list.clear();
++    router_id_conversion_table.clear();
+     grid_location_to_router_id.clear();
+ 
+     built_noc = false;
