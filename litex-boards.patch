@@ -12,9 +12,18 @@ index d466109..cbbf643 100644
      def create_programmer(self):
          return OpenOCD("openocd_xc7_ft2232.cfg", "bscan_spi_xc7a35t.bit")
 diff --git a/litex_boards/targets/digilent_basys3.py b/litex_boards/targets/digilent_basys3.py
-index ae5e1e7..a70d019 100755
+index ae5e1e7..9c5432b 100755
 --- a/litex_boards/targets/digilent_basys3.py
 +++ b/litex_boards/targets/digilent_basys3.py
+@@ -27,7 +27,7 @@ class _CRG(LiteXModule):
+         self.cd_sys = ClockDomain()
+         self.cd_vga = ClockDomain()
+ 
+-        self.pll = pll = S7MMCM(speedgrade=-1)
++        self.pll = pll = S7PLL(speedgrade=-1)
+         self.comb += pll.reset.eq(platform.request("user_btnc") | self.rst)
+ 
+         pll.register_clkin(platform.request("clk100"), 100e6)
 @@ -39,8 +39,8 @@ class _CRG(LiteXModule):
  # BaseSoC ------------------------------------------------------------------------------------------
  

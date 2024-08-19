@@ -10,6 +10,8 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-apple-silicon.url = "github:tpwrules/nixos-apple-silicon";
     nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs";
+    openxc7.url = "github:openXC7/toolchain-nix";
+    openxc7.inputs.nixpkgs.follows = "nixpkgs";
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
     nix-vscode-extensions.inputs.nixpkgs.follows = "nixpkgs";
     mini-compile-commands = {
@@ -26,6 +28,7 @@
       nix-darwin,
       home-manager,
       nixos-apple-silicon,
+      openxc7,
       nix-vscode-extensions,
       mini-compile-commands,
     }:
@@ -217,6 +220,7 @@
       system:
       let
         pkgs = nixpkgs.legacyPackages.${system}.extend self.overlays.default;
+        openxc7Pkgs = openxc7.packages.${system};
         mcc-env = (pkgs.callPackage mini-compile-commands { }).wrap pkgs.stdenv;
       in
       {
@@ -260,7 +264,7 @@
                 pkgs.python311
                 pkgs.python311.pkgs.f4pga
                 (pkgs.python311.pkgs.litex-boards.overridePythonAttrs (old: {
-                  patches = [ ./litex-boards-f4pga.patch ];
+                  patches = [ ./litex-boards.patch ];
                 }))
                 pkgs.python311.pkgs.pythondata-cpu-vexriscv
                 pkgs.python311.pkgs.pythondata-software-compiler-rt
@@ -270,6 +274,33 @@
             }
             ''
               python -m litex_boards.targets.digilent_basys3 --output-dir "$out" --toolchain f4pga --build
+            '';
+
+        checks.basys3-openxc7 =
+          pkgs.runCommand "basys3-openxc7"
+            {
+              nativeBuildInputs = [
+                pkgs.pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.cc
+                pkgs.pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.bintools
+                pkgs.meson
+                openxc7Pkgs.nextpnr-xilinx
+                pkgs.ninja
+                pkgs.prjxray-tools
+                pkgs.python311
+                (pkgs.python311.pkgs.litex-boards.overridePythonAttrs (old: {
+                  patches = [ ./litex-boards.patch ];
+                }))
+                pkgs.python311.pkgs.prjxray
+                pkgs.python311.pkgs.pythondata-cpu-vexriscv
+                pkgs.python311.pkgs.pythondata-software-compiler-rt
+                pkgs.python311.pkgs.pythondata-software-picolibc
+                pkgs.yosys
+              ];
+              env.CHIPDB = openxc7Pkgs.nextpnr-xilinx-chipdb.artix7;
+              env.PRJXRAY_DB_DIR = pkgs.prjxray-db;
+            }
+            ''
+              python -m litex_boards.targets.digilent_basys3 --output-dir "$out" --toolchain openxc7 --build
             '';
       }
     );

@@ -33,8 +33,10 @@ buildPythonPackage {
   # The tests rely on litex which I don't want to package just for this.
   doCheck = false;
 
-  # Remove broken fasm2frames
-  postFixup = ''
-    rm -rf $out/bin
+  # Replace the broken wrapper that tries to invoke fasm2frames via.
+  # `utils.fasm2frames`, which doesn't get installed, with the original
+  # fasm2frames script.
+  postInstall = ''
+    cp utils/fasm2frames.py $out/bin/fasm2frames
   '';
 }
