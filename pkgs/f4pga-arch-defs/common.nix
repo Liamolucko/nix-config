@@ -304,6 +304,7 @@ stdenv.mkDerivation {
   # fusesoc puts a cache in $HOME, so set it.
   preConfigure = ''
     export HOME=$PWD
+    export VPR_NUM_WORKERS=$NIX_BUILD_CORES
   '';
   cmakeFlags = [
     "-DPRJXRAY_DB_DIR=${prjxray-db}"

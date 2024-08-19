@@ -128,7 +128,9 @@ let
 
     postFixup =
       let
-        pythonPath = makePythonPath ([ (placeholder "out") ] ++ self.requiredPythonModules);
+        pythonPath = lib.makeSearchPath python.sitePackages (
+          [ (placeholder "out") ] ++ self.requiredPythonModules
+        );
       in
       ''
         # Based on https://github.com/NixOS/nixpkgs/blob/b4d7dd85b54def064726d1668917f2265023305d/pkgs/development/interpreters/python/wrapper.nix#L45.

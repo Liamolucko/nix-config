@@ -36,6 +36,7 @@ stdenv.mkDerivation {
     ./no-wget.patch
     ./yosys-fix-clang-build.patch
     # TODO upstream
+    ./allow-stubs.patch
     ./fix-backwards-ifdefs.patch
     ./fix-symlinks.patch
     ./ignore-non-synth.patch

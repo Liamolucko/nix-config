@@ -247,6 +247,30 @@
               export HOME="$PWD"
               python -m litex_boards.targets.digilent_basys3 --output-dir "$out" --build
             '';
+
+        # TODO: doesn't work on aarch64-linux (yosys fails).
+        checks.basys3-f4pga =
+          pkgs.runCommand "basys3-f4pga"
+            {
+              nativeBuildInputs = [
+                pkgs.pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.cc
+                pkgs.pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.bintools
+                pkgs.meson
+                pkgs.ninja
+                pkgs.python311
+                pkgs.python311.pkgs.f4pga
+                (pkgs.python311.pkgs.litex-boards.overridePythonAttrs (old: {
+                  patches = [ ./litex-boards-f4pga.patch ];
+                }))
+                pkgs.python311.pkgs.pythondata-cpu-vexriscv
+                pkgs.python311.pkgs.pythondata-software-compiler-rt
+                pkgs.python311.pkgs.pythondata-software-picolibc
+              ];
+              env.F4PGA_INSTALL_DIR = pkgs.pkgsLinux.f4pga-arch-defs.xc7a50t;
+            }
+            ''
+              python -m litex_boards.targets.digilent_basys3 --output-dir "$out" --toolchain f4pga --build
+            '';
       }
     );
 }
