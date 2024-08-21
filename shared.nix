@@ -34,10 +34,6 @@
     pkgs.wasm-bindgen-cli
     pkgs.wasm-pack
     pkgs.wasm-tools
-
-    # COMP2511
-    pkgs.gradle
-    pkgs.jdt-language-server
   ];
 
   home-manager.users.liam = import ./home-shared.nix;

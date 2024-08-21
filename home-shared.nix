@@ -1,7 +1,5 @@
 { lib, pkgs, ... }:
 {
-  programs.java.enable = true;
-
   home.sessionVariables = {
     EDITOR = "zed --wait";
   };
@@ -27,12 +25,10 @@
     terminal = {
       dock = "bottom";
       alternate_scroll = "on";
-      detect_venv = "off";
     };
     auto_install_extensions = {
       "fish" = true;
       "git-firefly" = true;
-      "java-eclipse-jdtls" = true;
       "make" = true;
       "nix" = true;
       "ruff" = true;
@@ -47,9 +43,6 @@
     languages = {
       "Git Commit" = {
         wrap_guides = [ 72 ];
-      };
-      "Java" = {
-        formatter = "language_server";
       };
       "Markdown" = {
         format_on_save = "on";
@@ -91,40 +84,6 @@
           formatterMode = "typstyle";
         };
       };
-    };
-  };
-
-  programs.vscode = {
-    enable = true;
-    package = pkgs.vscodium;
-    enableExtensionUpdateCheck = false;
-    enableUpdateCheck = false;
-    mutableExtensionsDir = false;
-    extensions = with pkgs.vscode-marketplace; [
-      mateocerquetella.xcode-12-theme
-      nathanridley.autotrim
-      pkief.material-icon-theme
-      redhat.java
-      vscjava.vscode-java-debug
-      vscjava.vscode-java-pack # does nothing but makes vscode shut up about recommended extensions
-      vscjava.vscode-java-test
-    ];
-    userSettings = {
-      "diffEditor.ignoreTrimWhitespace" = false;
-      "editor.bracketPairColorization.enabled" = false;
-      "editor.fontFamily" = "'Zed Mono', monospace";
-      "editor.fontSize" = 15;
-      "editor.formatOnSave" = true;
-      "editor.inlayHints.enabled" = "off";
-      "editor.minimap.enabled" = false;
-      "editor.smoothScrolling" = true;
-      "editor.suggest.showWords" = false;
-      "redhat.telemetry.enabled" = false;
-      "terminal.integrated.cursorStyle" = "underline";
-      "terminal.integrated.fontSize" = 15;
-      "workbench.colorTheme" = "Xcode Default (Dark Customized Version)";
-      "workbench.iconTheme" = "material-icon-theme";
-      "workbench.startupEditor" = "none";
     };
   };
 }
