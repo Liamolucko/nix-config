@@ -19,6 +19,7 @@
     pkgs.nodePackages.pnpm
     pkgs.openfpgaloader
     pkgs.pulldown-cmark
+    pkgs.prismlauncher
     pkgs.rclone
     pkgs.ruff
     pkgs.samply

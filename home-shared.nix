@@ -1,7 +1,7 @@
 { lib, pkgs, ... }:
 {
   home.sessionVariables = {
-    EDITOR = "zed --wait";
+    EDITOR = "${if pkgs.stdenv.isLinux then "zeditor" else "zed"} --wait";
   };
 
   xdg.configFile."zed/settings.json".text = builtins.toJSON {

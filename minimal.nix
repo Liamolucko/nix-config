@@ -14,6 +14,7 @@
     ];
 
   nix.gc.automatic = true;
+  nix.optimise.automatic = true;
   nix.settings.keep-outputs = true;
   nix.settings.diff-hook = pkgs.writeShellScript "diff-hook" ''
     exec >&2
@@ -40,6 +41,7 @@
 
   programs.fish.enable = true;
   users.users.liam.shell = pkgs.fish;
+  documentation.man.generateCaches = false;
 
   home-manager.users.liam = import ./home-minimal.nix;
 }
