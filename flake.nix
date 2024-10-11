@@ -56,6 +56,15 @@
         quicklogic-fasm = final.callPackage ./pkgs/quicklogic-fasm { };
         quicklogic-timings-importer = final.callPackage ./pkgs/quicklogic-timings-importer { };
         rsyntaxtree = final.callPackage ./pkgs/rsyntaxtree { };
+        surfer = prev.surfer.overrideAttrs (old: {
+          buildInputs =
+            old.buildInputs
+            ++ final.lib.optionals final.stdenv.isDarwin [ final.darwin.apple_sdk.frameworks.AppKit ];
+          dontAutoPatchelf = final.stdenv.isDarwin;
+          meta = old.meta // {
+            platforms = old.meta.platforms ++ final.lib.platforms.darwin;
+          };
+        });
         tinyfpgab = final.callPackage ./pkgs/tinyfpgab { };
         v2x = final.callPackage ./pkgs/v2x { };
         vivado = final.callPackage ./pkgs/vivado { };
@@ -81,6 +90,12 @@
           # Rebase of https://github.com/capnproto/capnproto/pull/1130.
           patches = [ ./capnproto-fix-large-writes.patch ];
         };
+        isabelle = prev.isabelle.overrideAttrs (old: {
+          nativeBuildInputs = old.nativeBuildInputs ++ [ final.procps ];
+          meta = old.meta // {
+            broken = false;
+          };
+        });
 
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
           (python-final: python-prev: {
@@ -159,14 +174,9 @@
       darwinConfigurations."Liams-Laptop" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
-          "${nixpkgs}/nixos/modules/misc/nixpkgs-flake.nix"
           {
             nixpkgs.overlays = overlays;
             home-manager.users.liam.nixpkgs.overlays = overlays;
-            nixpkgs.flake.source = nixpkgs.outPath;
-            # Seems like nix-darwin's default has higher precedence, so we have to do it
-            # manually.
-            nix.nixPath = [ "nixpkgs=flake:nixpkgs" ];
           }
           home-manager.darwinModules.home-manager
           ./mac.nix

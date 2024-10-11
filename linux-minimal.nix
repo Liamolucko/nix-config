@@ -24,4 +24,6 @@
     publish.enable = true;
     publish.addresses = true;
   };
+
+  documentation.man.generateCaches = false;
 }

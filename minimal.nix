@@ -41,7 +41,6 @@
 
   programs.fish.enable = true;
   users.users.liam.shell = pkgs.fish;
-  documentation.man.generateCaches = false;
 
   home-manager.users.liam = import ./home-minimal.nix;
 }

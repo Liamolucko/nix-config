@@ -32,7 +32,7 @@ llvmPackages_17.stdenv.mkDerivation (finalAttrs: {
       ./check-home.patch
       ./realpath.patch
     ]
-    ++ lib.optionals finalAttrs.doCheck [
+    ++ lib.optionals finalAttrs.finalPackage.doCheck [
       (replaceVars ./cross-includes.patch {
         # These versions of glibc are the versions used by `stdenv.cc`, meaning that
         # they're already in the binary cache as a result of Hydra building it.
