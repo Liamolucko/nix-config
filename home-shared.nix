@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 {
   home.sessionVariables = {
     EDITOR = "${if pkgs.stdenv.isLinux then "zeditor" else "zed"} --wait";
@@ -11,9 +11,6 @@
       dark = "Xcode High Contrast Dark";
     };
     buffer_font_size = 14;
-    # Needed for some of the symbols nix-output-monitor uses.
-    # (This doesn't actually work yet but should once nixpkgs gets Zed 0.147.2.)
-    buffer_font_fallbacks = [ "Noto Sans Symbols 2" ];
     auto_update = pkgs.stdenv.isDarwin;
     features = {
       inline_completion_provider = "none";
@@ -29,6 +26,7 @@
     auto_install_extensions = {
       "fish" = true;
       "git-firefly" = true;
+      "kotlin" = true;
       "make" = true;
       "nix" = true;
       "ruff" = true;
@@ -71,9 +69,8 @@
         tab_size = 2;
       };
     };
-    "lsp" = {
+    lsp = {
       "rust-analyzer" = {
-        binary.path = lib.getExe pkgs.rust-analyzer;
         initialization_options = {
           checkOnSave.command = "clippy";
           imports.granularity.group = "module";

@@ -59,6 +59,8 @@ in
     vivado
     pkgs.zed-editor
   ];
+  # Install Vivado's udev rules.
+  services.udev.packages = [ vivado ];
 
   system.stateVersion = "24.05";
 }

@@ -5,9 +5,9 @@
     ./linux-minimal.nix
   ];
 
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  services.xserver.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
   services.printing.enable = true;
 
@@ -22,10 +22,17 @@
 
   environment.systemPackages = [
     pkgs.firefox
+    pkgs.gnome-tweaks
+    pkgs.gnomeExtensions.caffeine
+    pkgs.gpaste
     pkgs.kdePackages.kclock
     pkgs.libreoffice
     pkgs.rhythmbox
     pkgs.usbutils
+    (pkgs.runCommand "open" { } ''
+      mkdir -p $out/bin
+      ln -s ${pkgs.xdg-utils}/bin/xdg-open $out/bin/open
+    '')
   ];
 
   programs.steam.enable = lib.mkDefault true;

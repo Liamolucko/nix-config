@@ -12,6 +12,7 @@
     # (pkgs.f4pga.override { installDir = pkgs.f4pga-arch-defs.xc7a50t; })
     pkgs.kitty
     pkgs.isabelle
+    pkgs.jre_headless # for kotlin-language-server
     pkgs.nixd
     pkgs.nixfmt-rfc-style
     pkgs.nodejs
@@ -21,6 +22,7 @@
     pkgs.prismlauncher
     pkgs.rclone
     pkgs.ruff
+    (pkgs.lib.meta.hiPrio pkgs.rust-analyzer)
     pkgs.samply
     pkgs.surfer
     pkgs.tinymist

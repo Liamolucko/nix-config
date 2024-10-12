@@ -151,6 +151,11 @@ let
       makeWrapper $out/opt/Xilinx/Vitis_HLS/${meta.version}/bin/vitis_hls $out/bin/vitis_hls
       makeWrapper $out/opt/Xilinx/Vitis_HLS/${meta.version}/bin/apcc $out/bin/apcc
 
+      mkdir -p $out/etc/udev/rules.d
+      find \
+        $out/opt/Xilinx/Vivado/${meta.version}/data/xicom/cable_drivers/lin64/install_script/install_drivers \
+        -name '*.rules' -exec cp '{}' $out/etc/udev/rules.d ';'
+
       # Replace all the desktop entries' references to the previous derivation with
       # the new one, so that when Vivado's run through them it can see the new modules
       # that have been installed.

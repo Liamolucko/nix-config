@@ -56,15 +56,16 @@
         quicklogic-fasm = final.callPackage ./pkgs/quicklogic-fasm { };
         quicklogic-timings-importer = final.callPackage ./pkgs/quicklogic-timings-importer { };
         rsyntaxtree = final.callPackage ./pkgs/rsyntaxtree { };
-        surfer = prev.surfer.overrideAttrs (old: {
-          buildInputs =
-            old.buildInputs
-            ++ final.lib.optionals final.stdenv.isDarwin [ final.darwin.apple_sdk.frameworks.AppKit ];
-          dontAutoPatchelf = final.stdenv.isDarwin;
-          meta = old.meta // {
-            platforms = old.meta.platforms ++ final.lib.platforms.darwin;
-          };
-        });
+        surfer = prev.surfer.overrideAttrs (
+          old:
+          final.lib.optionalAttrs final.stdenv.isDarwin {
+            buildInputs = old.buildInputs ++ [ final.darwin.apple_sdk.frameworks.AppKit ];
+            dontAutoPatchelf = true;
+            meta = old.meta // {
+              platforms = old.meta.platforms ++ final.lib.platforms.darwin;
+            };
+          }
+        );
         tinyfpgab = final.callPackage ./pkgs/tinyfpgab { };
         v2x = final.callPackage ./pkgs/v2x { };
         vivado = final.callPackage ./pkgs/vivado { };
@@ -91,7 +92,9 @@
           patches = [ ./capnproto-fix-large-writes.patch ];
         };
         isabelle = prev.isabelle.overrideAttrs (old: {
-          nativeBuildInputs = old.nativeBuildInputs ++ [ final.procps ];
+          nativeBuildInputs =
+            old.nativeBuildInputs
+            ++ final.lib.optionals final.stdenv.isDarwin [ final.procps ];
           meta = old.meta // {
             broken = false;
           };
