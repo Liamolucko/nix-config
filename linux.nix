@@ -24,7 +24,6 @@
     pkgs.firefox
     pkgs.gnome-tweaks
     pkgs.gnomeExtensions.caffeine
-    pkgs.gpaste
     pkgs.kdePackages.kclock
     pkgs.libreoffice
     pkgs.rhythmbox
@@ -34,6 +33,8 @@
       ln -s ${pkgs.xdg-utils}/bin/xdg-open $out/bin/open
     '')
   ];
+
+  programs.gpaste.enable = true;
 
   programs.steam.enable = lib.mkDefault true;
   programs._1password-gui.enable = true;
