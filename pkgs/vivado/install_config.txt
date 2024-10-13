@@ -1,7 +1,7 @@
 #### Vivado ML Standard Install Configuration ####
-Edition=Vivado ML Standard
+Edition=@edition@
 
-Product=Vivado
+Product=@product@
 
 # Path where AMD FPGAs & Adaptive SoCs software will be installed.
 Destination=@out@

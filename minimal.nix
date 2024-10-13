@@ -9,13 +9,13 @@
       "steam-original"
       "steam-run"
       "vivado"
-      "vivado-base"
       "xinstall"
     ];
 
   nix.gc.automatic = true;
   nix.optimise.automatic = true;
   nix.settings.keep-outputs = true;
+  nix.settings.auto-optimise-store = true;
   nix.settings.diff-hook = pkgs.writeShellScript "diff-hook" ''
     exec >&2
     echo "For derivation $3:"

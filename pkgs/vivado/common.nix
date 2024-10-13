@@ -1,20 +1,18 @@
-# TODO:
-# - Remove 'Add Design Tools or Devices' desktop entry, it's broken due to removing .xinstall (and would have crashed anyway when trying to modify the Nix store).
+# A general derivation for installing something using `xinstall`.
 args@{
   lib,
+  stdenv,
   requireFile,
   runCommand,
   glibc,
   temurin-jre-bin-21,
   xinstall,
   meta,
-  pname ? "vivado",
   modules ? [ ],
   archives ? [ ],
   debug ? false,
-  nativeBuildInputs ? [ ],
-  preBuild ? "",
-  postBuild ? "",
+  postFixup ? "",
+  passthru ? { },
   ...
 }:
 let
@@ -75,100 +73,98 @@ let
 
   timestampStrip = ''s/_[0-9]*\.\(desktop\|directory\)/\.\1/'';
 in
-# Use runCommand instead of mkDerivation because the default hooks are not
-# designed to handle this volume of data, and run extremely slowly; plus most of
-# them aren't useful to us.
-#
-# TODO: would it be better to instead just use mkDerivation with `dontFixup = true`?
-runCommand "${pname}-${meta.version}"
-  (
-    {
-      inherit pname;
-      inherit (meta) version;
+stdenv.mkDerivation (
+  {
+    inherit (meta) pname version meta;
+    # Copying this into the build directory provides the flexibility to alter the
+    # `instRecord.dat` in archive tests, and also theoretically to set `xinstall` to
+    # a tarball so that we don't need to store both the tarball and its contents in
+    # the Nix store (e.g. if installing Petalinux or Vivado updates).
+    src = xinstall;
 
-      # glibc is there for getconf.
-      nativeBuildInputs = [ glibc ] ++ nativeBuildInputs;
+    # We manually run the patchPhase after installation.
+    dontPatch = true;
 
-      passthru = {
-        inherit mkPayload xinstall;
-      };
+    installPhase = ''
+      runHook preInstall
 
-      meta = {
-        description = "Design software for AMD adaptive SoCs and FPGAs";
-        homepage = "https://www.xilinx.com/products/design-tools/vivado.html";
-        license = lib.licenses.unfree;
-        platforms = [ "x86_64-linux" ];
-      };
-    }
-    // (lib.removeAttrs args [
-      "lib"
-      "requireFile"
-      "runCommand"
-      "glibc"
-      "temurin-jre-bin-21"
-      "xinstall"
-      "meta"
-      "pname"
-      "modules"
-      "archives"
-      "debug"
-      "nativeBuildInputs"
-      "preBuild"
-      "postBuild"
-    ])
-  )
-  ''
-    cp -r ${xinstall}/* .
+      cp ${./install_config.txt} install_config.txt
+      substituteInPlace install_config.txt \
+        --subst-var-by edition '${meta.edition}' \
+        --subst-var-by product '${meta.product}' \
+        --subst-var-by out $out/opt/Xilinx \
+        --subst-var-by modules '${modulesCfg}'
 
-    ${preBuild}
+      PAYLOAD_LOCATION_FROM_USER=${payload} ./xsetup -a XilinxEULA,3rdPartyEULA -b Install -c install_config.txt ${debugFlag}
 
-    cp ${./install_config.txt} install_config.txt
-    substituteInPlace install_config.txt \
-      --subst-var-by out $out/opt/Xilinx \
-      --subst-var-by modules '${modulesCfg}'
+      # For some reason Vivado puts its desktop entries and such into /build; copy
+      # them into the right spot.
+      if [ -e ../.local/share ]; then
+        mkdir -p $out/share
+        cp -r ../.local/share/* $out/share
+      fi
+      if [ -e ../.config ]; then
+        mkdir -p $out/etc/xdg
+        cp -r ../.config/* $out/etc/xdg
+      fi
 
-    PAYLOAD_LOCATION_FROM_USER=${payload} ./xsetup -a XilinxEULA,3rdPartyEULA -b Install -c install_config.txt ${debugFlag}
+      runHook postInstall
+    '';
 
-    # Switch out the vendored JRE for our version, since for some reason Vivado's
-    # version relies on /usr/share/fontconfig existing.
-    for jre in $(find "$out/opt/Xilinx" -name 'jre*'); do
-      rm -rf "$jre"
-      ln -s ${temurin-jre-bin-21} "$jre"
-    done
+    postFixup = ''
+      # Switch out the vendored JRE for our version, since for some reason Vivado's
+      # version relies on /usr/share/fontconfig existing.
+      for jre in $(find "$out/opt/Xilinx" -name 'jre*'); do
+        rm -rf "$jre"
+        ln -s ${temurin-jre-bin-21} "$jre"
+      done
 
-    # For some reason Vivado puts its desktop entries and such into /build; copy
-    # them into the right spot.
-    if [ -e .local/share ]; then
-      mkdir -p $out/share
-      cp -r .local/share/* $out/share
-    fi
-    if [ -e .config ]; then
-      mkdir -p $out/etc/xdg
-      cp -r .config/* $out/etc/xdg
-    fi
+      cd $out/opt/Xilinx
+      patchPhase
 
-    cd $out/opt/Xilinx
-    patchPhase
+      local exe
+      while IFS= read -r -d "" exe; do
+        isELF "$exe" || continue
+        echo "patching $exe"
+        patchelf --set-interpreter ${glibc}/lib/ld-linux-x86-64.so.2 "$exe" || true
+      done < <(find "$out" -executable -type f -print0)
 
-    local exe
-    while IFS= read -r -d "" exe; do
-      isELF "$exe" || continue
-      echo "patching $exe"
-      patchelf --set-interpreter ${glibc}/lib/ld-linux-x86-64.so.2 "$exe" || true
-    done < <(find "$out" -executable -type f -print0)
+      patchShebangs --host $out
 
-    patchShebangs --host $out
+      if [ -e $out/share ]; then
+        # Get rid of desktop entries for modifying the installation, since they can't
+        # modify the Nix store anyway.
+        find $out/share/applications '(' -name "Uninstall*" -o -name "Add Design Tools or Devices*" ')' -delete
+        sed -zi \
+          's@ *<Include>\n *<Filename>\(Add Design Tools or Devices\|Uninstall\)[^<]*\.desktop</Filename>\n *</Include>\n@@g' \
+          "$out/etc/xdg/menus/applications-merged/Xilinx Design Tools.menu"
 
-    # Strip the timestamps off of Vivado's desktop entries to make it reproducible.
-    find $out/share -type f \
-      -exec bash -c 'mv "$0" "$(echo -n "$0" | sed "${timestampStrip}")"' '{}' ';'
-    find $out/etc/xdg -type f \
-      -exec sed -i "${timestampStrip}" '{}' ';'
+        # Strip the timestamps off of Vivado's desktop entries to make it reproducible.
+        find $out/share -type f \
+          -exec bash -c 'mv "$0" "$(echo -n "$0" | sed "${timestampStrip}")"' '{}' ';'
+        find $out/etc/xdg -type f \
+          -exec sed -i "${timestampStrip}" '{}' ';'
+      fi
 
-    # The order these <shortcut> entries show up in is non-deterministic, and they
-    # aren't needed anyway, so delete them.
-    find $out/opt/Xilinx/.xinstall -type f -name instRecord.dat \
-      -exec bash -c 'tmpfile="$(mktemp)"; cp "$0" "$tmpfile" && grep -v "<shortcut>" "$tmpfile" > "$0"' '{}' ';'
+      ${postFixup}
+    '';
 
-    ${postBuild}
-  ''
+    passthru = {
+      inherit mkPayload xinstall;
+    } // passthru;
+  }
+  // (lib.removeAttrs args [
+    "lib"
+    "stdenv"
+    "requireFile"
+    "runCommand"
+    "glibc"
+    "temurin-jre-bin-21"
+    "xinstall"
+    "meta"
+    "modules"
+    "archives"
+    "debug"
+    "postFixup"
+  ])
+)
