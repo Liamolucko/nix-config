@@ -1,6 +1,5 @@
 {
   lib,
-  pkgs,
   callPackage,
   buildFHSEnv,
   libxcrypt-legacy,
@@ -9,8 +8,24 @@
   xorg,
   zlib,
   meta ? callPackage ./meta.nix { },
-  # TODO: replace this with the installer's default config.
-  modules ? [ ],
+  modules ? [
+    # Default to the same modules as the installer so that
+    # `nix build nixpkgs#vivado` actually does something useful.
+    "Vitis Model Composer(Toolbox for MATLAB and Simulink. Includes the functionality of System Generator for DSP)"
+    "DocNav"
+    "Install Devices for Kria SOMs and Starter Kits"
+    "Zynq-7000"
+    "Zynq UltraScale+ MPSoC"
+    "Spartan-7"
+    "Artix-7"
+    "Kintex-7"
+    "Kintex UltraScale"
+    "Artix UltraScale+"
+    "Kintex UltraScale+"
+    "Virtex UltraScale+"
+    "Virtex UltraScale+ 58G"
+    "Virtex UltraScale+ HBM"
+  ],
   extraPaths ? [ ],
 }:
 let
@@ -101,14 +116,12 @@ callPackage ./common.nix (
           # including a downloadRecord.dat bypasses this: it seems to base the check on
           # your downloaded modules instead of what you've actually selected.
           modules = [ ];
-          archives = import ./test-archives.nix;
+          inherit (import ./test-data.nix) archives;
           debug = true;
           # We don't care about the output actually being usable, so no need for any
           # patching.
           preInstall = ''
-            # Replace this with the path where you 'Download and Install Later'ed your
-            # archives.
-            cp ${/home/liam/Downloads/2024.1/data/downloadRecord.dat} data/downloadRecord.dat
+            cp ${(import ./test-data.nix).downloadRecord} data/downloadRecord.dat
           '';
         };
       in
@@ -118,10 +131,10 @@ callPackage ./common.nix (
       // lib.mapAttrs (
         name: value:
         callPackage ./common.nix {
-          pname = "vivado-test-${name}";
+          pname = "vivado-test-${lib.replaceStrings [ "+" ] [ "Plus" ] name}";
           inherit meta;
           modules = [ name ];
-          archives = import ./test-archives.nix;
+          inherit (import ./test-data.nix) archives;
           debug = true;
           xinstall = "${base}/opt/Xilinx/.xinstall/Vivado_${meta.version}";
           preInstall = ''
