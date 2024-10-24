@@ -1,18 +1,14 @@
-diff --git a/bin/setup-boot-loader.sh b/bin/setup-boot-loader.sh
-index fac1ad4..1728fdb 100755
 --- a/bin/setup-boot-loader.sh
 +++ b/bin/setup-boot-loader.sh
 @@ -24,7 +24,7 @@ TMP_LD_LIBRARY_PATH=/tmp/TMP_LD_LIB_PATH${NOW}
  mkdir -p ${TMP_LD_LIBRARY_PATH}  
  
  PLAT_LIB=${root}/lib/lnx64.o
--X_JAVA_HOME=${root}/tps/lnx64/jre21.0.1_12
+-X_JAVA_HOME=${root}/tps/lnx64/jre@jreVer@
 +X_JAVA_HOME=@javaHome@
  ARGS=${ARGS}\ -DLOAD_64_NATIVE=true
  LDLIBPATH_SCRIPT="${root}/bin/ldlibpath.sh"
  if [ -x "$LDLIBPATH_SCRIPT" ]; then
-diff --git a/xsetup b/xsetup
-index 4468856..3b8e6b2 100755
 --- a/xsetup
 +++ b/xsetup
 @@ -27,18 +27,6 @@ else

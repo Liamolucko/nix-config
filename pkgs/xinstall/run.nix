@@ -7,11 +7,19 @@ args@{
   glibc,
   temurin-jre-bin-21,
   xinstall,
+  xorg,
   meta,
+  pname,
+  edition,
+  product,
+  # The modules which can be included in this edition/product.
+  validModules ? [ ],
   modules ? [ ],
-  archives ? [ ],
+  extraPaths ? [ ],
+  archives ? lib.sort lib.lessThan (
+    lib.unique (lib.concatMap (mod: meta.modules.${mod}.archives) modules)
+  ),
   debug ? false,
-  postFixup ? "",
   passthru ? { },
   ...
 }:
@@ -41,46 +49,45 @@ let
       hash = meta.hashes.${basename};
     };
 
-  mkPayload =
-    archives:
-    let
-      archiveCmds = lib.concatStringsSep "\n" (
-        lib.map (
-          archiveName:
-          let
-            archive = requireArchive archiveName;
-          in
-          if lib.elem archiveName archives then
-            "ln -s '${archive}' $out/'${archive.name}'"
-          else
-            "touch $out/'${archive.name}'"
-        ) (lib.attrNames meta.hashes)
-      );
-    in
-    runCommand "payload" { } ''
-      mkdir -p $out
-      ${archiveCmds}
-    '';
-
-  payload = mkPayload archives;
+  archiveCmds = lib.concatStringsSep "\n" (
+    lib.map (
+      archiveName:
+      let
+        archive = requireArchive archiveName;
+      in
+      if lib.elem archiveName archives then
+        "ln -s '${archive}' $out/'${archive.name}'"
+      else
+        "touch $out/'${archive.name}'"
+    ) (lib.attrNames meta.hashes)
+  );
+  payload = runCommand "payload" { } ''
+    mkdir -p $out
+    ${archiveCmds}
+  '';
 
   modulesCfg = lib.concatStringsSep "," (
-    lib.map (module: "${module}:${if lib.elem module modules then "1" else "0"}") (
-      lib.attrNames (lib.filterAttrs (name: value: !(value.internal or false)) meta.modules)
-    )
+    lib.map (module: "${module}:${if lib.elem module modules then "1" else "0"}") validModules
   );
   debugFlag = lib.optionalString debug "-x";
 
+  linkExtraPaths = lib.concatStringsSep "\n" (
+    lib.map (path: "${lib.getExe xorg.lndir} ${path} $out/opt/Xilinx") extraPaths
+  );
   timestampStrip = ''s/_[0-9]*\.\(desktop\|directory\)/\.\1/'';
 in
 stdenv.mkDerivation (
   {
-    inherit (meta) pname version meta;
+    inherit pname;
+    inherit (meta) version;
     # Copying this into the build directory provides the flexibility to alter the
     # `instRecord.dat` in archive tests, and also theoretically to set `xinstall` to
     # a tarball so that we don't need to store both the tarball and its contents in
     # the Nix store (e.g. if installing Petalinux or Vivado updates).
     src = xinstall;
+
+    nativeBuildInputs = lib.concatMap (mod: meta.modules.${mod}.nativeBuildInputs or [ ]) modules;
+    buildInputs = lib.concatMap (mod: meta.modules.${mod}.buildInputs or [ ]) modules;
 
     # We manually run the patchPhase after installation.
     dontPatch = true;
@@ -90,8 +97,8 @@ stdenv.mkDerivation (
 
       cp ${./install_config.txt} install_config.txt
       substituteInPlace install_config.txt \
-        --subst-var-by edition '${meta.edition}' \
-        --subst-var-by product '${meta.product}' \
+        --subst-var-by edition '${edition}' \
+        --subst-var-by product '${product}' \
         --subst-var-by out $out/opt/Xilinx \
         --subst-var-by modules '${modulesCfg}'
 
@@ -107,6 +114,10 @@ stdenv.mkDerivation (
         mkdir -p $out/etc/xdg
         cp -r ../.config/* $out/etc/xdg
       fi
+
+      ${linkExtraPaths}
+
+      ${lib.concatMapStrings (mod: meta.modules.${mod}.postInstall or "") modules}
 
       runHook postInstall
     '';
@@ -146,14 +157,33 @@ stdenv.mkDerivation (
           -exec sed -i "${timestampStrip}" '{}' ';'
       fi
 
-      ${postFixup}
+      ${lib.concatMapStrings (mod: meta.modules.${mod}.postFixup or "") modules}
     '';
 
     passthru = {
-      inherit mkPayload xinstall;
+      inherit payload;
     } // passthru;
+
+    meta = {
+      description = "Design software for AMD adaptive SoCs and FPGAs";
+      homepage = "https://www.amd.com/en/products/software/adaptive-socs-and-fpgas/vivado.html";
+      license = lib.licenses.unfree;
+      platforms = [ "x86_64-linux" ];
+    };
   }
-  // (lib.removeAttrs args [
+  // lib.foldl lib.mergeAttrs { } (
+    lib.map (
+      mod:
+      lib.removeAttrs meta.modules.${mod} [
+        "nativeBuildInputs"
+        "buildInputs"
+        "postInstall"
+        "postFixup"
+        "archives"
+      ]
+    ) modules
+  )
+  // lib.removeAttrs args [
     "lib"
     "stdenv"
     "requireFile"
@@ -161,10 +191,16 @@ stdenv.mkDerivation (
     "glibc"
     "temurin-jre-bin-21"
     "xinstall"
+    "xorg"
     "meta"
+    "pname"
+    "edition"
+    "product"
+    "validModules"
     "modules"
+    "extraPaths"
     "archives"
     "debug"
-    "postFixup"
-  ])
+    "passthru"
+  ]
 )
