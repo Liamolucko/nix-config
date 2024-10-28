@@ -1,5 +1,4 @@
 {
-  lib,
   xinstall,
   modules ? [
     # Default to the same modules as the installer so that
@@ -21,7 +20,8 @@
   ],
   extraPaths ? [ ],
 }:
-let
+xinstall.run {
+  pname = "vivado";
   edition = "Vivado ML Standard";
   product = "Vivado";
   validModules = [
@@ -43,65 +43,11 @@ let
     "Virtex UltraScale+ 58G"
     "Virtex UltraScale+ HBM"
   ];
-in
-xinstall.run {
-  pname = "vivado";
-  inherit
-    edition
-    product
-    validModules
-    extraPaths
-    ;
+
   modules = [ "Vivado" ] ++ modules;
+  inherit extraPaths;
 
   postInstall = ''
     rm -rf $out/opt/Xilinx/.xinstall
   '';
-
-  passthru.archiveTests =
-    let
-      base = xinstall.run {
-        pname = "vivado-test-base";
-        inherit
-          edition
-          product
-          validModules
-          ;
-        # Vivado tries to stop you from installing it without any devices installed, but
-        # including a downloadRecord.dat bypasses this: it seems to base the check on
-        # your downloaded modules instead of what you've actually selected.
-        #
-        # We don't need to specify the "Vivado" module: that just tells `xinstall.run`
-        # to use its archives and apply its patching, neither of which we care about
-        # here.
-        modules = [ ];
-        inherit (import ./test-data.nix) archives;
-        debug = true;
-        preInstall = ''
-          cp ${(import ./test-data.nix).downloadRecord} data/downloadRecord.dat
-        '';
-      };
-    in
-    {
-      inherit base;
-    }
-    // lib.mapAttrs (
-      name: value:
-      xinstall.run {
-        pname = "vivado-test-${lib.replaceStrings [ "+" ] [ "Plus" ] name}";
-        inherit
-          edition
-          product
-          validModules
-          ;
-        modules = [ name ];
-        inherit (import ./test-data.nix) archives;
-        debug = true;
-        xinstall = "${base}/opt/Xilinx/.xinstall/Vivado_${xinstall.version}";
-        preInstall = ''
-          substituteInPlace data/instRecord.dat \
-            --replace-fail ${base}/opt/Xilinx $out/opt/Xilinx
-        '';
-      }
-    ) xinstall.meta.modules;
 }

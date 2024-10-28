@@ -37,7 +37,6 @@ stdenv.mkDerivation (finalAttrs: {
   '';
 
   passthru = {
-    inherit meta;
     run =
       args:
       callPackage ./run.nix (

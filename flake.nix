@@ -101,13 +101,6 @@
           };
         });
 
-        test = final.vivado.override {
-          modules = [
-            "Artix-7"
-            "DocNav"
-          ];
-        };
-
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
           (python-final: python-prev: {
             # We want the application version of xc-fasm, not the package version.

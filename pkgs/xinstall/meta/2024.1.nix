@@ -1228,8 +1228,8 @@ rec {
   #   `bash archive-list.sh .#vivado.archiveTests.${name}` to figure out what
   #   archives they consist of; then paste that output into the module's
   #   `archives` field.
-  #   - To update `baseArchives`, use `vivado.archiveTests.base`.
-  # - And you're done! Test it out, and maybe add some `patches` (TODO) or a
+  #   - To update the "Vivado" module, use `vivado.archiveTests.base`.
+  # - And you're done! Test it out, and maybe add some `patches` or a
   #   `postInstall`/`postFixup` if something isn't working.
   modules = {
     # This isn't a real module, but treating it like one makes it easier to leave

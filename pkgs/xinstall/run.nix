@@ -20,7 +20,6 @@ args@{
     lib.unique (lib.concatMap (mod: meta.modules.${mod}.archives) modules)
   ),
   debug ? false,
-  passthru ? { },
   ...
 }:
 let
@@ -85,6 +84,8 @@ stdenv.mkDerivation (
     # a tarball so that we don't need to store both the tarball and its contents in
     # the Nix store (e.g. if installing Petalinux or Vivado updates).
     src = xinstall;
+
+    patches = lib.concatMap (mod: meta.modules.${mod}.patches or [ ]) modules;
 
     nativeBuildInputs = lib.concatMap (mod: meta.modules.${mod}.nativeBuildInputs or [ ]) modules;
     buildInputs = lib.concatMap (mod: meta.modules.${mod}.buildInputs or [ ]) modules;
@@ -162,7 +163,47 @@ stdenv.mkDerivation (
 
     passthru = {
       inherit payload;
-    } // passthru;
+      archiveTests =
+        let
+          base = xinstall.run {
+            pname = "${pname}-test-base";
+            inherit edition product validModules;
+            # Vivado tries to stop you from installing it without any devices installed, but
+            # including a downloadRecord.dat bypasses this: it seems to base the check on
+            # your downloaded modules instead of what you've actually selected.
+            #
+            # We don't need to specify any base modules like "Vivado": all they do is tell
+            # `xinstall.run` to use their archives and apply their patching, neither of
+            # which we care about here.
+            modules = [ ];
+            inherit (import ./test-data.nix) archives;
+            debug = true;
+            preInstall = ''
+              cp ${(import ./test-data.nix).downloadRecord} data/downloadRecord.dat
+            '';
+          };
+        in
+        {
+          inherit base;
+        }
+        // lib.listToAttrs (
+          lib.map (mod: {
+            name = mod;
+            value = xinstall.run {
+              pname = "${pname}-test-${lib.replaceStrings [ "+" ] [ "Plus" ] mod}";
+              inherit edition product validModules;
+              modules = [ mod ];
+              inherit (import ./test-data.nix) archives;
+              debug = true;
+              xinstall = "${base}/opt/Xilinx/.xinstall/Vivado_${meta.version}";
+              preInstall = ''
+                substituteInPlace data/instRecord.dat \
+                  --replace-fail ${base}/opt/Xilinx $out/opt/Xilinx
+              '';
+            };
+          }) validModules
+        );
+    };
 
     meta = {
       description = "Design software for AMD adaptive SoCs and FPGAs";
@@ -175,6 +216,7 @@ stdenv.mkDerivation (
     lib.map (
       mod:
       lib.removeAttrs meta.modules.${mod} [
+        "patches"
         "nativeBuildInputs"
         "buildInputs"
         "postInstall"
