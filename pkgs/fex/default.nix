@@ -29,7 +29,15 @@ llvmPackages_17.stdenv.mkDerivation (finalAttrs: {
 
   patches =
     [
+      # These aren't strictly needed.
+      #
+      # This is a workaround to get FEX working within Nix's build sandbox: FEX's
+      # tests will break without it, but you can fix that with `export HOME=$PWD`.
+      #
+      # TODO: upstream this one.
       ./check-home.patch
+      # This is a workaround to get FEX working with NixOS's slightly weird binfmt
+      # infrastructure.
       ./realpath.patch
     ]
     ++ lib.optionals finalAttrs.finalPackage.doCheck [
@@ -57,7 +65,7 @@ llvmPackages_17.stdenv.mkDerivation (finalAttrs: {
 
   cmakeFlags = [
     "-DUSE_LINKER=lld"
-    "-DBUILD_TESTS=${if finalAttrs.doCheck then "True" else "False"}"
+    (lib.cmakeBool "BUILD_TESTS" finalAttrs.finalPackage.doCheck)
   ];
 
   doCheck = true;
