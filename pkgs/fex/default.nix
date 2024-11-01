@@ -1,29 +1,25 @@
 {
   lib,
   pkgsCross,
-  llvmPackages_17,
+  llvmPackages,
   replaceVars,
   fetchFromGitHub,
   cmake,
   gitMinimal,
-  libepoxy,
   nasm,
   ninja,
   pkg-config,
   python3,
-  SDL2,
+  qt5,
 }:
-let
-  libclang = python3.pkgs.libclang.override { llvmPackages = llvmPackages_17; };
-in
-llvmPackages_17.stdenv.mkDerivation (finalAttrs: {
+llvmPackages.stdenv.mkDerivation (finalAttrs: {
   pname = "fex";
-  version = "2408";
+  version = "2410";
   src = fetchFromGitHub {
     owner = "FEX-Emu";
     repo = "FEX";
     rev = "FEX-${finalAttrs.version}";
-    hash = "sha256-6V9LDZm1dxm301JBjfk7+9J+QbkvMLMRZW9Tzip4LwM=";
+    hash = "sha256-btzb7OGa3M89wDn8AK/iocT3GLY1mB3cZ0iuWAyNIFc=";
     fetchSubmodules = true;
   };
 
@@ -52,15 +48,19 @@ llvmPackages_17.stdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     cmake
     gitMinimal
-    llvmPackages_17.bintools # for lld
+    llvmPackages.bintools # for lld
     ninja
     pkg-config
     python3
     python3.pkgs.setuptools
+    qt5.wrapQtAppsHook
   ];
+
   buildInputs = [
-    libepoxy
-    SDL2
+    qt5.qtbase
+    qt5.qtdeclarative
+    qt5.qtquickcontrols
+    qt5.qtquickcontrols2
   ];
 
   cmakeFlags = [
@@ -71,18 +71,24 @@ llvmPackages_17.stdenv.mkDerivation (finalAttrs: {
   doCheck = true;
   nativeCheckInputs = [
     nasm
-    libclang
+    python3.pkgs.libclang
   ];
   preCheck = ''
-    patchelf \
-      --set-interpreter ${pkgsCross.gnu64.stdenv.cc.libc}/lib/ld-linux-x86-64.so.2 \
-      $(find ../External/{fex-posixtest-bins/conformance,fex-gvisor-tests-bins,fex-gcc-target-tests-bins/64} -type f -executable)
-    patchelf \
-      --add-rpath ${pkgsCross.gnu64.gcc.cc.lib}/lib \
-      $(find ../External/fex-gvisor-tests-bins -type f -executable)
-    patchelf \
-      --set-interpreter ${pkgsCross.gnu32.stdenv.cc.libc}/lib/ld-linux.so.2 \
-      $(find ../External/fex-gcc-target-tests-bins/32 -type f -executable)
+    find \
+      ../External/fex-posixtest-bins/conformance \
+      ../External/fex-gvisor-tests-bins \
+      ../External/fex-gcc-target-tests-bins/64 \
+      -type f -executable \
+      -exec patchelf \
+        --set-interpreter ${pkgsCross.gnu64.stdenv.cc.libc}/lib/ld-linux-x86-64.so.2 \
+        '{}' '+'
+    find ../External/fex-gcc-target-tests-bins/32 -type f -executable \
+      -exec patchelf \
+        --set-interpreter ${pkgsCross.gnu32.stdenv.cc.libc}/lib/ld-linux.so.2 \
+        '{}' '+'
+
+    find ../External/fex-gvisor-tests-bins -type f -executable \
+      -exec patchelf --add-rpath ${pkgsCross.gnu64.gcc.cc.lib}/lib '{}' '+'
 
     # These all seem to fail due to the build sandbox.
     echo -n '
@@ -103,6 +109,13 @@ llvmPackages_17.stdenv.mkDerivation (finalAttrs: {
     # For some reason this test fails in darwin.linux-builder, and passes in a UTM
     # VM; paper over the difference by disabling it.
     echo 'write_test' >> ../unittests/gvisor-tests/Disabled_Tests
+  '';
+
+  # Avoid wrapping anything other than FEXConfig, since the wrapped executables
+  # don't seem to work when registered as binfmts.
+  dontWrapQtApps = true;
+  preFixup = ''
+    wrapQtApp $out/bin/FEXConfig
   '';
 
   meta = {

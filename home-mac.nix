@@ -19,9 +19,6 @@
 
   # TODO: add a launchd agent for rclone nfsmount
 
-  programs.fish.shellInit = ''
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  '';
   # https://github.com/LnL7/nix-darwin/issues/122#issuecomment-1659465635
   programs.fish.loginShellInit = ''
     fish_add_path --move --prepend --path ${

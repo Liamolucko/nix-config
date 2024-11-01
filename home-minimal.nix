@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ ... }:
 {
   home.sessionVariables = {
     # R = don't mess with control characters (i.e. make colours work)

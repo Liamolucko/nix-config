@@ -8,7 +8,7 @@
     theme = {
       mode = "system";
       light = "One Light";
-      dark = "Xcode High Contrast Dark";
+      dark = "Xcode Default Darker";
     };
     buffer_font_size = 14;
     auto_update = pkgs.stdenv.isDarwin;
@@ -80,43 +80,6 @@
         initialization_options = {
           formatterMode = "typstyle";
         };
-      };
-    };
-  };
-
-  programs.vscode = {
-    enable = true;
-    package = pkgs.vscodium;
-    enableExtensionUpdateCheck = false;
-    enableUpdateCheck = false;
-    mutableExtensionsDir = false;
-    extensions = with pkgs.vscode-marketplace; [
-      nathanridley.autotrim
-      pkief.material-icon-theme
-      llvm-vs-code-extensions.vscode-clangd
-      ms-vsliveshare.vsliveshare
-      mateocerquetella.xcode-12-theme
-    ];
-    userSettings = {
-      "diffEditor.ignoreTrimWhitespace" = false;
-      "editor.bracketPairColorization.enabled" = false;
-      "editor.fontFamily" = "'IBM Plex Mono', monospace";
-      "editor.fontSize" = 15;
-      "editor.formatOnSave" = true;
-      "editor.inlayHints.enabled" = "off";
-      "editor.minimap.enabled" = false;
-      "editor.smoothScrolling" = true;
-      "editor.suggest.showWords" = false;
-      "terminal.integrated.cursorStyle" = "underline";
-      "terminal.integrated.fontSize" = 15;
-      "workbench.colorTheme" = "Xcode Default (Dark Customized Version)";
-      "workbench.iconTheme" = "material-icon-theme";
-      "workbench.startupEditor" = "none";
-      "[c]" = {
-        "editor.formatOnSave" = false;
-      };
-      "[cpp]" = {
-        "editor.formatOnSave" = false;
       };
     };
   };

@@ -42,20 +42,8 @@
     '')
   ];
 
-  homebrew = {
-    enable = true;
-    casks = [
-      "eloston-chromium"
-      "firefox"
-    ];
-    onActivation = {
-      cleanup = "uninstall";
-      autoUpdate = true;
-      upgrade = true;
-    };
-  };
-
   environment.systemPackages = [
+    pkgs.cctools # for otool
     pkgs.colima
     pkgs.docker
     # Workaround for https://github.com/rustwasm/wasm-bindgen/issues/3646.
