@@ -12,8 +12,6 @@
     nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs";
     openxc7.url = "github:openXC7/toolchain-nix";
     openxc7.inputs.nixpkgs.follows = "nixpkgs";
-    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
-    nix-vscode-extensions.inputs.nixpkgs.follows = "nixpkgs";
     mini-compile-commands = {
       url = "github:danielbarter/mini_compile_commands";
       flake = false;
@@ -29,12 +27,10 @@
       home-manager,
       nixos-apple-silicon,
       openxc7,
-      nix-vscode-extensions,
       mini-compile-commands,
     }:
     let
       overlays = [
-        nix-vscode-extensions.overlays.default
         self.overlays.default
       ];
     in
@@ -57,16 +53,6 @@
         quicklogic-fasm = final.callPackage ./pkgs/quicklogic-fasm { };
         quicklogic-timings-importer = final.callPackage ./pkgs/quicklogic-timings-importer { };
         rsyntaxtree = final.callPackage ./pkgs/rsyntaxtree { };
-        surfer = prev.surfer.overrideAttrs (
-          old:
-          final.lib.optionalAttrs final.stdenv.isDarwin {
-            buildInputs = old.buildInputs ++ [ final.darwin.apple_sdk.frameworks.AppKit ];
-            dontAutoPatchelf = true;
-            meta = old.meta // {
-              platforms = old.meta.platforms ++ final.lib.platforms.darwin;
-            };
-          }
-        );
         tinyfpgab = final.callPackage ./pkgs/tinyfpgab { };
         v2x = final.callPackage ./pkgs/v2x { };
         vivado = final.callPackage ./pkgs/vivado { };
