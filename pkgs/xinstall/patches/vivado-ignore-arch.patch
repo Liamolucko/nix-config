@@ -1,27 +1,5 @@
-diff --git a/Vitis_HLS/2024.1/bin/loader b/Vitis_HLS/2024.1/bin/loader
-index 6f7c193..027ddb9 100755
---- a/Vitis_HLS/2024.1/bin/loader
-+++ b/Vitis_HLS/2024.1/bin/loader
-@@ -65,15 +65,6 @@ if [[ "`uname`" == MSYS*NT* ]]; then
-   exit $?
- fi
- 
--case `uname -m` in
--  x86_64)
--    ;;
--  *)
--    echo 1>&2 "Unsupported architecture: `uname -m`"
--    exit 1
--    ;;
--esac
--
- #
- # If True check for the existence of RDI_PROG prior to invoking the
- # Function RDI_EXEC_COMMANDS
-diff --git a/Vivado/2024.1/bin/hw_server b/Vivado/2024.1/bin/hw_server
-index eb94418..59b3fa4 100755
---- a/Vivado/2024.1/bin/hw_server
-+++ b/Vivado/2024.1/bin/hw_server
+--- a/Vivado/@version@/bin/hw_server
++++ b/Vivado/@version@/bin/hw_server
 @@ -69,12 +69,7 @@ if [[ "`uname`" == MINGW*NT* ]]; then
    exit $?
  fi
@@ -36,10 +14,8 @@ index eb94418..59b3fa4 100755
  
  #
  # If True check for the existence of RDI_PROG prior to invoking the
-diff --git a/Vivado/2024.1/bin/loader b/Vivado/2024.1/bin/loader
-index 7e20b67..10525ed 100755
---- a/Vivado/2024.1/bin/loader
-+++ b/Vivado/2024.1/bin/loader
+--- a/Vivado/@version@/bin/loader
++++ b/Vivado/@version@/bin/loader
 @@ -65,15 +65,6 @@ if [[ "`uname`" == MSYS*NT* ]]; then
    exit $?
  fi
@@ -56,10 +32,8 @@ index 7e20b67..10525ed 100755
  #
  # If True check for the existence of RDI_PROG prior to invoking the
  # Function RDI_EXEC_COMMANDS
-diff --git a/Vivado/2024.1/bin/svf_utility b/Vivado/2024.1/bin/svf_utility
-index 42dd7af..20dd67b 100755
---- a/Vivado/2024.1/bin/svf_utility
-+++ b/Vivado/2024.1/bin/svf_utility
+--- a/Vivado/@version@/bin/svf_utility
++++ b/Vivado/@version@/bin/svf_utility
 @@ -39,11 +39,6 @@ RDI_PROG=`basename "$0"`
  RDI_NO_JRE=yes
  export RDI_NO_JRE
@@ -73,10 +47,8 @@ index 42dd7af..20dd67b 100755
 +HW_SERVER_PLATFORM=lnx64
  #######################################
  "$RDI_BINROOT"/loader -exec $RDI_PROG "$@"
-diff --git a/Vivado/2024.1/bin/xrt_server b/Vivado/2024.1/bin/xrt_server
-index dd62331..ca5f9e0 100755
---- a/Vivado/2024.1/bin/xrt_server
-+++ b/Vivado/2024.1/bin/xrt_server
+--- a/Vivado/@version@/bin/xrt_server
++++ b/Vivado/@version@/bin/xrt_server
 @@ -69,12 +69,7 @@ if [[ "`uname`" == MINGW*NT* ]]; then
    exit $?
  fi
@@ -91,10 +63,8 @@ index dd62331..ca5f9e0 100755
  
  #
  # If True check for the existence of RDI_PROG prior to invoking the
-diff --git a/Vivado/2024.1/bin/xsdb b/Vivado/2024.1/bin/xsdb
-index 572eb8c..0e49dbb 100755
---- a/Vivado/2024.1/bin/xsdb
-+++ b/Vivado/2024.1/bin/xsdb
+--- a/Vivado/@version@/bin/xsdb
++++ b/Vivado/@version@/bin/xsdb
 @@ -35,12 +35,7 @@
  RDI_NO_JRE=yes
  export RDI_NO_JRE
@@ -109,10 +79,8 @@ index 572eb8c..0e49dbb 100755
  
  LOG_FILE="$HOME"/.xsdbcmdhistory
  RDI_OPT_EXT=.o
-diff --git a/Vivado/2024.1/bin/xtclsh b/Vivado/2024.1/bin/xtclsh
-index 41318c9..bb50c20 100755
---- a/Vivado/2024.1/bin/xtclsh
-+++ b/Vivado/2024.1/bin/xtclsh
+--- a/Vivado/@version@/bin/xtclsh
++++ b/Vivado/@version@/bin/xtclsh
 @@ -42,12 +42,7 @@ fi
  RDI_NO_JRE=yes
  export RDI_NO_JRE

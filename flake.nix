@@ -41,10 +41,10 @@
           inherit (final) config overlays;
         };
 
+        docnav = final.callPackage ./pkgs/docnav { };
         # TODO: fasm has a binary that we should package but there's already something
         # else with that name, what to call it?
         f4pga = with final.python3Packages; toPythonApplication f4pga;
-        docnav = final.callPackage ./pkgs/docnav { };
         f4pga-arch-defs = final.callPackage ./pkgs/f4pga-arch-defs { };
         fex = final.callPackage ./pkgs/fex { };
         prjxray-db = final.callPackage ./pkgs/prjxray-db { };
@@ -56,9 +56,13 @@
         tinyfpgab = final.callPackage ./pkgs/tinyfpgab { };
         v2x = final.callPackage ./pkgs/v2x { };
         vivado = final.callPackage ./pkgs/vivado { };
+        vivado_2024_1 = final.callPackage ./pkgs/vivado { xinstall = final.xinstall_2024_1; };
+        vivado_2024_2 = final.callPackage ./pkgs/vivado { xinstall = final.xinstall_2024_2; };
         vtr = final.callPackage ./pkgs/vtr { };
         xc-fasm = with final.python3Packages; toPythonApplication xc-fasm;
-        xinstall = final.callPackage ./pkgs/xinstall/2024.1.nix { };
+        xinstall = final.xinstall_2024_2;
+        xinstall_2024_1 = final.callPackage ./pkgs/xinstall/2024.1.nix { };
+        xinstall_2024_2 = final.callPackage ./pkgs/xinstall/2024.2.nix { };
 
         digilent-board-files =
           let

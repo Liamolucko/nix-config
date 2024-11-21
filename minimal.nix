@@ -6,8 +6,7 @@
     builtins.elem (lib.getName pkg) [
       "1password"
       "steam"
-      "steam-original"
-      "steam-run"
+      "steam-unwrapped"
       "vivado"
       "xinstall"
     ];

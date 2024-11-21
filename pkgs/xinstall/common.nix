@@ -15,7 +15,7 @@ stdenv.mkDerivation (finalAttrs: {
   src = requireFile rec {
     name = "FPGAs_AdaptiveSoCs_Unified_${meta.version}_${meta.suffix}_Lin64.bin";
     url = "https://www.xilinx.com/member/forms/download/xef.html?filename=${name}";
-    hash = "sha256-mgStIGvg2a/Z0RzXmXtOaXhIXu5E9H1MCNB9vDDLLx4=";
+    hash = meta.webInstallerHash;
   };
 
   unpackCmd = "sh $curSrc --noexec --keep";

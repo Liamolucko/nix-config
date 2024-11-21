@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 let
-  vivado = pkgs.vivado.override {
+  vivado = pkgs.vivado_2024_1.override {
     modules = [
       "Artix-7"
       "DocNav"
@@ -30,7 +30,7 @@ in
     options = [ "subvol=@nixos" ];
   };
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/5A5A-0B08";
+    device = "/dev/disk/by-uuid/E014-9850";
     fsType = "vfat";
     # TODO: do I actually want this or did nixos-generate-config just needlessly inherit it from arch
     options = [
@@ -44,7 +44,12 @@ in
     options = [ "subvol=@home" ];
   };
 
-  swapDevices = [ { device = "/dev/disk/by-uuid/68c487c6-32b3-4ab4-a7d9-9421186a31aa"; } ];
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 16 * 1024;
+    }
+  ];
 
   hardware.cpu.intel.updateMicrocode = config.hardware.enableRedistributableFirmware;
 

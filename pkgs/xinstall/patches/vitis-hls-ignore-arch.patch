@@ -1,0 +1,18 @@
+--- a/Vitis_HLS/@version@/bin/loader
++++ b/Vitis_HLS/@version@/bin/loader
+@@ -65,15 +65,6 @@ if [[ "`uname`" == MSYS*NT* ]]; then
+   exit $?
+ fi
+ 
+-case `uname -m` in
+-  x86_64)
+-    ;;
+-  *)
+-    echo 1>&2 "Unsupported architecture: `uname -m`"
+-    exit 1
+-    ;;
+-esac
+-
+ #
+ # If True check for the existence of RDI_PROG prior to invoking the
+ # Function RDI_EXEC_COMMANDS

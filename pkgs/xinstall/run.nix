@@ -1,7 +1,9 @@
 # A general derivation for installing something using `xinstall`.
 args@{
   lib,
+  callPackage,
   stdenv,
+  replaceVars,
   requireFile,
   runCommand,
   glibc,
@@ -74,6 +76,8 @@ let
     lib.map (path: "${lib.getExe xorg.lndir} ${path} $out/opt/Xilinx") extraPaths
   );
   timestampStrip = ''s/_[0-9]*\.\(desktop\|directory\)/\.\1/'';
+
+  moduleMeta = callPackage meta/modules.nix { inherit meta; };
 in
 stdenv.mkDerivation (
   {
@@ -85,10 +89,12 @@ stdenv.mkDerivation (
     # the Nix store (e.g. if installing Petalinux or Vivado updates).
     src = xinstall;
 
-    patches = lib.concatMap (mod: meta.modules.${mod}.patches or [ ]) modules;
+    patches = lib.map (patch: replaceVars patch { inherit (meta) version; }) (
+      lib.concatMap (mod: moduleMeta.${mod}.patches or [ ]) modules
+    );
 
-    nativeBuildInputs = lib.concatMap (mod: meta.modules.${mod}.nativeBuildInputs or [ ]) modules;
-    buildInputs = lib.concatMap (mod: meta.modules.${mod}.buildInputs or [ ]) modules;
+    nativeBuildInputs = lib.concatMap (mod: moduleMeta.${mod}.nativeBuildInputs or [ ]) modules;
+    buildInputs = lib.concatMap (mod: moduleMeta.${mod}.buildInputs or [ ]) modules;
 
     # We manually run the patchPhase after installation.
     dontPatch = true;
@@ -118,7 +124,7 @@ stdenv.mkDerivation (
 
       ${linkExtraPaths}
 
-      ${lib.concatMapStrings (mod: meta.modules.${mod}.postInstall or "") modules}
+      ${lib.concatMapStrings (mod: moduleMeta.${mod}.postInstall or "") modules}
 
       runHook postInstall
     '';
@@ -153,12 +159,12 @@ stdenv.mkDerivation (
 
         # Strip the timestamps off of Vivado's desktop entries to make it reproducible.
         find $out/share -type f \
-          -exec bash -c 'mv "$0" "$(echo -n "$0" | sed "${timestampStrip}")"' '{}' ';'
+          -execdir bash -c 'mv "$0" "$(echo -n "$0" | sed "${timestampStrip}")"' '{}' ';'
         find $out/etc/xdg -type f \
-          -exec sed -i "${timestampStrip}" '{}' ';'
+          -execdir sed -i "${timestampStrip}" '{}' ';'
       fi
 
-      ${lib.concatMapStrings (mod: meta.modules.${mod}.postFixup or "") modules}
+      ${lib.concatMapStrings (mod: moduleMeta.${mod}.postFixup or "") modules}
     '';
 
     passthru = {
@@ -215,7 +221,7 @@ stdenv.mkDerivation (
   // lib.foldl lib.mergeAttrs { } (
     lib.map (
       mod:
-      lib.removeAttrs meta.modules.${mod} [
+      lib.removeAttrs moduleMeta.${mod} or { } [
         "patches"
         "nativeBuildInputs"
         "buildInputs"
@@ -227,7 +233,9 @@ stdenv.mkDerivation (
   )
   // lib.removeAttrs args [
     "lib"
+    "callPackage"
     "stdenv"
+    "replaceVars"
     "requireFile"
     "runCommand"
     "glibc"

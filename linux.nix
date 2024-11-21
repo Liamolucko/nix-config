@@ -24,10 +24,10 @@
     pkgs.firefox
     pkgs.gnome-tweaks
     pkgs.gnomeExtensions.caffeine
-    pkgs.kdePackages.kclock
     pkgs.libreoffice
     pkgs.rhythmbox
     pkgs.usbutils
+    pkgs.wl-clipboard
     (pkgs.runCommand "open" { } ''
       mkdir -p $out/bin
       ln -s ${pkgs.xdg-utils}/bin/xdg-open $out/bin/open

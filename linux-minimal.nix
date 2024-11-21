@@ -13,7 +13,10 @@
 
   users.users.liam = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [
+      "disk"
+      "wheel"
+    ];
   };
 
   programs.gnupg.agent.enable = true;
