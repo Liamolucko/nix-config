@@ -1,22 +1,6 @@
 # TODO:
-# - upstream to nixpkgs
 # - try enabling PGO for VTR
 # - quicklogic support
-# - enable tests for f4pga (requires quicklogic support)
-#
-# upstreaming order:
-# stage 1:
-# - f4pga-arch-defs
-# - fasm
-# - prjxray-db
-# - prjxray-tools
-# - vtr
-# stage 2:
-# - prjxray
-# stage 3:
-# - xc-fasm
-# stage 4:
-# - f4pga
 {
   lib,
   buildPythonPackage,
@@ -30,10 +14,10 @@
   getopt,
   lxml,
   makeBinaryWrapper,
-  makePythonPath,
   prjxray,
   prjxray-db,
   prjxray-tools,
+  pytestCheckHook,
   python-constraint,
   pyyaml,
   simplejson,
@@ -95,10 +79,6 @@ let
       simplejson
     ];
 
-    preConfigure = ''
-      cd f4pga
-    '';
-
     postPatch = ''
       substituteInPlace \
         f4pga/flows/{commands.py,common.py,platforms.yml} \
@@ -114,6 +94,10 @@ let
         --subst-var-by vtr ${vtr} \
         --subst-var-by xcfasm ${xc-fasm}/bin/xcfasm \
         --subst-var-by yosys ${yosysWithPlugins}/bin/yosys
+    '';
+
+    preConfigure = ''
+      cd f4pga
     '';
 
     # TODO: this doesn't work if you use it as a library.
@@ -141,6 +125,12 @@ let
           --set NIX_PYTHONPATH '${pythonPath}' \
           --set PYTHONNOUSERSITE "true"
       '';
+
+    nativeCheckInputs = [ pytestCheckHook ];
+    # There are some other tests sitting around in the repo which weren't updated
+    # after being moved here from the f4pga-arch-defs repo, and don't work anymore.
+    # So we have to only run the tests in the test/ directory, the same as CI does.
+    pytestFlagsArray = [ "../test/" ];
 
     meta = {
       description = "FOSS Flow For FPGA";

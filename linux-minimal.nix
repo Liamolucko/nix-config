@@ -3,6 +3,7 @@
   imports = [ ./minimal.nix ];
 
   nix.channel.enable = false;
+  nix.settings.auto-optimise-store = true;
   nix.settings.trusted-users = [ "liam" ];
 
   networking.networkmanager.enable = true;

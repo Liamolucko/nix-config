@@ -67,11 +67,10 @@ buildPythonPackage rec {
     # us shift everything right by one to get build -> build -> riscv64-none-elf
     # like we want.
     #
-    # Use .cc and .bintools to get unwrapped versions (just .cc doesn't work because
-    # for some reason the tools end up getting called riscv64-none-elf-gcc-* instead
-    # of just riscv64-none-elf-*).
-    pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.cc
-    pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.bintools
+    # pkgsBuildHost is also known as buildPackages: another way to think about it is
+    # that the compiler we want for this is the same compiler we'd need to build a
+    # package that was actually going to run on RISC-V.
+    pkgsCross.riscv64-embedded.buildPackages.gcc
   ];
 
   dontUseMesonConfigure = true;

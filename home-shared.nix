@@ -22,6 +22,7 @@
     terminal = {
       dock = "bottom";
       alternate_scroll = "on";
+      detect_venv = "off";
     };
     auto_install_extensions = {
       "fish" = true;
@@ -48,12 +49,10 @@
       };
       "Nix" = {
         tab_size = 2;
-        formatter = {
-          external = {
-            command = "nixfmt";
-            arguments = [ ];
-          };
-        };
+        language_servers = [
+          "!nil"
+          "..."
+        ];
       };
       "Python" = {
         formatter = {

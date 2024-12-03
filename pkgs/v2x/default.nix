@@ -6,7 +6,7 @@
   yosys,
 }:
 
-python311.pkgs.buildPythonApplication rec {
+python311.pkgs.buildPythonApplication {
   pname = "v2x";
   version = "0-unstable-2022-05-16";
   pyproject = true;
@@ -17,6 +17,8 @@ python311.pkgs.buildPythonApplication rec {
     rev = "413dc2743cd35f3745165a31636af380b3b3448a";
     hash = "sha256-oSfEzRcjWTCR82M4cCn+WTNH/3Xq4AcifMShFuW+Zgs=";
   };
+
+  patches = [ ./no-pytest-runner.patch ];
 
   build-system = [
     python311.pkgs.setuptools
@@ -31,7 +33,6 @@ python311.pkgs.buildPythonApplication rec {
 
   nativeCheckInputs = [
     python311.pkgs.pytestCheckHook
-    python311.pkgs.pytest-runner
     yosys
   ];
   # This test relies on the precise output of yosys, and now fails because it's

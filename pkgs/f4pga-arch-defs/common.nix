@@ -1,11 +1,11 @@
 # TODO: fix ibex_arty.sdc being a broken symlink
 {
   lib,
-  pkgs,
   pkgsCross,
   stdenv,
   fetchFromGitHub,
   fetchpatch,
+  fusesoc,
   runCommand,
   symlinkJoin,
   cmake,
@@ -18,14 +18,13 @@
   prjxray-db,
   prjxray-tools,
   python3,
-  python311,
   qlf-fasm,
   quicklogic-fasm,
   quicklogic-timings-importer,
   tinyfpgab,
   tinyprog,
   v2x,
-  verilog,
+  iverilog,
   vtr,
   xc-fasm,
   yapf,
@@ -35,7 +34,7 @@
   device,
 }:
 let
-  lowrisc-edalize = python311.pkgs.edalize.overrideAttrs {
+  lowrisc-edalize = python3.pkgs.edalize.overrideAttrs {
     src = fetchFromGitHub {
       owner = "lowRISC";
       repo = "edalize";
@@ -68,26 +67,21 @@ let
       "tests/test_xsim.py"
     ];
   };
-  # TODO: pin this to Python 3.11 upstream, it's broken there too.
-  lowrisc-fusesoc =
-    (python311.pkgs.callPackage "${pkgs.path}/pkgs/tools/package-management/fusesoc" {
-      edalize = lowrisc-edalize;
-    }).overridePythonAttrs
-      {
-        src = fetchFromGitHub {
-          owner = "lowRISC";
-          repo = "fusesoc";
-          # latest commit on 'ot' branch as of 2024-06-08
-          rev = "14dfc825ced58fe1fb343662fa80fc4fbd0fdc50";
-          hash = "sha256-Q+Q/X/hgpdzrHke2kXaXAsTp+8p1wRJi2pvtOKwd1/Q=";
-        };
-        postFixup = ''
-          # Don't add Python to PATH, since then we end up using Python 3.11 when we want
-          # Python 3.12.
-          mv $out/bin/{.fusesoc-wrapped,fusesoc}
-          wrapProgram $out/bin/fusesoc $makeWrapperArgs
-        '';
-      };
+  lowrisc-fusesoc = (fusesoc.override { edalize = lowrisc-edalize; }).overridePythonAttrs {
+    src = fetchFromGitHub {
+      owner = "lowRISC";
+      repo = "fusesoc";
+      # latest commit on 'ot' branch as of 2024-06-08
+      rev = "14dfc825ced58fe1fb343662fa80fc4fbd0fdc50";
+      hash = "sha256-Q+Q/X/hgpdzrHke2kXaXAsTp+8p1wRJi2pvtOKwd1/Q=";
+    };
+    postFixup = ''
+      # Don't add Python to PATH, since then it ends up taking priority over the
+      # `withPackages` version of it we want to use.
+      mv $out/bin/{.fusesoc-wrapped,fusesoc}
+      wrapProgram $out/bin/fusesoc $makeWrapperArgs
+    '';
+  };
 
   # TODO: it seems like this repo has built artifacts commited to it, maybe
   # rebuild them?
@@ -160,6 +154,9 @@ let
       litex
       python3.pkgs.pyyaml
     ];
+    # In this old version of litedram, the genesys2 example is so close to running
+    # out of ROM that enabling hardening pushes it over the line.
+    hardeningDisable = [ "all" ];
   };
 
   liteiclink = python3.pkgs.liteiclink.overridePythonAttrs {
@@ -216,17 +213,29 @@ let
     p.termcolor
   ]);
 
+  yosys' = yosys.overrideAttrs (old: {
+    patches = old.patches ++ [
+      (fetchpatch {
+        url = "https://github.com/YosysHQ/yosys/pull/4714.patch";
+        hash = "sha256-b/Vje0b6JdvqzIyuCkDRZWILKQYsFU5Eq6vSY5TlG2c=";
+      })
+    ];
+  });
+  yosys-symbiflow' = yosys-symbiflow.override {
+    yosys = yosys';
+    yosys-symbiflow = yosys-symbiflow';
+  };
   yosysWithPlugins = symlinkJoin {
-    name = "${yosys.name}-with-plugins";
+    name = "${yosys'.name}-with-plugins";
     paths = [
-      yosys
-      yosys-symbiflow.design_introspection
-      yosys-symbiflow.fasm
-      yosys-symbiflow.params
-      yosys-symbiflow.ql-iob
-      # yosys-symbiflow.ql-qlf # broken
-      yosys-symbiflow.sdc
-      yosys-symbiflow.xdc
+      yosys'
+      yosys-symbiflow'.design_introspection
+      yosys-symbiflow'.fasm
+      yosys-symbiflow'.params
+      yosys-symbiflow'.ql-iob
+      # yosys-symbiflow'.ql-qlf # broken
+      yosys-symbiflow'.sdc
+      yosys-symbiflow'.xdc
     ];
     # When the yosys binary is a symlink, it runs into an issue on Linux where the
     # xdc plugin ends up looking in the original yosys derivation instead of the
@@ -273,8 +282,7 @@ stdenv.mkDerivation {
     openocd
     prjxray-tools
     # See litedram for how this works.
-    pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.cc
-    pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.bintools
+    pkgsCross.riscv64-embedded.buildPackages.gcc
     python3.pkgs.flake8
     python3.pkgs.pytest
     qlf-fasm
@@ -283,17 +291,25 @@ stdenv.mkDerivation {
     tinyfpgab
     tinyprog
     v2x
-    verilog
+    iverilog
     vtr'
     xc-fasm
     yapf
     yosysWithPlugins
   ];
 
-  # It seems like PYTHONPATH is overriding the baked-in PYTHONPATHs of our Python
-  # binaries (specifically v2x), and breaking them because it's providing Python
-  # 3.12 modules where Python 3.11 modules are needed; so turn it off and rely
-  # wholly on `withPackages` instead.
+  # Using PYTHONPATH can cause several problems in the face of multiple Python
+  # versions (specifically, v2x's use of Python 3.11):
+  #
+  # 1. The Python 3.12 version of lxml on PYTHONPATH seems to override v2x's
+  # built-in version, and can't be used because it includes native code.
+  #
+  # 2. v2x's propagated Python 3.11 dependencies can end up taking priority over
+  # our Python 3.12 ones, resulting in nothing here working properly. This can be
+  # avoided by deleting ${v2x}/nix-support, but then we're back to problem 1
+  # again.
+  #
+  # So, we turn it off and rely wholly on `withPackages` instead.
   dontAddPythonPath = true;
 
   postPatch = ''

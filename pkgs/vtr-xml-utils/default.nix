@@ -6,10 +6,9 @@
   wheel,
   lxml,
   pytestCheckHook,
-  pytest-runner,
 }:
 
-buildPythonPackage rec {
+buildPythonPackage {
   pname = "vtr-xml-utils";
   version = "0-unstable-2022-02-01";
   pyproject = true;
@@ -21,6 +20,8 @@ buildPythonPackage rec {
     hash = "sha256-pwsJwZALdnqt1Xz3VyggcEZRKpTTQTXBiaOiq8AZwZA=";
   };
 
+  patches = [ ./no-pytest-runner.patch ];
+
   build-system = [
     setuptools
     wheel
@@ -29,7 +30,6 @@ buildPythonPackage rec {
 
   nativeCheckInputs = [
     pytestCheckHook
-    pytest-runner
   ];
 
   meta = {

@@ -83,6 +83,7 @@
           patches = [ ./capnproto-fix-large-writes.patch ];
         };
         isabelle = prev.isabelle.overrideAttrs (old: {
+          patches = [ ./isabelle-fix-copied-permissions.patch ];
           nativeBuildInputs =
             old.nativeBuildInputs
             ++ final.lib.optionals final.stdenv.isDarwin [ final.procps ];
@@ -109,6 +110,13 @@
             litespi = python-final.callPackage ./pkgs/litespi { };
             litex = python-final.callPackage ./pkgs/litex { };
             litex-boards = python-final.callPackage ./pkgs/litex-boards { };
+            okonomiyaki = python-prev.okonomiyaki.overrideAttrs {
+              # Remove the no-longer-required darwin workaround.
+              preCheck = ''
+                substituteInPlace okonomiyaki/runtimes/tests/test_runtime.py \
+                  --replace 'runtime_info = PythonRuntime.from_running_python()' 'raise unittest.SkipTest() #'
+              '';
+            };
             prjxray = python-final.callPackage ./pkgs/prjxray { };
             pyjson = python-final.callPackage ./pkgs/pyjson { };
             pythondata-cpu-lm32 = python-final.callPackage ./pkgs/pythondata/cpu-lm32.nix { };

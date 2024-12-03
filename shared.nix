@@ -26,6 +26,7 @@
     (pkgs.lib.meta.hiPrio pkgs.rust-analyzer)
     pkgs.samply
     pkgs.surfer
+    (pkgs.texlive.combine { inherit (pkgs.texlive) scheme-small txfonts; })
     pkgs.tinymist
     pkgs.tree-sitter
     pkgs.typst
@@ -37,7 +38,6 @@
     pkgs.wasm-pack
     pkgs.wasm-tools
   ];
-  fonts.packages = [ pkgs.ibm-plex ];
 
   home-manager.users.liam = import ./home-shared.nix;
 }
