@@ -25,4 +25,4 @@ jobs:
         with:
           name: liamolucko
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-      - run: nix build .#isabelle .#python311.pkgs.litex-boards .#python3.pkgs.litex-boards
+      - run: nix build .#python311.pkgs.litex-boards .#python3.pkgs.litex-boards
