@@ -217,7 +217,7 @@ let
     patches = old.patches ++ [
       (fetchpatch {
         url = "https://github.com/YosysHQ/yosys/pull/4714.patch";
-        hash = "sha256-b/Vje0b6JdvqzIyuCkDRZWILKQYsFU5Eq6vSY5TlG2c=";
+        hash = "sha256-lkoDvPBN/Spg1RMBTYZHDhTNhDEaxuBxOxkAh20RH4g=";
       })
     ];
   });
