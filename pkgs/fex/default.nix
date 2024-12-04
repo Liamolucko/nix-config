@@ -14,24 +14,17 @@
 }:
 llvmPackages.stdenv.mkDerivation (finalAttrs: {
   pname = "fex";
-  version = "2410";
+  version = "2412";
   src = fetchFromGitHub {
     owner = "FEX-Emu";
     repo = "FEX";
     rev = "FEX-${finalAttrs.version}";
-    hash = "sha256-btzb7OGa3M89wDn8AK/iocT3GLY1mB3cZ0iuWAyNIFc=";
+    hash = "sha256-VwcfxdRMjE/yoe5q0p3j4FdEMOJdtq17moxiGWO+CN0=";
     fetchSubmodules = true;
   };
 
   patches =
     [
-      # These aren't strictly needed.
-      #
-      # This is a workaround to get FEX working within Nix's build sandbox: FEX's
-      # tests will break without it, but you can fix that with `export HOME=$PWD`.
-      #
-      # TODO: upstream this one.
-      ./check-home.patch
       # This is a workaround to get FEX working with NixOS's slightly weird binfmt
       # infrastructure.
       ./realpath.patch
@@ -88,7 +81,7 @@ llvmPackages.stdenv.mkDerivation (finalAttrs: {
         '{}' '+'
 
     find ../External/fex-gvisor-tests-bins -type f -executable \
-      -exec patchelf --add-rpath ${pkgsCross.gnu64.gcc.cc.lib}/lib '{}' '+'
+      -exec patchelf --add-rpath ${pkgsCross.gnu64.stdenv.cc.cc.lib}/lib '{}' '+'
 
     # These all seem to fail due to the build sandbox.
     echo -n '
