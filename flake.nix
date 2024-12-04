@@ -282,7 +282,7 @@
                 pkgs.python311.pkgs.pythondata-software-compiler-rt
                 pkgs.python311.pkgs.pythondata-software-picolibc
               ];
-              env.F4PGA_INSTALL_DIR = pkgs.pkgsLinux.f4pga-arch-defs.xc7a50t;
+              env.F4PGA_INSTALL_DIR = pkgs.f4pga-arch-defs.xc7a50t;
             }
             ''
               python -m litex_boards.targets.digilent_basys3 --output-dir "$out" --toolchain f4pga --build

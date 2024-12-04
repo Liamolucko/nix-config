@@ -13,8 +13,11 @@ jobs:
           name: liamolucko
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
       - run: nix build .#checks.aarch64-darwin.basys3-f4pga .#f4pga-arch-defs.ql-eos-s3
-  build-laptop-system:
-    runs-on: macos-latest
+  build-pkgs:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v30
@@ -22,14 +25,4 @@ jobs:
         with:
           name: liamolucko
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-      - run: nix build .#darwinConfigurations.Liams-Laptop.system
-  build-desktop-system:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: cachix/install-nix-action@v30
-      - uses: cachix/cachix-action@v15
-        with:
-          name: liamolucko
-          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-      - run: nix build .#nixosConfigurations.liam-desktop.config.system.build.toplevel
+      - run: nix build .#isabelle .#python311.pkgs.litex-boards .#python3.pkgs.litex-boards
