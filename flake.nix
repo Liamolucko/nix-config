@@ -250,11 +250,11 @@
                 pkgs.glibcLocales
                 pkgs.meson
                 pkgs.ninja
-                pkgs.python311
-                pkgs.python311.pkgs.litex-boards
-                pkgs.python311.pkgs.pythondata-cpu-vexriscv
-                pkgs.python311.pkgs.pythondata-software-compiler-rt
-                pkgs.python311.pkgs.pythondata-software-picolibc
+                pkgs.python3
+                pkgs.python3.pkgs.litex-boards
+                pkgs.python3.pkgs.pythondata-cpu-vexriscv
+                pkgs.python3.pkgs.pythondata-software-compiler-rt
+                pkgs.python3.pkgs.pythondata-software-picolibc
                 (pkgs.vivado.override { modules = [ "Artix-7" ]; })
               ];
             }
@@ -273,14 +273,14 @@
                 pkgs.pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.bintools
                 pkgs.meson
                 pkgs.ninja
-                pkgs.python311
-                pkgs.python311.pkgs.f4pga
-                (pkgs.python311.pkgs.litex-boards.overridePythonAttrs (old: {
+                pkgs.python3
+                pkgs.python3.pkgs.f4pga
+                (pkgs.python3.pkgs.litex-boards.overridePythonAttrs (old: {
                   patches = [ ./litex-boards.patch ];
                 }))
-                pkgs.python311.pkgs.pythondata-cpu-vexriscv
-                pkgs.python311.pkgs.pythondata-software-compiler-rt
-                pkgs.python311.pkgs.pythondata-software-picolibc
+                pkgs.python3.pkgs.pythondata-cpu-vexriscv
+                pkgs.python3.pkgs.pythondata-software-compiler-rt
+                pkgs.python3.pkgs.pythondata-software-picolibc
               ];
               env.F4PGA_INSTALL_DIR = pkgs.f4pga-arch-defs.xc7a50t;
             }
@@ -298,14 +298,14 @@
                 openxc7Pkgs.nextpnr-xilinx
                 pkgs.ninja
                 pkgs.prjxray-tools
-                pkgs.python311
-                (pkgs.python311.pkgs.litex-boards.overridePythonAttrs (old: {
+                pkgs.python3
+                (pkgs.python3.pkgs.litex-boards.overridePythonAttrs (old: {
                   patches = [ ./litex-boards.patch ];
                 }))
-                pkgs.python311.pkgs.prjxray
-                pkgs.python311.pkgs.pythondata-cpu-vexriscv
-                pkgs.python311.pkgs.pythondata-software-compiler-rt
-                pkgs.python311.pkgs.pythondata-software-picolibc
+                pkgs.python3.pkgs.prjxray
+                pkgs.python3.pkgs.pythondata-cpu-vexriscv
+                pkgs.python3.pkgs.pythondata-software-compiler-rt
+                pkgs.python3.pkgs.pythondata-software-picolibc
                 pkgs.yosys
               ];
               env.CHIPDB = openxc7Pkgs.nextpnr-xilinx-chipdb.artix7;

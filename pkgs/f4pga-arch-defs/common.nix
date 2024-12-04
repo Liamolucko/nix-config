@@ -225,6 +225,8 @@ let
     yosys = yosys';
     yosys-symbiflow = yosys-symbiflow';
   };
+  # TODO: this is getting referenced by the output derivation. Either use
+  # `removeReferencesTo` or remove benchmarks from the output entirely.
   yosysWithPlugins = symlinkJoin {
     name = "${yosys'.name}-with-plugins";
     paths = [

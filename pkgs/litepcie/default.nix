@@ -2,6 +2,7 @@
   lib,
   buildPythonPackage,
   fetchFromGitHub,
+  fetchpatch,
   setuptools,
   wheel,
   litex,
@@ -20,6 +21,13 @@ buildPythonPackage rec {
     rev = version;
     hash = "sha256-oH4ATlgs+4R3qSjE0Z+23wQh8PgW8UYiiP7CVbp1Oh0=";
   };
+
+  patches = [
+    (fetchpatch {
+      url = "https://github.com/enjoy-digital/litepcie/commit/f8b1599bdbe7adb986384308afb62b1f2d040be8.patch";
+      hash = "sha256-hIuZq+5tgjqYZw60laVgdFwnpBVeXzu5b5qySBsJXDY=";
+    })
+  ];
 
   build-system = [
     setuptools
