@@ -22,6 +22,11 @@
   nix.settings.run-diff-hook = true;
   nix.package = pkgs.lix;
 
+  nix.settings.substituters = [ "https://liamolucko.cachix.org" ];
+  nix.settings.trusted-public-keys = [
+    "liamolucko.cachix.org-1:BUnxmHPZZOBq0CokNOYCcYBOCzFXJ9EjdY9BoQkDVJY="
+  ];
+
   environment.systemPackages = [
     pkgs.bat
     (pkgs.btop.override { rocmSupport = pkgs.stdenv.system == "x86_64-linux"; })
