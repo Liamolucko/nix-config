@@ -4,6 +4,7 @@
 
   nix.settings.trusted-users = [ "@admin" ];
   services.nix-daemon.enable = true;
+  nix.daemonProcessType = "Interactive";
   nix.linux-builder = {
     enable = true;
     ephemeral = true;
@@ -20,9 +21,7 @@
       # QEMU can only start VMs with 8 cores right now for some reason.
       virtualisation.cores = 8;
       # The default 3GB doesn't seem to be enough for f4pga-arch-defs.
-      virtualisation.darwin-builder.memorySize = 8 * 1024;
-      # Vivado is ~30GB, so use a 60GB disk for some breathing room.
-      virtualisation.darwin-builder.diskSize = 60 * 1024;
+      virtualisation.darwin-builder.memorySize = 5 * 1024;
 
       programs.fex.enable = true;
     };

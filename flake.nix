@@ -92,6 +92,13 @@
           };
         });
 
+        yosys-symbiflow = final.lib.mapAttrs (
+          name: pkg:
+          pkg.overrideAttrs {
+            patches = [ ./yosys-symbiflow-update-techmaps.patch ];
+          }
+        ) prev.yosys-symbiflow;
+
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
           (python-final: python-prev: {
             # We want the application version of xc-fasm, not the package version.
