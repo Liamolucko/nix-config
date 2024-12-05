@@ -92,6 +92,14 @@
           };
         });
 
+        yosys = prev.yosys.overrideAttrs (old: {
+          patches = old.patches ++ [
+            (final.fetchpatch {
+              url = "https://github.com/YosysHQ/yosys/pull/4714.patch";
+              hash = "sha256-lkoDvPBN/Spg1RMBTYZHDhTNhDEaxuBxOxkAh20RH4g=";
+            })
+          ];
+        });
         yosys-symbiflow = final.lib.mapAttrs (
           name: pkg:
           pkg.overrideAttrs {

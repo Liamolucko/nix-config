@@ -213,31 +213,19 @@ let
     p.termcolor
   ]);
 
-  yosys' = yosys.overrideAttrs (old: {
-    patches = old.patches ++ [
-      (fetchpatch {
-        url = "https://github.com/YosysHQ/yosys/pull/4714.patch";
-        hash = "sha256-lkoDvPBN/Spg1RMBTYZHDhTNhDEaxuBxOxkAh20RH4g=";
-      })
-    ];
-  });
-  yosys-symbiflow' = yosys-symbiflow.override {
-    yosys = yosys';
-    yosys-symbiflow = yosys-symbiflow';
-  };
   # TODO: this is getting referenced by the output derivation. Either use
   # `removeReferencesTo` or remove benchmarks from the output entirely.
   yosysWithPlugins = symlinkJoin {
-    name = "${yosys'.name}-with-plugins";
+    name = "${yosys.name}-with-plugins";
     paths = [
-      yosys'
-      yosys-symbiflow'.design_introspection
-      yosys-symbiflow'.fasm
-      yosys-symbiflow'.params
-      yosys-symbiflow'.ql-iob
-      # yosys-symbiflow'.ql-qlf # broken
-      yosys-symbiflow'.sdc
-      yosys-symbiflow'.xdc
+      yosys
+      yosys-symbiflow.design_introspection
+      yosys-symbiflow.fasm
+      yosys-symbiflow.params
+      yosys-symbiflow.ql-iob
+      # yosys-symbiflow.ql-qlf # broken
+      yosys-symbiflow.sdc
+      yosys-symbiflow.xdc
     ];
     # When the yosys binary is a symlink, it runs into an issue on Linux where the
     # xdc plugin ends up looking in the original yosys derivation instead of the
