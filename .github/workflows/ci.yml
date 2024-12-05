@@ -4,6 +4,7 @@ on:
   push:
 jobs:
   test-f4pga:
+    name: Test F4PGA
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
@@ -20,6 +21,7 @@ jobs:
           ".#checks.$(nix eval --raw --impure --expr 'builtins.currentSystem').basys3-f4pga" \
           .#f4pga-arch-defs.ql-eos-s3
   build-pkgs:
+    name: Build packages
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
