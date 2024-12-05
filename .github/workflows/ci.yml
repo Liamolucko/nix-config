@@ -16,7 +16,7 @@ jobs:
           name: liamolucko
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
       - run: |
-          nix build \
+          nix build -L \
           ".#checks.$(nix eval --raw --impure --expr 'builtins.currentSystem').basys3-f4pga" \
           .#f4pga-arch-defs.ql-eos-s3
   build-pkgs:
@@ -31,4 +31,4 @@ jobs:
         with:
           name: liamolucko
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-      - run: nix build .#python311.pkgs.litex-boards .#python3.pkgs.litex-boards
+      - run: nix build -L .#python311.pkgs.litex-boards .#python3.pkgs.litex-boards
