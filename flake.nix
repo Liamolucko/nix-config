@@ -277,7 +277,6 @@
               python -m litex_boards.targets.digilent_basys3 --output-dir "$out" --build
             '';
 
-        # TODO: doesn't work on aarch64-linux (yosys fails).
         checks.basys3-f4pga =
           pkgs.runCommand "basys3-f4pga"
             {

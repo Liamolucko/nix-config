@@ -232,10 +232,9 @@ let
     # joined one for some of its data, and can't find it. So copy it and make sure
     # there's no symlink to be accidentally resolved in the first place.
     #
-    # I still don't really understand what went wrong though... `proc_share_dirname`
-    # is used both for resolving the plugins themselves and by xdc to find its data,
-    # so how are the plugins getting resolved properly if it's returning the wrong
-    # path in xdc's case?
+    # The only reason it can load the plugin itself seems to be because of some
+    # Yosys's setup hook; if you bake in the path to Yosys directly rather than
+    # using `nativeBuildInputs`, it can't load the plugin either.
     postBuild = ''
       real_yosys=$(realpath $out/bin/yosys)
       rm $out/bin/yosys
