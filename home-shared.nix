@@ -67,6 +67,9 @@
       "Verilog" = {
         tab_size = 2;
       };
+      "Haskell" = {
+        tab_size = 2;
+      };
     };
     lsp = {
       "rust-analyzer" = {

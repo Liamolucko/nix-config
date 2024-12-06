@@ -98,14 +98,12 @@
               url = "https://github.com/YosysHQ/yosys/pull/4714.patch";
               hash = "sha256-lkoDvPBN/Spg1RMBTYZHDhTNhDEaxuBxOxkAh20RH4g=";
             })
+            (final.fetchpatch {
+              url = "https://github.com/YosysHQ/yosys/commit/8e508f2a2ade89e5e301de18c922155698ae6960.diff";
+              hash = "sha256-UoaHfJ/80cBK/ck5e3EJTe0a95TB5Qz/8Yld/3PX3vA=";
+            })
           ];
         });
-        yosys-symbiflow = final.lib.mapAttrs (
-          name: pkg:
-          pkg.overrideAttrs {
-            patches = [ ./yosys-symbiflow-update-techmaps.patch ];
-          }
-        ) prev.yosys-symbiflow;
 
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
           (python-final: python-prev: {
