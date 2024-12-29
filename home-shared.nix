@@ -1,88 +1,36 @@
-{ pkgs, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
+let
+  alacritty-mac-icon-svg = pkgs.fetchurl {
+    url = "https://gist.github.com/jdsimcoe/8760878212c4001216a738d2111dcb33/raw/baa76575f8e840d74cd89042638f6a52825908e2/alacritty.svg";
+    hash = "sha256-mKHYrxttqyXmb2JL8BcUVWin2387n78PFGMF/8gA/MM=";
+  };
+  alacritty-mac-icons = pkgs.runCommand "alacritty-mac-icons" { } ''
+    ${lib.getExe pkgs.cargo-tauri} icon ${alacritty-mac-icon-svg} -o $out
+  '';
+  alacritty-mac = pkgs.runCommand pkgs.alacritty.name { } ''
+    mkdir $out
+    ${lib.getExe pkgs.xorg.lndir} ${pkgs.alacritty} $out
+    rm $out/Applications/Alacritty.app/Contents/Resources/alacritty.icns
+    cp ${alacritty-mac-icons}/icon.icns $out/Applications/Alacritty.app/Contents/Resources/alacritty.icns
+  '';
+in
 {
   home.sessionVariables = {
     EDITOR = "${if pkgs.stdenv.isLinux then "zeditor" else "zed"} --wait";
   };
 
-  xdg.configFile."zed/settings.json".text = builtins.toJSON {
-    theme = {
-      mode = "system";
-      light = "One Light";
-      dark = "Xcode Default Darker";
-    };
-    buffer_font_size = 14;
-    auto_update = pkgs.stdenv.isDarwin;
-    features = {
-      inline_completion_provider = "none";
-    };
-    assistant = {
-      version = "2";
-      enabled = false;
-    };
-    terminal = {
-      dock = "bottom";
-      alternate_scroll = "on";
-      detect_venv = "off";
-    };
-    auto_install_extensions = {
-      "fish" = true;
-      "git-firefly" = true;
-      "kotlin" = true;
-      "make" = true;
-      "nix" = true;
-      "ruff" = true;
-      "scheme" = true;
-      "toml" = true;
-      "typst" = true;
-      "verilog" = true;
-      "wgsl" = true;
-      "wit" = true;
-      "xcode-themes" = true;
-    };
-    languages = {
-      "Git Commit" = {
-        wrap_guides = [ 72 ];
-      };
-      "Markdown" = {
-        format_on_save = "on";
-        soft_wrap = "editor_width";
-      };
-      "Nix" = {
-        tab_size = 2;
-        language_servers = [
-          "!nil"
-          "..."
-        ];
-      };
-      "Python" = {
-        formatter = {
-          language_server = {
-            name = "ruff";
-          };
-        };
-      };
-      "Typst" = {
-        soft_wrap = "editor_width";
-      };
-      "Verilog" = {
-        tab_size = 2;
-      };
-      "Haskell" = {
-        tab_size = 2;
-      };
-    };
-    lsp = {
-      "rust-analyzer" = {
-        initialization_options = {
-          checkOnSave.command = "clippy";
-          imports.granularity.group = "module";
-        };
-      };
-      "tinymist" = {
-        initialization_options = {
-          formatterMode = "typstyle";
-        };
-      };
-    };
+  programs.alacritty = {
+    enable = true;
+    package = if pkgs.stdenv.isDarwin then alacritty-mac else pkgs.alacritty;
+    settings.general.import = [ "${pkgs.alacritty-theme}/dracula.toml" ];
   };
+
+  xdg.configFile."zed/settings.json".source = pkgs.runCommand "zed-settings" { } ''
+    ln -s '${config.home.homeDirectory}/src/nix-config/dotfiles/zed-settings.json' $out
+  '';
 }
