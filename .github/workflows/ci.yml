@@ -34,3 +34,25 @@ jobs:
           name: liamolucko
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
       - run: nix build -L .#python311.pkgs.litex-boards .#python3.pkgs.litex-boards
+  build-laptop-system:
+    name: Build laptop system
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v30
+      - uses: cachix/cachix-action@v15
+        with:
+          name: liamolucko
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - run: CI_SAFE=1 nix build --impure -L .#darwinConfigurations.Liams-Laptop.system
+  build-desktop-system:
+    name: Build desktop system
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v30
+      - uses: cachix/cachix-action@v15
+        with:
+          name: liamolucko
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - run: CI_SAFE=1 nix build --impure -L .#nixosConfigurations.liam-desktop.config.system.build.toplevel

@@ -83,15 +83,11 @@ buildPythonPackage rec {
     zlib
   ];
 
-  # Disable:
-  # - test_init.py, since it relies on litex-boards.
-  # - test_phy_utils.py, since it seems to trigger another issue with Migen's
-  #   tracer in Python 3.11 that https://github.com/m-labs/migen/commit/0fb91737090fe45fd764ea3f71257a4c53c7a4ae
-  #   didn't fix.
+  # Disable test_init.py, since it relies on litex-boards.
   unittestFlagsArray = [
     "-p"
     # Seems like broken shell escaping.
-    "'test_[!ip]*'"
+    "'test_[!i]*'"
   ];
 
   meta = {

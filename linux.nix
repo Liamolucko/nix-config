@@ -1,4 +1,7 @@
 { lib, pkgs, ... }:
+let
+  ciSafe = builtins.getEnv "CI_SAFE" != "";
+in
 {
   imports = [
     ./shared.nix
@@ -36,8 +39,8 @@
 
   programs.gpaste.enable = true;
 
-  programs.steam.enable = lib.mkDefault true;
-  programs._1password-gui.enable = true;
+  programs.steam.enable = lib.mkDefault (!ciSafe);
+  programs._1password-gui.enable = !ciSafe;
 
   home-manager.users.liam = import ./home-linux.nix;
 }

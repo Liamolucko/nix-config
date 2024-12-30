@@ -9,7 +9,6 @@
     pkgs.cargo-fuzz
     pkgs.clang-tools
     pkgs.emscripten # needed by tree-sitter
-    pkgs.kitty
     # pkgs.isabelle
     pkgs.jre_headless # for kotlin-language-server
     pkgs.man-pages
@@ -21,7 +20,6 @@
     pkgs.prismlauncher
     pkgs.pulldown-cmark
     pkgs.rclone
-    pkgs.rio
     pkgs.ruff
     (pkgs.lib.meta.hiPrio pkgs.rust-analyzer)
     pkgs.samply

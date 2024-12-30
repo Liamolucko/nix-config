@@ -1,5 +1,11 @@
-{ pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 let
+  ciSafe = builtins.getEnv "CI_SAFE" != "";
   vivado = pkgs.vivado_2024_1.override {
     modules = [
       "Artix-7"
@@ -60,12 +66,15 @@ in
   networking.hostName = "liam-desktop";
   services.openssh.enable = true;
 
-  environment.systemPackages = [
-    vivado
-    pkgs.zed-editor
-  ];
+  environment.systemPackages =
+    [
+      pkgs.zed-editor
+    ]
+    ++ lib.optionals (!ciSafe) [
+      vivado
+    ];
   # Install Vivado's udev rules.
-  services.udev.packages = [ vivado ];
+  services.udev.packages = lib.optionals (!ciSafe) [ vivado ];
 
   system.stateVersion = "24.05";
 }

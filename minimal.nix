@@ -1,9 +1,13 @@
 { lib, pkgs, ... }:
+let
+  ciSafe = builtins.getEnv "CI_SAFE" != "";
+in
 {
   nix.settings.experimental-features = "nix-command flakes";
   nixpkgs.config.allowUnfreePredicate =
     pkg:
-    builtins.elem (lib.getName pkg) [
+    !ciSafe
+    && builtins.elem (lib.getName pkg) [
       "1password"
       "steam"
       "steam-unwrapped"
