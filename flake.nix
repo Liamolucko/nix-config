@@ -86,7 +86,8 @@
         });
         newlib = prev.newlib.overrideAttrs (old: {
           version = "4.4.0.20231231";
-          src = old.src.override {
+          src = final.fetchurl {
+            inherit (old.src) url;
             sha256 = "sha256-DBZqOeG/CVHfr81olJ/g5LbTZYCB1igvOa7vxjEPLxM=";
           };
         });
