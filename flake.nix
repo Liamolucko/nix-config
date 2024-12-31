@@ -46,7 +46,6 @@
         # else with that name, what to call it?
         f4pga = with final.python3Packages; toPythonApplication f4pga;
         f4pga-arch-defs = final.callPackage ./pkgs/f4pga-arch-defs { };
-        fex = final.callPackage ./pkgs/fex { };
         prjxray-db = final.callPackage ./pkgs/prjxray-db { };
         prjxray-tools = final.callPackage ./pkgs/prjxray-tools { };
         qlf-fasm = final.callPackage ./pkgs/qlf-fasm { };
