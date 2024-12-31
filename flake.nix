@@ -84,7 +84,12 @@
         isabelle = prev.isabelle.overrideAttrs (old: {
           patches = [ ./isabelle-fix-copied-permissions.patch ];
         });
-
+        newlib = prev.newlib.overrideAttrs (old: {
+          version = "4.4.0.20231231";
+          src = old.src.override {
+            sha256 = "sha256-DBZqOeG/CVHfr81olJ/g5LbTZYCB1igvOa7vxjEPLxM=";
+          };
+        });
         yosys = prev.yosys.overrideAttrs (old: {
           patches = old.patches ++ [
             (final.fetchpatch {
