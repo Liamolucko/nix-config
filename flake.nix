@@ -99,6 +99,12 @@
             })
           ];
         });
+        yosys-symbiflow = final.lib.mapAttrs (
+          name: pkg:
+          pkg.overrideAttrs {
+            patches = [ ./yosys-symbiflow-include-tcl.patch ];
+          }
+        ) prev.yosys-symbiflow;
 
         pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
           (python-final: python-prev: {

@@ -1,0 +1,78 @@
+diff --git a/design_introspection-plugin/get_cmd.cc b/design_introspection-plugin/get_cmd.cc
+index 66401a6..96e8133 100644
+--- a/design_introspection-plugin/get_cmd.cc
++++ b/design_introspection-plugin/get_cmd.cc
+@@ -1,5 +1,7 @@
+ #include "get_cmd.h"
+ 
++#include <tcl.h>
++
+ USING_YOSYS_NAMESPACE
+ 
+ void GetCmd::help()
+diff --git a/design_introspection-plugin/get_count.cc b/design_introspection-plugin/get_count.cc
+index 850d3f6..f2147f3 100644
+--- a/design_introspection-plugin/get_count.cc
++++ b/design_introspection-plugin/get_count.cc
+@@ -21,6 +21,8 @@
+ 
+ #include "kernel/rtlil.h"
+ 
++#include <tcl.h>
++
+ USING_YOSYS_NAMESPACE
+ 
+ void GetCount::help()
+diff --git a/design_introspection-plugin/selection_to_tcl_list.h b/design_introspection-plugin/selection_to_tcl_list.h
+index bbc4acb..d431951 100644
+--- a/design_introspection-plugin/selection_to_tcl_list.h
++++ b/design_introspection-plugin/selection_to_tcl_list.h
+@@ -20,6 +20,8 @@
+ 
+ #include "kernel/register.h"
+ 
++#include <tcl.h>
++
+ USING_YOSYS_NAMESPACE
+ 
+ struct SelectionToTclList : public Pass {
+diff --git a/params-plugin/params.cc b/params-plugin/params.cc
+index e4c944d..ee745f5 100644
+--- a/params-plugin/params.cc
++++ b/params-plugin/params.cc
+@@ -19,6 +19,8 @@
+ #include "kernel/register.h"
+ #include "kernel/rtlil.h"
+ 
++#include <tcl.h>
++
+ USING_YOSYS_NAMESPACE
+ 
+ PRIVATE_NAMESPACE_BEGIN
+diff --git a/sdc-plugin/sdc.cc b/sdc-plugin/sdc.cc
+index fd153c6..06cdc20 100644
+--- a/sdc-plugin/sdc.cc
++++ b/sdc-plugin/sdc.cc
+@@ -36,6 +36,8 @@
+ #include "set_false_path.h"
+ #include "set_max_delay.h"
+ 
++#include <tcl.h>
++
+ USING_YOSYS_NAMESPACE
+ 
+ PRIVATE_NAMESPACE_BEGIN
+diff --git a/xdc-plugin/xdc.cc b/xdc-plugin/xdc.cc
+index 9a66029..73c50b5 100644
+--- a/xdc-plugin/xdc.cc
++++ b/xdc-plugin/xdc.cc
+@@ -31,7 +31,9 @@
+ #include "kernel/register.h"
+ #include "kernel/rtlil.h"
+ #include "libs/json11/json11.hpp"
++
+ #include <cassert>
++#include <tcl.h>
+ 
+ USING_YOSYS_NAMESPACE
+ 
