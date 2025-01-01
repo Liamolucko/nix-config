@@ -270,8 +270,8 @@ stdenv.mkDerivation {
     nodejs
     openocd
     prjxray-tools
-    # See litedram for how this works.
-    pkgsCross.riscv64-embedded.buildPackages.gcc
+    # The old version of litex we're using doesn't build with GCC 14.
+    pkgsCross.riscv64-embedded.buildPackages.gcc13
     python3.pkgs.flake8
     python3.pkgs.pytest
     qlf-fasm
