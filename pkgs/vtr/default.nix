@@ -2,11 +2,10 @@
   lib,
   stdenv,
   fetchFromGitHub,
-  fetchpatch,
-  cmake,
+  replaceVars,
   bison,
-  clang,
   capnproto-java,
+  cmake,
   eigen,
   flex,
   libffi,
@@ -22,19 +21,18 @@
 }:
 stdenv.mkDerivation {
   pname = "vtr";
-  version = "8.0.0-unstable-2024-08-03";
+  version = "8.0.0-unstable-2024-12-21";
 
   src = fetchFromGitHub {
     owner = "verilog-to-routing";
     repo = "vtr-verilog-to-routing";
-    rev = "49de5fb78364771b440b69dc95622d0db52e01f3";
-    hash = "sha256-PemW7B/pjMVPlUFOADLoVJRxXFalPcS+sP08ps/3xZM=";
+    rev = "0b20db91e040ee04c2b443b4c0a73daee6c48104";
+    hash = "sha256-ZKnnIZkM5rpf5SM8IEwL0cALasL+/XCYu8i/joXZxDg=";
     fetchSubmodules = true;
   };
 
   patches = [
-    ./no-wget.patch
-    ./yosys-fix-clang-build.patch
+    (replaceVars ./no-wget.patch { inherit capnproto-java; })
     # TODO upstream
     ./allow-stubs.patch
     ./fix-backwards-ifdefs.patch
@@ -45,34 +43,29 @@ stdenv.mkDerivation {
     ./clear-properly.patch
     ./fix-uninit.patch
   ];
-  postPatch = ''
-    substituteInPlace \
-      libs/EXTERNAL/libinterchange/cmake/cxx_static/CMakeLists.txt \
-      libs/libvtrcapnproto/CMakeLists.txt \
-      --subst-var-by capnprotoJavaSrc '${capnproto-java.src}'
-  '';
 
   nativeBuildInputs = [
     cmake
     bison
-    clang # Used to compile yosys
     flex
-    libffi
     pkg-config
     python3
     tcl
   ];
   buildInputs = [
     eigen
+    libffi
     readline
+    tcl
     zlib
   ] ++ lib.optionals enableTbb [ tbb_2021_11 ];
 
-  preConfigure = lib.optionalString stdenv.isDarwin ''
-    cmakeFlagsArray+=(
-      -DCMAKE_SHARED_LINKER_FLAGS="-undefined dynamic_lookup"
-    )
-  '';
+  strictDeps = true;
+
+  cmakeFlags = lib.optionals stdenv.hostPlatform.isDarwin [
+    "-DCMAKE_SHARED_LINKER_FLAGS=-undefined dynamic_lookup"
+  ];
+  __structuredAttrs = true;
 
   doCheck = true;
 

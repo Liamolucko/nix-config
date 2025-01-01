@@ -243,7 +243,7 @@ let
   };
 
   # For some reason VPR segfaults on darwin while building this if TBB is enabled.
-  vtr' = vtr.override { enableTbb = !(stdenv.isDarwin && family == "xc7"); };
+  vtr' = vtr.override { enableTbb = !(stdenv.buildPlatform.isDarwin && family == "xc7"); };
 in
 stdenv.mkDerivation {
   pname = "f4pga-arch-defs-${device}";

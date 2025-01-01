@@ -1,5 +1,3 @@
-diff --git a/libs/EXTERNAL/libinterchange/cmake/cxx_static/CMakeLists.txt b/libs/EXTERNAL/libinterchange/cmake/cxx_static/CMakeLists.txt
-index 196c32882..800d20bbc 100644
 --- a/libs/EXTERNAL/libinterchange/cmake/cxx_static/CMakeLists.txt
 +++ b/libs/EXTERNAL/libinterchange/cmake/cxx_static/CMakeLists.txt
 @@ -3,15 +3,11 @@ set(PROTOS LogicalNetlist.capnp PhysicalNetlist.capnp DeviceResources.capnp Refe
@@ -15,12 +13,10 @@ index 196c32882..800d20bbc 100644
 -    COMMAND ${WGET}
 -        https://raw.githubusercontent.com/capnproto/capnproto-java/master/compiler/src/main/schema/capnp/java.capnp
 -        -O ${JAVA_SCHEMA}
-+    COMMAND cp @capnprotoJavaSrc@/compiler/src/main/schema/capnp/java.capnp ${JAVA_SCHEMA}
++    COMMAND cp @capnproto-java@/include/capnp/java.capnp ${JAVA_SCHEMA}
      )
  add_custom_target(
      get_java_capnp_schema
-diff --git a/libs/libvtrcapnproto/CMakeLists.txt b/libs/libvtrcapnproto/CMakeLists.txt
-index cd97b0ec4..7fa4431dd 100644
 --- a/libs/libvtrcapnproto/CMakeLists.txt
 +++ b/libs/libvtrcapnproto/CMakeLists.txt
 @@ -35,7 +35,6 @@ if (VPR_ENABLE_INTERCHANGE)
@@ -38,7 +34,7 @@ index cd97b0ec4..7fa4431dd 100644
 -        COMMAND ${WGET}
 -            https://raw.githubusercontent.com/capnproto/capnproto-java/master/compiler/src/main/schema/capnp/java.capnp
 -            -O ${JAVA_SCHEMA}
-+        COMMAND cp @capnprotoJavaSrc@/compiler/src/main/schema/capnp/java.capnp ${JAVA_SCHEMA}
++        COMMAND cp @capnproto-java@/include/capnp/java.capnp ${JAVA_SCHEMA}
      )
  
      add_custom_target(
