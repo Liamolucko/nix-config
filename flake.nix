@@ -77,10 +77,6 @@
             cp -r ${repo}/new/board_files $out/Vivado/${final.vivado.version}/data/boards/board_files
           '';
 
-        capnproto = prev.capnproto.overrideAttrs {
-          # Rebase of https://github.com/capnproto/capnproto/pull/1130.
-          patches = [ ./capnproto-fix-large-writes.patch ];
-        };
         isabelle = prev.isabelle.overrideAttrs (old: {
           patches = [ ./isabelle-fix-copied-permissions.patch ];
         });
