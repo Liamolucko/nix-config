@@ -39,7 +39,7 @@
          name=str(seg.name),
          timing=graph2.SegmentTiming(
              r_per_meter=timing.rPerMeter,
-@@ -470,7 +471,10 @@ class Graph(object):
+@@ -470,7 +471,9 @@ class Graph(object):
  
          for out_segment, segment in zip(segments, self.graph.segments):
              out_segment.id = segment.id
