@@ -1,12 +1,61 @@
-diff --git a/utils/lib/rr_graph_capnp/graph2.py b/utils/lib/rr_graph_capnp/graph2.py
-index e66d9278..9f6e2e80 100644
+--- a/utils/lib/rr_graph/graph2.py
++++ b/utils/lib/rr_graph/graph2.py
+@@ -92,7 +92,7 @@ class SegmentTiming(namedtuple('SegmentTiming', 'r_per_meter c_per_meter')):
+     """
+ 
+ 
+-class Segment(namedtuple('Segment', 'id name timing')):
++class Segment(namedtuple('Segment', 'id length name timing')):
+     """Encapsulate VPR segment tag. Contains SegmentTiming to encapsulate the timing attributes
+     see: https://vtr-verilog-to-routing.readthedocs.io/en/latest/arch/reference.html#wire-segments
+     """
+--- a/utils/lib/rr_graph/tests/test_graph2.py
++++ b/utils/lib/rr_graph/tests/test_graph2.py
+@@ -48,7 +48,7 @@ class Graph2Tests(unittest.TestCase):
+         ]
+ 
+         seg_timing = SegmentTiming(r_per_meter=1, c_per_meter=1)
+-        self.segments = [Segment(id=0, name='s0', timing=seg_timing)]
++        self.segments = [Segment(id=0, length=None, name='s0', timing=seg_timing)]
+ 
+         pin_classes = [
+             PinClass(type=PinType.INPUT, pin=[Pin(ptc=0, name='p1')]),
+@@ -257,7 +257,7 @@ class Graph2MediumTests(unittest.TestCase):
+         ]
+ 
+         seg_timing = SegmentTiming(r_per_meter=1, c_per_meter=1)
+-        self.segments = [Segment(id=0, name='s0', timing=seg_timing)]
++        self.segments = [Segment(id=0, length=None, name='s0', timing=seg_timing)]
+ 
+         pin_classes0 = [
+             PinClass(type=PinType.INPUT, pin=[Pin(ptc=0, name='p1')]),
 --- a/utils/lib/rr_graph_capnp/graph2.py
 +++ b/utils/lib/rr_graph_capnp/graph2.py
-@@ -471,6 +471,7 @@ class Graph(object):
+@@ -119,6 +119,7 @@ def read_segment(seg):
+     timing = seg.timing
+     return graph2.Segment(
+         id=seg.id,
++        length=seg.length,
+         name=str(seg.name),
+         timing=graph2.SegmentTiming(
+             r_per_meter=timing.rPerMeter,
+@@ -470,7 +471,10 @@ class Graph(object):
+ 
          for out_segment, segment in zip(segments, self.graph.segments):
              out_segment.id = segment.id
++            out_segment.length = segment.length
              out_segment.name = segment.name
 +            out_segment.resType = "general"
  
              if segment.timing:
                  timing = out_segment.timing
+--- a/utils/lib/rr_graph_xml/graph2.py
++++ b/utils/lib/rr_graph_xml/graph2.py
+@@ -136,6 +136,7 @@ def graph_from_xml(
+             segments.append(
+                 graph2.Segment(
+                     id=int(element.attrib['id']),
++                    length=None,
+                     name=element.attrib['name'],
+                     timing=segment_timing,
+                 )
