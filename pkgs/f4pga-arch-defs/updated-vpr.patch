@@ -59,3 +59,13 @@
                      name=element.attrib['name'],
                      timing=segment_timing,
                  )
+--- a/xilinx/common/cmake/arch_define.cmake
++++ b/xilinx/common/cmake/arch_define.cmake
+@@ -72,7 +72,6 @@ function(ADD_XC_ARCH_DEFINE)
+   # More details can be found in the report: https://colab.research.google.com/drive/1X91RGZnvlC7dBjJJUbS7JfqCbPCzJ3Xb
+   # Also checked in at: utils/ipynb/Parameter_Sweep_using_fpga_tool_perf.ipynb
+   set(VPR_ARCH_ARGS "\
+-      --router_heap bucket \
+       --clock_modeling route \
+       --place_delta_delay_matrix_calculation_method dijkstra \
+       --place_delay_model delta \
