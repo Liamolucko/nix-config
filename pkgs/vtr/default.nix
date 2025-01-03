@@ -44,6 +44,7 @@ stdenv.mkDerivation {
     ./avoid-segfault.patch
     ./clear-properly.patch # intermittent
     # running tests in random order? (avoid-segfault also kinda falls in this category, except that it's triggered by macos's default order)
+    # or maybe this was just used in the process of debugging our way to clear-properly
     ./fix-uninit.patch
   ];
 
