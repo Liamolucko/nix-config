@@ -34,13 +34,16 @@ stdenv.mkDerivation {
   patches = [
     (replaceVars ./no-wget.patch { inherit capnproto-java; })
     # TODO upstream
+    # bugfixes
     ./allow-stubs.patch
     ./fix-backwards-ifdefs.patch
     ./fix-symlinks.patch
     ./ignore-non-synth.patch
+    # mac support
     ./add-missing-includes.patch
     ./avoid-segfault.patch
-    ./clear-properly.patch
+    ./clear-properly.patch # intermittent
+    # running tests in random order? (avoid-segfault also kinda falls in this category, except that it's triggered by macos's default order)
     ./fix-uninit.patch
   ];
 

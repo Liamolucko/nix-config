@@ -317,6 +317,7 @@ stdenv.mkDerivation {
     "-DOPENOCD_DATADIR=${openocd}/share/openocd"
     "-DVPR_CAPNP_SCHEMA_DIR=${vtr'}/share/vtr"
     "-DINSTALL_DEVICES=${device}"
+    "-Wno-dev"
   ];
   prefix = "${placeholder "out"}/${family}";
 
