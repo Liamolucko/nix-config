@@ -1,0 +1,25 @@
+diff --git a/f4pga/flows/platforms.yml b/f4pga/flows/platforms.yml
+index 4313795..67d0281 100644
+--- a/f4pga/flows/platforms.yml
++++ b/f4pga/flows/platforms.yml
+@@ -32,7 +32,6 @@ xc7a50t: &xc7
+       router_high_fanout_threshold: -1
+       constant_net_method: route
+       route_chan_width: 500
+-      router_heap: bucket
+       clock_modeling: route
+       place_delta_delay_matrix_calculation_method: dijkstra
+       place_delay_model: delta
+diff --git a/f4pga/wrappers/sh/__init__.py b/f4pga/wrappers/sh/__init__.py
+index b134a08..30be0b0 100644
+--- a/f4pga/wrappers/sh/__init__.py
++++ b/f4pga/wrappers/sh/__init__.py
+@@ -181,8 +181,6 @@ def p_parse_vpr_args_xc7(vpr_options=None, log_suffix=None):
+             "route",
+             "--route_chan_width",
+             "500",
+-            "--router_heap",
+-            "bucket",
+             "--clock_modeling",
+             "route",
+             "--place_delta_delay_matrix_calculation_method",

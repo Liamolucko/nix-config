@@ -71,6 +71,7 @@ let
 
     patches = [
       ./no-path.patch
+      ./updated-vpr.patch
       ./params-without-values.patch # TODO upstream
       ./no-ilang.patch # TODO upstream
     ];
