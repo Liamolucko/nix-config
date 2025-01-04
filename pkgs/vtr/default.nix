@@ -9,11 +9,13 @@
   eigen,
   flex,
   libffi,
+  perl,
   pkg-config,
   python3,
   readline,
   tbb_2021_11,
   tcl,
+  time,
   zlib,
   enableTbb ? true,
 # TODO add withGraphics
@@ -43,6 +45,7 @@ stdenv.mkDerivation {
     ./add-missing-includes.patch
     ./avoid-segfault.patch
     ./clear-properly.patch # intermittent
+    ./parmys-so.patch
     # running tests in random order? (avoid-segfault also kinda falls in this category, except that it's triggered by macos's default order)
     # or maybe this was just used in the process of debugging our way to clear-properly
     ./fix-uninit.patch
@@ -72,6 +75,15 @@ stdenv.mkDerivation {
   __structuredAttrs = true;
 
   doCheck = true;
+  nativeCheckInputs = [
+    perl
+    python3.pkgs.prettytable
+    time
+  ];
+  checkPhase = ''
+    make test
+    python ../run_reg_test.py vtr_reg_basic -skip_qor
+  '';
 
   meta = {
     description = "Open Source CAD Flow for FPGA Research";

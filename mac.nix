@@ -31,8 +31,6 @@ in
 
         # QEMU can only start VMs with 8 cores right now for some reason.
         virtualisation.cores = 8;
-        # The default 3GB doesn't seem to be enough for f4pga-arch-defs.
-        virtualisation.darwin-builder.memorySize = 5 * 1024;
         # qemu-vm.nix tries to override this to empty with higher priority than
         # mkForce... grr...
         swapDevices = lib.mkOverride 5 [
