@@ -15,6 +15,7 @@
   readline,
   tbb_2021_11,
   tcl,
+  time,
   zlib,
   enableTbb ? true,
 # TODO add withGraphics
@@ -34,6 +35,7 @@ stdenv.mkDerivation {
 
   patches = [
     (replaceVars ./no-wget.patch { inherit capnproto-java; })
+    (replaceVars ./no-abs-paths.patch { time = lib.getExe time; })
     # TODO upstream
     # bugfixes
     ./allow-stubs.patch

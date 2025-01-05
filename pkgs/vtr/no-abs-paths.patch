@@ -1,0 +1,13 @@
+diff --git a/vtr_flow/scripts/python_libs/vtr/util.py b/vtr_flow/scripts/python_libs/vtr/util.py
+index 61b52ee99..ca610ff42 100644
+--- a/vtr_flow/scripts/python_libs/vtr/util.py
++++ b/vtr_flow/scripts/python_libs/vtr/util.py
+@@ -107,7 +107,7 @@ class CommandRunner:
+         cmd = memory_limit + cmd if self._max_memory_mb and check_cmd(memory_limit[0]) else cmd
+ 
+         # Enable memory tracking?
+-        memory_tracking = ["/usr/bin/env", "time", "-v"]
++        memory_tracking = ["@time@", "-v"]
+         cmd = (
+             (
+                 memory_tracking
