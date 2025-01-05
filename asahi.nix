@@ -42,17 +42,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = false;
 
-  networking.wireless.iwd = {
-    enable = true;
-    settings.General.EnableNetworkConfiguration = true;
-  };
-  networking.networkmanager.wifi.backend = "iwd";
-
   networking.hostName = "liam-asahi";
 
   hardware.asahi.useExperimentalGPUDriver = true;
 
-  environment.systemPackages = [ (pkgs.zed-editor.override { withGLES = true; }) ];
+  environment.systemPackages = [ pkgs.zed-editor ];
 
   # TODO: get working w/ FEX.
   programs.steam.enable = false;

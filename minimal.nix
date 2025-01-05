@@ -31,6 +31,11 @@ in
     "liamolucko.cachix.org-1:BUnxmHPZZOBq0CokNOYCcYBOCzFXJ9EjdY9BoQkDVJY="
   ];
 
+  boot.kernel.sysctl = {
+    # Needed by samply.
+    "kernel.perf_event_paranoid" = 1;
+  };
+
   environment.systemPackages = [
     pkgs.bat
     pkgs.btop
