@@ -15,7 +15,6 @@
   readline,
   tbb_2021_11,
   tcl,
-  time,
   zlib,
   enableTbb ? true,
 # TODO add withGraphics
@@ -78,10 +77,11 @@ stdenv.mkDerivation {
   nativeCheckInputs = [
     perl
     python3.pkgs.prettytable
-    time
   ];
   checkPhase = ''
     make test
+
+    patchShebangs --build ../vtr_flow/scripts
     python ../run_reg_test.py vtr_reg_basic -skip_qor
   '';
 

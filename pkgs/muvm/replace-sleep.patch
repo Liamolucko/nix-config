@@ -1,0 +1,11 @@
+--- a/crates/muvm/src/server/bin/muvm-server.rs
++++ b/crates/muvm/src/server/bin/muvm-server.rs
+@@ -36,7 +36,7 @@ async fn tokio_main(cookie: String) -> Result<()> {
+         };
+         (
+             server_port,
+-            PathBuf::from("/bin/sleep"),
++            PathBuf::from("sleep"),
+             vec!["inf".to_string()],
+         )
+     } else {
