@@ -27,5 +27,10 @@
     publish.addresses = true;
   };
 
+  boot.kernel.sysctl = {
+    # Needed by samply.
+    "kernel.perf_event_paranoid" = 1;
+  };
+
   documentation.man.generateCaches = false;
 }
