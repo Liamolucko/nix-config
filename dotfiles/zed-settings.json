@@ -13,7 +13,8 @@
     "verilog": true,
     "wgsl": true,
     "wit": true,
-    "xcode-themes": true
+    "xcode-themes": true,
+    "xml": true
   },
   "buffer_font_size": 14,
   "features": { "inline_completion_provider": "none" },
