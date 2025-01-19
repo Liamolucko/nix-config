@@ -41,6 +41,7 @@
           inherit (final) config overlays;
         };
 
+        cargo-expand = final.callPackage ./pkgs/cargo-expand { };
         docnav = final.callPackage ./pkgs/docnav { };
         # TODO: fasm has a binary that we should package but there's already something
         # else with that name, what to call it?
