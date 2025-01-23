@@ -23,13 +23,13 @@
 }:
 stdenv.mkDerivation {
   pname = "vtr";
-  version = "8.0.0-unstable-2024-12-21";
+  version = "9.0.0-unstable-2025-01-23";
 
   src = fetchFromGitHub {
     owner = "verilog-to-routing";
     repo = "vtr-verilog-to-routing";
-    rev = "0b20db91e040ee04c2b443b4c0a73daee6c48104";
-    hash = "sha256-ZKnnIZkM5rpf5SM8IEwL0cALasL+/XCYu8i/joXZxDg=";
+    rev = "6ce9dbe61e43074c0080d6dd4311cc0e6f786466";
+    hash = "sha256-NfyaA8jZI7CXZHi832cIlRyOnYYZDsxUJDw6AywvWNA=s";
     fetchSubmodules = true;
   };
 
@@ -37,19 +37,10 @@ stdenv.mkDerivation {
     (replaceVars ./no-wget.patch { inherit capnproto-java; })
     (replaceVars ./no-abs-paths.patch { time = lib.getExe time; })
     # TODO upstream
-    # bugfixes
     ./allow-stubs.patch
     ./fix-backwards-ifdefs.patch
     ./fix-symlinks.patch
     ./ignore-non-synth.patch
-    # mac support
-    ./add-missing-includes.patch
-    ./avoid-segfault.patch
-    ./clear-properly.patch # intermittent
-    ./parmys-so.patch
-    # running tests in random order? (avoid-segfault also kinda falls in this category, except that it's triggered by macos's default order)
-    # or maybe this was just used in the process of debugging our way to clear-properly
-    ./fix-uninit.patch
   ];
 
   nativeBuildInputs = [

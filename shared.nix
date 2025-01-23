@@ -9,7 +9,7 @@
     pkgs.cargo-fuzz
     pkgs.clang-tools
     pkgs.emscripten # needed by tree-sitter
-    # pkgs.isabelle
+    pkgs.isabelle
     pkgs.jre_headless # for kotlin-language-server
     pkgs.man-pages
     pkgs.nixd

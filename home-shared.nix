@@ -33,4 +33,10 @@ in
   xdg.configFile."zed/settings.json".source = pkgs.runCommand "zed-settings" { } ''
     ln -s '${config.home.homeDirectory}/src/nix-config/dotfiles/zed-settings.json' $out
   '';
+
+  programs.emacs.enable = true;
+  programs.emacs.extraConfig = ''
+    (load "/Users/liam/src/HOL/tools/editor-modes/emacs/hol-mode")
+    (load "/Users/liam/src/HOL/tools/editor-modes/emacs/hol-unicode")
+  '';
 }
