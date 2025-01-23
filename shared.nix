@@ -1,5 +1,8 @@
 # Config that's shared between all my systems.
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
+let
+  ciSafe = builtins.getEnv "CI_SAFE" != "";
+in
 {
   imports = [ ./minimal.nix ];
 
@@ -9,7 +12,6 @@
     pkgs.cargo-fuzz
     pkgs.clang-tools
     pkgs.emscripten # needed by tree-sitter
-    pkgs.isabelle
     pkgs.jre_headless # for kotlin-language-server
     pkgs.man-pages
     pkgs.nixd
@@ -35,6 +37,8 @@
     pkgs.wasm-bindgen-cli
     pkgs.wasm-pack
     pkgs.wasm-tools
+  ] ++ lib.optionals (!ciSafe) [
+    pkgs.isabelle
   ];
 
   home-manager.users.liam = import ./home-shared.nix;
