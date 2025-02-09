@@ -38,5 +38,9 @@ in
   programs.emacs.extraConfig = ''
     (load "/Users/liam/src/HOL/tools/editor-modes/emacs/hol-mode")
     (load "/Users/liam/src/HOL/tools/editor-modes/emacs/hol-unicode")
+
+    (delete-selection-mode 1)
+    (global-set-key [home] 'move-beginning-of-line)
+    (global-set-key [end] 'move-end-of-line)
   '';
 }

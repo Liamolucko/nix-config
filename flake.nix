@@ -42,7 +42,6 @@
         };
 
         bender = final.callPackage ./pkgs/bender { };
-        cargo-expand = final.callPackage ./pkgs/cargo-expand { };
         docnav = final.callPackage ./pkgs/docnav { };
         # TODO: fasm has a binary that we should package but there's already something
         # else with that name, what to call it?
@@ -88,6 +87,13 @@
         });
         isabelle = prev.isabelle.overrideAttrs (old: {
           patches = [ ./isabelle-fix-copied-permissions.patch ];
+          # eprover comes with symlinks to its built artifacts, and so using the nixpkgs
+          # version instead of building it causes them to be broken.
+          #
+          # We could solve this by building directly from the mercurial repository instead
+          # of using the release tarballs and avoiding contrib/ entirely, but that's a lot
+          # of work for such a minor issue.
+          dontCheckForBrokenSymlinks = true;
         });
         yosys = prev.yosys.overrideAttrs (old: {
           patches = old.patches ++ [

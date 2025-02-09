@@ -15,7 +15,8 @@ rustPlatform.buildRustPackage rec {
     hash = "sha256-eC4BY3ri73vgEtcXoPQ5NDknjZcPrKOzLo2vXWj4Adg=";
   };
 
-  cargoHash = "sha256-hFJ6cImLPpHlGqgYmWiGEZw4ZuS8Di3r/O09w6Evj7U=";
+  useFetchCargoVendor = true;
+  cargoHash = "sha256-fV4pWSRNlXCdnpeDgg3QW8s1Ixd1LEY8qP/Pb4t5xdc=";
 
   meta = {
     description = "A dependency management tool for hardware projects";
