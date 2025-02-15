@@ -12,7 +12,6 @@ in
 
   nix.settings.trusted-users = [ "@admin" ];
   # nix.settings.sandbox = true;
-  services.nix-daemon.enable = true;
   nix.daemonProcessType = "Interactive";
   nix.linux-builder =
     {
