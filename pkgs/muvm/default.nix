@@ -1,7 +1,6 @@
 {
   lib,
   fetchFromGitHub,
-  fetchpatch,
   rustPlatform,
   dhcpcd,
   libkrun,
@@ -16,23 +15,24 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "muvm";
-  version = "0.2.0";
+  version = "0.3.0";
 
   src = fetchFromGitHub {
     owner = "AsahiLinux";
     repo = pname;
     rev = "muvm-${version}";
-    hash = "sha256-eB60LjI1Qr85MPtQh0Fb5ihzBahz95tXaozNe8q6o3o=";
+    hash = "sha256-h6OUpkKFBbh5hO3ku91Gvn3GD9FgtIjtoWEhSwf3vXA=";
   };
 
-  cargoHash = "sha256-ilCVALy1ofiq6Ak8nBhWusPwRAnD9VgOiOV5PKhF5GQ=";
+  useFetchCargoVendor = true;
+  cargoHash = "sha256-W3qdUhh4L0KSDeyjl+JjxLvgremf+/sWaR7KU/16FKY=";
 
   patches = [
     (replaceVars ./replace-udevd.patch {
       systemd-udevd = "${systemd}/lib/systemd/systemd-udevd";
     })
-    ./opengl-driver.patch
-    ./replace-sleep.patch
+    ./replace-sysctl.patch
+    ./run-passthru.patch
   ];
 
   nativeBuildInputs = [
@@ -50,7 +50,6 @@ rustPlatform.buildRustPackage rec {
     systemd
   ];
 
-  # Allow for sommelier to be disabled as it can cause problems.
   wrapArgs = [
     "--prefix PATH : ${
       lib.makeBinPath [
