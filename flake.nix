@@ -80,13 +80,6 @@
             cp -r ${repo}/new/board_files $out/Vivado/${final.vivado.version}/data/boards/board_files
           '';
 
-        capnproto = prev.capnproto.overrideAttrs (old: {
-          version = "1.1.0";
-          src = old.src.override {
-            rev = "v1.1.0";
-            sha256 = "sha256-gxkko7LFyJNlxpTS+CWOd/p9x/778/kNIXfpDGiKM2A=";
-          };
-        });
         isabelle = prev.isabelle.overrideAttrs (old: {
           patches = [ ./isabelle-fix-copied-permissions.patch ];
           # eprover comes with symlinks to its built artifacts, and so using the nixpkgs

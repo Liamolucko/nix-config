@@ -43,5 +43,7 @@ in
       pkgs.isabelle
     ];
 
+  fonts.packages = [ pkgs.gyre-fonts ];
+
   home-manager.users.liam = import ./home-shared.nix;
 }

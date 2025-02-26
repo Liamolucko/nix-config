@@ -16,8 +16,8 @@
     "xcode-themes": true,
     "xml": true
   },
-  "buffer_font_size": 14,
-  "features": { "inline_completion_provider": "none" },
+  "buffer_font_size": 14.0,
+  "features": { "edit_prediction_provider": "none" },
   "languages": {
     "Git Commit": { "wrap_guides": [72] },
     "Haskell": { "tab_size": 2 },
@@ -28,6 +28,11 @@
     "Verilog": { "tab_size": 2 }
   },
   "lsp": {
+    "pylsp": {
+      "initialization_options": {
+        "pylsp": { "plugins": { "pyflakes": { "enabled": false } } }
+      }
+    },
     "rust-analyzer": {
       "initialization_options": {
         "checkOnSave": { "command": "clippy" },
