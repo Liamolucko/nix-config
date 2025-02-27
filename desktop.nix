@@ -75,6 +75,11 @@ in
     ];
   # Install Vivado's udev rules.
   services.udev.packages = lib.optionals (!ciSafe) [ vivado ];
+  # Avoid accidentally GCing these if keep-outputs is turned off.
+  system.extraDependencies = lib.optionals (!ciSafe) [
+    vivado.payload
+    pkgs.xinstall_2024_1.src
+  ];
 
   system.stateVersion = "24.05";
 }

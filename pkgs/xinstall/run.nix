@@ -171,6 +171,8 @@ stdenv.mkDerivation (
       inherit payload;
       archiveTests =
         let
+          # TODO: the inclusion of the SharedData module makes vivado-test-base _133.7GB_.
+          # We should probably figure out how to avoid including it.
           base = xinstall.run {
             pname = "${pname}-test-base";
             inherit edition product validModules;

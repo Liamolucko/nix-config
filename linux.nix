@@ -27,6 +27,7 @@ in
     pkgs.gnome-tweaks
     pkgs.gnomeExtensions.caffeine
     pkgs.libreoffice
+    pkgs.pciutils
     pkgs.rhythmbox
     pkgs.usbutils
     pkgs.wl-clipboard
