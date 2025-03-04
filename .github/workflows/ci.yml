@@ -1,6 +1,5 @@
 name: CI
-on:
-  push:
+on: [push, workflow_dispatch]
 jobs:
   build-f4pga-arch-defs:
     name: Build f4pga-arch-defs
