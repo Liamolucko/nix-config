@@ -43,6 +43,7 @@
 
         bender = final.callPackage ./pkgs/bender { };
         docnav = final.callPackage ./pkgs/docnav { };
+        eqy = final.callPackage ./pkgs/eqy { };
         # TODO: fasm has a binary that we should package but there's already something
         # else with that name, what to call it?
         f4pga = with final.python3Packages; toPythonApplication f4pga;
