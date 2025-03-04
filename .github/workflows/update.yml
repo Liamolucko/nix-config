@@ -13,7 +13,7 @@ jobs:
         uses: DeterminateSystems/update-flake-lock@v24
       - run: |
           gh pr merge --auto "${{ steps.update.outputs.pull-request-number }}" --rebase
-          gh workflow run ci.yml --ref "refs/pull/${{ steps.update.outputs.pull-request-number }}/head"
+          gh workflow run ci.yml --ref update_flake_lock_action
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: ${{ steps.update.outputs.pull-request-number != '' }}
