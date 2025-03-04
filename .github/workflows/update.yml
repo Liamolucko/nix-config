@@ -11,9 +11,9 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@v16
       - id: update
         uses: DeterminateSystems/update-flake-lock@v24
-      - run: |
-          gh pr merge --auto "${{ steps.update.outputs.pull-request-number }}" --rebase
-          gh workflow run ci.yml --ref update_flake_lock_action
+        with:
+          token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
+      - run: gh pr merge --auto "${{ steps.update.outputs.pull-request-number }}" --rebase
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: ${{ steps.update.outputs.pull-request-number != '' }}
