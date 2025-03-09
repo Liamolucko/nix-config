@@ -1222,7 +1222,7 @@
   #   - To update the "Vivado" module, use `vivado.archiveTests.base`.
   # - And you're done! Test it out, and maybe add some `patches` or a
   #   `postInstall`/`postFixup` in `modules.nix` if something isn't working.
-  modules = {
+  archives = {
     # This isn't a real module, but treating it like one makes it easier to leave
     # out in the case of e.g. standalone DocNav.
     "Vivado" = [
