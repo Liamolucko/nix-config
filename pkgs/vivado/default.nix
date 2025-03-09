@@ -41,9 +41,9 @@ xinstall.run {
       "Kintex UltraScale"
       "Artix UltraScale+"
       "Kintex UltraScale+"
-      "Virtex UltraScale+"
-      "Virtex UltraScale+ 58G"
       "Virtex UltraScale+ HBM"
+      "Virtex UltraScale+ 58G"
+      "Virtex UltraScale+"
     ]
     ++ lib.optionals (lib.versionAtLeast xinstall.version "2024.2") [
       "Versal AI Edge Series"

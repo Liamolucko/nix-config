@@ -18,10 +18,9 @@ args@{
   validModules ? [ ],
   modules ? [ ],
   extraPaths ? [ ],
-  archives ? lib.sort lib.lessThan (
-    lib.unique (lib.concatMap (mod: meta.modules.${mod}.archives) modules)
-  ),
+  archives ? lib.sort lib.lessThan (lib.unique (lib.concatMap (mod: meta.archives.${mod}) modules)),
   debug ? false,
+  saveLogs ? false,
   ...
 }:
 let
@@ -71,6 +70,7 @@ let
     lib.map (module: "${module}:${if lib.elem module modules then "1" else "0"}") validModules
   );
   debugFlag = lib.optionalString debug "-x";
+  logTee = lib.optionalString saveLogs "| tee $log";
 
   linkExtraPaths = lib.concatStringsSep "\n" (
     lib.map (path: "${lib.getExe xorg.lndir} ${path} $out/opt/Xilinx") extraPaths
@@ -83,6 +83,9 @@ stdenv.mkDerivation (
   {
     inherit pname;
     inherit (meta) version;
+
+    outputs = [ "out" ] ++ lib.optionals saveLogs [ "log" ];
+
     # Copying this into the build directory provides the flexibility to alter the
     # `instRecord.dat` in archive tests, and also theoretically to set `xinstall` to
     # a tarball so that we don't need to store both the tarball and its contents in
@@ -109,7 +112,7 @@ stdenv.mkDerivation (
         --subst-var-by out $out/opt/Xilinx \
         --subst-var-by modules '${modulesCfg}'
 
-      PAYLOAD_LOCATION_FROM_USER=${payload} ./xsetup -a XilinxEULA,3rdPartyEULA -b Install -c install_config.txt ${debugFlag}
+      PAYLOAD_LOCATION_FROM_USER=${payload} ./xsetup -a XilinxEULA,3rdPartyEULA -b Install -c install_config.txt ${debugFlag} ${logTee}
 
       # For some reason Vivado puts its desktop entries and such into /build; copy
       # them into the right spot.
@@ -167,51 +170,67 @@ stdenv.mkDerivation (
       ${lib.concatMapStrings (mod: moduleMeta.${mod}.postFixup or "") modules}
     '';
 
-    passthru = {
-      inherit payload;
-      archiveTests =
-        let
-          # TODO: the inclusion of the SharedData module makes vivado-test-base _133.7GB_.
-          # We should probably figure out how to avoid including it.
-          base = xinstall.run {
-            pname = "${pname}-test-base";
-            inherit edition product validModules;
-            # Vivado tries to stop you from installing it without any devices installed, but
-            # including a downloadRecord.dat bypasses this: it seems to base the check on
-            # your downloaded modules instead of what you've actually selected.
-            #
-            # We don't need to specify any base modules like "Vivado": all they do is tell
-            # `xinstall.run` to use their archives and apply their patching, neither of
-            # which we care about here.
-            modules = [ ];
-            inherit (import ./test-data.nix) archives;
-            debug = true;
-            preInstall = ''
-              cp ${(import ./test-data.nix).downloadRecord} data/downloadRecord.dat
-            '';
-          };
-        in
-        {
-          inherit base;
-        }
-        // lib.listToAttrs (
+    passthru =
+      let
+        testData = import ./test-data.nix;
+
+        baseArchiveTest = xinstall.run {
+          pname = "${pname}-test-base";
+          inherit edition product validModules;
+          # We don't need to specify any base modules like "Vivado": all they do is tell
+          # `xinstall.run` to use their archives and apply their patching, neither of
+          # which we care about here.
+          modules = [ testData.testDevice ];
+          inherit (testData) archives;
+          debug = true;
+          saveLogs = true;
+        };
+        moduleArchiveTests = lib.listToAttrs (
           lib.map (mod: {
             name = mod;
             value = xinstall.run {
               pname = "${pname}-test-${lib.replaceStrings [ "+" ] [ "Plus" ] mod}";
               inherit edition product validModules;
               modules = [ mod ];
-              inherit (import ./test-data.nix) archives;
+              inherit (testData) archives;
               debug = true;
-              xinstall = "${base}/opt/Xilinx/.xinstall/Vivado_${meta.version}";
+              saveLogs = true;
+              xinstall = "${baseArchiveTest}/opt/Xilinx/.xinstall/Vivado_${meta.version}";
               preInstall = ''
                 substituteInPlace data/instRecord.dat \
-                  --replace-fail ${base}/opt/Xilinx $out/opt/Xilinx
+                  --replace-fail ${baseArchiveTest}/opt/Xilinx $out/opt/Xilinx
+                sed -zi \
+                  's@ *<entry>\n *<key>[^<]*</key>\n *<value>${testData.testDevice}</value>\n *</entry>\n@@' \
+                  data/instRecord.dat
               '';
             };
           }) validModules
         );
-    };
+
+        archiveList =
+          test:
+          let
+            lines = lib.splitString "\n" (lib.readFile test.log);
+            archiveLines = lib.filter (line: lib.match ".*Start extraction for file:.*" line != null) lines;
+            archives = lib.map (line: lib.elemAt (lib.match ".*/([a-z_]+_[0-9]+).*" line) 0) archiveLines;
+          in
+          lib.sort lib.lessThan (lib.unique archives);
+
+        moduleArchives = lib.mapAttrs (name: archiveList) moduleArchiveTests;
+        baseArchives = lib.subtractLists moduleArchives.${testData.testDevice} (
+          archiveList baseArchiveTest
+        );
+      in
+      {
+        inherit payload;
+
+        archiveTests = {
+          base = baseArchiveTest;
+        } // moduleArchiveTests;
+        archives = {
+          base = baseArchives;
+        } // moduleArchives;
+      };
 
     meta = {
       description = "Design software for AMD adaptive SoCs and FPGAs";
@@ -253,6 +272,7 @@ stdenv.mkDerivation (
     "extraPaths"
     "archives"
     "debug"
+    "saveLogs"
     "passthru"
   ]
 )

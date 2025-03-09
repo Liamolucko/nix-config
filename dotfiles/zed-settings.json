@@ -22,7 +22,11 @@
     "Git Commit": { "wrap_guides": [72] },
     "Haskell": { "tab_size": 2 },
     "Markdown": { "format_on_save": "on", "soft_wrap": "editor_width" },
-    "Nix": { "language_servers": ["!nil", "..."], "tab_size": 2 },
+    "Nix": {
+      "language_servers": ["!nil", "..."],
+      "tab_size": 2,
+      "formatter": { "external": { "command": "nixfmt", "arguments": [] } }
+    },
     "Python": { "formatter": { "language_server": { "name": "ruff" } } },
     "Typst": { "soft_wrap": "editor_width" },
     "Verilog": { "tab_size": 2 }
