@@ -41,7 +41,6 @@
           inherit (final) config overlays;
         };
 
-        bender = final.callPackage ./pkgs/bender { };
         docnav = final.callPackage ./pkgs/docnav { };
         eqy = final.callPackage ./pkgs/eqy { };
         # TODO: fasm has a binary that we should package but there's already something
