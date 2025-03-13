@@ -28,6 +28,9 @@
       "formatter": { "external": { "command": "nixfmt", "arguments": [] } }
     },
     "Python": { "formatter": { "language_server": { "name": "ruff" } } },
+    "Standard ML": {
+      "language_servers": ["!millet-ls", "..."]
+    },
     "Typst": { "soft_wrap": "editor_width" },
     "Verilog": { "tab_size": 2 }
   },

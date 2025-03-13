@@ -47,7 +47,15 @@
         # else with that name, what to call it?
         f4pga = with final.python3Packages; toPythonApplication f4pga;
         f4pga-arch-defs = final.callPackage ./pkgs/f4pga-arch-defs { };
-        libkrun = final.callPackage ./pkgs/libkrun { };
+        libkrun = final.callPackage ./pkgs/libkrun {
+          virglrenderer = final.virglrenderer.overrideAttrs (old: {
+            src = final.fetchurl {
+              url = "https://gitlab.freedesktop.org/asahi/virglrenderer/-/archive/asahi-20241205.2/virglrenderer-asahi-20241205.2.tar.bz2";
+              hash = "sha256-mESFaB//RThS5Uts8dCRExfxT5DQ+QQgTDWBoQppU7U=";
+            };
+            mesonFlags = old.mesonFlags ++ [ (final.lib.mesonOption "drm-renderers" "asahi-experimental") ];
+          });
+        };
         muvm = final.callPackage ./pkgs/muvm { };
         prjxray-db = final.callPackage ./pkgs/prjxray-db { };
         prjxray-tools = final.callPackage ./pkgs/prjxray-tools { };
@@ -89,13 +97,6 @@
           # of using the release tarballs and avoiding contrib/ entirely, but that's a lot
           # of work for such a minor issue.
           dontCheckForBrokenSymlinks = true;
-        });
-        virglrenderer = prev.virglrenderer.overrideAttrs (old: {
-          src = final.fetchurl {
-            url = "https://gitlab.freedesktop.org/asahi/virglrenderer/-/archive/asahi-20241205.2/virglrenderer-asahi-20241205.2.tar.bz2";
-            hash = "sha256-mESFaB//RThS5Uts8dCRExfxT5DQ+QQgTDWBoQppU7U=";
-          };
-          mesonFlags = old.mesonFlags ++ [ (final.lib.mesonOption "drm-renderers" "asahi-experimental") ];
         });
         yosys = prev.yosys.overrideAttrs (old: {
           patches = old.patches ++ [
