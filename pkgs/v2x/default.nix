@@ -1,12 +1,12 @@
 {
   lib,
-  # This doesn't work with Python 3.12 because it relies on distutils.
-  python311,
+  python3,
   fetchFromGitHub,
+  fetchpatch,
   yosys,
 }:
 
-python311.pkgs.buildPythonApplication {
+python3.pkgs.buildPythonApplication {
   pname = "v2x";
   version = "0-unstable-2022-05-16";
   pyproject = true;
@@ -18,21 +18,27 @@ python311.pkgs.buildPythonApplication {
     hash = "sha256-oSfEzRcjWTCR82M4cCn+WTNH/3Xq4AcifMShFuW+Zgs=";
   };
 
-  patches = [ ./no-pytest-runner.patch ];
+  patches = [
+    ./no-pytest-runner.patch
+    (fetchpatch {
+      url = "https://github.com/chipsalliance/f4pga-v2x/commit/ece275bb49d1a6f50d886c577d7bccecfe8f5f85.diff";
+      hash = "sha256-KvwVxkU0EYwNwAUWNhMlX1odRH+wDaDZ+UDP2SncvR4=";
+    })
+  ];
 
   build-system = [
-    python311.pkgs.setuptools
-    python311.pkgs.wheel
+    python3.pkgs.setuptools
+    python3.pkgs.wheel
   ];
 
   dependencies = [
-    python311.pkgs.lxml
-    python311.pkgs.pyjson
-    python311.pkgs.vtr-xml-utils
+    python3.pkgs.lxml
+    python3.pkgs.pyjson
+    python3.pkgs.vtr-xml-utils
   ];
 
   nativeCheckInputs = [
-    python311.pkgs.pytestCheckHook
+    python3.pkgs.pytestCheckHook
     yosys
   ];
   # This test relies on the precise output of yosys, and now fails because it's
