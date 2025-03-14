@@ -20,7 +20,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        interpreter: [python311, python312]
+        interpreter: [python312, python313]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
