@@ -42,5 +42,6 @@ in
     (delete-selection-mode 1)
     (global-set-key [home] 'move-beginning-of-line)
     (global-set-key [end] 'move-end-of-line)
+    (xterm-mouse-mode t)
   '';
 }

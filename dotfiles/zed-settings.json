@@ -51,7 +51,8 @@
   "terminal": {
     "alternate_scroll": "on",
     "detect_venv": "off",
-    "dock": "bottom"
+    "dock": "bottom",
+    "option_as_meta": true
   },
   "theme": {
     "dark": "Xcode Default Darker",

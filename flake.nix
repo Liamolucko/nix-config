@@ -172,27 +172,8 @@
             vtr-xml-utils = python-final.callPackage ./pkgs/vtr-xml-utils { };
             xc-fasm = python-final.callPackage ./pkgs/xc-fasm { };
 
-            pycapnp = python-prev.pycapnp.overridePythonAttrs (old: rec {
-              version = "2.0.0";
-              src = final.fetchFromGitHub {
-                owner = "capnproto";
-                repo = "pycapnp";
-                rev = "v${version}";
-                hash = "sha256-SVeBRJMMR1Z8+S+QoiUKGRFGUPS/MlmWLi1qRcGcPoE=";
-              };
-              nativeBuildInputs = [
-                python-final.cython_0
-                python-final.pkgconfig
-              ];
-              buildInputs = [ ];
-              # Trick pycapnp into thinking it built capnproto itself, so that it will bundle
-              # its `.capnp` files (instead of assuming they'll be in /usr/include).
-              postPatch = ''
-                ln -s ${final.capnproto} build64
-              '';
-              meta = old.meta // {
-                broken = false;
-              };
+            pycapnp = python-prev.pycapnp.overridePythonAttrs (old: {
+              patches = [ (final.replaceVars ./pycapnp-include-path.patch { inherit (final) capnproto; }) ];
             });
           })
         ];
