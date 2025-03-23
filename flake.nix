@@ -171,10 +171,6 @@
             valentyusb = python-final.callPackage ./pkgs/valentyusb { };
             vtr-xml-utils = python-final.callPackage ./pkgs/vtr-xml-utils { };
             xc-fasm = python-final.callPackage ./pkgs/xc-fasm { };
-
-            pycapnp = python-prev.pycapnp.overridePythonAttrs (old: {
-              patches = [ (final.replaceVars ./pycapnp-include-path.patch { inherit (final) capnproto; }) ];
-            });
           })
         ];
       };

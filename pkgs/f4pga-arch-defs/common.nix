@@ -5,12 +5,15 @@
   stdenv,
   fetchFromGitHub,
   fetchpatch,
-  fusesoc,
+  replaceVars,
   runCommand,
   symlinkJoin,
+  capnproto,
   cmake,
+  fusesoc,
   haskellPackages,
   icestorm,
+  iverilog,
   libxml2,
   ninja,
   nodejs,
@@ -24,7 +27,6 @@
   tinyfpgab,
   tinyprog,
   v2x,
-  iverilog,
   vtr,
   xc-fasm,
   yapf,
@@ -252,6 +254,7 @@ stdenv.mkDerivation {
 
   patches = [
     ./no-wget.patch
+    (replaceVars ./capnproto-path.patch { inherit capnproto; })
     ./fix-ql-pinmap-install.patch # TODO upstream
     ./use-bins.patch # maybe upstream?
     ./updated-vpr.patch
@@ -262,10 +265,10 @@ stdenv.mkDerivation {
     # takes precedence.
     pythonWithPackages
     cmake
-    lowrisc-fusesoc
-    zachjs-sv2v
     icestorm
+    iverilog
     libxml2
+    lowrisc-fusesoc
     ninja # not _needed_ but nicer (CI uses it)
     nodejs
     openocd
@@ -280,11 +283,11 @@ stdenv.mkDerivation {
     tinyfpgab
     tinyprog
     v2x
-    iverilog
     vtr'
     xc-fasm
     yapf
     yosysWithPlugins
+    zachjs-sv2v
   ];
 
   # Using PYTHONPATH can cause several problems in the face of multiple Python

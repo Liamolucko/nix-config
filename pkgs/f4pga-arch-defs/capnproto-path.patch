@@ -1,0 +1,11 @@
+--- a/utils/lib/rr_graph_capnp/graph2.py
++++ b/utils/lib/rr_graph_capnp/graph2.py
+@@ -295,7 +295,7 @@ class Graph(object):
+ 
+         self.rr_graph_schema = capnp.load(
+             rr_graph_schema_fname,
+-            imports=[os.path.dirname(os.path.dirname(capnp.__file__))]
++            imports=["@capnproto@/include"]
+         )
+ 
+         graph_input = graph_from_capnp(
