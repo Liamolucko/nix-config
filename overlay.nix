@@ -67,10 +67,6 @@ final: prev: {
         url = "https://github.com/YosysHQ/yosys/commit/8e508f2a2ade89e5e301de18c922155698ae6960.diff";
         hash = "sha256-UoaHfJ/80cBK/ck5e3EJTe0a95TB5Qz/8Yld/3PX3vA=";
       })
-      (final.fetchpatch {
-        url = "https://github.com/YosysHQ/yosys/commit/df3c62a4eda60ec79372aaead1188df02855dbb0.diff";
-        hash = "sha256-g2GgRNUTQNfAe3dSONCr6/TetqCklOKloaqjetnudkA=";
-      })
     ];
   });
   yosys-symbiflow = final.lib.mapAttrs (
