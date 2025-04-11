@@ -22,6 +22,10 @@ in
 {
   home.sessionVariables = {
     EDITOR = "${if pkgs.stdenv.isLinux then "zeditor" else "zed"} --wait";
+    HOLDIR = "${config.home.homeDirectory}/src/HOL";
+    CAKEMLDIR = "${config.home.homeDirectory}/src/cakeml";
+    CHESHIREDIR = "${config.home.homeDirectory}/src/cheshire";
+    HARDWAREDIR = "${config.home.homeDirectory}/src/cakeml-hardware";
   };
 
   programs.alacritty = {
@@ -44,4 +48,38 @@ in
     (global-set-key [end] 'move-end-of-line)
     (xterm-mouse-mode t)
   '';
+
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscodium;
+    mutableExtensionsDir = false;
+    profiles.default = {
+      enableExtensionUpdateCheck = false;
+      enableUpdateCheck = false;
+      extensions = with pkgs.vscode-marketplace; [
+        mateocerquetella.xcode-12-theme
+        nathanridley.autotrim
+        oskarabrahamsson.hol4-mode
+        pkief.material-icon-theme
+      ];
+      userSettings = {
+        "diffEditor.ignoreTrimWhitespace" = false;
+        "editor.bracketPairColorization.enabled" = false;
+        "editor.fontFamily" = "'Zed Mono', monospace";
+        "editor.fontSize" = 15;
+        "editor.formatOnSave" = true;
+        "editor.inlayHints.enabled" = "off";
+        "editor.minimap.enabled" = false;
+        "editor.smoothScrolling" = true;
+        "editor.suggest.showWords" = false;
+        "redhat.telemetry.enabled" = false;
+        "terminal.integrated.cursorStyle" = "underline";
+        "terminal.integrated.fontSize" = 15;
+        "workbench.colorTheme" = "Xcode Default (Dark Customized Version)";
+        "workbench.iconTheme" = "material-icon-theme";
+        "workbench.startupEditor" = "none";
+        "[hol4]"."editor.acceptSuggestionOnCommitCharacter" = false;
+      };
+    };
+  };
 }

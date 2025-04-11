@@ -11,6 +11,8 @@ let
       "Artix-7"
       "DocNav"
     ];
+    # TODO: why is this working? I think it's putting things in Vivado/2024.2
+    # instead of 2024.1.
     extraPaths = [ pkgs.digilent-board-files ];
   };
 in

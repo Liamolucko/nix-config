@@ -31,6 +31,7 @@ in
       pkgs.tinymist
       pkgs.tree-sitter
       pkgs.typst
+      pkgs.usbutils
       pkgs.uv
       # pkgs.verible # broken on macos right now
       pkgs.vesktop

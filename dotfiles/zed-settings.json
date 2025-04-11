@@ -32,7 +32,12 @@
       "language_servers": ["!millet-ls", "..."]
     },
     "Typst": { "soft_wrap": "editor_width" },
-    "Verilog": { "tab_size": 2 }
+    "Verilog": {
+      "tab_size": 2,
+      "completions": {
+        "words": "disabled"
+      }
+    }
   },
   "lsp": {
     "pylsp": {
