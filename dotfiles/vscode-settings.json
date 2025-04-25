@@ -1,0 +1,23 @@
+{
+  "diffEditor.ignoreTrimWhitespace": false,
+  "editor.bracketPairColorization.enabled": false,
+  "editor.fontFamily": "'Zed Plex Mono', monospace",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 14,
+  "editor.formatOnSave": true,
+  "editor.inlayHints.enabled": "off",
+  "editor.minimap.enabled": false,
+  "editor.smoothScrolling": true,
+  "editor.suggest.showWords": false,
+  "extensions.autoCheckUpdates": false,
+  "terminal.integrated.cursorStyle": "underline",
+  "terminal.integrated.defaultLocation": "editor",
+  "terminal.integrated.fontSize": 14,
+  "update.mode": "none",
+  "workbench.colorTheme": "Xcode Default (Dark Customized Version)",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.startupEditor": "none",
+  "[hol4]": {
+    "editor.acceptSuggestionOnCommitCharacter": false
+  }
+}

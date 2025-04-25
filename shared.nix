@@ -20,7 +20,6 @@ in
       pkgs.nodejs
       pkgs.nodePackages.pnpm
       pkgs.openfpgaloader
-      pkgs.prismlauncher
       pkgs.pulldown-cmark
       pkgs.rclone
       pkgs.ruff
@@ -34,6 +33,7 @@ in
       pkgs.usbutils
       pkgs.uv
       # pkgs.verible # broken on macos right now
+      pkgs.verilator
       pkgs.vesktop
       pkgs.wabt
       pkgs.wasm-bindgen-cli

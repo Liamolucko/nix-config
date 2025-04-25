@@ -53,33 +53,17 @@ in
     enable = true;
     package = pkgs.vscodium;
     mutableExtensionsDir = false;
-    profiles.default = {
-      enableExtensionUpdateCheck = false;
-      enableUpdateCheck = false;
-      extensions = with pkgs.vscode-marketplace; [
-        mateocerquetella.xcode-12-theme
-        nathanridley.autotrim
-        oskarabrahamsson.hol4-mode
-        pkief.material-icon-theme
-      ];
-      userSettings = {
-        "diffEditor.ignoreTrimWhitespace" = false;
-        "editor.bracketPairColorization.enabled" = false;
-        "editor.fontFamily" = "'Zed Mono', monospace";
-        "editor.fontSize" = 15;
-        "editor.formatOnSave" = true;
-        "editor.inlayHints.enabled" = "off";
-        "editor.minimap.enabled" = false;
-        "editor.smoothScrolling" = true;
-        "editor.suggest.showWords" = false;
-        "redhat.telemetry.enabled" = false;
-        "terminal.integrated.cursorStyle" = "underline";
-        "terminal.integrated.fontSize" = 15;
-        "workbench.colorTheme" = "Xcode Default (Dark Customized Version)";
-        "workbench.iconTheme" = "material-icon-theme";
-        "workbench.startupEditor" = "none";
-        "[hol4]"."editor.acceptSuggestionOnCommitCharacter" = false;
-      };
-    };
+    profiles.default.extensions = with pkgs.vscode-marketplace; [
+      mateocerquetella.xcode-12-theme
+      nathanridley.autotrim
+      oskarabrahamsson.hol4-mode
+      pkief.material-icon-theme
+    ];
   };
+
+  home.file."Library/Application Support/VSCodium/User/settings.json".source =
+    pkgs.runCommand "vscode-settings" { }
+      ''
+        ln -s '${config.home.homeDirectory}/src/nix-config/dotfiles/vscode-settings.json' $out
+      '';
 }
