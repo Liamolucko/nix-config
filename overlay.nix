@@ -19,7 +19,6 @@ final: prev: {
       mesonFlags = old.mesonFlags ++ [ (final.lib.mesonOption "drm-renderers" "asahi-experimental") ];
     });
   };
-  muvm = final.callPackage ./pkgs/muvm { };
   prjxray-db = final.callPackage ./pkgs/prjxray-db { };
   prjxray-tools = final.callPackage ./pkgs/prjxray-tools { };
   qlf-fasm = final.callPackage ./pkgs/qlf-fasm { };
