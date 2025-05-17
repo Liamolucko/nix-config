@@ -11,7 +11,7 @@
     "toml": true,
     "typst": true,
     "verilog": true,
-    "wgsl": true,
+    "wesl": true,
     "wit": true,
     "xcode-themes": true,
     "xml": true
@@ -50,8 +50,7 @@
         "checkOnSave": { "command": "clippy" },
         "imports": { "granularity": { "group": "module" } }
       }
-    },
-    "tinymist": { "initialization_options": { "formatterMode": "typstyle" } }
+    }
   },
   "terminal": {
     "alternate_scroll": "on",

@@ -26,7 +26,7 @@ in
       (pkgs.lib.meta.hiPrio pkgs.rust-analyzer)
       pkgs.samply
       pkgs.surfer
-      (pkgs.texlive.combine { inherit (pkgs.texlive) scheme-small txfonts; })
+      (pkgs.texlive.combine { inherit (pkgs.texlive) scheme-small collection-latexrecommended; })
       pkgs.tinymist
       pkgs.tree-sitter
       pkgs.typst

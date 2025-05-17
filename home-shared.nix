@@ -55,9 +55,11 @@ in
     mutableExtensionsDir = false;
     profiles.default.extensions = with pkgs.vscode-marketplace; [
       mateocerquetella.xcode-12-theme
+      pkgs.open-vsx.jeanp413.open-remote-ssh
       nathanridley.autotrim
       oskarabrahamsson.hol4-mode
       pkief.material-icon-theme
+      stkb.rewrap
     ];
   };
 

@@ -11,7 +11,7 @@ in
   imports = [ ./shared.nix ];
 
   nix.settings.trusted-users = [ "@admin" ];
-  # nix.settings.sandbox = true;
+  nix.settings.sandbox = true;
   nix.daemonProcessType = "Interactive";
   nix.linux-builder =
     {

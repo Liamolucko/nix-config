@@ -10,6 +10,7 @@
   "editor.smoothScrolling": true,
   "editor.suggest.showWords": false,
   "extensions.autoCheckUpdates": false,
+  "git.openRepositoryInParentFolders": "never",
   "terminal.integrated.cursorStyle": "underline",
   "terminal.integrated.defaultLocation": "editor",
   "terminal.integrated.fontSize": 14,
