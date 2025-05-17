@@ -13,6 +13,7 @@ in
   services.xserver.desktopManager.gnome.enable = true;
 
   services.printing.enable = true;
+  services.printing.browsed.enable = false;
 
   services.pipewire = {
     enable = true;

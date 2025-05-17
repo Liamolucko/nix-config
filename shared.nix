@@ -39,6 +39,7 @@ in
       pkgs.wasm-bindgen-cli
       pkgs.wasm-pack
       pkgs.wasm-tools
+      pkgs.wgsl-analyzer
     ]
     ++ lib.optionals (!ciSafe) [
       pkgs.isabelle

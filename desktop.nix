@@ -6,13 +6,8 @@
 }:
 let
   ciSafe = builtins.getEnv "CI_SAFE" != "";
-  vivado = pkgs.vivado_2024_1.override {
-    modules = [
-      "Artix-7"
-      "DocNav"
-    ];
-    # TODO: why is this working? I think it's putting things in Vivado/2024.2
-    # instead of 2024.1.
+  vivado = pkgs.vivado.override {
+    modules = [ "Artix-7" ];
     extraPaths = [ pkgs.digilent-board-files ];
   };
 in
@@ -70,17 +65,20 @@ in
 
   environment.systemPackages =
     [
+      pkgs.rgp
       pkgs.zed-editor
     ]
     ++ lib.optionals (!ciSafe) [
+      pkgs.docnav
       vivado
     ];
   # Install Vivado's udev rules.
   services.udev.packages = lib.optionals (!ciSafe) [ vivado ];
   # Avoid accidentally GCing these if keep-outputs is turned off.
   system.extraDependencies = lib.optionals (!ciSafe) [
+    pkgs.docnav.payload
     vivado.payload
-    pkgs.xinstall_2024_1.src
+    pkgs.xinstall.src
   ];
 
   system.stateVersion = "24.05";

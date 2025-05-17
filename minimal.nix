@@ -9,6 +9,8 @@ in
     !ciSafe
     && builtins.elem (lib.getName pkg) [
       "1password"
+      "docnav"
+      "rgp"
       "steam"
       "steam-unwrapped"
       "vivado"
