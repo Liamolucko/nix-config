@@ -65,11 +65,12 @@ in
 
   environment.systemPackages =
     [
-      pkgs.rgp
+      pkgs.renderdoc
       pkgs.zed-editor
     ]
     ++ lib.optionals (!ciSafe) [
       pkgs.docnav
+      pkgs.rgp
       vivado
     ];
   # Install Vivado's udev rules.
