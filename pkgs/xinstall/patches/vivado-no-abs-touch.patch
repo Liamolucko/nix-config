@@ -1,5 +1,5 @@
---- a/Vivado/@version@/scripts/ISEWrap.sh
-+++ b/Vivado/@version@/scripts/ISEWrap.sh
+--- a/@Vivado@/scripts/ISEWrap.sh
++++ b/@Vivado@/scripts/ISEWrap.sh
 @@ -62,7 +62,7 @@ ISE_HOSTCORE=$(awk '/^processor/{print $3}' /proc/cpuinfo | wc -l)
  ISE_MEMTOTAL=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
  
@@ -21,8 +21,8 @@
  fi
  
  exit $RETVAL
---- a/Vivado/@version@/scripts/ISEWrapReports.sh
-+++ b/Vivado/@version@/scripts/ISEWrapReports.sh
+--- a/@Vivado@/scripts/ISEWrapReports.sh
++++ b/@Vivado@/scripts/ISEWrapReports.sh
 @@ -34,7 +34,7 @@ ISE_HOST=$HOST     #csh
  fi
  ISE_USER=$USER
@@ -44,8 +44,8 @@
  fi
  
  exit $RETVAL
---- a/Vivado/@version@/scripts/paUtil.tcl
-+++ b/Vivado/@version@/scripts/paUtil.tcl
+--- a/@Vivado@/scripts/paUtil.tcl
++++ b/@Vivado@/scripts/paUtil.tcl
 @@ -1011,7 +1011,7 @@ namespace eval paUtil {
  	    foreach run $runList {
  	       # TODO - test these runs to make sure they completed correctly

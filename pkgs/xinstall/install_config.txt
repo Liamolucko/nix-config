@@ -10,7 +10,7 @@ Destination=@out@
 Modules=@modules@
 
 # Choose the post install scripts you'd like to run as part of the finalization step. Please note that some of these scripts may require user interaction during runtime.
-InstallOptions=
+InstallOptions=Acquire or Manage a License Key:0
 
 ## Shortcuts and File associations ##
 # Choose whether Start menu/Application menu shortcuts will be created or not.
@@ -27,6 +27,3 @@ CreateDesktopShortcuts=0
 
 # Choose whether file associations will be created or not.
 CreateFileAssociation=1
-
-# Choose whether disk usage will be optimized (reduced) after installation
-EnableDiskUsageOptimization=1

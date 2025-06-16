@@ -1,5 +1,5 @@
---- a/Vivado/@version@/data/XilinxTclStore/tclapp/xilinx/modelsim/sim.tcl
-+++ b/Vivado/@version@/data/XilinxTclStore/tclapp/xilinx/modelsim/sim.tcl
+--- a/@Vivado@/data/XilinxTclStore/tclapp/xilinx/modelsim/sim.tcl
++++ b/@Vivado@/data/XilinxTclStore/tclapp/xilinx/modelsim/sim.tcl
 @@ -352,6 +352,7 @@ proc usf_modelsim_verify_compiled_lib {} {
        if {[catch {file copy -force $ini_file_path $a_sim_vars(s_launch_dir)} error_msg] } {
          send_msg_id USF-modelsim-010 ERROR "Failed to copy file ($ini_file): $error_msg\n"
@@ -8,8 +8,8 @@
          send_msg_id USF-modelsim-011 INFO "File '$ini_file_path' copied to run dir:'$a_sim_vars(s_launch_dir)'\n"
        }
      }
---- a/Vivado/@version@/data/XilinxTclStore/tclapp/xilinx/questa/sim.tcl
-+++ b/Vivado/@version@/data/XilinxTclStore/tclapp/xilinx/questa/sim.tcl
+--- a/@Vivado@/data/XilinxTclStore/tclapp/xilinx/questa/sim.tcl
++++ b/@Vivado@/data/XilinxTclStore/tclapp/xilinx/questa/sim.tcl
 @@ -429,6 +429,7 @@ proc usf_questa_verify_compiled_lib {} {
        if {[catch {file copy -force $ini_file_path $a_sim_vars(s_launch_dir)} error_msg] } {
          send_msg_id USF_Questa-010 ERROR "Failed to copy file ($ini_file): $error_msg\n"
@@ -18,8 +18,8 @@
          send_msg_id USF_Questa-011 INFO "File '$ini_file_path' copied to run dir:'$a_sim_vars(s_launch_dir)'\n"
        }
      }
---- a/Vivado/@version@/data/XilinxTclStore/tclapp/xilinx/xsim/sim.tcl
-+++ b/Vivado/@version@/data/XilinxTclStore/tclapp/xilinx/xsim/sim.tcl
+--- a/@Vivado@/data/XilinxTclStore/tclapp/xilinx/xsim/sim.tcl
++++ b/@Vivado@/data/XilinxTclStore/tclapp/xilinx/xsim/sim.tcl
 @@ -920,6 +920,7 @@ proc usf_copy_ini_file { dir } {
        send_msg_id USF-XSim-010 ERROR "Failed to copy file ($file): $error_msg\n"
        return 1

@@ -3,7 +3,6 @@ args@{
   lib,
   callPackage,
   stdenv,
-  replaceVars,
   requireFile,
   runCommand,
   glibc,
@@ -14,20 +13,26 @@ args@{
   pname,
   edition,
   product,
-  # The modules which can be included in this edition/product.
-  validModules ? [ ],
+  # The extra modules which can be added to this edition/product.
+  optionalModules ? [ ],
+  # The extra modules which can be added to this edition/product that you have to
+  # include at least one of (i.e., devices).
+  requiredModules ? [ ],
   modules ? [ ],
   extraPaths ? [ ],
-  archives ? lib.sort lib.lessThan (lib.unique (lib.concatMap (mod: meta.archives.${mod}) modules)),
-  debug ? false,
+  archives ? lib.sort lib.lessThan (
+    lib.unique (lib.concatMap (mod: meta.archives.${mod} or [ ]) modules)
+  ),
+  debug ? true, # TODO: change back
   saveLogs ? false,
+  dummyArchive ? null,
   ...
 }:
 let
   requireArchive =
     basename:
     requireFile rec {
-      name = "${basename}_${meta.version}_${meta.suffix}.xz";
+      name = "${basename}_${meta.version}_${meta.suffix}${meta.suffixes.${basename} or ""}.xz";
       message = ''
         Xilinx's archives cannot be downloaded automatically as they are gated behind
         export control.
@@ -36,7 +41,7 @@ let
         - Use the `xinstall` package and select the 'Download Image (Install
           Separately)' option, then set 'Image Contents' to 'Selected Product Only',
           making sure to select a superset of the components you want to install.
-        - Download and extract https://www.xilinx.com/member/forms/download/xef.html?filename=FPGAs_AdaptiveSoCs_Unified_${meta.version}_${meta.suffix}.tar.gz.
+        - Download and extract https://www.xilinx.com/member/forms/download/xef.html?filename=${meta.name}_${meta.version}_${meta.suffix}.tar.gz.
 
         The first option is recommended, since it requires significantly less download
         time / disk space.
@@ -57,6 +62,8 @@ let
       in
       if lib.elem archiveName archives then
         "ln -s '${archive}' $out/'${archive.name}'"
+      else if dummyArchive != null then
+        "ln -s '${requireArchive dummyArchive}' $out/'${archive.name}'"
       else
         "touch $out/'${archive.name}'"
     ) (lib.attrNames meta.hashes)
@@ -67,7 +74,9 @@ let
   '';
 
   modulesCfg = lib.concatStringsSep "," (
-    lib.map (module: "${module}:${if lib.elem module modules then "1" else "0"}") validModules
+    lib.map (module: "${module}:${if lib.elem module modules then "1" else "0"}") (
+      optionalModules ++ requiredModules
+    )
   );
   debugFlag = lib.optionalString debug "-x";
   logTee = lib.optionalString saveLogs "| tee $log";
@@ -92,9 +101,7 @@ stdenv.mkDerivation (
     # the Nix store (e.g. if installing Petalinux or Vivado updates).
     src = xinstall;
 
-    patches = lib.map (patch: replaceVars patch { inherit (meta) version; }) (
-      lib.concatMap (mod: moduleMeta.${mod}.patches or [ ]) modules
-    );
+    patches = lib.concatMap (mod: moduleMeta.${mod}.patches or [ ]) modules;
 
     nativeBuildInputs = lib.concatMap (mod: moduleMeta.${mod}.nativeBuildInputs or [ ]) modules;
     buildInputs = lib.concatMap (mod: moduleMeta.${mod}.buildInputs or [ ]) modules;
@@ -102,6 +109,7 @@ stdenv.mkDerivation (
     # We manually run the patchPhase after installation.
     dontPatch = true;
 
+    # TODO: do we need to make the whole .config/... path, or would just .config be enough?
     installPhase = ''
       runHook preInstall
 
@@ -112,6 +120,7 @@ stdenv.mkDerivation (
         --subst-var-by out $out/opt/Xilinx \
         --subst-var-by modules '${modulesCfg}'
 
+      mkdir -p ../.config/menus/applications-merged
       PAYLOAD_LOCATION_FROM_USER=${payload} ./xsetup -a XilinxEULA,3rdPartyEULA -b Install -c install_config.txt ${debugFlag} ${logTee}
 
       # For some reason Vivado puts its desktop entries and such into /build; copy
@@ -174,62 +183,83 @@ stdenv.mkDerivation (
       let
         testData = import ./test-data.nix;
 
-        baseArchiveTest = xinstall.run {
-          pname = "${pname}-test-base";
-          inherit edition product validModules;
-          # We don't need to specify any base modules like "Vivado": all they do is tell
-          # `xinstall.run` to use their archives and apply their patching, neither of
-          # which we care about here.
-          modules = [ testData.testDevice ];
-          inherit (testData) archives;
-          debug = true;
-          saveLogs = true;
-        };
-        moduleArchiveTests = lib.listToAttrs (
-          lib.map (mod: {
-            name = mod;
-            value = xinstall.run {
-              pname = "${pname}-test-${lib.replaceStrings [ "+" ] [ "Plus" ] mod}";
-              inherit edition product validModules;
-              modules = [ mod ];
-              inherit (testData) archives;
-              debug = true;
-              saveLogs = true;
-              xinstall = "${baseArchiveTest}/opt/Xilinx/.xinstall/Vivado_${meta.version}";
-              preInstall = ''
-                substituteInPlace data/instRecord.dat \
-                  --replace-fail ${baseArchiveTest}/opt/Xilinx $out/opt/Xilinx
-                sed -zi \
-                  's@ *<entry>\n *<key>[^<]*</key>\n *<value>${testData.testDevice}</value>\n *</entry>\n@@' \
-                  data/instRecord.dat
-              '';
-            };
-          }) validModules
+        archiveTest =
+          name: modules:
+          xinstall.run {
+            pname = "${pname}-test-${lib.replaceStrings [ "+" ] [ "Plus" ] name}";
+            inherit
+              edition
+              product
+              optionalModules
+              requiredModules
+              ;
+            inherit modules;
+            # Replace all the archives with `dummyArchive`, which we set to the smallest
+            # archive we can, to reduce the time (and space) taken up by the test.
+            archives = [ ];
+            debug = true;
+            saveLogs = true;
+            inherit (testData) dummyArchive;
+            # Avoid running any of our fixup scripts from modules.nix which assume that
+            # things are installed properly.
+            dontFixup = true;
+            # Installing garbage leads to lots of broken symlinks.
+            dontCheckForBrokenSymlinks = true;
+          };
+
+        archiveTests =
+          lib.listToAttrs (
+            lib.map (mod: {
+              name = mod;
+              # We don't need to specify any base modules like "Vivado": all they do is tell
+              # `xinstall.run` to use their archives and apply their patching, neither of
+              # which we care about here.
+              value = archiveTest mod ([ mod ] ++ lib.optionals (lib.elem mod optionalModules) requiredModules);
+            }) (optionalModules ++ requiredModules)
+          )
+          // lib.optionalAttrs (requiredModules == [ ]) { base = archiveTest "base" [ ]; };
+        topArchiveTest = runCommand "${pname}-test-top" { } (
+          lib.concatStringsSep "\n" (
+            [ ''mkdir "$out"'' ]
+            ++ lib.mapAttrsToList (mod: drv: ''cp '${drv.log}' "$out/${mod}"'') archiveTests
+          )
         );
 
         archiveList =
-          test:
+          mod:
           let
-            lines = lib.splitString "\n" (lib.readFile test.log);
+            lines = lib.splitString "\n" (lib.readFile "${topArchiveTest}/${mod}");
             archiveLines = lib.filter (line: lib.match ".*Start extraction for file:.*" line != null) lines;
-            archives = lib.map (line: lib.elemAt (lib.match ".*/([a-z_]+_[0-9]+).*" line) 0) archiveLines;
+            archives = lib.map (line: lib.elemAt (lib.match ".*/([a-z0-9_]+_[0-9]+)_.*" line) 0) archiveLines;
           in
           lib.sort lib.lessThan (lib.unique archives);
 
-        moduleArchives = lib.mapAttrs (name: archiveList) moduleArchiveTests;
-        baseArchives = lib.subtractLists moduleArchives.${testData.testDevice} (
-          archiveList baseArchiveTest
+        foldl1 = op: list: lib.foldl op (lib.head list) (lib.tail list);
+        requiredArchives = lib.sort lib.lessThan (
+          lib.unique (lib.flatten (lib.map archiveList requiredModules))
         );
+        baseArchives =
+          if requiredModules == [ ] then
+            archiveList "base"
+          else
+            lib.sort lib.lessThan (
+              foldl1 lib.intersectLists (lib.map archiveList (optionalModules ++ requiredModules))
+            );
       in
       {
-        inherit payload;
-
-        archiveTests = {
-          base = baseArchiveTest;
-        } // moduleArchiveTests;
-        archives = {
-          base = baseArchives;
-        } // moduleArchives;
+        inherit payload archiveTests topArchiveTest;
+        archives =
+          {
+            base = baseArchives;
+          }
+          // lib.listToAttrs (
+            lib.map (mod: {
+              name = mod;
+              value = lib.subtractLists (
+                if lib.elem mod optionalModules && requiredModules != [ ] then requiredArchives else baseArchives
+              ) (archiveList mod);
+            }) (optionalModules ++ requiredModules)
+          );
       };
 
     meta = {
@@ -267,12 +297,13 @@ stdenv.mkDerivation (
     "pname"
     "edition"
     "product"
-    "validModules"
+    "optionalModules"
+    "requiredModules"
     "modules"
     "extraPaths"
     "archives"
     "debug"
     "saveLogs"
-    "passthru"
+    "dummyArchive"
   ]
 )

@@ -1,5 +1,5 @@
---- a/Vivado/@version@/data/XilinxTclStore/tclapp/xilinx/ies/sim.tcl
-+++ b/Vivado/@version@/data/XilinxTclStore/tclapp/xilinx/ies/sim.tcl
+--- a/@Vivado@/data/XilinxTclStore/tclapp/xilinx/ies/sim.tcl
++++ b/@Vivado@/data/XilinxTclStore/tclapp/xilinx/ies/sim.tcl
 @@ -498,7 +498,7 @@ proc usf_ies_write_compile_script {} {
      return 1
    }
@@ -36,8 +36,8 @@
    xcs_write_script_header $fh_scr "setup" "ies"
  
    puts $fh_scr "\n# Script usage"
---- a/Vivado/@version@/data/XilinxTclStore/tclapp/xilinx/modelsim/common/utils.tcl
-+++ b/Vivado/@version@/data/XilinxTclStore/tclapp/xilinx/modelsim/common/utils.tcl
+--- a/@Vivado@/data/XilinxTclStore/tclapp/xilinx/modelsim/common/utils.tcl
++++ b/@Vivado@/data/XilinxTclStore/tclapp/xilinx/modelsim/common/utils.tcl
 @@ -344,10 +344,7 @@ proc xcs_get_shell_env {} {
    # Argument Usage:
    # Return Value:
@@ -50,8 +50,8 @@
    return $shell_env
  } 
  
---- a/Vivado/@version@/data/XilinxTclStore/tclapp/xilinx/questa/common/utils.tcl
-+++ b/Vivado/@version@/data/XilinxTclStore/tclapp/xilinx/questa/common/utils.tcl
+--- a/@Vivado@/data/XilinxTclStore/tclapp/xilinx/questa/common/utils.tcl
++++ b/@Vivado@/data/XilinxTclStore/tclapp/xilinx/questa/common/utils.tcl
 @@ -344,10 +344,7 @@ proc xcs_get_shell_env {} {
    # Argument Usage:
    # Return Value:
@@ -64,8 +64,8 @@
    return $shell_env
  } 
  
---- a/Vivado/@version@/data/XilinxTclStore/tclapp/xilinx/vcs/common/utils.tcl
-+++ b/Vivado/@version@/data/XilinxTclStore/tclapp/xilinx/vcs/common/utils.tcl
+--- a/@Vivado@/data/XilinxTclStore/tclapp/xilinx/vcs/common/utils.tcl
++++ b/@Vivado@/data/XilinxTclStore/tclapp/xilinx/vcs/common/utils.tcl
 @@ -344,10 +344,7 @@ proc xcs_get_shell_env {} {
    # Argument Usage:
    # Return Value:
@@ -78,8 +78,8 @@
    return $shell_env
  } 
  
---- a/Vivado/@version@/data/XilinxTclStore/tclapp/xilinx/xcelium/common/utils.tcl
-+++ b/Vivado/@version@/data/XilinxTclStore/tclapp/xilinx/xcelium/common/utils.tcl
+--- a/@Vivado@/data/XilinxTclStore/tclapp/xilinx/xcelium/common/utils.tcl
++++ b/@Vivado@/data/XilinxTclStore/tclapp/xilinx/xcelium/common/utils.tcl
 @@ -344,10 +344,7 @@ proc xcs_get_shell_env {} {
    # Argument Usage:
    # Return Value:
@@ -92,8 +92,8 @@
    return $shell_env
  } 
  
---- a/Vivado/@version@/data/XilinxTclStore/tclapp/xilinx/xsim/common/utils.tcl
-+++ b/Vivado/@version@/data/XilinxTclStore/tclapp/xilinx/xsim/common/utils.tcl
+--- a/@Vivado@/data/XilinxTclStore/tclapp/xilinx/xsim/common/utils.tcl
++++ b/@Vivado@/data/XilinxTclStore/tclapp/xilinx/xsim/common/utils.tcl
 @@ -344,10 +344,7 @@ proc xcs_get_shell_env {} {
    # Argument Usage:
    # Return Value:
@@ -106,8 +106,8 @@
    return $shell_env
  } 
  
---- a/Vivado/@version@/scripts/sim/common/utils.tcl
-+++ b/Vivado/@version@/scripts/sim/common/utils.tcl
+--- a/@Vivado@/scripts/sim/common/utils.tcl
++++ b/@Vivado@/scripts/sim/common/utils.tcl
 @@ -343,10 +343,7 @@ proc xcs_get_shell_env {} {
    # Argument Usage:
    # Return Value:

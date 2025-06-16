@@ -30,11 +30,13 @@ final: prev: {
   vivado = final.callPackage ./pkgs/vivado { };
   vivado_2024_1 = final.callPackage ./pkgs/vivado { xinstall = final.xinstall_2024_1; };
   vivado_2024_2 = final.callPackage ./pkgs/vivado { xinstall = final.xinstall_2024_2; };
+  vivado_2025_1 = final.callPackage ./pkgs/vivado { xinstall = final.xinstall_2025_1; };
   vtr = final.callPackage ./pkgs/vtr { };
   xc-fasm = with final.python3Packages; toPythonApplication xc-fasm;
-  xinstall = final.xinstall_2024_2;
+  xinstall = final.xinstall_2025_1;
   xinstall_2024_1 = final.callPackage ./pkgs/xinstall/2024.1.nix { };
   xinstall_2024_2 = final.callPackage ./pkgs/xinstall/2024.2.nix { };
+  xinstall_2025_1 = final.callPackage ./pkgs/xinstall/2025.1.nix { };
 
   digilent-board-files =
     let

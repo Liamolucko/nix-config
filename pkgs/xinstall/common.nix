@@ -9,11 +9,18 @@
   temurin-jre-bin-21,
   meta,
 }:
+let
+  patch =
+    if lib.versionAtLeast meta.version "2025.1" then
+      patches/xinstall-2025.1.patch
+    else
+      patches/xinstall-2024.1.patch;
+in
 stdenv.mkDerivation (finalAttrs: {
   pname = "xinstall";
   inherit (meta) version;
   src = requireFile rec {
-    name = "FPGAs_AdaptiveSoCs_Unified_${meta.version}_${meta.suffix}_Lin64.bin";
+    name = "${meta.name}_${meta.version}_${meta.suffix}_Lin64.bin";
     url = "https://www.xilinx.com/member/forms/download/xef.html?filename=${name}";
     hash = meta.webInstallerHash;
   };
@@ -21,7 +28,7 @@ stdenv.mkDerivation (finalAttrs: {
   unpackCmd = "sh $curSrc --noexec --keep";
 
   patches = [
-    (replaceVars patches/xinstall.patch {
+    (replaceVars patch {
       inherit (meta) jreVer;
       javaHome = temurin-jre-bin-21;
     })

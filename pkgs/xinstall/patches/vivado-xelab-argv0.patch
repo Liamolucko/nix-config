@@ -1,5 +1,5 @@
---- a/Vivado/@version@/bin/xelab
-+++ b/Vivado/@version@/bin/xelab
+--- a/@Vivado@/bin/xelab
++++ b/@Vivado@/bin/xelab
 @@ -31,7 +31,7 @@
  # Loader arguments:
  #   -exec   -- Name of executable to launch

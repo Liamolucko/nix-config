@@ -1,0 +1,38 @@
+--- a/bin/setup-boot-loader.sh
++++ b/bin/setup-boot-loader.sh
+@@ -25,7 +25,7 @@
+ mkdir -p ${TMP_LD_LIBRARY_PATH}  
+ 
+ PLAT_LIB=${root}/lib/lnx64.o
+-X_JAVA_HOME=${root}/tps/lnx64/jre@jreVer@
++X_JAVA_HOME=@javaHome@
+ ARGS=${ARGS}\ -DLOAD_64_NATIVE=true
+ LDLIBPATH_SCRIPT="${root}/bin/ldlibpath.sh"
+ if [ -x "$LDLIBPATH_SCRIPT" ]; then
+--- a/xsetup
++++ b/xsetup
+@@ -27,17 +27,6 @@
+   mkdir -p ${userHome}/.Xilinx/xinstall
+ fi
+ 
+-# ERROR out if this installation is running on 32 bit OS 
+-# and does not support 32 bit installation 
+-if [ "$(uname -m)" != "x86_64" ]; then
+-    # check that the 32 bit library directory exist or not
+-    lnx32LibDir="${workingDir}/lib/lnx32.o"
+-    if [ ! -d $lnx32LibDir ]; then
+-   	   # terminate with an ERROR
+-       echo "ERROR: This installation is not supported on 32 bit platforms."
+-       exit 1;
+-    fi  
+-fi
+ # CR-1232223
+ ARGS=${ARGS}\ -Dslf4j.internal.verbosity=ERROR
+ # GUI Setup
+@@ -112,5 +101,5 @@
+ # used as java.io.tmpdir. delete the temp. directory once 
+ # the java app is exited.
+ ###########################################################
+-/bin/rm -rf ${TMP_LD_LIBRARY_PATH}
++rm -rf ${TMP_LD_LIBRARY_PATH}
+ exit $exitCode
