@@ -7,7 +7,7 @@
 let
   ciSafe = builtins.getEnv "CI_SAFE" != "";
   vivado = pkgs.vivado.override {
-    modules = [ "Artix-7" ];
+    modules = [ "7 Series" ];
     extraPaths = [ pkgs.digilent-board-files ];
   };
 in

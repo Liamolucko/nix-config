@@ -1,5 +1,5 @@
 {
-  "assistant": { "enabled": false, "version": "2" },
+  "agent": { "enabled": false, "version": "2" },
   "auto_install_extensions": {
     "fish": true,
     "git-firefly": true,
