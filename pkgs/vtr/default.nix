@@ -13,7 +13,7 @@
   pkg-config,
   python3,
   readline,
-  tbb_2021_11,
+  tbb_2021,
   tcl,
   time,
   zlib,
@@ -57,7 +57,7 @@ stdenv.mkDerivation {
     readline
     tcl
     zlib
-  ] ++ lib.optionals enableTbb [ tbb_2021_11 ];
+  ] ++ lib.optionals enableTbb [ tbb_2021 ];
 
   strictDeps = true;
 
