@@ -69,6 +69,7 @@ in
     # really go fix it at some point.
     pkgs.gnused
     pkgs.musescore
+    pkgs.skimpdf
     pkgs.utm
   ];
 

@@ -27,7 +27,6 @@ in
       pkgs.ruff
       (pkgs.lib.meta.hiPrio pkgs.rust-analyzer)
       pkgs.samply
-      pkgs.skimpdf
       pkgs.surfer
       pkgs.texlab
       (pkgs.texlive.combine {
