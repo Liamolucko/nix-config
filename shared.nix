@@ -12,7 +12,6 @@ in
       pkgs.cargo-expand
       pkgs.cargo-fuzz
       pkgs.clang-tools
-      pkgs.drawio
       pkgs.emscripten # needed by tree-sitter
       pkgs.gnuplot
       pkgs.inkscape
@@ -54,6 +53,7 @@ in
       pkgs.wgsl-analyzer
     ]
     ++ lib.optionals (!ciSafe) [
+      pkgs.drawio
       pkgs.isabelle
     ];
 
