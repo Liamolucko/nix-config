@@ -12,7 +12,10 @@ in
       pkgs.cargo-expand
       pkgs.cargo-fuzz
       pkgs.clang-tools
+      pkgs.drawio
       pkgs.emscripten # needed by tree-sitter
+      pkgs.gnuplot
+      pkgs.inkscape
       pkgs.jre_headless # for kotlin-language-server
       pkgs.man-pages
       pkgs.nixd
@@ -25,8 +28,17 @@ in
       pkgs.ruff
       (pkgs.lib.meta.hiPrio pkgs.rust-analyzer)
       pkgs.samply
+      pkgs.skimpdf
       pkgs.surfer
-      (pkgs.texlive.combine { inherit (pkgs.texlive) scheme-small collection-latexrecommended; })
+      pkgs.texlab
+      (pkgs.texlive.combine {
+        inherit (pkgs.texlive)
+          collection-fontsextra
+          collection-fontsrecommended
+          collection-latexextra
+          scheme-small
+          ;
+      })
       pkgs.tinymist
       pkgs.tree-sitter
       pkgs.typst

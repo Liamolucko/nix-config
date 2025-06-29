@@ -19,8 +19,14 @@
   "buffer_font_size": 14.0,
   "features": { "edit_prediction_provider": "none" },
   "languages": {
+    "BibTeX": {
+      "tab_size": 2
+    },
     "Git Commit": { "wrap_guides": [72] },
     "Haskell": { "tab_size": 2 },
+    "LaTeX": {
+      "tab_size": 2
+    },
     "Markdown": { "format_on_save": "on", "soft_wrap": "editor_width" },
     "Nix": {
       "language_servers": ["!nil", "..."],
@@ -37,6 +43,14 @@
       "completions": {
         "words": "disabled"
       }
+    },
+    "TypeScript": {
+      "language_servers": [
+        "!vtsls",
+        "!typescript-language-server",
+        "deno",
+        "..."
+      ]
     }
   },
   "lsp": {
@@ -49,6 +63,29 @@
       "initialization_options": {
         "checkOnSave": { "command": "clippy" },
         "imports": { "granularity": { "group": "module" } }
+      }
+    },
+    "texlab": {
+      "settings": {
+        "texlab": {
+          "build": {
+            "executable": "make",
+            "args": ["BIBINPUTS=/Useres/liam/src/ts-bibtex"],
+            "onSave": true,
+            "forwardSearchAfter": true
+          },
+          "forwardSearch": {
+            "executable": "/Applications/Nix Apps/Skim.app/Contents/SharedSupport/displayline",
+            "args": ["-r", "-g", "%l", "%p", "%f"]
+          }
+        }
+      }
+    },
+    "deno": {
+      "settings": {
+        "deno": {
+          "enable": true
+        }
       }
     }
   },

@@ -52,6 +52,8 @@ final: prev: {
       cp -r ${repo}/new/board_files $out/Vivado/${final.vivado.version}/data/boards/board_files
     '';
 
+  # https://github.com/NixOS/nixpkgs/pull/418861
+  httplz = final.callPackage ./pkgs/httplz { };
   isabelle = prev.isabelle.overrideAttrs (old: {
     patches = [ ./isabelle-fix-copied-permissions.patch ];
     # eprover comes with symlinks to its built artifacts, and so using the nixpkgs

@@ -10,6 +10,7 @@ in
     && builtins.elem (lib.getName pkg) [
       "1password"
       "docnav"
+      "drawio"
       "rgp"
       "steam"
       "steam-unwrapped"
