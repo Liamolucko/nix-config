@@ -254,6 +254,10 @@ stdenv.mkDerivation {
 
   patches = [
     ./no-wget.patch
+    # TODO: arguably this is really a bug in pycapnp: this would work if it was an
+    # `import rr_graph_capnp`, but doesn't because `capnp.load` is used, despite the
+    # fact the docs claim they should work the same (capnp.load doesn't implicitly
+    # add anything to the search path).
     (replaceVars ./capnproto-path.patch { inherit capnproto; })
     ./fix-ql-pinmap-install.patch # TODO upstream
     ./use-bins.patch # maybe upstream?

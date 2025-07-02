@@ -1,0 +1,15 @@
+diff --git a/setup.py b/setup.py
+index 2bd2b53..a2d210d 100644
+--- a/setup.py
++++ b/setup.py
+@@ -79,7 +79,9 @@ setuptools.setup(
+     },
+     # Requirements
+     python_requires=">=3.6",
+-    setup_requires=setup_requires,
++    setup_requires=[
++        'setuptools_scm'
++    ],
+     install_requires=[
+         'ply',
+         'pyjson',

@@ -1,4 +1,5 @@
 # A general derivation for installing something using `xinstall`.
+# TODO: maybe switch to { ... } @ args, that's the way CONTRIBUTING.md shows it
 args@{
   lib,
   callPackage,

@@ -5,24 +5,10 @@
   setuptools,
   setuptools_scm,
   wheel,
-  yapf,
-  tox,
   ply,
   pyjson,
   pytestCheckHook,
 }:
-let
-  yapf_0_24 = yapf.overridePythonAttrs rec {
-    version = "0.24.0";
-    src = fetchPypi {
-      pname = "yapf";
-      inherit version;
-      hash = "sha256-zrtvrzXJAnwImWwHgxuJcfPWfA62FSafZt/X5oFf3Co=";
-    };
-    # Some tests fail with Python 3.12.
-    doCheck = false;
-  };
-in
 buildPythonPackage rec {
   pname = "sdf-timing";
   version = "0.0.post131";
@@ -34,12 +20,13 @@ buildPythonPackage rec {
     hash = "sha256-KuCRxQASmaBcIE8PJNcCFT2aHuMMYzYia6+G5LEReOg=";
   };
 
+  # TODO: upstream
+  patches = [ ./no-dev-deps.patch ];
+
   build-system = [
     setuptools
     setuptools_scm
     wheel
-    tox
-    yapf_0_24
   ];
 
   dependencies = [
