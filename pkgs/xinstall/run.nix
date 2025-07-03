@@ -1,5 +1,9 @@
 # A general derivation for installing something using `xinstall`.
-# TODO: maybe switch to { ... } @ args, that's the way CONTRIBUTING.md shows it
+#
+# TODO:
+# - fix Vitis for HLS
+# - split out xinstall in 2024.1-2 (and maybe get Vitis working there too)
+# - maybe switch to { ... } @ args, that's the way CONTRIBUTING.md shows it
 args@{
   lib,
   callPackage,

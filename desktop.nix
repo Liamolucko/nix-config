@@ -70,7 +70,9 @@ in
     ]
     ++ lib.optionals (!ciSafe) [
       pkgs.docnav
-      pkgs.rgp
+      # We can put this back once https://github.com/NixOS/nixpkgs/pull/389014 is
+      # merged.
+      # pkgs.rgp
       vivado
     ];
   # Install Vivado's udev rules.

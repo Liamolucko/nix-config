@@ -48,8 +48,8 @@ final: prev: {
       };
     in
     final.runCommand "digilent-board-files" { } ''
-      mkdir -p $out/Vivado/${final.vivado.version}/data/boards
-      cp -r ${repo}/new/board_files $out/Vivado/${final.vivado.version}/data/boards/board_files
+      mkdir -p $out/${final.vivado.version}/Vivado/data/boards
+      cp -r ${repo}/new/board_files $out/${final.vivado.version}/Vivado/data/boards/board_files
     '';
 
   # https://github.com/NixOS/nixpkgs/pull/418861

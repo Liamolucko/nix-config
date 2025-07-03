@@ -88,9 +88,11 @@ in
     };
 
   "Vitis HLS" = {
-    patches = lib.map (patch: replaceVars patch { Vitis_HLS = versionedPath "Vitis_HLS"; }) [
-      ../patches/vitis-hls-ignore-arch.patch
-    ];
+    patches = lib.map (patch: replaceVars patch { Vitis_HLS = versionedPath "Vitis_HLS"; }) (
+      lib.optionals (lib.versionOlder "2024.2" meta.version) [
+        ../patches/vitis-hls-ignore-arch.patch
+      ]
+    );
     nativeBuildInputs = [
       makeWrapper
     ];
@@ -111,7 +113,7 @@ in
 
   "Vitis for HLS" = {
     # TODO: we almost certainly need more than this.
-    postFixup = lib.optionalString (lib.versionOlder meta.version "2024.2") ''
+    postFixup = ''
       # The script which is supposed to do this crashes trying to use /bin/touch.
       touch "$out/opt/Xilinx/${versionedPath "Vitis"}/.vitis_for_hls"
     '';
