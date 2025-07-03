@@ -4,7 +4,7 @@
   fetchFromGitHub,
 }:
 
-python3.pkgs.buildPythonApplication rec {
+python3.pkgs.buildPythonApplication {
   pname = "quicklogic-timings-importer";
   version = "0-unstable-2020-08-13";
   pyproject = true;
@@ -16,10 +16,7 @@ python3.pkgs.buildPythonApplication rec {
     hash = "sha256-8KrAlkGmv/uAUpexMlvkKdpCqHsZhIz/pOYjIGdkOK4=";
   };
 
-  build-system = [
-    python3.pkgs.setuptools
-    python3.pkgs.wheel
-  ];
+  build-system = [ python3.pkgs.setuptools ];
   dependencies = [
     python3.pkgs.sdf-timing
     python3.pkgs.termcolor

@@ -3,7 +3,6 @@
   buildPythonPackage,
   fetchFromGitHub,
   setuptools,
-  wheel,
   litex,
 }:
 
@@ -19,10 +18,7 @@ buildPythonPackage rec {
     hash = "sha256-f8XMupO3Y4peHhFJmWG1BFL8vGRqjYXeyNsoiVf5xd0=";
   };
 
-  build-system = [
-    setuptools
-    wheel
-  ];
+  build-system = [ setuptools ];
   dependencies = [ litex ];
 
   # The unit tests in sim/ are broken.

@@ -5,7 +5,6 @@
   buildPythonPackage,
   fetchFromGitHub,
   setuptools,
-  wheel,
   json_c,
   libevent,
   litex,
@@ -34,10 +33,7 @@ buildPythonPackage rec {
     hash = "sha256-YcLxKFEVnfk9ocFIOx0pnKkrM23GXbnssXvLtHZpJP8=";
   };
 
-  build-system = [
-    setuptools
-    wheel
-  ];
+  build-system = [ setuptools ];
   dependencies = [
     litex
     pyyaml

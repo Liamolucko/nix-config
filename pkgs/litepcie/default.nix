@@ -4,7 +4,6 @@
   fetchFromGitHub,
   fetchpatch,
   setuptools,
-  wheel,
   litex,
   pyyaml,
   unittestCheckHook,
@@ -29,10 +28,7 @@ buildPythonPackage rec {
     })
   ];
 
-  build-system = [
-    setuptools
-    wheel
-  ];
+  build-system = [ setuptools ];
   dependencies = [
     pyyaml
     litex

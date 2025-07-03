@@ -3,10 +3,9 @@
   buildPythonPackage,
   fetchFromGitHub,
   setuptools,
-  wheel,
 }:
 
-buildPythonPackage rec {
+buildPythonPackage {
   pname = "fasm-utils";
   version = "0-unstable-2021-03-05";
   pyproject = true;
@@ -18,10 +17,7 @@ buildPythonPackage rec {
     hash = "sha256-wHSOU+GaCGZtYqwze8+7fgerJ0aUlpL0NIzcCoQgKU8=";
   };
 
-  build-system = [
-    setuptools
-    wheel
-  ];
+  build-system = [ setuptools ];
 
   pythonImportsCheck = [ "fasm_utils" ];
 

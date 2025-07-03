@@ -3,7 +3,6 @@
   buildPythonPackage,
   fetchFromGitHub,
   setuptools,
-  wheel,
   migen,
   packaging,
   pexpect,
@@ -24,10 +23,7 @@ buildPythonPackage rec {
     hash = "sha256-gDg2QXrC6HJ316tCrNC/1/kZK/+H5iGtm9YN4FubDXI=";
   };
 
-  build-system = [
-    setuptools
-    wheel
-  ];
+  build-system = [ setuptools ];
   dependencies = [
     migen
     packaging

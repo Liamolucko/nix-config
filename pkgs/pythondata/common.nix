@@ -11,7 +11,6 @@
   fetchFromGitHub,
   python,
   setuptools,
-  wheel,
 }:
 let
   dashedName = builtins.replaceStrings [ "_" ] [ "-" ] name;
@@ -29,10 +28,7 @@ buildPythonPackage rec {
     fetchSubmodules = true;
   };
 
-  build-system = [
-    setuptools
-    wheel
-  ];
+  build-system = [ setuptools ];
 
   inherit doCheck;
   # TODO: cd into $out so that the version in /tmp/nix-build-* isn't accessible (same as pythonImportsCheck).

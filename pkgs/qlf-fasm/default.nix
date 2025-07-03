@@ -4,7 +4,7 @@
   fetchFromGitHub,
 }:
 
-python3.pkgs.buildPythonApplication rec {
+python3.pkgs.buildPythonApplication {
   pname = "qlf-fasm";
   version = "0-unstable-2021-06-11";
   pyproject = true;
@@ -16,10 +16,7 @@ python3.pkgs.buildPythonApplication rec {
     hash = "sha256-jciXhME/EXV50xBOq2mAfc/bPNEJYZ+TFU7F91wTjfY=";
   };
 
-  build-system = [
-    python3.pkgs.setuptools
-    python3.pkgs.wheel
-  ];
+  build-system = [ python3.pkgs.setuptools ];
   dependencies = [ python3.pkgs.fasm ];
 
   # TODO: some tests are currently being skipped because QLF_FASM_DB_ROOT is unset.

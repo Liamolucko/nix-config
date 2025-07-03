@@ -3,7 +3,6 @@
   buildPythonPackage,
   fetchPypi,
   setuptools,
-  wheel,
 }:
 
 buildPythonPackage rec {
@@ -16,10 +15,7 @@ buildPythonPackage rec {
     hash = "sha256-eevlXMy2IkMCusqfcRmSfHPcscGMP+0ZPbgM+zINDKY=";
   };
 
-  build-system = [
-    setuptools
-    wheel
-  ];
+  build-system = [ setuptools ];
 
   pythonImportsCheck = [ "pyjson" ];
 

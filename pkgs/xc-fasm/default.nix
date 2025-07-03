@@ -3,7 +3,6 @@
   buildPythonPackage,
   fetchFromGitHub,
   setuptools,
-  wheel,
   intervaltree,
   simplejson,
   textx,
@@ -14,7 +13,7 @@
 }:
 
 # TODO: use buildPythonApplication instead
-buildPythonPackage rec {
+buildPythonPackage {
   pname = "xc-fasm";
   version = "0-unstable-2022-02-28";
   pyproject = true;
@@ -36,10 +35,7 @@ buildPythonPackage rec {
       --subst-var-by xc7frames2bit ${prjxray-tools}/bin/xc7frames2bit
   '';
 
-  build-system = [
-    setuptools
-    wheel
-  ];
+  build-system = [ setuptools ];
 
   dependencies = [
     intervaltree

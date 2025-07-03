@@ -3,7 +3,6 @@
   buildPythonPackage,
   fetchFromGitHub,
   setuptools,
-  wheel,
   litex,
   unittestCheckHook,
 }:
@@ -20,10 +19,7 @@ buildPythonPackage rec {
     hash = "sha256-ri4Kqr62mP6sviq3FwYGGtaZxe1yR0BEWW+5dwmkJ+g=";
   };
 
-  build-system = [
-    setuptools
-    wheel
-  ];
+  build-system = [ setuptools ];
   dependencies = [ litex ];
 
   nativeCheckInputs = [ unittestCheckHook ];

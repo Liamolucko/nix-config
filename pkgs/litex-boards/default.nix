@@ -4,7 +4,6 @@
   buildPythonPackage,
   fetchFromGitHub,
   setuptools,
-  wheel,
   litedram,
   liteeth,
   litepcie,
@@ -51,10 +50,7 @@ buildPythonPackage rec {
     hash = "sha256-pHtVotOZDZKE4RGUIn2rZTCPBjpLiEJLuLyaOcDCQbg=";
   };
 
-  build-system = [
-    setuptools
-    wheel
-  ];
+  build-system = [ setuptools ];
   dependencies = [ litex ];
 
   nativeCheckInputs = [

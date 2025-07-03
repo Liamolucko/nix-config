@@ -2,7 +2,6 @@
   buildPythonPackage,
   prjxray-tools,
   setuptools,
-  wheel,
   fasm,
   intervaltree,
   numpy,
@@ -17,10 +16,7 @@ buildPythonPackage {
   inherit (prjxray-tools) version src meta;
 
   pyproject = true;
-  build-system = [
-    setuptools
-    wheel
-  ];
+  build-system = [ setuptools ];
   dependencies = [
     fasm
     intervaltree

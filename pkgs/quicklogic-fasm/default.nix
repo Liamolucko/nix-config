@@ -5,7 +5,7 @@
 }:
 
 # TODO: since one of the ways you're supposed to use this is with python3 -m, it should probablty use buildPythonPackage.
-python3.pkgs.buildPythonApplication rec {
+python3.pkgs.buildPythonApplication {
   pname = "quicklogic-fasm";
   version = "0-unstable-2020-07-14";
   pyproject = true;
@@ -17,10 +17,7 @@ python3.pkgs.buildPythonApplication rec {
     hash = "sha256-jyCxoQRWuHKKm2auxsLzKD2Q5IJuzoPZ0iqvw6A7OSw=";
   };
 
-  build-system = [
-    python3.pkgs.setuptools
-    python3.pkgs.wheel
-  ];
+  build-system = [ python3.pkgs.setuptools ];
   dependencies = [
     python3.pkgs.fasm
     python3.pkgs.fasm-utils

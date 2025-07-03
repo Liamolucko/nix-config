@@ -4,7 +4,7 @@
   fetchFromGitHub,
 }:
 
-python3.pkgs.buildPythonApplication rec {
+python3.pkgs.buildPythonApplication {
   pname = "tinyfpgab";
   version = "1.1.0";
   pyproject = true;
@@ -20,10 +20,7 @@ python3.pkgs.buildPythonApplication rec {
     cd programmer
   '';
 
-  build-system = [
-    python3.pkgs.setuptools
-    python3.pkgs.wheel
-  ];
+  build-system = [ python3.pkgs.setuptools ];
   dependencies = [ python3.pkgs.pyserial ];
 
   nativeCheckInputs = [ python3.pkgs.pytestCheckHook ];

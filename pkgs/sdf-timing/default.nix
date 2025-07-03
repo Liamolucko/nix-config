@@ -4,7 +4,6 @@
   fetchPypi,
   setuptools,
   setuptools_scm,
-  wheel,
   ply,
   pyjson,
   pytestCheckHook,
@@ -26,7 +25,6 @@ buildPythonPackage rec {
   build-system = [
     setuptools
     setuptools_scm
-    wheel
   ];
 
   dependencies = [

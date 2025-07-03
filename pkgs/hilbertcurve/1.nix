@@ -3,7 +3,6 @@
   buildPythonPackage,
   fetchFromGitHub,
   setuptools,
-  wheel,
   pytestCheckHook,
 }:
 
@@ -19,10 +18,7 @@ buildPythonPackage rec {
     hash = "sha256-fY5WD8qCj01VXo4j66qZ4aFHDw6jFFB4codmpJF8nqQ=";
   };
 
-  build-system = [
-    setuptools
-    wheel
-  ];
+  build-system = [ setuptools ];
 
   nativeCheckInputs = [ pytestCheckHook ];
 

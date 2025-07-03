@@ -3,7 +3,6 @@
   buildPythonPackage,
   fetchFromGitHub,
   setuptools,
-  wheel,
   liteiclink,
   litex,
   pyyaml,
@@ -22,10 +21,7 @@ buildPythonPackage rec {
     hash = "sha256-atXa/rX9/w2wbNqVPdIB2eMTG7dSq+cfM3iffrGnAyo=";
   };
 
-  build-system = [
-    setuptools
-    wheel
-  ];
+  build-system = [ setuptools ];
   dependencies = [
     liteiclink
     litex

@@ -3,7 +3,6 @@
   buildPythonPackage,
   fetchFromGitHub,
   setuptools,
-  wheel,
   litex,
   pyyaml,
   unittestCheckHook,
@@ -21,10 +20,7 @@ buildPythonPackage rec {
     hash = "sha256-mnQBD9Paw94t+624ClHAJ9JS4aA09WA1RQvzD5QYXNo=";
   };
 
-  build-system = [
-    setuptools
-    wheel
-  ];
+  build-system = [ setuptools ];
   dependencies = [
     litex
     pyyaml

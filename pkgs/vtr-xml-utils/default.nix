@@ -3,7 +3,6 @@
   buildPythonPackage,
   fetchFromGitHub,
   setuptools,
-  wheel,
   lxml,
   pytestCheckHook,
 }:
@@ -22,10 +21,7 @@ buildPythonPackage {
 
   patches = [ ./no-pytest-runner.patch ];
 
-  build-system = [
-    setuptools
-    wheel
-  ];
+  build-system = [ setuptools ];
   dependencies = [ lxml ];
 
   nativeCheckInputs = [

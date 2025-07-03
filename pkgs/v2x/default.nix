@@ -26,10 +26,7 @@ python3.pkgs.buildPythonApplication {
     })
   ];
 
-  build-system = [
-    python3.pkgs.setuptools
-    python3.pkgs.wheel
-  ];
+  build-system = [ python3.pkgs.setuptools ];
 
   dependencies = [
     python3.pkgs.lxml

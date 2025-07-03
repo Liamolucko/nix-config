@@ -4,8 +4,6 @@
   buildPythonPackage,
   fetchFromGitHub,
   cmake,
-  setuptools,
-  wheel,
   antlr4_9,
   cython,
   jre_headless,
@@ -34,8 +32,6 @@ buildPythonPackage {
   buildInputs = [ antlr4_9.runtime.cpp ];
 
   build-system = [
-    setuptools
-    wheel
     cython
   ];
   dependencies = [ textx ];
