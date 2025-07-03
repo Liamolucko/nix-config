@@ -14,6 +14,7 @@
 buildPythonPackage {
   pname = "fasm";
   version = "0.0.2.post100";
+  format = "setuptools";
 
   src = fetchFromGitHub {
     owner = "chipsalliance";
