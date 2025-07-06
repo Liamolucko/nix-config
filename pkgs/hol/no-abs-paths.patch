@@ -1,0 +1,407 @@
+diff --git a/Manual/Reference/Holmakefile b/Manual/Reference/Holmakefile
+index d59008a4c..a3901eddd 100644
+--- a/Manual/Reference/Holmakefile
++++ b/Manual/Reference/Holmakefile
+@@ -30,31 +30,31 @@ theorems:
+ 	@echo "\chapter{Pre-proved Theorems}" > theorems.tex
+ 	@echo "\input{theorems-intro}" >> theorems.tex
+ 	@echo "\section{Definitions of Basic Logical Constants}">>theorems.tex
+-	/bin/sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/basic-logic theorems.tex
++	sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/basic-logic theorems.tex
+ 	@echo "\section{Constants for syntactic abbreviations}" >> theorems.tex
+-	/bin/sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/syntax theorems.tex
++	sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/syntax theorems.tex
+ 	@echo "\section{Axioms}" >> theorems.tex
+-	/bin/sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/axioms theorems.tex
++	sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/axioms theorems.tex
+ 	@echo "\section{Logical tautologies}" >> theorems.tex
+-	/bin/sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/logic theorems.tex
++	sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/logic theorems.tex
+ 	@echo "\section{Theorems about functions}" >> theorems.tex
+-	/bin/sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/functions theorems.tex
++	sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/functions theorems.tex
+ 	@echo "\section{Theorems about the type {\tt one}}" >> theorems.tex
+-	/bin/sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/one theorems.tex
++	sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/one theorems.tex
+ 	@echo "\section{Theorems about combinators}" >> theorems.tex
+-	/bin/sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/combin theorems.tex
++	sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/combin theorems.tex
+ 	@echo "\section{Theorems about pairs}" >> theorems.tex
+-	/bin/sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/pairs theorems.tex
++	sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/pairs theorems.tex
+ 	@echo "\section{Theorems about disjoint sums}" >> theorems.tex
+-	/bin/sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/sum theorems.tex
++	sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/sum theorems.tex
+ 	@echo "\section{Theorems about arithmetic}" >> theorems.tex
+-	/bin/sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/arith theorems.tex
++	sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/arith theorems.tex
+ 	@echo "\section{Theorems about lists}" >> theorems.tex
+-	/bin/sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/list theorems.tex
++	sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/list theorems.tex
+ 	@echo "\section{Theorems about trees}" >> theorems.tex
+-	/bin/sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/tree theorems.tex
++	sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/tree theorems.tex
+ 	@echo "\section{Theorems used to define types}" >> theorems.tex
+-	/bin/sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/tydefs theorems.tex
++	sh bin/doc-to-tex ${D2TSED} ${Helpd}/THEOREMS/tydefs theorems.tex
+ 
+ thmdoc:
+ 	(cd $(THMDIR)axioms;    make thmdoc) ;
+diff --git a/developers/git-regression-build.sh b/developers/git-regression-build.sh
+index a0b61d599..809bd2fc0 100755
+--- a/developers/git-regression-build.sh
++++ b/developers/git-regression-build.sh
+@@ -138,7 +138,7 @@ maybeBuild ()
+      $ML < tools/smart-configure.sml 2>&1 &&
+      bin/build cleanAll 2>&1 &&
+      timeout 4h bin/build $kernel "$@" 2>&1 ;
+-     /bin/rm build-running) | tee build-log
++     rm build-running) | tee build-log
+ }
+ 
+ 
+diff --git a/developers/releasing-hol b/developers/releasing-hol
+index 427622a6e..254ed1268 100755
+--- a/developers/releasing-hol
++++ b/developers/releasing-hol
+@@ -85,7 +85,7 @@ if [ -d /tmp/localhol -a "${reusecommit}" -eq 1 ]
+ then
+     :
+ else
+-  /bin/rm -rf /tmp/localhol
++  rm -rf /tmp/localhol
+   echo -n "Cloning into /tmp - "
+   (git clone -q ./ /tmp/localhol && echo "done" || die "failed")
+ fi
+@@ -98,7 +98,7 @@ then
+         if [ -r "$config" ]
+         then
+             echo "Copying $config into new tmp HOL dir"
+-            /bin/cp $config /tmp/localhol/
++            cp $config /tmp/localhol/
+         else
+             die "No local config: $config"
+         fi
+@@ -107,7 +107,7 @@ then
+         if [ -r "$config" ]
+         then
+             echo "Copying $config into new tmp HOL dir"
+-            /bin/cp $config /tmp/localhol/tools-poly
++            cp $config /tmp/localhol/tools-poly
+         else
+             die "No local config: $config"
+         fi
+@@ -135,7 +135,7 @@ createdir () {
+   then
+       :
+   else
+-    if /bin/rm -rf $1 2> /dev/null
++    if rm -rf $1 2> /dev/null
+     then
+         mkdir $1
+     else
+@@ -147,9 +147,9 @@ createdir () {
+ # initial setup
+ createdir $texlogs
+ archive=/tmp/hol-$releasename
+-/bin/rm -rf $archive                     # final directory to be tarred
++rm -rf $archive                     # final directory to be tarred
+ 
+-if /bin/ls -1 $localholdir | grep std.prelude > /dev/null 2>&1
++if ls -1 $localholdir | grep std.prelude > /dev/null 2>&1
+ then
+     :
+ else
+@@ -169,7 +169,7 @@ echo -n "Copying various theorems from local installation: "
+ for i in coretypes/pair-help res_quan/help string/help
+ do
+   echo -n "$i "
+-  if /bin/cp -R $localholdir/src/$i/thms $archive/src/$i 2> /dev/null
++  if cp -R $localholdir/src/$i/thms $archive/src/$i 2> /dev/null
+   then
+       :
+   else
+@@ -182,7 +182,7 @@ echo
+ echo "Copying theory graph from local installation"
+ # see the file help/src-sml/DOT for instructions on how to generate the
+ # theorygraph files
+-/bin/cp $localholdir/help/theorygraph/*.html $localholdir/help/theorygraph/theories.* $archive/help/theorygraph 2> /dev/null ||
++cp $localholdir/help/theorygraph/*.html $localholdir/help/theorygraph/theories.* $archive/help/theorygraph 2> /dev/null ||
+   die "Couldn't copy theory graph."
+ 
+ if [ $ML = "mosml" ]
+@@ -232,7 +232,7 @@ while read line
+ do
+   case "$line" in
+       \#* ) : ;;
+-      * ) (/bin/rm -r $line 2> /dev/null && echo "  Removed $line") ||
++      * ) (rm -r $line 2> /dev/null && echo "  Removed $line") ||
+         warn "  *** Couldn't delete $line ***"
+   esac
+ done < $localholdir/developers/deleted-in-release.txt
+@@ -243,18 +243,18 @@ echo
+ 
+ if [ $ML = "mosml" ]
+ then
+-    /bin/rm tools/Holmake/*.{uo,ui} tools/hol-mode.el
+-    /bin/rm tools/Holmake/{Parser,Lexer}.sml tools/Holmake/Parser.sig
+-    /bin/rm tools/Holmake/Holmake_tokens.sml
++    rm tools/Holmake/*.{uo,ui} tools/hol-mode.el
++    rm tools/Holmake/{Parser,Lexer}.sml tools/Holmake/Parser.sig
++    rm tools/Holmake/Holmake_tokens.sml
+     (cd tools/quote-filter ; ../../bin/Holmake cleanAll)
+     (cd tools/mlyacc/mlyacclib ; ../../../bin/Holmake cleanAll)
+     (cd tools/mlyacc/src ; ../../../bin/Holmake cleanAll)
+-    (cd sigobj ; /bin/rm Systeml.{uo,ui})
++    (cd sigobj ; rm Systeml.{uo,ui})
+     (cd tools/mllex ; ../../bin/Holmake cleanAll)
+     (cd help/src-sml ; ../../bin/Holmake cleanAll)
+     cd bin
+     echo "Cleaning bin/"
+-    /bin/ls -A1 | egrep -v '(hol.ML|noninterhol.ML|README)' | xargs /bin/rm
++    ls -A1 | egrep -v '(hol.ML|noninterhol.ML|README)' | xargs rm
+ fi
+ 
+ cd /tmp
+diff --git a/doc/hol-mode/Makefile b/doc/hol-mode/Makefile
+index fc81de4d9..7dbffc630 100644
+--- a/doc/hol-mode/Makefile
++++ b/doc/hol-mode/Makefile
+@@ -1,7 +1,7 @@
+ all: hol-mode.ps hol-mode.pdf hol-mode.dvi
+ 
+ clean:
+-	/bin/rm -f hol-mode.dvi hol-mode.ps hol-mode.pdf hol-mode.aux hol-mode.log
++	rm -f hol-mode.dvi hol-mode.ps hol-mode.pdf hol-mode.aux hol-mode.log
+ 
+ hol-mode.ps: hol-mode.dvi
+ 	dvips $< -o
+diff --git a/examples/dev/Fact.ml b/examples/dev/Fact.ml
+index 1bcde3d98..fe76575a1 100644
+--- a/examples/dev/Fact.ml
++++ b/examples/dev/Fact.ml
+@@ -89,7 +89,7 @@ dump_all_flag := false;
+ (* three assignments below will revert to the defaults: cver/dinotrace.      *)
+ (*****************************************************************************)
+ (*
+-iverilog_path      := "/usr/bin/iverilog";
++iverilog_path      := "iverilog";
+ verilog_simulator  := iverilog;
+ waveform_viewer    := gtkwave;
+ 
+diff --git a/examples/dev/Fact32/Fact32.ml b/examples/dev/Fact32/Fact32.ml
+index 9aaac237d..17cc9230c 100644
+--- a/examples/dev/Fact32/Fact32.ml
++++ b/examples/dev/Fact32/Fact32.ml
+@@ -98,7 +98,7 @@ dump_all_flag := true;
+ (* three assignments below will revert to the defaults: cver/dinotrace.      *)
+ (*****************************************************************************)
+ 
+-iverilog_path      := "/usr/bin/iverilog";
++iverilog_path      := "iverilog";
+ verilog_simulator  := iverilog;
+ waveform_viewer    := gtkwave;
+ 
+diff --git a/examples/dev/README b/examples/dev/README
+index f87c533ad..f427c4416 100644
+--- a/examples/dev/README
++++ b/examples/dev/README
+@@ -499,9 +499,9 @@ iverilog and gtkwave do:
+ 
+ The executables are held in references, which have default values:
+ 
+- val iverilog_path   = ref "/usr/bin/iverilog";
+- val vvp_path        = ref "/usr/bin/vvp";
+- val gtkwave_path    = ref "/usr/bin/gtkwave -a";
++ val iverilog_path   = ref "iverilog";
++ val vvp_path        = ref "vvp";
++ val gtkwave_path    = ref "gtkwave -a";
+  val cver_path       = ref "./gplcver-2.10c.linux.bin/bin/cver";
+  val dinotrace_path  = ref "./gplcver-2.10c.linux.bin/bin/dinotrace";
+ 
+diff --git a/examples/dev/vsynth.sml b/examples/dev/vsynth.sml
+index f26db0ce6..94d01efe7 100644
+--- a/examples/dev/vsynth.sml
++++ b/examples/dev/vsynth.sml
+@@ -745,9 +745,9 @@ fun PRINT_SIMULATION thm period stimulus =
+ (* User resettable paths of Verilog simulator and waveform viewer            *)
+ (*****************************************************************************)
+ 
+-val iverilog_path   = ref "/usr/bin/iverilog";
+-val vvp_path        = ref "/usr/bin/vvp";
+-val gtkwave_path    = ref "/usr/bin/gtkwave -a";
++val iverilog_path   = ref "iverilog";
++val vvp_path        = ref "vvp";
++val gtkwave_path    = ref "gtkwave -a";
+ 
+ (*
+ val cver_path       = ref "./gplcver-2.10c.linux.bin/bin/cver";
+@@ -756,7 +756,7 @@ val dinotrace_path  = ref "./gplcver-2.10c.linux.bin/bin/dinotrace";
+ val cver_path       = ref "/Users/konradslind/Desktop/gplcver-2.10c.osx.bin/bin/cver";
+ val dinotrace_path  = ref "/Users/konradslind/Desktop/gplcver-2.10c.osx.bin/bin/dinotrace";
+ 
+-val vlogger_path    = ref "/usr/bin/vlogcmd";
++val vlogger_path    = ref "vlogcmd";
+ 
+ (*
+ ** Test for success of the result of Process.system
+diff --git a/examples/l3-machine-code/arm/prog/Holmakefile b/examples/l3-machine-code/arm/prog/Holmakefile
+index 9e629d29a..d40d774fa 100644
+--- a/examples/l3-machine-code/arm/prog/Holmakefile
++++ b/examples/l3-machine-code/arm/prog/Holmakefile
+@@ -24,4 +24,4 @@ ifdef HOLSELFTESTLEVEL
+ endif
+ 
+ arm-prog-selftest.log: test.sml arm_tests.sml arm_progLib.uo
+-	$(tee $(HOLDIR)/bin/hol < test.sml,$@) || ( /bin/rm -f $@ && exit 1 )
++	$(tee $(HOLDIR)/bin/hol < test.sml,$@) || ( rm -f $@ && exit 1 )
+diff --git a/examples/machine-code/acl2/Makefile b/examples/machine-code/acl2/Makefile
+index 89adf9e11..a4fe967bb 100644
+--- a/examples/machine-code/acl2/Makefile
++++ b/examples/machine-code/acl2/Makefile
+@@ -7,4 +7,4 @@ all:
+ 	cat fact-out.lisp
+ clean:
+ 	Holmake cleanAll
+-	/bin/rm fact.lisp fact-out.* untranslate-file.* 
++	rm fact.lisp fact-out.* untranslate-file.* 
+diff --git a/examples/machine-code/graph/file_readerLib.sml b/examples/machine-code/graph/file_readerLib.sml
+index c63a8cf1d..f5eaca158 100644
+--- a/examples/machine-code/graph/file_readerLib.sml
++++ b/examples/machine-code/graph/file_readerLib.sml
+@@ -31,7 +31,7 @@ fun HOL_commit () = let
+   val t = TextIO.openIn(filename)
+   val commit = case TextIO.inputLine(t) of SOME s => s | NONE => fail()
+   val _ = TextIO.closeIn(t)
+-  val _ = exec ("/bin/rm -f " ^ filename)
++  val _ = exec ("rm -f " ^ filename)
+   val remove_newline =
+     String.translate (fn c => if c = #"\n" then "" else implode [c])
+   in remove_newline commit end handle Interrupt => raise Interrupt
+diff --git a/src/coretypes/pair-Manual/Makefile b/src/coretypes/pair-Manual/Makefile
+index 654269100..6955bc8eb 100644
+--- a/src/coretypes/pair-Manual/Makefile
++++ b/src/coretypes/pair-Manual/Makefile
+@@ -41,7 +41,7 @@ theorems:
+ 	@echo "\chapter{Pre-proved Theorems}" > theorems.tex
+ 	@echo "\input{theorems-intro}" >> theorems.tex
+ 	@echo "\section{Theorems}">>theorems.tex
+-	/bin/sh ${DOCTOTEX} ${DOCTOTEXSED} ${Help}/thms theorems.tex
++	sh ${DOCTOTEX} ${DOCTOTEXSED} ${Help}/thms theorems.tex
+ 
+ index:
+ 	${MAKEINDEX} pair.idx
+diff --git a/src/pred_set/Manual/Makefile b/src/pred_set/Manual/Makefile
+index 90b84cec5..f229170ae 100644
+--- a/src/pred_set/Manual/Makefile
++++ b/src/pred_set/Manual/Makefile
+@@ -15,7 +15,7 @@ Help=../help
+ # ---------------------------------------------------------------------
+ DOCTOTEXSH=../../../Manual/Reference/bin/doc-to-tex
+ DOCTOTEXSED=../../../Manual/Reference/bin/doc-to-tex.sed
+-DOCTOTEX=/bin/sh ${DOCTOTEXSH} ${DOCTOTEXSED}
++DOCTOTEX=sh ${DOCTOTEXSH} ${DOCTOTEXSED}
+ DOCTOTEXEXE=../../../help/src/Doc2Tex.exe
+ 
+ # ---------------------------------------------------------------------
+diff --git a/src/res_quan/Manual/Makefile b/src/res_quan/Manual/Makefile
+index 893f5f154..f0c4d765e 100644
+--- a/src/res_quan/Manual/Makefile
++++ b/src/res_quan/Manual/Makefile
+@@ -43,7 +43,7 @@ theorems:
+ 	echo "\\\\chapter{Pre-proved Theorems}" >> theorems.tex
+ 	echo "\\\\input{theorems-intro}" >> theorems.tex
+ 	echo "\\\\vskip 2mm" >> theorems.tex
+-	/bin/sh ${DOCTOTEX} ${DOCTOTEXSED} ${Help}/thms theorems.tex
++	sh ${DOCTOTEX} ${DOCTOTEXSED} ${Help}/thms theorems.tex
+ 
+ index:
+ 	${MAKEINDEX} res_quan.idx
+diff --git a/src/string/Manual/Makefile b/src/string/Manual/Makefile
+index a3f35f458..cb7de11bf 100644
+--- a/src/string/Manual/Makefile
++++ b/src/string/Manual/Makefile
+@@ -41,7 +41,7 @@ theorems:
+ 	@echo "\chapter{Pre-proved Theorems}" > theorems.tex
+ 	@echo "\input{theorems-intro}" >> theorems.tex
+ 	@echo "\section{Theorems}">>theorems.tex
+-	/bin/sh ${DOCTOTEX} ${DOCTOTEXSED} ${Help}/thms theorems.tex
++	sh ${DOCTOTEX} ${DOCTOTEXSED} ${Help}/thms theorems.tex
+ 
+ index:
+ 	${MAKEINDEX} string.idx
+diff --git a/tools/Holmake/Holmake_tools.sml b/tools/Holmake/Holmake_tools.sml
+index 27dc404c7..ef8852e81 100644
+--- a/tools/Holmake/Holmake_tools.sml
++++ b/tools/Holmake/Holmake_tools.sml
+@@ -478,7 +478,7 @@ fun pushdir d f x =
+ 
+ 
+ fun xterm_log s =
+-  ignore (OS.Process.system ("/bin/sh -c 'printf \"\\033]0;" ^ s ^ "\\007\"'"))
++  ignore (OS.Process.system ("sh -c 'printf \"\\033]0;" ^ s ^ "\\007\"'"))
+ 
+ structure hmdir =
+ struct
+diff --git a/tools/Holmake/internal_functions.sml b/tools/Holmake/internal_functions.sml
+index 33940e3ae..f2fd0d612 100644
+--- a/tools/Holmake/internal_functions.sml
++++ b/tools/Holmake/internal_functions.sml
+@@ -305,7 +305,7 @@ fun shell arg =
+ *)
+ fun tee (cmd, fname) =
+     "{ { { { " ^ cmd ^ " ; echo $? >&3; } | tee " ^ fname ^ " >&4; } 3>&1; } | \
+-    \ { read xs; if [ $xs != \"0\" ] ; then /bin/rm -f " ^ fname ^ " ; fi ; exit $xs; } } 4>&1"
++    \ { read xs; if [ $xs != \"0\" ] ; then rm -f " ^ fname ^ " ; fi ; exit $xs; } } 4>&1"
+ 
+ fun hol2fs s =
+     case HFS_NameMunge.HOLtoFS s of
+diff --git a/tools/Holmake/tests/depchainloop/selftest.sml b/tools/Holmake/tests/depchainloop/selftest.sml
+index 36c2b20d5..5b50893f5 100644
+--- a/tools/Holmake/tests/depchainloop/selftest.sml
++++ b/tools/Holmake/tests/depchainloop/selftest.sml
+@@ -13,7 +13,7 @@ val _ =
+       let
+         val now = Time.now()
+         val res =
+-            OS.Process.system ("/bin/sh -c 'ulimit -t 4 ; " ^
++            OS.Process.system ("sh -c 'ulimit -t 4 ; " ^
+                                Systeml.HOLDIR ++ "bin" ++ "Holmake" ^
+                                (if Systeml.ML_SYSNAME = "poly" then
+                                   " --poly_not_hol'"
+diff --git a/tools/Holmake/tests/hollogs/Holmakefile b/tools/Holmake/tests/hollogs/Holmakefile
+index 7282c009a..d139b75ac 100644
+--- a/tools/Holmake/tests/hollogs/Holmakefile
++++ b/tools/Holmake/tests/hollogs/Holmakefile
+@@ -11,9 +11,9 @@ CMP = $(HOLDIR)/tools/cmp/cmp.exe
+ all: $(DEFAULT_TARGETS) check
+ 
+ check: $(dprot $(CMP)) ls-child-expected ls-base-expected childTheory.uo
+-	/bin/ls -1 .hollogs 2>&1 > ls-child-output && \
++	ls -1 .hollogs 2>&1 > ls-child-output && \
+           $(protect $(CMP)) ls-child-expected ls-child-output
+-	/bin/ls -1 base/.hollogs 2>&1 > ls-base-output && \
++	ls -1 base/.hollogs 2>&1 > ls-base-output && \
+           $(protect $(CMP)) ls-base-expected ls-base-output
+ 
+ endif
+diff --git a/tools/Holmake/tests/preexec/.hol_preexec b/tools/Holmake/tests/preexec/.hol_preexec
+index e120d2dc8..4bd1baf8c 100644
+--- a/tools/Holmake/tests/preexec/.hol_preexec
++++ b/tools/Holmake/tests/preexec/.hol_preexec
+@@ -1 +1 @@
+-/bin/rm -f sibling/sibling-tgt
++rm -f sibling/sibling-tgt
+diff --git a/tools/Holmake/tests/preexec/Holmakefile b/tools/Holmake/tests/preexec/Holmakefile
+index 3217be25b..19f63ef03 100644
+--- a/tools/Holmake/tests/preexec/Holmakefile
++++ b/tools/Holmake/tests/preexec/Holmakefile
+@@ -19,7 +19,7 @@ test1:
+           echo done > ../$@
+ 
+ test2: test1
+-	/bin/rm -f sibling/sibling-tgt && cd child && \
++	rm -f sibling/sibling-tgt && cd child && \
+           $(HOLDIR)/bin/Holmake cleanAll && \
+           $(HOLDIR)/bin/Holmake $(HMOPTS) --no_preexecs && \
+           [ ! -r tgt ] && echo tgt absent && \

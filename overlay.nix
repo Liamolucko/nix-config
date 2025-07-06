@@ -10,6 +10,9 @@ final: prev: {
   # else with that name, what to call it?
   f4pga = with final.python3Packages; toPythonApplication f4pga;
   f4pga-arch-defs = final.callPackage ./pkgs/f4pga-arch-defs { };
+  hol = final.callPackage ./pkgs/hol { };
+  holStdknl = final.hol.override { experimentalKernel = false; };
+  holExpk = final.hol.override { experimentalKernel = true; };
   libkrun = final.callPackage ./pkgs/libkrun {
     virglrenderer = final.virglrenderer.overrideAttrs (old: {
       src = final.fetchurl {

@@ -15,6 +15,21 @@ jobs:
           name: liamolucko
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
       - run: nix build -L .#f4pga-arch-defs.{ql-eos-s3,xc7a50t}
+  build-hol:
+    name: Build HOL
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        kernel: [Stdknl, Expk]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v30
+      - uses: cachix/cachix-action@v15
+        with:
+          name: liamolucko
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - run: nix build -L .#hol${{ matrix.kernel }}
   build-litex-boards:
     name: Build litex-boards
     strategy:
