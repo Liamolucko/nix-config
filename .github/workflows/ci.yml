@@ -19,7 +19,7 @@ jobs:
     name: Build HOL
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, ubuntu-24.04-arm]
+        os: [ubuntu-latest, ubuntu-24.04-arm]
         kernel: [Stdknl, Expk]
     runs-on: ${{ matrix.os }}
     steps:
