@@ -1,4 +1,7 @@
 { pkgs, ... }:
+let
+  ciSafe = builtins.getEnv "CI_SAFE" != "";
+in
 {
   imports = [ ./linux.nix ];
 
@@ -44,6 +47,7 @@
 
   networking.hostName = "liam-asahi";
 
+  hardware.asahi.extractPeripheralFirmware = !ciSafe;
   hardware.asahi.useExperimentalGPUDriver = true;
 
   environment.systemPackages = [ pkgs.zed-editor ];

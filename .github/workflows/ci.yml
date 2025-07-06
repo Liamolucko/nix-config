@@ -5,7 +5,7 @@ jobs:
     name: Build f4pga-arch-defs
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, ubuntu-24.04-arm]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -19,7 +19,7 @@ jobs:
     name: Build HOL
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, ubuntu-24.04-arm]
         kernel: [Stdknl, Expk]
     runs-on: ${{ matrix.os }}
     steps:
@@ -34,7 +34,7 @@ jobs:
     name: Build litex-boards
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, ubuntu-24.04-arm]
         interpreter: [python312, python313]
     runs-on: ${{ matrix.os }}
     steps:
@@ -50,7 +50,7 @@ jobs:
     needs: [build-f4pga-arch-defs, build-litex-boards]
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, ubuntu-24.04-arm]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -71,6 +71,17 @@ jobs:
           name: liamolucko
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
       - run: CI_SAFE=1 nix build --impure -L .#darwinConfigurations.Liams-Laptop.system
+  build-asahi-system:
+    name: Build Asahi system
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v30
+      - uses: cachix/cachix-action@v15
+        with:
+          name: liamolucko
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - run: CI_SAFE=1 nix build --impure -L .#nixosConfigurations.liam-asahi.config.system.build.toplevel
   build-desktop-system:
     name: Build desktop system
     runs-on: ubuntu-latest
