@@ -46,14 +46,19 @@ stdenv.mkDerivation (finalAttrs: {
     runHook postInstall
   '';
 
-  passthru.asm =
+  passthru.asm = lib.listToAttrs (
     lib.concatMap
       (
         arch:
-        lib.map (bits: callPackage ./stage-1.nix { inherit arch bits; }) [
-          "32"
-          "64"
-        ]
+        lib.map
+          (bits: {
+            name = "${arch}-${bits}";
+            value = callPackage ./stage-1.nix { inherit arch bits; };
+          })
+          [
+            "32"
+            "64"
+          ]
       )
       [
         "arm7"
@@ -61,13 +66,13 @@ stdenv.mkDerivation (finalAttrs: {
         "mips"
         "riscv"
         "x64"
-      ];
+      ]
+  );
 
   meta = {
     description = "Verified implementation of ML";
     homepage = "https://cakeml.org";
     license = lib.licenses.bsd3;
-    inherit (asm.meta) sourceProvenance;
     maintainers = with lib.maintainers; [ Liamolucko ];
     mainProgram = "cake";
     platforms =

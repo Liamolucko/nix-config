@@ -38,8 +38,5 @@ stdenv.mkDerivation (finalAttrs: {
     runHook postInstall
   '';
 
-  meta = {
-    inherit (stage-0.meta) sourceProvenance;
-    platforms = lib.platforms.x86_64;
-  };
+  meta.platforms = lib.platforms.x86_64;
 })
