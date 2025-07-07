@@ -61,6 +61,7 @@ stdenv.mkDerivation (finalAttrs: {
           ]
       )
       [
+        "ag32"
         "arm7"
         "arm8"
         "mips"

@@ -19,19 +19,19 @@ stdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = [ (hol.override { experimentalKernel = false; }) ];
 
   buildPhase = ''
-    runPhase preBuild
+    runHook preBuild
 
     cd compiler/bootstrap/compilation/${arch}/${bits}
     Holmake cake-${arch}-${bits}.tar.gz -j "$NIX_BUILD_CORES"
 
-    runPhase postBuild
+    runHook postBuild
   '';
 
   installPhase = ''
-    runPhase preInstall
+    runHook preInstall
 
     cp cake-${arch}-${bits}.tar.gz "$out"
 
-    runPhase postInstall
+    runHook postInstall
   '';
 })
