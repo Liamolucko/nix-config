@@ -1,9 +1,10 @@
 final: prev: {
-  pkgsx86_64Linux = import final.path {
+  pkgsx86_64Linux = import "${final.path}/pkgs/top-level" {
     localSystem = "x86_64-linux";
     inherit (final) config overlays;
   };
 
+  cakeml = final.callPackage ./pkgs/cakeml { };
   docnav = final.callPackage ./pkgs/docnav { };
   eqy = final.callPackage ./pkgs/eqy { };
   # TODO: fasm has a binary that we should package but there's already something

@@ -1,33 +1,41 @@
-{
-  lib,
-  stdenv,
-  fetchurl,
-}:
 let
-  hashes = {
-    arm8-64 = "sha256-DCUOa6wXS09VBxTKOwXyyE005zAw+YQ6y/FibuV8IhY=";
-    x64-32 = "sha256-SHR9Dw5PC3NBg7i6imAnXIMs/pK8g76BYQ/y1xjCdaY=";
-    x64-64 = "sha256-WYJ0Noj0lEpMeae85pLo99MDlCzes2FVA1VZx02szqU=";
-  };
-
-  arch =
-    if stdenv.targetPlatform.isAarch then
+  cakemlArch =
+    platform:
+    if platform.isArmv7 then
+      "arm7"
+    else if platform.isAarch64 then
       "arm8"
-    else if stdenv.targetPlatform.isx86 then
+    else if platform.isMips64 then
+      "mips" # TODO: is this actually o64, or is it n32 / n64?
+    else if platform.isRiscV64 then
+      "riscv"
+    else if platform.isx86_64 then
       "x64"
     else
       throw "Unsupported architecture";
-  bits = if stdenv.targetPlatform.is64bit then "64" else "32";
-  target = "${arch}-${bits}";
 in
+{
+  lib,
+  pkgsx86_64Linux,
+  callPackage,
+  stdenv,
+  asm ? pkgsx86_64Linux.callPackage ./stage-1.nix {
+    arch = cakemlArch stdenv.hostPlatform;
+    bits = if stdenv.targetPlatform.is64bit then "64" else "32";
+  },
+}:
 stdenv.mkDerivation (finalAttrs: {
   pname = "cakeml";
-  version = "2882";
+  inherit (asm) version;
+  src = asm;
 
-  src = fetchurl {
-    url = "https://github.com/CakeML/cakeml/releases/download/v${finalAttrs.version}/cake-${target}.tar.gz";
-    hash = hashes.${target};
-  };
+  buildPhase = ''
+    runHook preBuild
+
+    "$CC" -O2 -o cake cake.S basis_ffi.c -lm
+
+    runHook postBuild
+  '';
 
   installPhase = ''
     runHook preInstall
@@ -38,12 +46,38 @@ stdenv.mkDerivation (finalAttrs: {
     runHook postInstall
   '';
 
+  passthru.asm =
+    lib.concatMap
+      (
+        arch:
+        lib.map (bits: callPackage ./stage-1.nix { inherit arch bits; }) [
+          "32"
+          "64"
+        ]
+      )
+      [
+        "arm7"
+        "arm8"
+        "mips"
+        "riscv"
+        "x64"
+      ];
+
   meta = {
     description = "Verified implementation of ML";
-    homepage = "https://github.com/CakeML/cakeml";
+    homepage = "https://cakeml.org";
     license = lib.licenses.bsd3;
+    inherit (asm.meta) sourceProvenance;
     maintainers = with lib.maintainers; [ Liamolucko ];
-    mainProgram = "cakeml";
-    platforms = lib.platforms.all;
+    mainProgram = "cake";
+    platforms =
+      lib.platforms.armv7
+      ++ lib.platforms.aarch64
+      ++ [
+        "mips64-linux"
+        "mips64el-linux"
+      ]
+      ++ lib.platforms.riscv64
+      ++ lib.platforms.x86_64;
   };
 })
