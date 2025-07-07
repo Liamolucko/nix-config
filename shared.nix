@@ -12,6 +12,8 @@ in
       pkgs.cargo-expand
       pkgs.cargo-fuzz
       pkgs.clang-tools
+      pkgs.coq_8_20
+      pkgs.coqPackages_8_20.vscoq-language-server
       pkgs.emscripten # needed by tree-sitter
       pkgs.gnuplot
       pkgs.inkscape
