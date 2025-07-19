@@ -104,6 +104,9 @@ stdenv.mkDerivation (
     # `instRecord.dat` in archive tests, and also theoretically to set `xinstall` to
     # a tarball so that we don't need to store both the tarball and its contents in
     # the Nix store (e.g. if installing Petalinux or Vivado updates).
+    #
+    # TODO: this is no longer needed for downloadRecord.dat or instRecord.dat,
+    # maybe remove it? The tarball argument still applies though.
     src = xinstall;
 
     patches = lib.concatMap (mod: moduleMeta.${mod}.patches or [ ]) modules;

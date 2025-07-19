@@ -60,21 +60,6 @@ final: prev: {
   httplz = final.callPackage ./pkgs/httplz { };
   isabelle = prev.isabelle.overrideAttrs (old: {
     patches = [ ./isabelle-fix-copied-permissions.patch ];
-    # eprover comes with symlinks to its built artifacts, and so using the nixpkgs
-    # version instead of building it causes them to be broken.
-    #
-    # We could solve this by building directly from the mercurial repository instead
-    # of using the release tarballs and avoiding contrib/ entirely, but that's a lot
-    # of work for such a minor issue.
-    dontCheckForBrokenSymlinks = true;
-  });
-  yosys = prev.yosys.overrideAttrs (old: {
-    patches = old.patches ++ [
-      (final.fetchpatch {
-        url = "https://github.com/YosysHQ/yosys/commit/8e508f2a2ade89e5e301de18c922155698ae6960.diff";
-        hash = "sha256-UoaHfJ/80cBK/ck5e3EJTe0a95TB5Qz/8Yld/3PX3vA=";
-      })
-    ];
   });
   yosys-symbiflow = final.lib.mapAttrs (
     name: pkg:
