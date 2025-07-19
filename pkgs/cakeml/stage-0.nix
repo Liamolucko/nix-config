@@ -30,7 +30,8 @@ stdenv.mkDerivation (finalAttrs: {
   installPhase = ''
     runHook preInstall
 
-    cp cake-${arch}-${bits}.tar.gz "$out"
+    mkdir "$out"
+    tar -xf cake-${arch}-${bits}.tar.gz -C "$out" --strip-components 1
 
     runHook postInstall
   '';

@@ -53,6 +53,7 @@ stdenv.mkDerivation (finalAttrs: {
         lib.map
           (bits: {
             name = "${arch}-${bits}";
+            # TODO: for 32-bit targets, we need an x64-32 compiler
             value = callPackage ./stage-1.nix { inherit arch bits; };
           })
           [

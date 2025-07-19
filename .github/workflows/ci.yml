@@ -34,7 +34,6 @@ jobs:
     name: Build CakeML asm
     needs: build-hol
     runs-on: ubuntu-latest
-    timeout-minutes: 900
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v30

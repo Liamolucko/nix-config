@@ -25,6 +25,15 @@ let
     && !stdenv.hostPlatform.isMusl
     && lib.elem buildSys mlton.meta.platforms
     && lib.elem hostSys mlton.meta.platforms;
+
+  # for https://github.com/polyml/polyml/commit/b6fc915c9000ac086f60a88974c593fe9b536619
+  polyml' = polyml.overrideAttrs (old: {
+    version = "5.9.1-unstable-2025-06-30";
+    src = old.src.override {
+      rev = "1674d86542d2a58f588494aaef8bc8febd0a1a00";
+      sha256 = "sha256-P0mse8OPlccggTvPHApCXtHXcgewOw43C4Sdf5kg6/w=";
+    };
+  });
 in
 
 stdenv.mkDerivation (finalAttrs: {
@@ -41,7 +50,7 @@ stdenv.mkDerivation (finalAttrs: {
   patches = [ ./no-abs-paths.patch ];
 
   buildInputs = [
-    polyml
+    polyml'
     graphviz
     fontconfig
   ] ++ lib.optional useMlton mlton;
