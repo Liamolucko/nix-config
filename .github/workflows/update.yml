@@ -11,8 +11,12 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@v16
       - id: update
         uses: DeterminateSystems/update-flake-lock@v24
-        with:
-          token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
+      - run: |
+          gh pr close "${{ steps.update.outputs.pull-request-number }}"
+          gh pr reopen "${{ steps.update.outputs.pull-request-number }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
+        if: ${{ steps.update.outputs.pull-request-number != '' }}
       - run: gh pr merge --auto "${{ steps.update.outputs.pull-request-number }}" --rebase
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
