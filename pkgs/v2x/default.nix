@@ -20,6 +20,11 @@ python3.pkgs.buildPythonApplication {
 
   patches = [
     ./no-pytest-runner.patch
+    ./select-boxed.patch
+    # TODO: double-check these, right now I've just blindly copy-pasted the actual
+    # results even though there's some preprocessing occuring, plus there's some
+    # weird stuff with things being inlined
+    ./update-golden.patch
     (fetchpatch {
       url = "https://github.com/chipsalliance/f4pga-v2x/commit/ece275bb49d1a6f50d886c577d7bccecfe8f5f85.diff";
       hash = "sha256-KvwVxkU0EYwNwAUWNhMlX1odRH+wDaDZ+UDP2SncvR4=";
@@ -38,9 +43,6 @@ python3.pkgs.buildPythonApplication {
     python3.pkgs.pytestCheckHook
     yosys
   ];
-  # This test relies on the precise output of yosys, and now fails because it's
-  # changed over the years.
-  disabledTests = [ "test_pbtype_generation_with_vlog_to_pbtype" ];
 
   meta = {
     description = "Tool for converting specialized annotated Verilog models into XML needed for Verilog to Routing flow";

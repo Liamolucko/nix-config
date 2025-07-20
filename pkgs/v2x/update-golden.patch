@@ -1,0 +1,1600 @@
+diff --git a/tests/dsp/dsp_in_registered/golden.pb_type.xml b/tests/dsp/dsp_in_registered/golden.pb_type.xml
+index 102e57f..b6e6faf 100644
+--- a/tests/dsp/dsp_in_registered/golden.pb_type.xml
++++ b/tests/dsp/dsp_in_registered/golden.pb_type.xml
+@@ -1,122 +1,88 @@
+-<?xml version='1.0' encoding='utf-8'?>
+-<pb_type xmlns:xi="http://www.w3.org/2001/XInclude" num_pb="1" name="DSP_IN_REGISTERED">
++<?xml version="1.0"?>
++<pb_type xmlns:xi="http://www.w3.org/2001/XInclude" name="DSP_IN_REGISTERED" num_pb="1">
+   <clock name="clk" num_pins="1"/>
+   <input name="a" num_pins="2"/>
+   <input name="b" num_pins="2"/>
+   <input name="m" num_pins="1"/>
+   <output name="out" num_pins="4"/>
+-  <pb_type num_pb="2" name="q_a_ff">
+-    <!--old_name DFF old_num_pb 1-->
+-    <xi:include href="../../vtr/dff/dff.pb_type.xml" xpointer="xpointer(pb_type/child::node())"/>
++  <pb_type blif_model=".subckt DSP_COMBINATIONAL" name="comb" num_pb="1">
++    <input name="a" num_pins="2"/>
++    <input name="b" num_pins="2"/>
++    <input name="m" num_pins="1"/>
++    <output name="out" num_pins="4"/>
++    <delay_constant in_port="comb.a" max="30e-12" out_port="comb.out"/>
++    <delay_constant in_port="comb.b" max="30e-12" out_port="comb.out"/>
++    <delay_constant in_port="comb.m" max="10e-12" out_port="comb.out"/>
+   </pb_type>
+-  <pb_type num_pb="2" name="q_b_ff">
+-    <!--old_name DFF old_num_pb 1-->
+-    <xi:include href="../../vtr/dff/dff.pb_type.xml" xpointer="xpointer(pb_type/child::node())"/>
++  <pb_type blif_model=".subckt DFF" name="genblk1_q_a_ff_0" num_pb="1">
++    <clock name="CLK" num_pins="1"/>
++    <input name="D" num_pins="1"/>
++    <output name="Q" num_pins="1"/>
++    <T_setup clock="CLK" port="genblk1_q_a_ff_0.D" value="10e-12"/>
++    <T_hold clock="CLK" port="genblk1_q_a_ff_0.D" value="10e-12"/>
++    <T_clock_to_Q clock="CLK" max="10e-12" port="genblk1_q_a_ff_0.Q"/>
+   </pb_type>
+-  <pb_type num_pb="1" name="comb">
+-    <!--old_name DSP_COMBINATIONAL-->
+-    <xi:include href="../dsp_combinational/dsp_combinational.pb_type.xml" xpointer="xpointer(pb_type/child::node())"/>
++  <pb_type blif_model=".subckt DFF" name="genblk1_q_a_ff_1" num_pb="1">
++    <clock name="CLK" num_pins="1"/>
++    <input name="D" num_pins="1"/>
++    <output name="Q" num_pins="1"/>
++    <T_setup clock="CLK" port="genblk1_q_a_ff_1.D" value="10e-12"/>
++    <T_hold clock="CLK" port="genblk1_q_a_ff_1.D" value="10e-12"/>
++    <T_clock_to_Q clock="CLK" max="10e-12" port="genblk1_q_a_ff_1.Q"/>
+   </pb_type>
+-  <pb_type num_pb="1" name="m_ff">
+-    <!--old_name DFF-->
+-    <xi:include href="../../vtr/dff/dff.pb_type.xml" xpointer="xpointer(pb_type/child::node())"/>
++  <pb_type blif_model=".subckt DFF" name="genblk1_q_b_ff_0" num_pb="1">
++    <clock name="CLK" num_pins="1"/>
++    <input name="D" num_pins="1"/>
++    <output name="Q" num_pins="1"/>
++    <T_setup clock="CLK" port="genblk1_q_b_ff_0.D" value="10e-12"/>
++    <T_hold clock="CLK" port="genblk1_q_b_ff_0.D" value="10e-12"/>
++    <T_clock_to_Q clock="CLK" max="10e-12" port="genblk1_q_b_ff_0.Q"/>
++  </pb_type>
++  <pb_type blif_model=".subckt DFF" name="genblk1_q_b_ff_1" num_pb="1">
++    <clock name="CLK" num_pins="1"/>
++    <input name="D" num_pins="1"/>
++    <output name="Q" num_pins="1"/>
++    <T_setup clock="CLK" port="genblk1_q_b_ff_1.D" value="10e-12"/>
++    <T_hold clock="CLK" port="genblk1_q_b_ff_1.D" value="10e-12"/>
++    <T_clock_to_Q clock="CLK" max="10e-12" port="genblk1_q_b_ff_1.Q"/>
++  </pb_type>
++  <pb_type blif_model=".subckt DFF" name="m_ff" num_pb="1">
++    <clock name="CLK" num_pins="1"/>
++    <input name="D" num_pins="1"/>
++    <output name="Q" num_pins="1"/>
++    <T_setup clock="CLK" port="m_ff.D" value="10e-12"/>
++    <T_hold clock="CLK" port="m_ff.D" value="10e-12"/>
++    <T_clock_to_Q clock="CLK" max="10e-12" port="m_ff.Q"/>
+   </pb_type>
+   <interconnect>
+-    <direct>
+-      <port name="clk" type="input"/>
+-      <port name="CLK" type="output" from="m_ff"/>
+-    </direct>
+-    <direct>
+-      <port name="clk" type="input"/>
+-      <port name="CLK" type="output" from="q_a_ff[0]"/>
+-    </direct>
+-    <direct>
+-      <port name="clk" type="input"/>
+-      <port name="CLK" type="output" from="q_a_ff[1]"/>
+-    </direct>
+-    <direct>
+-      <port name="clk" type="input"/>
+-      <port name="CLK" type="output" from="q_b_ff[0]"/>
+-    </direct>
+-    <direct>
+-      <port name="clk" type="input"/>
+-      <port name="CLK" type="output" from="q_b_ff[1]"/>
+-    </direct>
+-    <direct>
+-      <port name="a[0]" type="input"/>
+-      <port name="D" type="output" from="q_a_ff[0]"/>
+-    </direct>
+-    <direct>
+-      <port name="b[0]" type="input"/>
+-      <port name="D" type="output" from="q_b_ff[0]"/>
+-    </direct>
+-    <direct>
+-      <port name="a[1]" type="input"/>
+-      <port name="D" type="output" from="q_a_ff[1]"/>
+-    </direct>
+-    <direct>
+-      <port name="b[1]" type="input"/>
+-      <port name="D" type="output" from="q_b_ff[1]"/>
+-    </direct>
+-    <direct>
+-      <port name="Q" type="input" from="q_a_ff[0]"/>
+-      <port name="a[0]" type="output" from="comb"/>
+-      <pack_pattern name="DFF2DSP" type="pack">
+-        <port name="Q" type="input" from="q_a_ff[0]"/>
+-        <port name="a[0]" type="output" from="comb"/>
+-      </pack_pattern>
+-    </direct>
+-    <direct>
+-      <port name="Q" type="input" from="q_a_ff[1]"/>
+-      <port name="a[1]" type="output" from="comb"/>
+-      <pack_pattern name="DFF2DSP" type="pack">
+-        <port name="Q" type="input" from="q_a_ff[1]"/>
+-        <port name="a[1]" type="output" from="comb"/>
+-      </pack_pattern>
+-    </direct>
+-    <direct>
+-      <port name="Q" type="input" from="q_b_ff[0]"/>
+-      <port name="b[0]" type="output" from="comb"/>
+-      <pack_pattern name="DFF2DSP" type="pack">
+-        <port name="Q" type="input" from="q_b_ff[0]"/>
+-        <port name="b[0]" type="output" from="comb"/>
+-      </pack_pattern>
+-    </direct>
+-    <direct>
+-      <port name="Q" type="input" from="q_b_ff[1]"/>
+-      <port name="b[1]" type="output" from="comb"/>
+-      <pack_pattern name="DFF2DSP" type="pack">
+-        <port name="Q" type="input" from="q_b_ff[1]"/>
+-        <port name="b[1]" type="output" from="comb"/>
+-      </pack_pattern>
+-    </direct>
+-    <direct>
+-      <port name="Q" type="input" from="m_ff"/>
+-      <port name="m" type="output" from="comb"/>
+-      <pack_pattern name="DFF2DSP" type="pack">
+-        <port name="Q" type="input" from="m_ff"/>
+-        <port name="m" type="output" from="comb"/>
+-      </pack_pattern>
+-    </direct>
+-    <direct>
+-      <port name="out[0]" type="input" from="comb"/>
+-      <port name="out[0]" type="output"/>
+-    </direct>
+-    <direct>
+-      <port name="out[1]" type="input" from="comb"/>
+-      <port name="out[1]" type="output"/>
+-    </direct>
+-    <direct>
+-      <port name="out[2]" type="input" from="comb"/>
+-      <port name="out[2]" type="output"/>
+-    </direct>
+-    <direct>
+-      <port name="out[3]" type="input" from="comb"/>
+-      <port name="out[3]" type="output"/>
+-    </direct>
+-    <direct>
+-      <port name="m" type="input"/>
+-      <port name="D" type="output" from="m_ff"/>
+-    </direct>
++    <direct input="comb.out[0]" name="DSP_IN_REGISTERED-out[0]" output="DSP_IN_REGISTERED.out[0]"/>
++    <direct input="comb.out[1]" name="DSP_IN_REGISTERED-out[1]" output="DSP_IN_REGISTERED.out[1]"/>
++    <direct input="comb.out[2]" name="DSP_IN_REGISTERED-out[2]" output="DSP_IN_REGISTERED.out[2]"/>
++    <direct input="comb.out[3]" name="DSP_IN_REGISTERED-out[3]" output="DSP_IN_REGISTERED.out[3]"/>
++    <direct input="genblk1_q_a_ff_0.Q" name="comb-a[0]" output="comb.a[0]">
++      <pack_pattern in_port="genblk1_q_a_ff_0.Q" name="pack-DFF2DSP" out_port="comb.a[0]"/>
++    </direct>
++    <direct input="genblk1_q_a_ff_1.Q" name="comb-a[1]" output="comb.a[1]">
++      <pack_pattern in_port="genblk1_q_a_ff_1.Q" name="pack-DFF2DSP" out_port="comb.a[1]"/>
++    </direct>
++    <direct input="genblk1_q_b_ff_0.Q" name="comb-b[0]" output="comb.b[0]">
++      <pack_pattern in_port="genblk1_q_b_ff_0.Q" name="pack-DFF2DSP" out_port="comb.b[0]"/>
++    </direct>
++    <direct input="genblk1_q_b_ff_1.Q" name="comb-b[1]" output="comb.b[1]">
++      <pack_pattern in_port="genblk1_q_b_ff_1.Q" name="pack-DFF2DSP" out_port="comb.b[1]"/>
++    </direct>
++    <direct input="m_ff.Q" name="comb-m" output="comb.m">
++      <pack_pattern in_port="m_ff.Q" name="pack-DFF2DSP" out_port="comb.m"/>
++    </direct>
++    <direct input="DSP_IN_REGISTERED.clk" name="genblk1_q_a_ff_0-CLK" output="genblk1_q_a_ff_0.CLK"/>
++    <direct input="DSP_IN_REGISTERED.a[0]" name="genblk1_q_a_ff_0-D" output="genblk1_q_a_ff_0.D"/>
++    <direct input="DSP_IN_REGISTERED.clk" name="genblk1_q_a_ff_1-CLK" output="genblk1_q_a_ff_1.CLK"/>
++    <direct input="DSP_IN_REGISTERED.a[1]" name="genblk1_q_a_ff_1-D" output="genblk1_q_a_ff_1.D"/>
++    <direct input="DSP_IN_REGISTERED.clk" name="genblk1_q_b_ff_0-CLK" output="genblk1_q_b_ff_0.CLK"/>
++    <direct input="DSP_IN_REGISTERED.b[0]" name="genblk1_q_b_ff_0-D" output="genblk1_q_b_ff_0.D"/>
++    <direct input="DSP_IN_REGISTERED.clk" name="genblk1_q_b_ff_1-CLK" output="genblk1_q_b_ff_1.CLK"/>
++    <direct input="DSP_IN_REGISTERED.b[1]" name="genblk1_q_b_ff_1-D" output="genblk1_q_b_ff_1.D"/>
++    <direct input="DSP_IN_REGISTERED.clk" name="m_ff-CLK" output="m_ff.CLK"/>
++    <direct input="DSP_IN_REGISTERED.m" name="m_ff-D" output="m_ff.D"/>
+   </interconnect>
+ </pb_type>
+diff --git a/tests/dsp/dsp_modes/golden.pb_type.xml b/tests/dsp/dsp_modes/golden.pb_type.xml
+index 46a0108..b0203f6 100644
+--- a/tests/dsp/dsp_modes/golden.pb_type.xml
++++ b/tests/dsp/dsp_modes/golden.pb_type.xml
+@@ -1,389 +1,528 @@
+-<?xml version='1.0' encoding='utf-8'?>
+-<pb_type xmlns:xi="http://www.w3.org/2001/XInclude" num_pb="1" name="DSP_MODES">
++<?xml version="1.0"?>
++<pb_type xmlns:xi="http://www.w3.org/2001/XInclude" name="DSP_MODES" num_pb="1">
+   <clock name="clk" num_pins="1"/>
+   <input name="a" num_pins="2"/>
+   <input name="b" num_pins="2"/>
+   <input name="m" num_pins="1"/>
+   <output name="out" num_pins="4"/>
+   <mode name="REGISTERED_NONE">
+-    <pb_type num_pb="1" name="REGISTERED_NONE">
++    <pb_type name="REGISTERED_NONE" num_pb="1">
+       <clock name="clk" num_pins="1"/>
+       <input name="a" num_pins="2"/>
+       <input name="b" num_pins="2"/>
+       <input name="m" num_pins="1"/>
+       <output name="out" num_pins="4"/>
+-      <pb_type num_pb="1" name="dsp_int_comb">
+-        <!--old_name DSP_COMBINATIONAL-->
+-        <xi:include href="../dsp_combinational/dsp_combinational.pb_type.xml" xpointer="xpointer(pb_type/child::node())"/>
++      <pb_type blif_model=".subckt DSP_COMBINATIONAL" name="genblk1_dsp_int_comb" num_pb="1">
++        <input name="a" num_pins="2"/>
++        <input name="b" num_pins="2"/>
++        <input name="m" num_pins="1"/>
++        <output name="out" num_pins="4"/>
++        <delay_constant in_port="genblk1_dsp_int_comb.a" max="30e-12" out_port="genblk1_dsp_int_comb.out"/>
++        <delay_constant in_port="genblk1_dsp_int_comb.b" max="30e-12" out_port="genblk1_dsp_int_comb.out"/>
++        <delay_constant in_port="genblk1_dsp_int_comb.m" max="10e-12" out_port="genblk1_dsp_int_comb.out"/>
+       </pb_type>
+       <interconnect>
+-        <direct>
+-          <port name="a[0]" type="input"/>
+-          <port name="a[0]" type="output" from="dsp_int_comb"/>
+-        </direct>
+-        <direct>
+-          <port name="a[1]" type="input"/>
+-          <port name="a[1]" type="output" from="dsp_int_comb"/>
+-        </direct>
+-        <direct>
+-          <port name="b[0]" type="input"/>
+-          <port name="b[0]" type="output" from="dsp_int_comb"/>
+-        </direct>
+-        <direct>
+-          <port name="b[1]" type="input"/>
+-          <port name="b[1]" type="output" from="dsp_int_comb"/>
+-        </direct>
+-        <direct>
+-          <port name="m" type="input"/>
+-          <port name="m" type="output" from="dsp_int_comb"/>
+-        </direct>
+-        <direct>
+-          <port name="out[0]" type="input" from="dsp_int_comb"/>
+-          <port name="out[0]" type="output"/>
+-        </direct>
+-        <direct>
+-          <port name="out[1]" type="input" from="dsp_int_comb"/>
+-          <port name="out[1]" type="output"/>
+-        </direct>
+-        <direct>
+-          <port name="out[2]" type="input" from="dsp_int_comb"/>
+-          <port name="out[2]" type="output"/>
+-        </direct>
+-        <direct>
+-          <port name="out[3]" type="input" from="dsp_int_comb"/>
+-          <port name="out[3]" type="output"/>
+-        </direct>
++        <direct input="genblk1_dsp_int_comb.out[0]" name="REGISTERED_NONE-out[0]" output="REGISTERED_NONE.out[0]"/>
++        <direct input="genblk1_dsp_int_comb.out[1]" name="REGISTERED_NONE-out[1]" output="REGISTERED_NONE.out[1]"/>
++        <direct input="genblk1_dsp_int_comb.out[2]" name="REGISTERED_NONE-out[2]" output="REGISTERED_NONE.out[2]"/>
++        <direct input="genblk1_dsp_int_comb.out[3]" name="REGISTERED_NONE-out[3]" output="REGISTERED_NONE.out[3]"/>
++        <direct input="REGISTERED_NONE.a[0]" name="genblk1_dsp_int_comb-a[0]" output="genblk1_dsp_int_comb.a[0]"/>
++        <direct input="REGISTERED_NONE.a[1]" name="genblk1_dsp_int_comb-a[1]" output="genblk1_dsp_int_comb.a[1]"/>
++        <direct input="REGISTERED_NONE.b[0]" name="genblk1_dsp_int_comb-b[0]" output="genblk1_dsp_int_comb.b[0]"/>
++        <direct input="REGISTERED_NONE.b[1]" name="genblk1_dsp_int_comb-b[1]" output="genblk1_dsp_int_comb.b[1]"/>
++        <direct input="REGISTERED_NONE.m" name="genblk1_dsp_int_comb-m" output="genblk1_dsp_int_comb.m"/>
+       </interconnect>
+     </pb_type>
+     <interconnect>
+-      <direct>
+-        <port name="a" type="input"/>
+-        <port name="a" type="output" from="REGISTERED_NONE"/>
+-      </direct>
+-      <direct>
+-        <port name="b" type="input"/>
+-        <port name="b" type="output" from="REGISTERED_NONE"/>
+-      </direct>
+-      <direct>
+-        <port name="clk" type="input"/>
+-        <port name="clk" type="output" from="REGISTERED_NONE"/>
+-      </direct>
+-      <direct>
+-        <port name="m" type="input"/>
+-        <port name="m" type="output" from="REGISTERED_NONE"/>
+-      </direct>
+-      <direct>
+-        <port name="out" type="input" from="REGISTERED_NONE"/>
+-        <port name="out" type="output"/>
+-      </direct>
++      <direct input="REGISTERED_NONE.out" name="DSP_MODES-out" output="DSP_MODES.out"/>
++      <direct input="DSP_MODES.a" name="REGISTERED_NONE-a" output="REGISTERED_NONE.a"/>
++      <direct input="DSP_MODES.b" name="REGISTERED_NONE-b" output="REGISTERED_NONE.b"/>
++      <direct input="DSP_MODES.clk" name="REGISTERED_NONE-clk" output="REGISTERED_NONE.clk"/>
++      <direct input="DSP_MODES.m" name="REGISTERED_NONE-m" output="REGISTERED_NONE.m"/>
+     </interconnect>
+   </mode>
+   <mode name="REGISTERED_IN">
+-    <pb_type num_pb="1" name="REGISTERED_IN">
++    <pb_type name="REGISTERED_IN" num_pb="1">
+       <clock name="clk" num_pins="1"/>
+       <input name="a" num_pins="2"/>
+       <input name="b" num_pins="2"/>
+       <input name="m" num_pins="1"/>
+       <output name="out" num_pins="4"/>
+-      <pb_type num_pb="1" name="dsp_int_regi">
+-        <!--old_name DSP_IN_REGISTERED-->
+-        <xi:include href="../dsp_in_registered/dsp_in_registered.pb_type.xml" xpointer="xpointer(pb_type/child::node())"/>
++      <pb_type name="genblk3_dsp_int_regi" num_pb="1">
++        <clock name="clk" num_pins="1"/>
++        <input name="a" num_pins="2"/>
++        <input name="b" num_pins="2"/>
++        <input name="m" num_pins="1"/>
++        <output name="out" num_pins="4"/>
++        <pb_type blif_model=".subckt DSP_COMBINATIONAL" name="comb" num_pb="1">
++          <input name="a" num_pins="2"/>
++          <input name="b" num_pins="2"/>
++          <input name="m" num_pins="1"/>
++          <output name="out" num_pins="4"/>
++          <delay_constant in_port="comb.a" max="30e-12" out_port="comb.out"/>
++          <delay_constant in_port="comb.b" max="30e-12" out_port="comb.out"/>
++          <delay_constant in_port="comb.m" max="10e-12" out_port="comb.out"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="genblk1_q_a_ff_0" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="genblk1_q_a_ff_0.D" value="10e-12"/>
++          <T_hold clock="CLK" port="genblk1_q_a_ff_0.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="genblk1_q_a_ff_0.Q"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="genblk1_q_a_ff_1" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="genblk1_q_a_ff_1.D" value="10e-12"/>
++          <T_hold clock="CLK" port="genblk1_q_a_ff_1.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="genblk1_q_a_ff_1.Q"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="genblk1_q_b_ff_0" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="genblk1_q_b_ff_0.D" value="10e-12"/>
++          <T_hold clock="CLK" port="genblk1_q_b_ff_0.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="genblk1_q_b_ff_0.Q"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="genblk1_q_b_ff_1" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="genblk1_q_b_ff_1.D" value="10e-12"/>
++          <T_hold clock="CLK" port="genblk1_q_b_ff_1.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="genblk1_q_b_ff_1.Q"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="m_ff" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="m_ff.D" value="10e-12"/>
++          <T_hold clock="CLK" port="m_ff.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="m_ff.Q"/>
++        </pb_type>
++        <interconnect>
++          <direct input="genblk1_q_a_ff_0.Q" name="comb-a[0]" output="comb.a[0]">
++            <pack_pattern in_port="genblk1_q_a_ff_0.Q" name="pack-DFF2DSP" out_port="comb.a[0]"/>
++          </direct>
++          <direct input="genblk1_q_a_ff_1.Q" name="comb-a[1]" output="comb.a[1]">
++            <pack_pattern in_port="genblk1_q_a_ff_1.Q" name="pack-DFF2DSP" out_port="comb.a[1]"/>
++          </direct>
++          <direct input="genblk1_q_b_ff_0.Q" name="comb-b[0]" output="comb.b[0]">
++            <pack_pattern in_port="genblk1_q_b_ff_0.Q" name="pack-DFF2DSP" out_port="comb.b[0]"/>
++          </direct>
++          <direct input="genblk1_q_b_ff_1.Q" name="comb-b[1]" output="comb.b[1]">
++            <pack_pattern in_port="genblk1_q_b_ff_1.Q" name="pack-DFF2DSP" out_port="comb.b[1]"/>
++          </direct>
++          <direct input="m_ff.Q" name="comb-m" output="comb.m">
++            <pack_pattern in_port="m_ff.Q" name="pack-DFF2DSP" out_port="comb.m"/>
++          </direct>
++          <direct input="genblk3_dsp_int_regi.clk" name="genblk1_q_a_ff_0-CLK" output="genblk1_q_a_ff_0.CLK"/>
++          <direct input="genblk3_dsp_int_regi.a[0]" name="genblk1_q_a_ff_0-D" output="genblk1_q_a_ff_0.D"/>
++          <direct input="genblk3_dsp_int_regi.clk" name="genblk1_q_a_ff_1-CLK" output="genblk1_q_a_ff_1.CLK"/>
++          <direct input="genblk3_dsp_int_regi.a[1]" name="genblk1_q_a_ff_1-D" output="genblk1_q_a_ff_1.D"/>
++          <direct input="genblk3_dsp_int_regi.clk" name="genblk1_q_b_ff_0-CLK" output="genblk1_q_b_ff_0.CLK"/>
++          <direct input="genblk3_dsp_int_regi.b[0]" name="genblk1_q_b_ff_0-D" output="genblk1_q_b_ff_0.D"/>
++          <direct input="genblk3_dsp_int_regi.clk" name="genblk1_q_b_ff_1-CLK" output="genblk1_q_b_ff_1.CLK"/>
++          <direct input="genblk3_dsp_int_regi.b[1]" name="genblk1_q_b_ff_1-D" output="genblk1_q_b_ff_1.D"/>
++          <direct input="comb.out[0]" name="genblk3_dsp_int_regi-out[0]" output="genblk3_dsp_int_regi.out[0]"/>
++          <direct input="comb.out[1]" name="genblk3_dsp_int_regi-out[1]" output="genblk3_dsp_int_regi.out[1]"/>
++          <direct input="comb.out[2]" name="genblk3_dsp_int_regi-out[2]" output="genblk3_dsp_int_regi.out[2]"/>
++          <direct input="comb.out[3]" name="genblk3_dsp_int_regi-out[3]" output="genblk3_dsp_int_regi.out[3]"/>
++          <direct input="genblk3_dsp_int_regi.clk" name="m_ff-CLK" output="m_ff.CLK"/>
++          <direct input="genblk3_dsp_int_regi.m" name="m_ff-D" output="m_ff.D"/>
++        </interconnect>
+       </pb_type>
+       <interconnect>
+-        <direct>
+-          <port name="a[0]" type="input"/>
+-          <port name="a[0]" type="output" from="dsp_int_regi"/>
+-        </direct>
+-        <direct>
+-          <port name="a[1]" type="input"/>
+-          <port name="a[1]" type="output" from="dsp_int_regi"/>
+-        </direct>
+-        <direct>
+-          <port name="b[0]" type="input"/>
+-          <port name="b[0]" type="output" from="dsp_int_regi"/>
+-        </direct>
+-        <direct>
+-          <port name="b[1]" type="input"/>
+-          <port name="b[1]" type="output" from="dsp_int_regi"/>
+-        </direct>
+-        <direct>
+-          <port name="clk" type="input"/>
+-          <port name="clk" type="output" from="dsp_int_regi"/>
+-        </direct>
+-        <direct>
+-          <port name="m" type="input"/>
+-          <port name="m" type="output" from="dsp_int_regi"/>
+-        </direct>
+-        <direct>
+-          <port name="out[0]" type="input" from="dsp_int_regi"/>
+-          <port name="out[0]" type="output"/>
+-        </direct>
+-        <direct>
+-          <port name="out[1]" type="input" from="dsp_int_regi"/>
+-          <port name="out[1]" type="output"/>
+-        </direct>
+-        <direct>
+-          <port name="out[2]" type="input" from="dsp_int_regi"/>
+-          <port name="out[2]" type="output"/>
+-        </direct>
+-        <direct>
+-          <port name="out[3]" type="input" from="dsp_int_regi"/>
+-          <port name="out[3]" type="output"/>
+-        </direct>
++        <direct input="genblk3_dsp_int_regi.out[0]" name="REGISTERED_IN-out[0]" output="REGISTERED_IN.out[0]"/>
++        <direct input="genblk3_dsp_int_regi.out[1]" name="REGISTERED_IN-out[1]" output="REGISTERED_IN.out[1]"/>
++        <direct input="genblk3_dsp_int_regi.out[2]" name="REGISTERED_IN-out[2]" output="REGISTERED_IN.out[2]"/>
++        <direct input="genblk3_dsp_int_regi.out[3]" name="REGISTERED_IN-out[3]" output="REGISTERED_IN.out[3]"/>
++        <direct input="REGISTERED_IN.a[0]" name="genblk3_dsp_int_regi-a[0]" output="genblk3_dsp_int_regi.a[0]"/>
++        <direct input="REGISTERED_IN.a[1]" name="genblk3_dsp_int_regi-a[1]" output="genblk3_dsp_int_regi.a[1]"/>
++        <direct input="REGISTERED_IN.b[0]" name="genblk3_dsp_int_regi-b[0]" output="genblk3_dsp_int_regi.b[0]"/>
++        <direct input="REGISTERED_IN.b[1]" name="genblk3_dsp_int_regi-b[1]" output="genblk3_dsp_int_regi.b[1]"/>
++        <direct input="REGISTERED_IN.clk" name="genblk3_dsp_int_regi-clk" output="genblk3_dsp_int_regi.clk"/>
++        <direct input="REGISTERED_IN.m" name="genblk3_dsp_int_regi-m" output="genblk3_dsp_int_regi.m"/>
+       </interconnect>
+     </pb_type>
+     <interconnect>
+-      <direct>
+-        <port name="a" type="input"/>
+-        <port name="a" type="output" from="REGISTERED_IN"/>
+-      </direct>
+-      <direct>
+-        <port name="b" type="input"/>
+-        <port name="b" type="output" from="REGISTERED_IN"/>
+-      </direct>
+-      <direct>
+-        <port name="clk" type="input"/>
+-        <port name="clk" type="output" from="REGISTERED_IN"/>
+-      </direct>
+-      <direct>
+-        <port name="m" type="input"/>
+-        <port name="m" type="output" from="REGISTERED_IN"/>
+-      </direct>
+-      <direct>
+-        <port name="out" type="input" from="REGISTERED_IN"/>
+-        <port name="out" type="output"/>
+-      </direct>
++      <direct input="REGISTERED_IN.out" name="DSP_MODES-out" output="DSP_MODES.out"/>
++      <direct input="DSP_MODES.a" name="REGISTERED_IN-a" output="REGISTERED_IN.a"/>
++      <direct input="DSP_MODES.b" name="REGISTERED_IN-b" output="REGISTERED_IN.b"/>
++      <direct input="DSP_MODES.clk" name="REGISTERED_IN-clk" output="REGISTERED_IN.clk"/>
++      <direct input="DSP_MODES.m" name="REGISTERED_IN-m" output="REGISTERED_IN.m"/>
+     </interconnect>
+   </mode>
+   <mode name="REGISTERED_OUT">
+-    <pb_type num_pb="1" name="REGISTERED_OUT">
++    <pb_type name="REGISTERED_OUT" num_pb="1">
+       <clock name="clk" num_pins="1"/>
+       <input name="a" num_pins="2"/>
+       <input name="b" num_pins="2"/>
+       <input name="m" num_pins="1"/>
+       <output name="out" num_pins="4"/>
+-      <pb_type num_pb="1" name="dsp_int_rego">
+-        <!--old_name DSP_OUT_REGISTERED-->
+-        <xi:include href="../dsp_out_registered/dsp_out_registered.pb_type.xml" xpointer="xpointer(pb_type/child::node())"/>
++      <pb_type name="genblk4_dsp_int_rego" num_pb="1">
++        <clock name="clk" num_pins="1"/>
++        <input name="a" num_pins="2"/>
++        <input name="b" num_pins="2"/>
++        <input name="m" num_pins="1"/>
++        <output name="out" num_pins="4"/>
++        <pb_type blif_model=".subckt DSP_COMBINATIONAL" name="comb" num_pb="1">
++          <input name="a" num_pins="2"/>
++          <input name="b" num_pins="2"/>
++          <input name="m" num_pins="1"/>
++          <output name="out" num_pins="4"/>
++          <delay_constant in_port="comb.a" max="30e-12" out_port="comb.out"/>
++          <delay_constant in_port="comb.b" max="30e-12" out_port="comb.out"/>
++          <delay_constant in_port="comb.m" max="10e-12" out_port="comb.out"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="output_dffs_gen_q_out_ff_0" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="output_dffs_gen_q_out_ff_0.D" value="10e-12"/>
++          <T_hold clock="CLK" port="output_dffs_gen_q_out_ff_0.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="output_dffs_gen_q_out_ff_0.Q"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="output_dffs_gen_q_out_ff_1" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="output_dffs_gen_q_out_ff_1.D" value="10e-12"/>
++          <T_hold clock="CLK" port="output_dffs_gen_q_out_ff_1.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="output_dffs_gen_q_out_ff_1.Q"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="output_dffs_gen_q_out_ff_2" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="output_dffs_gen_q_out_ff_2.D" value="10e-12"/>
++          <T_hold clock="CLK" port="output_dffs_gen_q_out_ff_2.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="output_dffs_gen_q_out_ff_2.Q"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="output_dffs_gen_q_out_ff_3" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="output_dffs_gen_q_out_ff_3.D" value="10e-12"/>
++          <T_hold clock="CLK" port="output_dffs_gen_q_out_ff_3.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="output_dffs_gen_q_out_ff_3.Q"/>
++        </pb_type>
++        <interconnect>
++          <direct input="genblk4_dsp_int_rego.a[0]" name="comb-a[0]" output="comb.a[0]"/>
++          <direct input="genblk4_dsp_int_rego.a[1]" name="comb-a[1]" output="comb.a[1]"/>
++          <direct input="genblk4_dsp_int_rego.b[0]" name="comb-b[0]" output="comb.b[0]"/>
++          <direct input="genblk4_dsp_int_rego.b[1]" name="comb-b[1]" output="comb.b[1]"/>
++          <direct input="genblk4_dsp_int_rego.m" name="comb-m" output="comb.m"/>
++          <direct input="output_dffs_gen_q_out_ff_0.Q" name="genblk4_dsp_int_rego-out[0]" output="genblk4_dsp_int_rego.out[0]"/>
++          <direct input="output_dffs_gen_q_out_ff_1.Q" name="genblk4_dsp_int_rego-out[1]" output="genblk4_dsp_int_rego.out[1]"/>
++          <direct input="output_dffs_gen_q_out_ff_2.Q" name="genblk4_dsp_int_rego-out[2]" output="genblk4_dsp_int_rego.out[2]"/>
++          <direct input="output_dffs_gen_q_out_ff_3.Q" name="genblk4_dsp_int_rego-out[3]" output="genblk4_dsp_int_rego.out[3]"/>
++          <direct input="genblk4_dsp_int_rego.clk" name="output_dffs_gen_q_out_ff_0-CLK" output="output_dffs_gen_q_out_ff_0.CLK"/>
++          <direct input="comb.out[0]" name="output_dffs_gen_q_out_ff_0-D" output="output_dffs_gen_q_out_ff_0.D">
++            <pack_pattern in_port="comb.out[0]" name="pack-DSP-DFF" out_port="output_dffs_gen_q_out_ff_0.D"/>
++          </direct>
++          <direct input="genblk4_dsp_int_rego.clk" name="output_dffs_gen_q_out_ff_1-CLK" output="output_dffs_gen_q_out_ff_1.CLK"/>
++          <direct input="comb.out[1]" name="output_dffs_gen_q_out_ff_1-D" output="output_dffs_gen_q_out_ff_1.D">
++            <pack_pattern in_port="comb.out[1]" name="pack-DSP-DFF" out_port="output_dffs_gen_q_out_ff_1.D"/>
++          </direct>
++          <direct input="genblk4_dsp_int_rego.clk" name="output_dffs_gen_q_out_ff_2-CLK" output="output_dffs_gen_q_out_ff_2.CLK"/>
++          <direct input="comb.out[2]" name="output_dffs_gen_q_out_ff_2-D" output="output_dffs_gen_q_out_ff_2.D">
++            <pack_pattern in_port="comb.out[2]" name="pack-DSP-DFF" out_port="output_dffs_gen_q_out_ff_2.D"/>
++          </direct>
++          <direct input="genblk4_dsp_int_rego.clk" name="output_dffs_gen_q_out_ff_3-CLK" output="output_dffs_gen_q_out_ff_3.CLK"/>
++          <direct input="comb.out[3]" name="output_dffs_gen_q_out_ff_3-D" output="output_dffs_gen_q_out_ff_3.D">
++            <pack_pattern in_port="comb.out[3]" name="pack-DSP-DFF" out_port="output_dffs_gen_q_out_ff_3.D"/>
++          </direct>
++        </interconnect>
+       </pb_type>
+       <interconnect>
+-        <direct>
+-          <port name="a[0]" type="input"/>
+-          <port name="a[0]" type="output" from="dsp_int_rego"/>
+-        </direct>
+-        <direct>
+-          <port name="a[1]" type="input"/>
+-          <port name="a[1]" type="output" from="dsp_int_rego"/>
+-        </direct>
+-        <direct>
+-          <port name="b[0]" type="input"/>
+-          <port name="b[0]" type="output" from="dsp_int_rego"/>
+-        </direct>
+-        <direct>
+-          <port name="b[1]" type="input"/>
+-          <port name="b[1]" type="output" from="dsp_int_rego"/>
+-        </direct>
+-        <direct>
+-          <port name="clk" type="input"/>
+-          <port name="clk" type="output" from="dsp_int_rego"/>
+-        </direct>
+-        <direct>
+-          <port name="m" type="input"/>
+-          <port name="m" type="output" from="dsp_int_rego"/>
+-        </direct>
+-        <direct>
+-          <port name="out[0]" type="input" from="dsp_int_rego"/>
+-          <port name="out[0]" type="output"/>
+-        </direct>
+-        <direct>
+-          <port name="out[1]" type="input" from="dsp_int_rego"/>
+-          <port name="out[1]" type="output"/>
+-        </direct>
+-        <direct>
+-          <port name="out[2]" type="input" from="dsp_int_rego"/>
+-          <port name="out[2]" type="output"/>
+-        </direct>
+-        <direct>
+-          <port name="out[3]" type="input" from="dsp_int_rego"/>
+-          <port name="out[3]" type="output"/>
+-        </direct>
++        <direct input="genblk4_dsp_int_rego.out[0]" name="REGISTERED_OUT-out[0]" output="REGISTERED_OUT.out[0]"/>
++        <direct input="genblk4_dsp_int_rego.out[1]" name="REGISTERED_OUT-out[1]" output="REGISTERED_OUT.out[1]"/>
++        <direct input="genblk4_dsp_int_rego.out[2]" name="REGISTERED_OUT-out[2]" output="REGISTERED_OUT.out[2]"/>
++        <direct input="genblk4_dsp_int_rego.out[3]" name="REGISTERED_OUT-out[3]" output="REGISTERED_OUT.out[3]"/>
++        <direct input="REGISTERED_OUT.a[0]" name="genblk4_dsp_int_rego-a[0]" output="genblk4_dsp_int_rego.a[0]"/>
++        <direct input="REGISTERED_OUT.a[1]" name="genblk4_dsp_int_rego-a[1]" output="genblk4_dsp_int_rego.a[1]"/>
++        <direct input="REGISTERED_OUT.b[0]" name="genblk4_dsp_int_rego-b[0]" output="genblk4_dsp_int_rego.b[0]"/>
++        <direct input="REGISTERED_OUT.b[1]" name="genblk4_dsp_int_rego-b[1]" output="genblk4_dsp_int_rego.b[1]"/>
++        <direct input="REGISTERED_OUT.clk" name="genblk4_dsp_int_rego-clk" output="genblk4_dsp_int_rego.clk"/>
++        <direct input="REGISTERED_OUT.m" name="genblk4_dsp_int_rego-m" output="genblk4_dsp_int_rego.m"/>
+       </interconnect>
+     </pb_type>
+     <interconnect>
+-      <direct>
+-        <port name="a" type="input"/>
+-        <port name="a" type="output" from="REGISTERED_OUT"/>
+-      </direct>
+-      <direct>
+-        <port name="b" type="input"/>
+-        <port name="b" type="output" from="REGISTERED_OUT"/>
+-      </direct>
+-      <direct>
+-        <port name="clk" type="input"/>
+-        <port name="clk" type="output" from="REGISTERED_OUT"/>
+-      </direct>
+-      <direct>
+-        <port name="m" type="input"/>
+-        <port name="m" type="output" from="REGISTERED_OUT"/>
+-      </direct>
+-      <direct>
+-        <port name="out" type="input" from="REGISTERED_OUT"/>
+-        <port name="out" type="output"/>
+-      </direct>
++      <direct input="REGISTERED_OUT.out" name="DSP_MODES-out" output="DSP_MODES.out"/>
++      <direct input="DSP_MODES.a" name="REGISTERED_OUT-a" output="REGISTERED_OUT.a"/>
++      <direct input="DSP_MODES.b" name="REGISTERED_OUT-b" output="REGISTERED_OUT.b"/>
++      <direct input="DSP_MODES.clk" name="REGISTERED_OUT-clk" output="REGISTERED_OUT.clk"/>
++      <direct input="DSP_MODES.m" name="REGISTERED_OUT-m" output="REGISTERED_OUT.m"/>
+     </interconnect>
+   </mode>
+   <mode name="REGISTERED_INOUT">
+-    <pb_type num_pb="1" name="REGISTERED_INOUT">
++    <pb_type name="REGISTERED_INOUT" num_pb="1">
+       <clock name="clk" num_pins="1"/>
+       <input name="a" num_pins="2"/>
+       <input name="b" num_pins="2"/>
+       <input name="m" num_pins="1"/>
+       <output name="out" num_pins="4"/>
+-      <pb_type num_pb="1" name="dsp_int_regio">
+-        <!--old_name DSP_INOUT_REGISTERED-->
+-        <xi:include href="../dsp_inout_registered/dsp_inout_registered.pb_type.xml" xpointer="xpointer(pb_type/child::node())"/>
++      <pb_type name="genblk2_dsp_int_regio" num_pb="1">
++        <clock name="clk" num_pins="1"/>
++        <input name="a" num_pins="2"/>
++        <input name="b" num_pins="2"/>
++        <input name="m" num_pins="1"/>
++        <output name="out" num_pins="4"/>
++        <pb_type blif_model=".subckt DSP_COMBINATIONAL" name="comb" num_pb="1">
++          <input name="a" num_pins="2"/>
++          <input name="b" num_pins="2"/>
++          <input name="m" num_pins="1"/>
++          <output name="out" num_pins="4"/>
++          <delay_constant in_port="comb.a" max="30e-12" out_port="comb.out"/>
++          <delay_constant in_port="comb.b" max="30e-12" out_port="comb.out"/>
++          <delay_constant in_port="comb.m" max="10e-12" out_port="comb.out"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="input_dffs_gen_q_a_ff_0" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="input_dffs_gen_q_a_ff_0.D" value="10e-12"/>
++          <T_hold clock="CLK" port="input_dffs_gen_q_a_ff_0.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="input_dffs_gen_q_a_ff_0.Q"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="input_dffs_gen_q_a_ff_1" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="input_dffs_gen_q_a_ff_1.D" value="10e-12"/>
++          <T_hold clock="CLK" port="input_dffs_gen_q_a_ff_1.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="input_dffs_gen_q_a_ff_1.Q"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="input_dffs_gen_q_b_ff_0" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="input_dffs_gen_q_b_ff_0.D" value="10e-12"/>
++          <T_hold clock="CLK" port="input_dffs_gen_q_b_ff_0.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="input_dffs_gen_q_b_ff_0.Q"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="input_dffs_gen_q_b_ff_1" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="input_dffs_gen_q_b_ff_1.D" value="10e-12"/>
++          <T_hold clock="CLK" port="input_dffs_gen_q_b_ff_1.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="input_dffs_gen_q_b_ff_1.Q"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="m_ff" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="m_ff.D" value="10e-12"/>
++          <T_hold clock="CLK" port="m_ff.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="m_ff.Q"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="output_dffs_gen_q_out_ff_0" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="output_dffs_gen_q_out_ff_0.D" value="10e-12"/>
++          <T_hold clock="CLK" port="output_dffs_gen_q_out_ff_0.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="output_dffs_gen_q_out_ff_0.Q"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="output_dffs_gen_q_out_ff_1" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="output_dffs_gen_q_out_ff_1.D" value="10e-12"/>
++          <T_hold clock="CLK" port="output_dffs_gen_q_out_ff_1.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="output_dffs_gen_q_out_ff_1.Q"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="output_dffs_gen_q_out_ff_2" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="output_dffs_gen_q_out_ff_2.D" value="10e-12"/>
++          <T_hold clock="CLK" port="output_dffs_gen_q_out_ff_2.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="output_dffs_gen_q_out_ff_2.Q"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="output_dffs_gen_q_out_ff_3" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="output_dffs_gen_q_out_ff_3.D" value="10e-12"/>
++          <T_hold clock="CLK" port="output_dffs_gen_q_out_ff_3.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="output_dffs_gen_q_out_ff_3.Q"/>
++        </pb_type>
++        <interconnect>
++          <direct input="input_dffs_gen_q_a_ff_0.Q" name="comb-a[0]" output="comb.a[0]">
++            <pack_pattern in_port="input_dffs_gen_q_a_ff_0.Q" name="pack-DFF-DSP" out_port="comb.a[0]"/>
++          </direct>
++          <direct input="input_dffs_gen_q_a_ff_1.Q" name="comb-a[1]" output="comb.a[1]">
++            <pack_pattern in_port="input_dffs_gen_q_a_ff_1.Q" name="pack-DFF-DSP" out_port="comb.a[1]"/>
++          </direct>
++          <direct input="input_dffs_gen_q_b_ff_0.Q" name="comb-b[0]" output="comb.b[0]">
++            <pack_pattern in_port="input_dffs_gen_q_b_ff_0.Q" name="pack-DFF-DSP" out_port="comb.b[0]"/>
++          </direct>
++          <direct input="input_dffs_gen_q_b_ff_1.Q" name="comb-b[1]" output="comb.b[1]">
++            <pack_pattern in_port="input_dffs_gen_q_b_ff_1.Q" name="pack-DFF-DSP" out_port="comb.b[1]"/>
++          </direct>
++          <direct input="m_ff.Q" name="comb-m" output="comb.m">
++            <pack_pattern in_port="m_ff.Q" name="pack-DFF-DSP" out_port="comb.m"/>
++          </direct>
++          <direct input="output_dffs_gen_q_out_ff_0.Q" name="genblk2_dsp_int_regio-out[0]" output="genblk2_dsp_int_regio.out[0]"/>
++          <direct input="output_dffs_gen_q_out_ff_1.Q" name="genblk2_dsp_int_regio-out[1]" output="genblk2_dsp_int_regio.out[1]"/>
++          <direct input="output_dffs_gen_q_out_ff_2.Q" name="genblk2_dsp_int_regio-out[2]" output="genblk2_dsp_int_regio.out[2]"/>
++          <direct input="output_dffs_gen_q_out_ff_3.Q" name="genblk2_dsp_int_regio-out[3]" output="genblk2_dsp_int_regio.out[3]"/>
++          <direct input="genblk2_dsp_int_regio.clk" name="input_dffs_gen_q_a_ff_0-CLK" output="input_dffs_gen_q_a_ff_0.CLK"/>
++          <direct input="genblk2_dsp_int_regio.a[0]" name="input_dffs_gen_q_a_ff_0-D" output="input_dffs_gen_q_a_ff_0.D"/>
++          <direct input="genblk2_dsp_int_regio.clk" name="input_dffs_gen_q_a_ff_1-CLK" output="input_dffs_gen_q_a_ff_1.CLK"/>
++          <direct input="genblk2_dsp_int_regio.a[1]" name="input_dffs_gen_q_a_ff_1-D" output="input_dffs_gen_q_a_ff_1.D"/>
++          <direct input="genblk2_dsp_int_regio.clk" name="input_dffs_gen_q_b_ff_0-CLK" output="input_dffs_gen_q_b_ff_0.CLK"/>
++          <direct input="genblk2_dsp_int_regio.b[0]" name="input_dffs_gen_q_b_ff_0-D" output="input_dffs_gen_q_b_ff_0.D"/>
++          <direct input="genblk2_dsp_int_regio.clk" name="input_dffs_gen_q_b_ff_1-CLK" output="input_dffs_gen_q_b_ff_1.CLK"/>
++          <direct input="genblk2_dsp_int_regio.b[1]" name="input_dffs_gen_q_b_ff_1-D" output="input_dffs_gen_q_b_ff_1.D"/>
++          <direct input="genblk2_dsp_int_regio.clk" name="m_ff-CLK" output="m_ff.CLK"/>
++          <direct input="genblk2_dsp_int_regio.m" name="m_ff-D" output="m_ff.D"/>
++          <direct input="genblk2_dsp_int_regio.clk" name="output_dffs_gen_q_out_ff_0-CLK" output="output_dffs_gen_q_out_ff_0.CLK"/>
++          <direct input="comb.out[0]" name="output_dffs_gen_q_out_ff_0-D" output="output_dffs_gen_q_out_ff_0.D">
++            <pack_pattern in_port="comb.out[0]" name="pack-DFF-DSP" out_port="output_dffs_gen_q_out_ff_0.D"/>
++          </direct>
++          <direct input="genblk2_dsp_int_regio.clk" name="output_dffs_gen_q_out_ff_1-CLK" output="output_dffs_gen_q_out_ff_1.CLK"/>
++          <direct input="comb.out[1]" name="output_dffs_gen_q_out_ff_1-D" output="output_dffs_gen_q_out_ff_1.D">
++            <pack_pattern in_port="comb.out[1]" name="pack-DFF-DSP" out_port="output_dffs_gen_q_out_ff_1.D"/>
++          </direct>
++          <direct input="genblk2_dsp_int_regio.clk" name="output_dffs_gen_q_out_ff_2-CLK" output="output_dffs_gen_q_out_ff_2.CLK"/>
++          <direct input="comb.out[2]" name="output_dffs_gen_q_out_ff_2-D" output="output_dffs_gen_q_out_ff_2.D">
++            <pack_pattern in_port="comb.out[2]" name="pack-DFF-DSP" out_port="output_dffs_gen_q_out_ff_2.D"/>
++          </direct>
++          <direct input="genblk2_dsp_int_regio.clk" name="output_dffs_gen_q_out_ff_3-CLK" output="output_dffs_gen_q_out_ff_3.CLK"/>
++          <direct input="comb.out[3]" name="output_dffs_gen_q_out_ff_3-D" output="output_dffs_gen_q_out_ff_3.D">
++            <pack_pattern in_port="comb.out[3]" name="pack-DFF-DSP" out_port="output_dffs_gen_q_out_ff_3.D"/>
++          </direct>
++        </interconnect>
+       </pb_type>
+       <interconnect>
+-        <direct>
+-          <port name="a[0]" type="input"/>
+-          <port name="a[0]" type="output" from="dsp_int_regio"/>
+-        </direct>
+-        <direct>
+-          <port name="a[1]" type="input"/>
+-          <port name="a[1]" type="output" from="dsp_int_regio"/>
+-        </direct>
+-        <direct>
+-          <port name="b[0]" type="input"/>
+-          <port name="b[0]" type="output" from="dsp_int_regio"/>
+-        </direct>
+-        <direct>
+-          <port name="b[1]" type="input"/>
+-          <port name="b[1]" type="output" from="dsp_int_regio"/>
+-        </direct>
+-        <direct>
+-          <port name="clk" type="input"/>
+-          <port name="clk" type="output" from="dsp_int_regio"/>
+-        </direct>
+-        <direct>
+-          <port name="m" type="input"/>
+-          <port name="m" type="output" from="dsp_int_regio"/>
+-        </direct>
+-        <direct>
+-          <port name="out[0]" type="input" from="dsp_int_regio"/>
+-          <port name="out[0]" type="output"/>
+-        </direct>
+-        <direct>
+-          <port name="out[1]" type="input" from="dsp_int_regio"/>
+-          <port name="out[1]" type="output"/>
+-        </direct>
+-        <direct>
+-          <port name="out[2]" type="input" from="dsp_int_regio"/>
+-          <port name="out[2]" type="output"/>
+-        </direct>
+-        <direct>
+-          <port name="out[3]" type="input" from="dsp_int_regio"/>
+-          <port name="out[3]" type="output"/>
+-        </direct>
++        <direct input="genblk2_dsp_int_regio.out[0]" name="REGISTERED_INOUT-out[0]" output="REGISTERED_INOUT.out[0]"/>
++        <direct input="genblk2_dsp_int_regio.out[1]" name="REGISTERED_INOUT-out[1]" output="REGISTERED_INOUT.out[1]"/>
++        <direct input="genblk2_dsp_int_regio.out[2]" name="REGISTERED_INOUT-out[2]" output="REGISTERED_INOUT.out[2]"/>
++        <direct input="genblk2_dsp_int_regio.out[3]" name="REGISTERED_INOUT-out[3]" output="REGISTERED_INOUT.out[3]"/>
++        <direct input="REGISTERED_INOUT.a[0]" name="genblk2_dsp_int_regio-a[0]" output="genblk2_dsp_int_regio.a[0]"/>
++        <direct input="REGISTERED_INOUT.a[1]" name="genblk2_dsp_int_regio-a[1]" output="genblk2_dsp_int_regio.a[1]"/>
++        <direct input="REGISTERED_INOUT.b[0]" name="genblk2_dsp_int_regio-b[0]" output="genblk2_dsp_int_regio.b[0]"/>
++        <direct input="REGISTERED_INOUT.b[1]" name="genblk2_dsp_int_regio-b[1]" output="genblk2_dsp_int_regio.b[1]"/>
++        <direct input="REGISTERED_INOUT.clk" name="genblk2_dsp_int_regio-clk" output="genblk2_dsp_int_regio.clk"/>
++        <direct input="REGISTERED_INOUT.m" name="genblk2_dsp_int_regio-m" output="genblk2_dsp_int_regio.m"/>
+       </interconnect>
+     </pb_type>
+     <interconnect>
+-      <direct>
+-        <port name="a" type="input"/>
+-        <port name="a" type="output" from="REGISTERED_INOUT"/>
+-      </direct>
+-      <direct>
+-        <port name="b" type="input"/>
+-        <port name="b" type="output" from="REGISTERED_INOUT"/>
+-      </direct>
+-      <direct>
+-        <port name="clk" type="input"/>
+-        <port name="clk" type="output" from="REGISTERED_INOUT"/>
+-      </direct>
+-      <direct>
+-        <port name="m" type="input"/>
+-        <port name="m" type="output" from="REGISTERED_INOUT"/>
+-      </direct>
+-      <direct>
+-        <port name="out" type="input" from="REGISTERED_INOUT"/>
+-        <port name="out" type="output"/>
+-      </direct>
++      <direct input="REGISTERED_INOUT.out" name="DSP_MODES-out" output="DSP_MODES.out"/>
++      <direct input="DSP_MODES.a" name="REGISTERED_INOUT-a" output="REGISTERED_INOUT.a"/>
++      <direct input="DSP_MODES.b" name="REGISTERED_INOUT-b" output="REGISTERED_INOUT.b"/>
++      <direct input="DSP_MODES.clk" name="REGISTERED_INOUT-clk" output="REGISTERED_INOUT.clk"/>
++      <direct input="DSP_MODES.m" name="REGISTERED_INOUT-m" output="REGISTERED_INOUT.m"/>
+     </interconnect>
+   </mode>
+   <mode name="REGISTERED_PARTIAL">
+-    <pb_type num_pb="1" name="REGISTERED_PARTIAL">
++    <pb_type name="REGISTERED_PARTIAL" num_pb="1">
+       <clock name="clk" num_pins="1"/>
+       <input name="a" num_pins="2"/>
+       <input name="b" num_pins="2"/>
+       <input name="m" num_pins="1"/>
+       <output name="out" num_pins="4"/>
+-      <pb_type num_pb="1" name="dsp_int_part">
+-        <!--old_name DSP_PARTIAL_REGISTERED-->
+-        <xi:include href="../dsp_partial_registered/dsp_partial_registered.pb_type.xml" xpointer="xpointer(pb_type/child::node())"/>
++      <pb_type name="genblk5_dsp_int_part" num_pb="1">
++        <clock name="clk" num_pins="1"/>
++        <input name="a" num_pins="2"/>
++        <input name="b" num_pins="2"/>
++        <input name="m" num_pins="1"/>
++        <output name="out" num_pins="4"/>
++        <pb_type blif_model=".subckt DSP_COMBINATIONAL" name="comb" num_pb="1">
++          <input name="a" num_pins="2"/>
++          <input name="b" num_pins="2"/>
++          <input name="m" num_pins="1"/>
++          <output name="out" num_pins="4"/>
++          <delay_constant in_port="comb.a" max="30e-12" out_port="comb.out"/>
++          <delay_constant in_port="comb.b" max="30e-12" out_port="comb.out"/>
++          <delay_constant in_port="comb.m" max="10e-12" out_port="comb.out"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="dffs_gen_q_a_ff_0" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="dffs_gen_q_a_ff_0.D" value="10e-12"/>
++          <T_hold clock="CLK" port="dffs_gen_q_a_ff_0.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="dffs_gen_q_a_ff_0.Q"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="dffs_gen_q_a_ff_1" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="dffs_gen_q_a_ff_1.D" value="10e-12"/>
++          <T_hold clock="CLK" port="dffs_gen_q_a_ff_1.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="dffs_gen_q_a_ff_1.Q"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="dffs_gen_q_b_ff_0" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="dffs_gen_q_b_ff_0.D" value="10e-12"/>
++          <T_hold clock="CLK" port="dffs_gen_q_b_ff_0.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="dffs_gen_q_b_ff_0.Q"/>
++        </pb_type>
++        <pb_type blif_model=".subckt DFF" name="dffs_gen_q_b_ff_1" num_pb="1">
++          <clock name="CLK" num_pins="1"/>
++          <input name="D" num_pins="1"/>
++          <output name="Q" num_pins="1"/>
++          <T_setup clock="CLK" port="dffs_gen_q_b_ff_1.D" value="10e-12"/>
++          <T_hold clock="CLK" port="dffs_gen_q_b_ff_1.D" value="10e-12"/>
++          <T_clock_to_Q clock="CLK" max="10e-12" port="dffs_gen_q_b_ff_1.Q"/>
++        </pb_type>
++        <interconnect>
++          <direct input="dffs_gen_q_a_ff_0.Q" name="comb-a[0]" output="comb.a[0]">
++            <pack_pattern in_port="dffs_gen_q_a_ff_0.Q" name="pack-DFF-DSP" out_port="comb.a[0]"/>
++          </direct>
++          <direct input="dffs_gen_q_a_ff_1.Q" name="comb-a[1]" output="comb.a[1]">
++            <pack_pattern in_port="dffs_gen_q_a_ff_1.Q" name="pack-DFF-DSP" out_port="comb.a[1]"/>
++          </direct>
++          <direct input="dffs_gen_q_b_ff_0.Q" name="comb-b[0]" output="comb.b[0]">
++            <pack_pattern in_port="dffs_gen_q_b_ff_0.Q" name="pack-DFF-DSP" out_port="comb.b[0]"/>
++          </direct>
++          <direct input="dffs_gen_q_b_ff_1.Q" name="comb-b[1]" output="comb.b[1]">
++            <pack_pattern in_port="dffs_gen_q_b_ff_1.Q" name="pack-DFF-DSP" out_port="comb.b[1]"/>
++          </direct>
++          <direct input="genblk5_dsp_int_part.m" name="comb-m" output="comb.m"/>
++          <direct input="genblk5_dsp_int_part.clk" name="dffs_gen_q_a_ff_0-CLK" output="dffs_gen_q_a_ff_0.CLK"/>
++          <direct input="genblk5_dsp_int_part.a[0]" name="dffs_gen_q_a_ff_0-D" output="dffs_gen_q_a_ff_0.D"/>
++          <direct input="genblk5_dsp_int_part.clk" name="dffs_gen_q_a_ff_1-CLK" output="dffs_gen_q_a_ff_1.CLK"/>
++          <direct input="genblk5_dsp_int_part.a[1]" name="dffs_gen_q_a_ff_1-D" output="dffs_gen_q_a_ff_1.D"/>
++          <direct input="genblk5_dsp_int_part.clk" name="dffs_gen_q_b_ff_0-CLK" output="dffs_gen_q_b_ff_0.CLK"/>
++          <direct input="genblk5_dsp_int_part.b[0]" name="dffs_gen_q_b_ff_0-D" output="dffs_gen_q_b_ff_0.D"/>
++          <direct input="genblk5_dsp_int_part.clk" name="dffs_gen_q_b_ff_1-CLK" output="dffs_gen_q_b_ff_1.CLK"/>
++          <direct input="genblk5_dsp_int_part.b[1]" name="dffs_gen_q_b_ff_1-D" output="dffs_gen_q_b_ff_1.D"/>
++          <direct input="comb.out[0]" name="genblk5_dsp_int_part-out[0]" output="genblk5_dsp_int_part.out[0]"/>
++          <direct input="comb.out[1]" name="genblk5_dsp_int_part-out[1]" output="genblk5_dsp_int_part.out[1]"/>
++          <direct input="comb.out[2]" name="genblk5_dsp_int_part-out[2]" output="genblk5_dsp_int_part.out[2]"/>
++          <direct input="comb.out[3]" name="genblk5_dsp_int_part-out[3]" output="genblk5_dsp_int_part.out[3]"/>
++        </interconnect>
+       </pb_type>
+       <interconnect>
+-        <direct>
+-          <port name="a[0]" type="input"/>
+-          <port name="a[0]" type="output" from="dsp_int_part"/>
+-        </direct>
+-        <direct>
+-          <port name="a[1]" type="input"/>
+-          <port name="a[1]" type="output" from="dsp_int_part"/>
+-        </direct>
+-        <direct>
+-          <port name="b[0]" type="input"/>
+-          <port name="b[0]" type="output" from="dsp_int_part"/>
+-        </direct>
+-        <direct>
+-          <port name="b[1]" type="input"/>
+-          <port name="b[1]" type="output" from="dsp_int_part"/>
+-        </direct>
+-        <direct>
+-          <port name="clk" type="input"/>
+-          <port name="clk" type="output" from="dsp_int_part"/>
+-        </direct>
+-        <direct>
+-          <port name="m" type="input"/>
+-          <port name="m" type="output" from="dsp_int_part"/>
+-        </direct>
+-        <direct>
+-          <port name="out[0]" type="input" from="dsp_int_part"/>
+-          <port name="out[0]" type="output"/>
+-        </direct>
+-        <direct>
+-          <port name="out[1]" type="input" from="dsp_int_part"/>
+-          <port name="out[1]" type="output"/>
+-        </direct>
+-        <direct>
+-          <port name="out[2]" type="input" from="dsp_int_part"/>
+-          <port name="out[2]" type="output"/>
+-        </direct>
+-        <direct>
+-          <port name="out[3]" type="input" from="dsp_int_part"/>
+-          <port name="out[3]" type="output"/>
+-        </direct>
++        <direct input="genblk5_dsp_int_part.out[0]" name="REGISTERED_PARTIAL-out[0]" output="REGISTERED_PARTIAL.out[0]"/>
++        <direct input="genblk5_dsp_int_part.out[1]" name="REGISTERED_PARTIAL-out[1]" output="REGISTERED_PARTIAL.out[1]"/>
++        <direct input="genblk5_dsp_int_part.out[2]" name="REGISTERED_PARTIAL-out[2]" output="REGISTERED_PARTIAL.out[2]"/>
++        <direct input="genblk5_dsp_int_part.out[3]" name="REGISTERED_PARTIAL-out[3]" output="REGISTERED_PARTIAL.out[3]"/>
++        <direct input="REGISTERED_PARTIAL.a[0]" name="genblk5_dsp_int_part-a[0]" output="genblk5_dsp_int_part.a[0]"/>
++        <direct input="REGISTERED_PARTIAL.a[1]" name="genblk5_dsp_int_part-a[1]" output="genblk5_dsp_int_part.a[1]"/>
++        <direct input="REGISTERED_PARTIAL.b[0]" name="genblk5_dsp_int_part-b[0]" output="genblk5_dsp_int_part.b[0]"/>
++        <direct input="REGISTERED_PARTIAL.b[1]" name="genblk5_dsp_int_part-b[1]" output="genblk5_dsp_int_part.b[1]"/>
++        <direct input="REGISTERED_PARTIAL.clk" name="genblk5_dsp_int_part-clk" output="genblk5_dsp_int_part.clk"/>
++        <direct input="REGISTERED_PARTIAL.m" name="genblk5_dsp_int_part-m" output="genblk5_dsp_int_part.m"/>
+       </interconnect>
+     </pb_type>
+     <interconnect>
+-      <direct>
+-        <port name="a" type="input"/>
+-        <port name="a" type="output" from="REGISTERED_PARTIAL"/>
+-      </direct>
+-      <direct>
+-        <port name="b" type="input"/>
+-        <port name="b" type="output" from="REGISTERED_PARTIAL"/>
+-      </direct>
+-      <direct>
+-        <port name="clk" type="input"/>
+-        <port name="clk" type="output" from="REGISTERED_PARTIAL"/>
+-      </direct>
+-      <direct>
+-        <port name="m" type="input"/>
+-        <port name="m" type="output" from="REGISTERED_PARTIAL"/>
+-      </direct>
+-      <direct>
+-        <port name="out" type="input" from="REGISTERED_PARTIAL"/>
+-        <port name="out" type="output"/>
+-      </direct>
++      <direct input="REGISTERED_PARTIAL.out" name="DSP_MODES-out" output="DSP_MODES.out"/>
++      <direct input="DSP_MODES.a" name="REGISTERED_PARTIAL-a" output="REGISTERED_PARTIAL.a"/>
++      <direct input="DSP_MODES.b" name="REGISTERED_PARTIAL-b" output="REGISTERED_PARTIAL.b"/>
++      <direct input="DSP_MODES.clk" name="REGISTERED_PARTIAL-clk" output="REGISTERED_PARTIAL.clk"/>
++      <direct input="DSP_MODES.m" name="REGISTERED_PARTIAL-m" output="REGISTERED_PARTIAL.m"/>
+     </interconnect>
+   </mode>
+ </pb_type>
+diff --git a/tests/modes/golden.pb_type.xml b/tests/modes/golden.pb_type.xml
+index d97e5ad..85402b2 100644
+--- a/tests/modes/golden.pb_type.xml
++++ b/tests/modes/golden.pb_type.xml
+@@ -1,43 +1,29 @@
+-<?xml version='1.0' encoding='utf-8'?>
+-<pb_type xmlns:xi="http://www.w3.org/2001/XInclude" num_pb="1" name="INV">
++<?xml version="1.0"?>
++<pb_type xmlns:xi="http://www.w3.org/2001/XInclude" name="INV" num_pb="1">
+   <input name="I" num_pins="1"/>
+   <output name="O" num_pins="1"/>
+   <mode name="PASSTHROUGH">
+     <interconnect>
+-      <direct>
+-        <port name="I" type="input"/>
+-        <port name="O" type="output"/>
+-      </direct>
++      <direct input="INV.I" name="INV-O" output="INV.O"/>
+     </interconnect>
+   </mode>
+   <mode name="INVERT">
+-    <pb_type num_pb="1" name="INVERT">
++    <pb_type name="INVERT" num_pb="1">
+       <input name="I" num_pins="1"/>
+       <output name="O" num_pins="1"/>
+-      <pb_type num_pb="1" name="inverter">
+-        <!--old_name NOT-->
+-        <xi:include href="not/not.pb_type.xml" xpointer="xpointer(pb_type/child::node())"/>
++      <pb_type blif_model=".subckt NOT" name="genblk1_genblk1_inverter" num_pb="1">
++        <input name="I" num_pins="1"/>
++        <output name="O" num_pins="1"/>
++        <delay_constant in_port="genblk1_genblk1_inverter.I" max="1e-10" out_port="genblk1_genblk1_inverter.O"/>
+       </pb_type>
+       <interconnect>
+-        <direct>
+-          <port name="I" type="input"/>
+-          <port name="I" type="output" from="inverter"/>
+-        </direct>
+-        <direct>
+-          <port name="O" type="input" from="inverter"/>
+-          <port name="O" type="output"/>
+-        </direct>
++        <direct input="genblk1_genblk1_inverter.O" name="INVERT-O" output="INVERT.O"/>
++        <direct input="INVERT.I" name="genblk1_genblk1_inverter-I" output="genblk1_genblk1_inverter.I"/>
+       </interconnect>
+     </pb_type>
+     <interconnect>
+-      <direct>
+-        <port name="I" type="input"/>
+-        <port name="I" type="output" from="INVERT"/>
+-      </direct>
+-      <direct>
+-        <port name="O" type="input" from="INVERT"/>
+-        <port name="O" type="output"/>
+-      </direct>
++      <direct input="INVERT.O" name="INV-O" output="INV.O"/>
++      <direct input="INV.I" name="INVERT-I" output="INVERT.I"/>
+     </interconnect>
+   </mode>
+ </pb_type>
+diff --git a/tests/multiple_instance/golden.pb_type.xml b/tests/multiple_instance/golden.pb_type.xml
+index 32124a9..fd8cdfc 100644
+--- a/tests/multiple_instance/golden.pb_type.xml
++++ b/tests/multiple_instance/golden.pb_type.xml
+@@ -1,194 +1,176 @@
+-<?xml version='1.0' encoding='utf-8'?>
++<?xml version="1.0"?>
+ <pb_type xmlns:xi="http://www.w3.org/2001/XInclude" name="MULTIPLE_INSTANCE" num_pb="1">
+-  <input  name="a"    num_pins="4"/>
+-  <input  name="b"    num_pins="4"/>
+-  <input  name="c"    num_pins="4"/>
+-  <!-- FIXME: cin/cout should be marked as carry -->
+-  <input  name="cin"  num_pins="4"/>
++  <input name="a" num_pins="4"/>
++  <input name="b" num_pins="4"/>
++  <input name="c" num_pins="4"/>
++  <input name="cin" num_pins="4"/>
++  <input name="d" num_pins="4"/>
+   <output name="cout" num_pins="4"/>
+-  <input  name="d"    num_pins="4"/>
+-  <output name="sum"  num_pins="8"/>
+-  <pb_type name="comb_apb" num_pb="4">
+-    <xi:include href="../vtr/full-adder/adder.pb_type.xml" xpointer="xpointer(pb_type/child::node())"/>
++  <output name="sum" num_pins="8"/>
++  <pb_type blif_model=".subckt ADDER" name="genblk1_comb_apb_0" num_pb="1">
++    <input name="a" num_pins="1"/>
++    <input name="b" num_pins="1"/>
++    <input name="cin" num_pins="1"/>
++    <output name="cout" num_pins="1"/>
++    <output name="sum" num_pins="1"/>
++    <delay_constant in_port="genblk1_comb_apb_0.a" max="300e-12" out_port="genblk1_comb_apb_0.cout"/>
++    <delay_constant in_port="genblk1_comb_apb_0.b" max="300e-12" out_port="genblk1_comb_apb_0.cout"/>
++    <delay_constant in_port="genblk1_comb_apb_0.cin" max="10e-12" out_port="genblk1_comb_apb_0.cout"/>
++    <delay_constant in_port="genblk1_comb_apb_0.a" max="300e-12" out_port="genblk1_comb_apb_0.sum"/>
++    <delay_constant in_port="genblk1_comb_apb_0.b" max="300e-12" out_port="genblk1_comb_apb_0.sum"/>
++    <delay_constant in_port="genblk1_comb_apb_0.cin" max="300e-12" out_port="genblk1_comb_apb_0.sum"/>
+   </pb_type>
+-  <pb_type name="comb_cpd" num_pb="4">
+-    <xi:include href="../vtr/full-adder/adder.pb_type.xml" xpointer="xpointer(pb_type/child::node())"/>
++  <pb_type blif_model=".subckt ADDER" name="genblk1_comb_apb_1" num_pb="1">
++    <input name="a" num_pins="1"/>
++    <input name="b" num_pins="1"/>
++    <input name="cin" num_pins="1"/>
++    <output name="cout" num_pins="1"/>
++    <output name="sum" num_pins="1"/>
++    <delay_constant in_port="genblk1_comb_apb_1.a" max="300e-12" out_port="genblk1_comb_apb_1.cout"/>
++    <delay_constant in_port="genblk1_comb_apb_1.b" max="300e-12" out_port="genblk1_comb_apb_1.cout"/>
++    <delay_constant in_port="genblk1_comb_apb_1.cin" max="10e-12" out_port="genblk1_comb_apb_1.cout"/>
++    <delay_constant in_port="genblk1_comb_apb_1.a" max="300e-12" out_port="genblk1_comb_apb_1.sum"/>
++    <delay_constant in_port="genblk1_comb_apb_1.b" max="300e-12" out_port="genblk1_comb_apb_1.sum"/>
++    <delay_constant in_port="genblk1_comb_apb_1.cin" max="300e-12" out_port="genblk1_comb_apb_1.sum"/>
++  </pb_type>
++  <pb_type blif_model=".subckt ADDER" name="genblk1_comb_apb_2" num_pb="1">
++    <input name="a" num_pins="1"/>
++    <input name="b" num_pins="1"/>
++    <input name="cin" num_pins="1"/>
++    <output name="cout" num_pins="1"/>
++    <output name="sum" num_pins="1"/>
++    <delay_constant in_port="genblk1_comb_apb_2.a" max="300e-12" out_port="genblk1_comb_apb_2.cout"/>
++    <delay_constant in_port="genblk1_comb_apb_2.b" max="300e-12" out_port="genblk1_comb_apb_2.cout"/>
++    <delay_constant in_port="genblk1_comb_apb_2.cin" max="10e-12" out_port="genblk1_comb_apb_2.cout"/>
++    <delay_constant in_port="genblk1_comb_apb_2.a" max="300e-12" out_port="genblk1_comb_apb_2.sum"/>
++    <delay_constant in_port="genblk1_comb_apb_2.b" max="300e-12" out_port="genblk1_comb_apb_2.sum"/>
++    <delay_constant in_port="genblk1_comb_apb_2.cin" max="300e-12" out_port="genblk1_comb_apb_2.sum"/>
++  </pb_type>
++  <pb_type blif_model=".subckt ADDER" name="genblk1_comb_apb_3" num_pb="1">
++    <input name="a" num_pins="1"/>
++    <input name="b" num_pins="1"/>
++    <input name="cin" num_pins="1"/>
++    <output name="cout" num_pins="1"/>
++    <output name="sum" num_pins="1"/>
++    <delay_constant in_port="genblk1_comb_apb_3.a" max="300e-12" out_port="genblk1_comb_apb_3.cout"/>
++    <delay_constant in_port="genblk1_comb_apb_3.b" max="300e-12" out_port="genblk1_comb_apb_3.cout"/>
++    <delay_constant in_port="genblk1_comb_apb_3.cin" max="10e-12" out_port="genblk1_comb_apb_3.cout"/>
++    <delay_constant in_port="genblk1_comb_apb_3.a" max="300e-12" out_port="genblk1_comb_apb_3.sum"/>
++    <delay_constant in_port="genblk1_comb_apb_3.b" max="300e-12" out_port="genblk1_comb_apb_3.sum"/>
++    <delay_constant in_port="genblk1_comb_apb_3.cin" max="300e-12" out_port="genblk1_comb_apb_3.sum"/>
++  </pb_type>
++  <pb_type blif_model=".subckt ADDER" name="genblk1_comb_cpd_0" num_pb="1">
++    <input name="a" num_pins="1"/>
++    <input name="b" num_pins="1"/>
++    <input name="cin" num_pins="1"/>
++    <output name="cout" num_pins="1"/>
++    <output name="sum" num_pins="1"/>
++    <delay_constant in_port="genblk1_comb_cpd_0.a" max="300e-12" out_port="genblk1_comb_cpd_0.cout"/>
++    <delay_constant in_port="genblk1_comb_cpd_0.b" max="300e-12" out_port="genblk1_comb_cpd_0.cout"/>
++    <delay_constant in_port="genblk1_comb_cpd_0.cin" max="10e-12" out_port="genblk1_comb_cpd_0.cout"/>
++    <delay_constant in_port="genblk1_comb_cpd_0.a" max="300e-12" out_port="genblk1_comb_cpd_0.sum"/>
++    <delay_constant in_port="genblk1_comb_cpd_0.b" max="300e-12" out_port="genblk1_comb_cpd_0.sum"/>
++    <delay_constant in_port="genblk1_comb_cpd_0.cin" max="300e-12" out_port="genblk1_comb_cpd_0.sum"/>
++  </pb_type>
++  <pb_type blif_model=".subckt ADDER" name="genblk1_comb_cpd_1" num_pb="1">
++    <input name="a" num_pins="1"/>
++    <input name="b" num_pins="1"/>
++    <input name="cin" num_pins="1"/>
++    <output name="cout" num_pins="1"/>
++    <output name="sum" num_pins="1"/>
++    <delay_constant in_port="genblk1_comb_cpd_1.a" max="300e-12" out_port="genblk1_comb_cpd_1.cout"/>
++    <delay_constant in_port="genblk1_comb_cpd_1.b" max="300e-12" out_port="genblk1_comb_cpd_1.cout"/>
++    <delay_constant in_port="genblk1_comb_cpd_1.cin" max="10e-12" out_port="genblk1_comb_cpd_1.cout"/>
++    <delay_constant in_port="genblk1_comb_cpd_1.a" max="300e-12" out_port="genblk1_comb_cpd_1.sum"/>
++    <delay_constant in_port="genblk1_comb_cpd_1.b" max="300e-12" out_port="genblk1_comb_cpd_1.sum"/>
++    <delay_constant in_port="genblk1_comb_cpd_1.cin" max="300e-12" out_port="genblk1_comb_cpd_1.sum"/>
++  </pb_type>
++  <pb_type blif_model=".subckt ADDER" name="genblk1_comb_cpd_2" num_pb="1">
++    <input name="a" num_pins="1"/>
++    <input name="b" num_pins="1"/>
++    <input name="cin" num_pins="1"/>
++    <output name="cout" num_pins="1"/>
++    <output name="sum" num_pins="1"/>
++    <delay_constant in_port="genblk1_comb_cpd_2.a" max="300e-12" out_port="genblk1_comb_cpd_2.cout"/>
++    <delay_constant in_port="genblk1_comb_cpd_2.b" max="300e-12" out_port="genblk1_comb_cpd_2.cout"/>
++    <delay_constant in_port="genblk1_comb_cpd_2.cin" max="10e-12" out_port="genblk1_comb_cpd_2.cout"/>
++    <delay_constant in_port="genblk1_comb_cpd_2.a" max="300e-12" out_port="genblk1_comb_cpd_2.sum"/>
++    <delay_constant in_port="genblk1_comb_cpd_2.b" max="300e-12" out_port="genblk1_comb_cpd_2.sum"/>
++    <delay_constant in_port="genblk1_comb_cpd_2.cin" max="300e-12" out_port="genblk1_comb_cpd_2.sum"/>
++  </pb_type>
++  <pb_type blif_model=".subckt ADDER" name="genblk1_comb_cpd_3" num_pb="1">
++    <input name="a" num_pins="1"/>
++    <input name="b" num_pins="1"/>
++    <input name="cin" num_pins="1"/>
++    <output name="cout" num_pins="1"/>
++    <output name="sum" num_pins="1"/>
++    <delay_constant in_port="genblk1_comb_cpd_3.a" max="300e-12" out_port="genblk1_comb_cpd_3.cout"/>
++    <delay_constant in_port="genblk1_comb_cpd_3.b" max="300e-12" out_port="genblk1_comb_cpd_3.cout"/>
++    <delay_constant in_port="genblk1_comb_cpd_3.cin" max="10e-12" out_port="genblk1_comb_cpd_3.cout"/>
++    <delay_constant in_port="genblk1_comb_cpd_3.a" max="300e-12" out_port="genblk1_comb_cpd_3.sum"/>
++    <delay_constant in_port="genblk1_comb_cpd_3.b" max="300e-12" out_port="genblk1_comb_cpd_3.sum"/>
++    <delay_constant in_port="genblk1_comb_cpd_3.cin" max="300e-12" out_port="genblk1_comb_cpd_3.sum"/>
+   </pb_type>
+   <interconnect>
+-
+-    <!-- 1st - a+b -> sum -->
+-    <direct>
+-      <port                    name="a[0]"   type="input"  />
+-      <port from="comb_apb[0]" name="a"      type="output" />
+-    </direct>
+-    <direct>
+-      <port                    name="b[0]"   type="input"  />
+-      <port from="comb_apb[0]" name="b"      type="output" />
+-    </direct>
+-    <direct>
+-      <port from="comb_apb[0]" name="sum"    type="input"  />
+-      <port                    name="sum[0]" type="output" />
+-    </direct>
+-
+-    <!-- 2nd - a+b -> sum -->
+-    <direct>
+-      <port                    name="a[1]"   type="input"  />
+-      <port from="comb_apb[1]" name="a"      type="output" />
+-    </direct>
+-    <direct>
+-      <port                    name="b[1]"   type="input"  />
+-      <port from="comb_apb[1]" name="b"      type="output" />
+-    </direct>
+-    <direct>
+-      <port from="comb_apb[1]" name="sum"    type="input"  />
+-      <port                    name="sum[1]" type="output" />
+-    </direct>
+-
+-    <!-- 3rd - a+b -> sum -->
+-    <direct>
+-      <port                    name="a[2]"   type="input"/>
+-      <port from="comb_apb[2]" name="a"      type="output"/>
+-    </direct>
+-    <direct>
+-      <port                    name="b[2]"   type="input"/>
+-      <port from="comb_apb[2]" name="b"      type="output"/>
+-    </direct>
+-    <direct>
+-      <port from="comb_apb[2]" name="sum"    type="input"/>
+-      <port                    name="sum[2]" type="output"/>
+-    </direct>
+-
+-    <!-- 4th - a+b -> sum -->
+-    <direct>
+-      <port                    name="a[3]"   type="input"  />
+-      <port from="comb_apb[3]" name="a"      type="output" />
+-    </direct>
+-    <direct>
+-      <port                    name="b[3]"   type="input"  />
+-      <port from="comb_apb[3]" name="b"      type="output" />
+-    </direct>
+-    <direct>
+-      <port from="comb_apb[3]" name="sum"    type="input"  />
+-      <port                    name="sum[3]" type="output" />
+-    </direct>
+-
+-    <!-- 1st - c+d -> sum -->
+-    <direct>
+-      <port                    name="c[0]"   type="input"/>
+-      <port from="comb_cpd[0]" name="a"      type="output"/>
+-    </direct>
+-    <direct>
+-      <port                    name="d[0]"   type="input"/>
+-      <port from="comb_cpd[0]" name="b"      type="output"/>
+-    </direct>
+-    <direct>
+-      <port from="comb_cpd[0]" name="sum"    type="input"/>
+-      <port                    name="sum[4]" type="output"/>
+-    </direct>
+-
+-    <!-- 2nd - c+d -> sum -->
+-    <direct>
+-      <port                    name="c[1]"   type="input"/>
+-      <port from="comb_cpd[1]" name="a"      type="output"/>
+-    </direct>
+-    <direct>
+-      <port                    name="d[1]"   type="input"/>
+-      <port from="comb_cpd[1]" name="b"      type="output"/>
+-    </direct>
+-    <direct>
+-      <port from="comb_cpd[1]" name="sum"    type="input"/>
+-      <port                    name="sum[5]" type="output"/>
+-    </direct>
+-
+-    <!-- 3rd - c+d -> sum -->
+-    <direct>
+-      <port                    name="c[2]"   type="input"/>
+-      <port from="comb_cpd[2]" name="a"      type="output"/>
+-    </direct>
+-    <direct>
+-      <port                    name="d[2]"   type="input"/>
+-      <port from="comb_cpd[2]" name="b"      type="output"/>
+-    </direct>
+-    <direct>
+-      <port from="comb_cpd[2]" name="sum"    type="input"/>
+-      <port                    name="sum[6]" type="output"/>
+-    </direct>
+-
+-    <!-- 4th - c+d -> sum -->
+-    <direct>
+-      <port                    name="c[3]"   type="input"/>
+-      <port from="comb_cpd[3]" name="a"      type="output"/>
+-    </direct>
+-    <direct>
+-      <port                    name="d[3]"   type="input"/>
+-      <port from="comb_cpd[3]" name="b"      type="output"/>
+-    </direct>
+-    <direct>
+-      <port from="comb_cpd[3]" name="sum"    type="input"/>
+-      <port                    name="sum[7]" type="output"/>
+-    </direct>
+-
+-    <!-- Carry chains -->
+-
+-    <!-- cin -> 1st a+b -> 1st c+d -> cout -->
+-    <direct>
+-      <port                    name="cin[0]"  type="input"  />
+-      <port from="comb_apb[0]" name="cin"     type="output" />
+-    </direct>
+-    <direct>
+-      <port from="comb_apb[0]" name="cout"    type="input"  />
+-      <port from="comb_cpd[0]" name="cin"     type="output" />
+-      <pack_pattern name="carry-ADDER" />
+-    </direct>
+-    <direct>
+-      <port from="comb_cpd[0]" name="cout"    type="input"  />
+-      <port                    name="cout[0]" type="output" />
+-    </direct>
+-
+-    <!-- cin -> 2nd a+b -> 2nd c+d -> cout -->
+-    <direct>
+-      <port                    name="cin[1]"  type="input"  />
+-      <port from="comb_apb[1]" name="cin"     type="output" />
+-    </direct>
+-    <direct>
+-      <port from="comb_apb[1]" name="cout"    type="input"  />
+-      <port from="comb_cpd[1]" name="cin"     type="output" />
+-      <pack_pattern name="carry-ADDER" />
+-    </direct>
+-    <direct>
+-      <port from="comb_cpd[1]" name="cout"    type="input"  />
+-      <port                    name="cout[1]" type="output" />
+-    </direct>
+-
+-    <!-- cin -> 3rd a+b -> 3rd c+d -> cout -->
+-    <direct>
+-      <port                    name="cin[2]"  type="input"  />
+-      <port from="comb_apb[2]" name="cin"     type="output" />
+-    </direct>
+-    <direct>
+-      <port from="comb_apb[2]" name="cout"    type="input"  />
+-      <port from="comb_cpd[2]" name="cin"     type="output" />
+-      <pack_pattern name="carry-ADDER" />
+-    </direct>
+-    <direct>
+-      <port from="comb_cpd[2]" name="cout"    type="input"  />
+-      <port                    name="cout[2]" type="output" />
+-    </direct>
+-
+-    <!-- cin -> 4th a+b -> 4th c+d -> cout -->
+-    <direct>
+-      <port                    name="cin[3]"  type="input"  />
+-      <port from="comb_apb[3]" name="cin"     type="output" />
+-    </direct>
+-    <direct>
+-      <port from="comb_apb[3]" name="cout"    type="input"  />
+-      <port from="comb_cpd[3]" name="cin"     type="output" />
+-      <pack_pattern name="carry-ADDER" />
+-    </direct>
+-    <direct>
+-      <port from="comb_cpd[3]" name="cout"    type="input"  />
+-      <port                    name="cout[3]" type="output" />
++    <direct input="genblk1_comb_cpd_0.cout" name="MULTIPLE_INSTANCE-cout[0]" output="MULTIPLE_INSTANCE.cout[0]">
++      <pack_pattern in_port="genblk1_comb_cpd_0.cout" name="carry-ADDER" out_port="MULTIPLE_INSTANCE.cout[0]"/>
++    </direct>
++    <direct input="genblk1_comb_cpd_1.cout" name="MULTIPLE_INSTANCE-cout[1]" output="MULTIPLE_INSTANCE.cout[1]">
++      <pack_pattern in_port="genblk1_comb_cpd_1.cout" name="carry-ADDER" out_port="MULTIPLE_INSTANCE.cout[1]"/>
++    </direct>
++    <direct input="genblk1_comb_cpd_2.cout" name="MULTIPLE_INSTANCE-cout[2]" output="MULTIPLE_INSTANCE.cout[2]">
++      <pack_pattern in_port="genblk1_comb_cpd_2.cout" name="carry-ADDER" out_port="MULTIPLE_INSTANCE.cout[2]"/>
++    </direct>
++    <direct input="genblk1_comb_cpd_3.cout" name="MULTIPLE_INSTANCE-cout[3]" output="MULTIPLE_INSTANCE.cout[3]">
++      <pack_pattern in_port="genblk1_comb_cpd_3.cout" name="carry-ADDER" out_port="MULTIPLE_INSTANCE.cout[3]"/>
++    </direct>
++    <direct input="genblk1_comb_apb_0.sum" name="MULTIPLE_INSTANCE-sum[0]" output="MULTIPLE_INSTANCE.sum[0]"/>
++    <direct input="genblk1_comb_apb_1.sum" name="MULTIPLE_INSTANCE-sum[1]" output="MULTIPLE_INSTANCE.sum[1]"/>
++    <direct input="genblk1_comb_apb_2.sum" name="MULTIPLE_INSTANCE-sum[2]" output="MULTIPLE_INSTANCE.sum[2]"/>
++    <direct input="genblk1_comb_apb_3.sum" name="MULTIPLE_INSTANCE-sum[3]" output="MULTIPLE_INSTANCE.sum[3]"/>
++    <direct input="genblk1_comb_cpd_0.sum" name="MULTIPLE_INSTANCE-sum[4]" output="MULTIPLE_INSTANCE.sum[4]"/>
++    <direct input="genblk1_comb_cpd_1.sum" name="MULTIPLE_INSTANCE-sum[5]" output="MULTIPLE_INSTANCE.sum[5]"/>
++    <direct input="genblk1_comb_cpd_2.sum" name="MULTIPLE_INSTANCE-sum[6]" output="MULTIPLE_INSTANCE.sum[6]"/>
++    <direct input="genblk1_comb_cpd_3.sum" name="MULTIPLE_INSTANCE-sum[7]" output="MULTIPLE_INSTANCE.sum[7]"/>
++    <direct input="MULTIPLE_INSTANCE.a[0]" name="genblk1_comb_apb_0-a" output="genblk1_comb_apb_0.a"/>
++    <direct input="MULTIPLE_INSTANCE.b[0]" name="genblk1_comb_apb_0-b" output="genblk1_comb_apb_0.b"/>
++    <direct input="MULTIPLE_INSTANCE.cin[0]" name="genblk1_comb_apb_0-cin" output="genblk1_comb_apb_0.cin">
++      <pack_pattern in_port="MULTIPLE_INSTANCE.cin[0]" name="carry-ADDER" out_port="genblk1_comb_apb_0.cin"/>
++    </direct>
++    <direct input="MULTIPLE_INSTANCE.a[1]" name="genblk1_comb_apb_1-a" output="genblk1_comb_apb_1.a"/>
++    <direct input="MULTIPLE_INSTANCE.b[1]" name="genblk1_comb_apb_1-b" output="genblk1_comb_apb_1.b"/>
++    <direct input="MULTIPLE_INSTANCE.cin[1]" name="genblk1_comb_apb_1-cin" output="genblk1_comb_apb_1.cin">
++      <pack_pattern in_port="MULTIPLE_INSTANCE.cin[1]" name="carry-ADDER" out_port="genblk1_comb_apb_1.cin"/>
++    </direct>
++    <direct input="MULTIPLE_INSTANCE.a[2]" name="genblk1_comb_apb_2-a" output="genblk1_comb_apb_2.a"/>
++    <direct input="MULTIPLE_INSTANCE.b[2]" name="genblk1_comb_apb_2-b" output="genblk1_comb_apb_2.b"/>
++    <direct input="MULTIPLE_INSTANCE.cin[2]" name="genblk1_comb_apb_2-cin" output="genblk1_comb_apb_2.cin">
++      <pack_pattern in_port="MULTIPLE_INSTANCE.cin[2]" name="carry-ADDER" out_port="genblk1_comb_apb_2.cin"/>
++    </direct>
++    <direct input="MULTIPLE_INSTANCE.a[3]" name="genblk1_comb_apb_3-a" output="genblk1_comb_apb_3.a"/>
++    <direct input="MULTIPLE_INSTANCE.b[3]" name="genblk1_comb_apb_3-b" output="genblk1_comb_apb_3.b"/>
++    <direct input="MULTIPLE_INSTANCE.cin[3]" name="genblk1_comb_apb_3-cin" output="genblk1_comb_apb_3.cin">
++      <pack_pattern in_port="MULTIPLE_INSTANCE.cin[3]" name="carry-ADDER" out_port="genblk1_comb_apb_3.cin"/>
++    </direct>
++    <direct input="MULTIPLE_INSTANCE.c[0]" name="genblk1_comb_cpd_0-a" output="genblk1_comb_cpd_0.a"/>
++    <direct input="MULTIPLE_INSTANCE.d[0]" name="genblk1_comb_cpd_0-b" output="genblk1_comb_cpd_0.b"/>
++    <direct input="genblk1_comb_apb_0.cout" name="genblk1_comb_cpd_0-cin" output="genblk1_comb_cpd_0.cin">
++      <pack_pattern in_port="genblk1_comb_apb_0.cout" name="carry-ADDER" out_port="genblk1_comb_cpd_0.cin"/>
++    </direct>
++    <direct input="MULTIPLE_INSTANCE.c[1]" name="genblk1_comb_cpd_1-a" output="genblk1_comb_cpd_1.a"/>
++    <direct input="MULTIPLE_INSTANCE.d[1]" name="genblk1_comb_cpd_1-b" output="genblk1_comb_cpd_1.b"/>
++    <direct input="genblk1_comb_apb_1.cout" name="genblk1_comb_cpd_1-cin" output="genblk1_comb_cpd_1.cin">
++      <pack_pattern in_port="genblk1_comb_apb_1.cout" name="carry-ADDER" out_port="genblk1_comb_cpd_1.cin"/>
++    </direct>
++    <direct input="MULTIPLE_INSTANCE.c[2]" name="genblk1_comb_cpd_2-a" output="genblk1_comb_cpd_2.a"/>
++    <direct input="MULTIPLE_INSTANCE.d[2]" name="genblk1_comb_cpd_2-b" output="genblk1_comb_cpd_2.b"/>
++    <direct input="genblk1_comb_apb_2.cout" name="genblk1_comb_cpd_2-cin" output="genblk1_comb_cpd_2.cin">
++      <pack_pattern in_port="genblk1_comb_apb_2.cout" name="carry-ADDER" out_port="genblk1_comb_cpd_2.cin"/>
++    </direct>
++    <direct input="MULTIPLE_INSTANCE.c[3]" name="genblk1_comb_cpd_3-a" output="genblk1_comb_cpd_3.a"/>
++    <direct input="MULTIPLE_INSTANCE.d[3]" name="genblk1_comb_cpd_3-b" output="genblk1_comb_cpd_3.b"/>
++    <direct input="genblk1_comb_apb_3.cout" name="genblk1_comb_cpd_3-cin" output="genblk1_comb_cpd_3.cin">
++      <pack_pattern in_port="genblk1_comb_apb_3.cout" name="carry-ADDER" out_port="genblk1_comb_cpd_3.cin"/>
+     </direct>
+-
+   </interconnect>
+ </pb_type>
+diff --git a/tests/no_comb/golden.model.xml b/tests/no_comb/golden.model.xml
+index a224dc6..4a0cd22 100644
+--- a/tests/no_comb/golden.model.xml
++++ b/tests/no_comb/golden.model.xml
+@@ -1,14 +1,15 @@
+-<models xmlns:xi="http://www.w3.org/2001/XInclude">
++<?xml version="1.0"?>
++<models>
+   <model name="FF">
+     <input_ports>
+-      <port clock="clk" name="D"/>
+-      <port clock="clk" name="E"/>
+-      <port clock="clk" name="R"/>
+-      <port clock="clk" name="S"/>
++      <port name="D"/>
++      <port name="E"/>
++      <port name="R"/>
++      <port name="S"/>
+       <port is_clock="1" name="clk"/>
+     </input_ports>
+     <output_ports>
+-      <port clock="clk" name="Q"/>
++      <port name="Q"/>
+     </output_ports>
+   </model>
+ </models>
+diff --git a/tests/no_seq/golden.model.xml b/tests/no_seq/golden.model.xml
+index 5a8e594..d08f778 100644
+--- a/tests/no_seq/golden.model.xml
++++ b/tests/no_seq/golden.model.xml
+@@ -1,14 +1,15 @@
+-<models xmlns:xi="http://www.w3.org/2001/XInclude">
++<?xml version="1.0"?>
++<models>
+   <model name="LUT_FF_MACRO">
+     <input_ports>
+-      <port name="CLK" is_clock="1"/>
+-      <port name="I0" combinational_sink_ports="QZ Z"/>
+-      <port name="I1" combinational_sink_ports="QZ Z"/>
+-      <port name="I2" combinational_sink_ports="QZ Z"/>
+-      <port name="I3" combinational_sink_ports="QZ Z"/>
++      <port is_clock="1" name="CLK"/>
++      <port combinational_sink_ports="Z" name="I0"/>
++      <port combinational_sink_ports="Z" name="I1"/>
++      <port combinational_sink_ports="Z" name="I2"/>
++      <port combinational_sink_ports="Z" name="I3"/>
+     </input_ports>
+     <output_ports>
+-      <port name="QZ" clock="CLK"/>
++      <port name="QZ"/>
+       <port name="Z"/>
+     </output_ports>
+   </model>
+diff --git a/tests/pack_pattern/dff/golden.model.xml b/tests/pack_pattern/dff/golden.model.xml
+index e9eb08e..f519af8 100644
+--- a/tests/pack_pattern/dff/golden.model.xml
++++ b/tests/pack_pattern/dff/golden.model.xml
+@@ -1,12 +1,12 @@
+-<models xmlns:xi="http://www.w3.org/2001/XInclude">
+-  <!-- https://docs.verilogtorouting.org/en/latest/tutorials/arch/timing_modeling/#sequential-block-no-internal-paths -->
++<?xml version="1.0"?>
++<models>
+   <model name="DFF">
+     <input_ports>
+-      <port name="CLK" is_clock="1"/>
+-      <port name="D" clock="CLK"/>
++      <port is_clock="1" name="CLK"/>
++      <port name="D"/>
+     </input_ports>
+     <output_ports>
+-      <port name="Q" clock="CLK"/>
++      <port name="Q"/>
+     </output_ports>
+   </model>
+ </models>
+diff --git a/tests/vtr/dff/golden.model.xml b/tests/vtr/dff/golden.model.xml
+index e9eb08e..f519af8 100644
+--- a/tests/vtr/dff/golden.model.xml
++++ b/tests/vtr/dff/golden.model.xml
+@@ -1,12 +1,12 @@
+-<models xmlns:xi="http://www.w3.org/2001/XInclude">
+-  <!-- https://docs.verilogtorouting.org/en/latest/tutorials/arch/timing_modeling/#sequential-block-no-internal-paths -->
++<?xml version="1.0"?>
++<models>
+   <model name="DFF">
+     <input_ports>
+-      <port name="CLK" is_clock="1"/>
+-      <port name="D" clock="CLK"/>
++      <port is_clock="1" name="CLK"/>
++      <port name="D"/>
+     </input_ports>
+     <output_ports>
+-      <port name="Q" clock="CLK"/>
++      <port name="Q"/>
+     </output_ports>
+   </model>
+ </models>
+diff --git a/tests/vtr/lutff-pair/dff/golden.model.xml b/tests/vtr/lutff-pair/dff/golden.model.xml
+index e9eb08e..f519af8 100644
+--- a/tests/vtr/lutff-pair/dff/golden.model.xml
++++ b/tests/vtr/lutff-pair/dff/golden.model.xml
+@@ -1,12 +1,12 @@
+-<models xmlns:xi="http://www.w3.org/2001/XInclude">
+-  <!-- https://docs.verilogtorouting.org/en/latest/tutorials/arch/timing_modeling/#sequential-block-no-internal-paths -->
++<?xml version="1.0"?>
++<models>
+   <model name="DFF">
+     <input_ports>
+-      <port name="CLK" is_clock="1"/>
+-      <port name="D" clock="CLK"/>
++      <port is_clock="1" name="CLK"/>
++      <port name="D"/>
+     </input_ports>
+     <output_ports>
+-      <port name="Q" clock="CLK"/>
++      <port name="Q"/>
+     </output_ports>
+   </model>
+ </models>

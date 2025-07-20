@@ -61,6 +61,9 @@ final: prev: {
   isabelle = prev.isabelle.overrideAttrs (old: {
     patches = [ ./isabelle-fix-copied-permissions.patch ];
   });
+  yosys = prev.yosys.overrideAttrs (old: {
+    patches = old.patches ++ [ ./yosys-select-all.patch ];
+  });
   yosys-symbiflow = final.lib.mapAttrs (
     name: pkg:
     pkg.overrideAttrs {

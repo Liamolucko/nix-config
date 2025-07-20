@@ -1,3 +1,6 @@
+# TODO: the result of this takes up 2.7GB, most of which is taken up by HOL
+# heaps and some executable (munge.exe, three different ones in holfoot for some
+# reason). Is there anything we can do about that?
 {
   lib,
   stdenv,

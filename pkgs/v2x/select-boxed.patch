@@ -1,0 +1,13 @@
+diff --git a/v2x/yosys/run.py b/v2x/yosys/run.py
+index 8678bb2..6d1f656 100755
+--- a/v2x/yosys/run.py
++++ b/v2x/yosys/run.py
+@@ -224,7 +224,7 @@ def vlog_to_json(
+         mode_str = 'chparam -set MODE "{}" {}; '.format(mode, module_with_mode)
+     else:
+         mode_str = ""
+-    cmds = "{}prep {}; write_json {}".format(mode_str, prep_opts, json_opts)
++    cmds = "{}select =*; prep {}; write_json {}".format(mode_str, prep_opts, json_opts)
+ 
+     try:
+         j = utils.strip_yosys_json(commands(cmds, infiles))
