@@ -22,7 +22,7 @@ stdenv.mkDerivation (finalAttrs: {
     runHook preBuild
 
     cd compiler/bootstrap/compilation/${arch}/${bits}
-    Holmake cake-${arch}-${bits}.tar.gz -j1
+    Holmake cake-${arch}-${bits}.tar.gz -j "$NIX_BUILD_CORES"
 
     runHook postBuild
   '';
