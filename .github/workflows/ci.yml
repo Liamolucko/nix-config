@@ -1,5 +1,9 @@
 name: CI
-on: push
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 jobs:
   build-f4pga-arch-defs:
     name: Build f4pga-arch-defs
