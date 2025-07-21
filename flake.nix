@@ -113,8 +113,8 @@
           pkgs.runCommand "basys3-vivado"
             {
               nativeBuildInputs = [
-                pkgs.pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.cc
-                pkgs.pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.bintools
+                pkgs.pkgsCross.riscv64-embedded.buildPackages.gccWithoutTargetLibc
+                pkgs.pkgsCross.riscv64-embedded.buildPackages.gccWithoutTargetLibc
                 pkgs.glibcLocales
                 pkgs.meson
                 pkgs.ninja
@@ -136,8 +136,8 @@
           pkgs.runCommand "basys3-f4pga"
             {
               nativeBuildInputs = [
-                pkgs.pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.cc
-                pkgs.pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.bintools
+                pkgs.pkgsCross.riscv64-embedded.buildPackages.gccWithoutTargetLibc
+                pkgs.pkgsCross.riscv64-embedded.buildPackages.gccWithoutTargetLibc
                 pkgs.meson
                 pkgs.ninja
                 pkgs.python3
@@ -159,8 +159,8 @@
           pkgs.runCommand "basys3-openxc7"
             {
               nativeBuildInputs = [
-                pkgs.pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.cc
-                pkgs.pkgsCross.riscv64-embedded.pkgsBuildHost.gcc.bintools
+                pkgs.pkgsCross.riscv64-embedded.buildPackages.gccWithoutTargetLibc
+                pkgs.pkgsCross.riscv64-embedded.buildPackages.gccWithoutTargetLibc
                 pkgs.meson
                 openxc7Pkgs.nextpnr-xilinx
                 pkgs.ninja

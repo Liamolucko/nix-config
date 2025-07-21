@@ -278,7 +278,9 @@ stdenv.mkDerivation {
     openocd
     prjxray-tools
     # The old version of litex we're using doesn't build with GCC 14.
-    pkgsCross.riscv64-embedded.buildPackages.gcc13
+    (pkgsCross.riscv64-embedded.buildPackages.gccWithoutTargetLibc.override (old: {
+      cc = old.cc.override { majorMinorVersion = "13"; };
+    }))
     python3.pkgs.flake8
     python3.pkgs.pytest
     qlf-fasm

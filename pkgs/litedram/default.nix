@@ -66,7 +66,7 @@ buildPythonPackage rec {
     # pkgsBuildHost is also known as buildPackages: another way to think about it is
     # that the compiler we want for this is the same compiler we'd need to build a
     # package that was actually going to run on RISC-V.
-    pkgsCross.riscv64-embedded.buildPackages.gcc
+    pkgsCross.riscv64-embedded.buildPackages.gccWithoutTargetLibc
   ];
 
   dontUseMesonConfigure = true;
