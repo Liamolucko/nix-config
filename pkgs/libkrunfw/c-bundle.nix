@@ -29,11 +29,6 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-GFfBiGMOyBwMKjpD1kj3vRpvjR0ydji3QNDyoOQoQsw=";
   };
 
-  # postPatch = ''
-  #   substituteInPlace Makefile \
-  #     --replace 'curl $(KERNEL_REMOTE) -o $(KERNEL_TARBALL)' 'ln -s $(kernelSrc) $(KERNEL_TARBALL)'
-  # '';
-
   nativeBuildInputs = [
     flex
     bison
@@ -48,14 +43,13 @@ stdenv.mkDerivation (finalAttrs: {
     elfutils
   ];
 
-  makeFlags =
-    [
-      "KERNEL_TARBALL=${kernelSrc}"
-      "kernel.c"
-    ]
-    ++ lib.optionals sevVariant [
-      "SEV=1"
-    ];
+  makeFlags = [
+    "KERNEL_TARBALL=${kernelSrc}"
+    "kernel.c"
+  ]
+  ++ lib.optionals sevVariant [
+    "SEV=1"
+  ];
 
   installPhase = ''
     runHook preInstall
@@ -67,18 +61,4 @@ stdenv.mkDerivation (finalAttrs: {
   NIX_CFLAGS_COMPILE = lib.optionalString stdenv.targetPlatform.isAarch64 "-march=armv8-a+crypto";
 
   enableParallelBuilding = true;
-
-  meta = with lib; {
-    description = "Dynamic library bundling the guest payload consumed by libkrun";
-    homepage = "https://github.com/containers/libkrunfw";
-    license = with licenses; [
-      lgpl2Only
-      lgpl21Only
-    ];
-    maintainers = with maintainers; [
-      nickcao
-      RossComputerGuy
-    ];
-    platforms = [ "x86_64-linux" ] ++ lib.optionals (!sevVariant) [ "aarch64-linux" ];
-  };
 })

@@ -57,7 +57,8 @@ stdenv.mkDerivation {
     readline
     tcl
     zlib
-  ] ++ lib.optionals enableTbb [ tbb_2021 ];
+  ]
+  ++ lib.optionals enableTbb [ tbb_2021 ];
 
   strictDeps = true;
 

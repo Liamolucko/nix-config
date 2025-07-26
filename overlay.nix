@@ -62,12 +62,24 @@ final: prev: {
     patches = [ ./isabelle-fix-copied-permissions.patch ];
   });
   yosys = prev.yosys.overrideAttrs (old: {
-    patches = old.patches ++ [ ./yosys-select-all.patch ];
+    patches = old.patches ++ [
+      ./yosys-select-all.patch
+      # This is the version which is more in the spirit of the original change, by
+      # preserving the distinction between libraries / executables and letting
+      # yosys-config be used for executables.
+      #
+      # I don't really understand why the change was needed, though - the other option
+      # would be to just revert it.
+      ./yosys-config-exes.patch
+    ];
   });
   yosys-symbiflow = final.lib.mapAttrs (
     name: pkg:
     pkg.overrideAttrs {
-      patches = [ ./yosys-symbiflow-include-tcl.patch ];
+      patches = [
+        ./yosys-symbiflow-include-tcl.patch
+        ./yosys-symbiflow-select-boxed.patch
+      ];
     }
   ) prev.yosys-symbiflow;
 

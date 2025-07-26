@@ -63,18 +63,17 @@ in
   networking.hostName = "liam-desktop";
   services.openssh.enable = true;
 
-  environment.systemPackages =
-    [
-      pkgs.renderdoc
-      pkgs.zed-editor
-    ]
-    ++ lib.optionals (!ciSafe) [
-      pkgs.docnav
-      # We can put this back once https://github.com/NixOS/nixpkgs/pull/389014 is
-      # merged.
-      # pkgs.rgp
-      vivado
-    ];
+  environment.systemPackages = [
+    pkgs.renderdoc
+    pkgs.zed-editor
+  ]
+  ++ lib.optionals (!ciSafe) [
+    pkgs.docnav
+    # We can put this back once https://github.com/NixOS/nixpkgs/pull/389014 is
+    # merged.
+    # pkgs.rgp
+    vivado
+  ];
   # Install Vivado's udev rules.
   services.udev.packages = lib.optionals (!ciSafe) [ vivado ];
   # Avoid accidentally GCing these if keep-outputs is turned off.

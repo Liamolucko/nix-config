@@ -13,38 +13,37 @@ in
   nix.settings.trusted-users = [ "@admin" ];
   # nix.settings.sandbox = true;
   nix.daemonProcessType = "Interactive";
-  nix.linux-builder =
-    {
-      enable = true;
-      ephemeral = true;
-    }
-    // lib.optionalAttrs (!ciSafe) {
-      systems = [
-        "i686-linux"
-        "x86_64-linux"
-        "aarch64-linux"
+  nix.linux-builder = {
+    enable = true;
+    ephemeral = true;
+  }
+  // lib.optionalAttrs (!ciSafe) {
+    systems = [
+      "i686-linux"
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
+    config = {
+      imports = [ modules/fex.nix ];
+      nixpkgs.overlays = config.nixpkgs.overlays;
+
+      # QEMU can only start VMs with 8 cores right now for some reason.
+      virtualisation.cores = 8;
+      virtualisation.darwin-builder.memorySize = 512;
+      # qemu-vm.nix tries to override this to empty with higher priority than
+      # mkForce... grr...
+      swapDevices = lib.mkOverride 5 [
+        {
+          device = "/var/lib/swapfile";
+          size = 8 * 1024;
+        }
       ];
-      config = {
-        imports = [ modules/fex.nix ];
-        nixpkgs.overlays = config.nixpkgs.overlays;
 
-        # QEMU can only start VMs with 8 cores right now for some reason.
-        virtualisation.cores = 8;
-        virtualisation.darwin-builder.memorySize = 512;
-        # qemu-vm.nix tries to override this to empty with higher priority than
-        # mkForce... grr...
-        swapDevices = lib.mkOverride 5 [
-          {
-            device = "/var/lib/swapfile";
-            size = 8 * 1024;
-          }
-        ];
+      programs.fex.enable = true;
 
-        programs.fex.enable = true;
-
-        environment.systemPackages = [ pkgs.pkgsLinux.btop ];
-      };
+      environment.systemPackages = [ pkgs.pkgsLinux.btop ];
     };
+  };
 
   # Workaround for https://github.com/zed-industries/zed/issues/4360.
   system.patches = [

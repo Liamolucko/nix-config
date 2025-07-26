@@ -256,18 +256,17 @@ stdenv.mkDerivation (
       in
       {
         inherit payload archiveTests topArchiveTest;
-        archives =
-          {
-            base = baseArchives;
-          }
-          // lib.listToAttrs (
-            lib.map (mod: {
-              name = mod;
-              value = lib.subtractLists (
-                if lib.elem mod optionalModules && requiredModules != [ ] then requiredArchives else baseArchives
-              ) (archiveList mod);
-            }) (optionalModules ++ requiredModules)
-          );
+        archives = {
+          base = baseArchives;
+        }
+        // lib.listToAttrs (
+          lib.map (mod: {
+            name = mod;
+            value = lib.subtractLists (
+              if lib.elem mod optionalModules && requiredModules != [ ] then requiredArchives else baseArchives
+            ) (archiveList mod);
+          }) (optionalModules ++ requiredModules)
+        );
       };
 
     meta = {

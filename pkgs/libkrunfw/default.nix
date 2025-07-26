@@ -6,7 +6,7 @@
   sevVariant ? false,
 }:
 let
-  c-bundle = pkgsLinux.callPackage ./c-bundle.nix;
+  c-bundle = pkgsLinux.callPackage ./c-bundle.nix { };
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "libkrunfw";
@@ -19,14 +19,13 @@ stdenv.mkDerivation (finalAttrs: {
 
   nativeBuildInputs = lib.optionals stdenv.isDarwin [ fixDarwinDylibNames ];
 
-  makeFlags =
-    [
-      "PREFIX=${placeholder "out"}"
-      "KERNEL_C_BUNDLE=${c-bundle}"
-    ]
-    ++ lib.optionals sevVariant [
-      "SEV=1"
-    ];
+  makeFlags = [
+    "PREFIX=${placeholder "out"}"
+    "KERNEL_C_BUNDLE=${c-bundle}"
+  ]
+  ++ lib.optionals sevVariant [
+    "SEV=1"
+  ];
 
   # Fixes https://github.com/containers/libkrunfw/issues/55
   # NIX_CFLAGS_COMPILE = lib.optionalString stdenv.targetPlatform.isAarch64 "-march=armv8-a+crypto";
@@ -44,6 +43,13 @@ stdenv.mkDerivation (finalAttrs: {
       nickcao
       RossComputerGuy
     ];
-    platforms = [ "x86_64-linux" ] ++ lib.optionals (!sevVariant) [ "aarch64-linux" ];
+    platforms = [
+      "x86_64-linux"
+      "x86_64-darwin"
+    ]
+    ++ lib.optionals (!sevVariant) [
+      "aarch64-linux"
+      "aarch64-darwin"
+    ];
   };
 })

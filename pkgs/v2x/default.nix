@@ -1,3 +1,13 @@
+# This is broken because yosys no longer selects boxed modules by default; you
+# need to run select =* to do so. However, fixing it is annoying because `prep`
+# refuses to run unless you're using the default selection.
+#
+# I'm not sure if we should report prep's over-strictness as a bug, or if that's
+# intentional and we should just inline `prep` or something.
+#
+# hmm, looks like that's a standard thing for all top-level 'synthesis'
+# commands. But there's a `selects_all` function they could use instead pretty
+# easily.
 {
   lib,
   python3,

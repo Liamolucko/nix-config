@@ -54,7 +54,9 @@ in
     package = pkgs.vscodium;
     mutableExtensionsDir = false;
     profiles.default.extensions = with pkgs.vscode-marketplace; [
+      iliazeus.vscode-ansi
       pkgs.open-vsx.jeanp413.open-remote-ssh
+      leanprover.lean4
       mateocerquetella.xcode-12-theme
       maximedenes.vscoq
       nathanridley.autotrim

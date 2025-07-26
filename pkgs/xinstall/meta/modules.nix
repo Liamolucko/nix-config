@@ -96,13 +96,12 @@ in
     nativeBuildInputs = [
       makeWrapper
     ];
-    postInstall =
-      ''
-        makeWrapper $out/opt/Xilinx/${versionedPath "Vitis_HLS"}/bin/vitis_hls $out/bin/vitis_hls
-      ''
-      + lib.optionalString (lib.versionOlder meta.version "2024.2") ''
-        makeWrapper $out/opt/Xilinx/${versionedPath "Vitis_HLS"}/bin/apcc $out/bin/apcc
-      '';
+    postInstall = ''
+      makeWrapper $out/opt/Xilinx/${versionedPath "Vitis_HLS"}/bin/vitis_hls $out/bin/vitis_hls
+    ''
+    + lib.optionalString (lib.versionOlder meta.version "2024.2") ''
+      makeWrapper $out/opt/Xilinx/${versionedPath "Vitis_HLS"}/bin/apcc $out/bin/apcc
+    '';
     postFixup = lib.optionalString (lib.versionOlder meta.version "2024.2") ''
       ln -s ${libxcrypt-legacy}/lib/libcrypt.so.1 $out/opt/Xilinx/${versionedPath "Vitis_HLS"}/lib/lnx64.o
       ln -s ${ncurses5}/lib/libtinfo.so.5 $out/opt/Xilinx/${versionedPath "Vitis_HLS"}/lib/lnx64.o

@@ -1,0 +1,23 @@
+diff --git a/Makefile b/Makefile
+index 074553918..87cc915fa 100644
+--- a/Makefile
++++ b/Makefile
+@@ -777,15 +777,15 @@ kernel/version_$(GIT_REV).cc: $(YOSYS_SRC)/Makefile
+ 
+ ifeq ($(ENABLE_VERIFIC),1)
+ CXXFLAGS_NOVERIFIC = $(foreach v,$(CXXFLAGS),$(if $(findstring $(VERIFIC_DIR),$(v)),,$(v)))
+-LIBS_NOVERIFIC = $(foreach v,$(LIBS),$(if $(findstring $(VERIFIC_DIR),$(v)),,$(v)))
++EXE_LIBS_NOVERIFIC = $(foreach v,$(EXE_LIBS),$(if $(findstring $(VERIFIC_DIR),$(v)),,$(v)))
+ else
+ CXXFLAGS_NOVERIFIC = $(CXXFLAGS)
+-LIBS_NOVERIFIC = $(LIBS)
++EXE_LIBS_NOVERIFIC = $(EXE_LIBS)
+ endif
+ 
+ $(PROGRAM_PREFIX)yosys-config: misc/yosys-config.in $(YOSYS_SRC)/Makefile
+ 	$(P) $(SED) -e 's#@CXXFLAGS@#$(subst -Ilibs/dlfcn-win32,,$(subst -I. -I"$(YOSYS_SRC)",-I"$(DATDIR)/include",$(strip $(CXXFLAGS_NOVERIFIC))))#;' \
+-			-e 's#@CXX@#$(strip $(CXX))#;' -e 's#@LINKFLAGS@#$(strip $(LINKFLAGS) $(PLUGIN_LINKFLAGS))#;' -e 's#@LIBS@#$(strip $(LIBS_NOVERIFIC) $(PLUGIN_LIBS))#;' \
++			-e 's#@CXX@#$(strip $(CXX))#;' -e 's#@LINKFLAGS@#$(strip $(LINKFLAGS) $(PLUGIN_LINKFLAGS))#;' -e 's#@LIBS@#$(strip $(EXE_LIBS_NOVERIFIC) $(PLUGIN_LIBS))#;' \
+ 			-e 's#@BINDIR@#$(strip $(BINDIR))#;' -e 's#@DATDIR@#$(strip $(DATDIR))#;' < $< > $(PROGRAM_PREFIX)yosys-config
+ 	$(Q) chmod +x $(PROGRAM_PREFIX)yosys-config
+ 

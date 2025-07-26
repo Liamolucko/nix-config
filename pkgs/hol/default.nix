@@ -56,7 +56,8 @@ stdenv.mkDerivation (finalAttrs: {
     polyml'
     graphviz
     fontconfig
-  ] ++ lib.optional useMlton mlton;
+  ]
+  ++ lib.optional useMlton mlton;
 
   env.FONTCONFIG_FILE = makeFontsConf {
     fontDirectories = [ liberation_ttf ];

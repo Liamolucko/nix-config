@@ -75,14 +75,13 @@ xinstall.run {
         "xcve2302"
       ];
 
-  modules =
-    [
-      "xinstall"
-      "Vivado"
-    ]
-    # TODO: does Vitis HLS actually do anything that proper Vitis doesn't in 2024.2? If not, don't bother supporting it after 2024.1
-    ++ lib.optionals (lib.versionOlder xinstall.version "2025.1") [ "Vitis HLS" ]
-    ++ lib.optionals (lib.versionAtLeast xinstall.version "2024.2") [ "Vitis for HLS" ]
-    ++ modules;
+  modules = [
+    "xinstall"
+    "Vivado"
+  ]
+  # TODO: does Vitis HLS actually do anything that proper Vitis doesn't in 2024.2? If not, don't bother supporting it after 2024.1
+  ++ lib.optionals (lib.versionOlder xinstall.version "2025.1") [ "Vitis HLS" ]
+  ++ lib.optionals (lib.versionAtLeast xinstall.version "2024.2") [ "Vitis for HLS" ]
+  ++ modules;
   inherit extraPaths;
 }
