@@ -1,0 +1,15 @@
+diff --git a/testarch/yosys.tcl b/testarch/yosys.tcl
+index 6761b5d8..adc10338 100644
+--- a/testarch/yosys.tcl
++++ b/testarch/yosys.tcl
+@@ -9,6 +9,10 @@ opt_clean
+ dfflegalize -cell \$_DFF_?_ 0
+ techmap -map  $::env(TECHMAP_PATH)/ff_map.v
+ 
++select =*
++proc
++select *
++
+ write_json $::env(OUT_JSON)
+ write_verilog $::env(OUT_SYNTH_V)
+ 
