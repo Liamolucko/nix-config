@@ -54,7 +54,7 @@ stdenv.mkDerivation (finalAttrs: {
   patches = [ ./no-abs-paths.patch ];
 
   buildInputs = [
-    polyml'
+    polyml
     graphviz
     fontconfig
   ]
