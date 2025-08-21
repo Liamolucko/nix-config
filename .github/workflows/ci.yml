@@ -23,7 +23,7 @@ jobs:
     name: Build HOL
     strategy:
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm]
+        os: [ubuntu-latest, macos-latest, ubuntu-24.04-arm]
         kernel: [Stdknl, Expk]
     runs-on: ${{ matrix.os }}
     steps:
@@ -33,7 +33,7 @@ jobs:
         with:
           name: liamolucko
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-      - run: nix build -L .#hol${{ matrix.kernel }}
+      - run: nix build -L .#hol${{ matrix.kernel }} --option sandbox true
   build-litex-boards:
     name: Build litex-boards
     strategy:
