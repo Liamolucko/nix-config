@@ -94,6 +94,7 @@ final: prev: {
 
   pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
     (python-final: python-prev: {
+      dearpygui = python-final.callPackage ./pkgs/dearpygui { };
       # We want the application version of xc-fasm, not the package version.
       f4pga = python-final.callPackage ./pkgs/f4pga { xc-fasm = final.xc-fasm; };
       fasm = python-final.callPackage ./pkgs/fasm { };
