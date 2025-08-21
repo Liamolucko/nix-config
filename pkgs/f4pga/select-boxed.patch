@@ -1,5 +1,5 @@
 diff --git a/f4pga/wrappers/tcl/xc7.f4pga.tcl b/f4pga/wrappers/tcl/xc7.f4pga.tcl
-index dbab425..4a7bf29 100644
+index dbab425..3f6313e 100644
 --- a/f4pga/wrappers/tcl/xc7.f4pga.tcl
 +++ b/f4pga/wrappers/tcl/xc7.f4pga.tcl
 @@ -188,7 +188,9 @@ read_verilog -specify -lib $::env(TECHMAP_PATH)/cells_sim.v
@@ -12,3 +12,13 @@ index dbab425..4a7bf29 100644
  write_json $::env(OUT_JSON).carry_fixup.json
  
  exec $::env(PYTHON3) -m f4pga.utils.xc7.fix_xc7_carry < $::env(OUT_JSON).carry_fixup.json > $::env(OUT_JSON).carry_fixup_out.json
+@@ -239,7 +241,9 @@ stat
+ attrmap -remove hdlname
+ 
+ # Write the design in JSON format.
++select =*
+ clean_processes
++select *
+ write_json $::env(OUT_JSON)
+ # Write the design in Verilog format.
+ write_verilog $::env(OUT_SYNTH_V)
