@@ -36,7 +36,6 @@ let
       rev = "1674d86542d2a58f588494aaef8bc8febd0a1a00";
       sha256 = "sha256-P0mse8OPlccggTvPHApCXtHXcgewOw43C4Sdf5kg6/w=";
     };
-    doCheck = false;
   });
 in
 
@@ -54,7 +53,7 @@ stdenv.mkDerivation (finalAttrs: {
   patches = [ ./no-abs-paths.patch ];
 
   buildInputs = [
-    polyml
+    polyml'
     graphviz
     fontconfig
   ]
