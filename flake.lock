@@ -2,11 +2,11 @@
   "nodes": {
     "flake-compat": {
       "locked": {
-        "lastModified": 1688025799,
-        "narHash": "sha256-ktpB4dRtnksm9F5WawoIkEneh1nrEvuxb5lJFt1iOyw=",
+        "lastModified": 1746162366,
+        "narHash": "sha256-5SSSZ/oQkwfcAz/o/6TlejlVGqeK08wyREBQ5qFFPhM=",
         "owner": "nix-community",
         "repo": "flake-compat",
-        "rev": "8bf105319d44f6b9f0d764efa4fdef9f1cc9ba1c",
+        "rev": "0f158086a2ecdbb138cd0429410e44994f1b7e4b",
         "type": "github"
       },
       "original": {
@@ -155,15 +155,16 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1754152461,
-        "narHash": "sha256-UNPGhPvjMGond6bTq2JXPjH0yyUj0g6nhG/wjEH/Vfo=",
-        "owner": "tpwrules",
+        "lastModified": 1755550863,
+        "narHash": "sha256-KIVCqJ8TwARHrBvM0IY13n/yi0YEXfFydejAQFjI3dg=",
+        "owner": "flokli",
         "repo": "nixos-apple-silicon",
-        "rev": "9c936c2686017de6adec644880451bdf3c323306",
+        "rev": "f9ee6b0c2230272104becc347fafb9b674043b5f",
         "type": "github"
       },
       "original": {
-        "owner": "tpwrules",
+        "owner": "flokli",
+        "ref": "mainline-mesa",
         "repo": "nixos-apple-silicon",
         "type": "github"
       }
@@ -270,11 +271,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1753006367,
-        "narHash": "sha256-tzbhc4XttkyEhswByk5R38l+ztN9UDbnj0cTcP6Hp9A=",
+        "lastModified": 1754847726,
+        "narHash": "sha256-2vX8QjO5lRsDbNYvN9hVHXLU6oMl+V/PsmIiJREG4rE=",
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "rev": "421b56313c65a0815a52b424777f55acf0b56ddf",
+        "rev": "7d81f6fb2e19bf84f1c65135d1060d829fae2408",
         "type": "github"
       },
       "original": {

@@ -8,7 +8,7 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-apple-silicon.url = "github:tpwrules/nixos-apple-silicon";
+    nixos-apple-silicon.url = "github:flokli/nixos-apple-silicon/mainline-mesa";
     nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs";
     openxc7.url = "github:openXC7/toolchain-nix";
     openxc7.inputs.nixpkgs.follows = "nixpkgs";

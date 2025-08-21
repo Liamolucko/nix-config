@@ -1,0 +1,32 @@
+diff --git a/test/run_benchmarks.py b/test/run_benchmarks.py
+index 0a7c38b..dc49df2 100755
+--- a/test/run_benchmarks.py
++++ b/test/run_benchmarks.py
+@@ -494,7 +494,7 @@ class RunCache(list):
+ 
+ 
+ def run_python(script, args, **kwargs):
+-    command = ["python3", script, *args]
++    command = [sys.executable, script, *args]
+     proc = subprocess.run(command, stdout=subprocess.PIPE, cwd=os.path.dirname(script), **kwargs)
+     return str(proc.stdout)
+ 
+diff --git a/test/test_examples.py b/test/test_examples.py
+index fe70304..b016abf 100644
+--- a/test/test_examples.py
++++ b/test/test_examples.py
+@@ -6,12 +6,13 @@
+ 
+ import unittest
+ import os
++import sys
+ 
+ 
+ def build_config(name):
+     errors = 0
+     os.system("rm -rf examples/build")
+-    os.system("cd examples && python3 ../litedram/gen.py {}.yml".format(name))
++    os.system("cd examples && {} ../litedram/gen.py {}.yml".format(sys.executable, name))
+     errors += not os.path.isfile("examples/build/gateware/litedram_core.v")
+     os.system("rm -rf examples/build")
+     return errors
