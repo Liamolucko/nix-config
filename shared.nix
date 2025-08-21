@@ -13,11 +13,12 @@ in
     pkgs.clang-tools
     pkgs.coq_8_20
     pkgs.coqPackages_8_20.vscoq-language-server
+    pkgs.elan
     pkgs.emscripten # needed by tree-sitter
     pkgs.gnuplot
     pkgs.inkscape
+    pkgs.isabelle
     pkgs.jre_headless # for kotlin-language-server
-    pkgs.elan
     pkgs.man-pages
     pkgs.nixd
     pkgs.nixfmt-rfc-style
@@ -55,7 +56,6 @@ in
   ]
   ++ lib.optionals (!ciSafe) [
     pkgs.drawio
-    pkgs.isabelle
   ];
 
   fonts.packages = [ pkgs.gyre-fonts ];
