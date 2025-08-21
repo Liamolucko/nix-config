@@ -1,0 +1,14 @@
+diff --git a/f4pga/wrappers/tcl/xc7.f4pga.tcl b/f4pga/wrappers/tcl/xc7.f4pga.tcl
+index dbab425..4a7bf29 100644
+--- a/f4pga/wrappers/tcl/xc7.f4pga.tcl
++++ b/f4pga/wrappers/tcl/xc7.f4pga.tcl
+@@ -188,7 +188,9 @@ read_verilog -specify -lib $::env(TECHMAP_PATH)/cells_sim.v
+ 
+ techmap -map  $::env(TECHMAP_PATH)/carry_map.v
+ 
++select =*
+ clean_processes
++select *
+ write_json $::env(OUT_JSON).carry_fixup.json
+ 
+ exec $::env(PYTHON3) -m f4pga.utils.xc7.fix_xc7_carry < $::env(OUT_JSON).carry_fixup.json > $::env(OUT_JSON).carry_fixup_out.json

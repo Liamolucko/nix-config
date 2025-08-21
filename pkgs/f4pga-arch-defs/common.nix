@@ -1,4 +1,3 @@
-# TODO: fix ibex_arty.sdc being a broken symlink
 {
   lib,
   pkgsCross,
@@ -262,7 +261,6 @@ stdenv.mkDerivation {
     ./fix-ql-pinmap-install.patch # TODO upstream
     ./use-bins.patch # maybe upstream?
     ./updated-vpr.patch
-    ./proc-boxes.patch
   ];
 
   nativeBuildInputs = [
@@ -330,6 +328,11 @@ stdenv.mkDerivation {
     "-Wno-dev"
   ];
   prefix = "${placeholder "out"}/${family}";
+  # Upstream, these are stored into a separate output by CI; we don't want them at
+  # all, even separately, so just delete them.
+  postInstall = ''
+    rm -rf "$out/${family}/benchmarks"
+  '';
 
   meta = {
     description = "FOSS architecture definitions of FPGA hardware useful for doing PnR device generation";

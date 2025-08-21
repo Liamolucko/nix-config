@@ -60,13 +60,11 @@
     };
     delta = {
       enable = true;
-      # Delta's light/dark detection seems to somehow cause it to start off scrolled
-      # to the right in Zed's terminal, so tell it we're using dark mode up front to
-      # get it to skip detecting it; TODO file an issue about this
-      options.dark = true;
     };
     extraConfig = {
       push.autoSetupRemote = true;
+      merge.autoStash = true;
+      rebase.autoStash = true;
     };
   };
 

@@ -74,6 +74,7 @@ let
       ./updated-vpr.patch
       ./params-without-values.patch # TODO upstream
       ./no-ilang.patch # TODO upstream
+      ./select-boxed.patch
     ];
 
     nativeBuildInputs = [ makeBinaryWrapper ];
