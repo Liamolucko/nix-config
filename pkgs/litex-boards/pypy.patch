@@ -1,0 +1,39 @@
+diff --git a/test/test_targets.py b/test/test_targets.py
+index e583359..f14b9c5 100644
+--- a/test/test_targets.py
++++ b/test/test_targets.py
+@@ -8,6 +8,7 @@
+ import subprocess
+ import unittest
+ import os
++import sys
+ 
+ from migen import *
+ 
+@@ -60,11 +61,11 @@ class TestTargets(unittest.TestCase):
+             with self.subTest(platform=name):
+                 os.system("rm -rf build")
+                 cmd = """\
+-python3 -m litex_boards.targets.simple litex_boards.platforms.{} \
++{} -m litex_boards.targets.simple litex_boards.platforms.{} \
+     --build            \
+     --no-compile       \
+     --uart-name="stub" \
+-""".format(name)
++""".format(sys.executable, name)
+                 subprocess.check_call(cmd, shell=True)
+ 
+     # Build default configuration for all targets.
+@@ -82,10 +83,10 @@ python3 -m litex_boards.targets.simple litex_boards.platforms.{} \
+             with self.subTest(target=name):
+                 os.system("rm -rf build")
+                 cmd = """\
+-python3 -m litex_boards.targets.{} \
++{} -m litex_boards.targets.{} \
+     --cpu-type=vexriscv     \
+     --cpu-variant=minimal   \
+     --build                 \
+     --no-compile            \
+-""".format(name)
++""".format(sys.executable, name)
+                 subprocess.check_call(cmd, shell=True)

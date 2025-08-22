@@ -1,0 +1,18 @@
+diff --git a/test/test_gen.py b/test/test_gen.py
+index 20c9de3..45efb06 100644
+--- a/test/test_gen.py
++++ b/test/test_gen.py
+@@ -6,11 +6,12 @@
+ 
+ import unittest
+ import os
++import sys
+ 
+ def build_config(name):
+     errors = 0
+     os.system("rm -rf examples/build")
+-    os.system("cd examples && python3 ../liteeth/gen.py {}.yml".format(name))
++    os.system("cd examples && {} ../liteeth/gen.py {}.yml".format(sys.executable, name))
+     errors += not os.path.isfile("examples/build/gateware/liteeth_core.v")
+     os.system("rm -rf examples/build")
+     return errors

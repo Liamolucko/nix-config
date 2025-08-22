@@ -50,6 +50,10 @@ buildPythonPackage rec {
     hash = "sha256-pHtVotOZDZKE4RGUIn2rZTCPBjpLiEJLuLyaOcDCQbg=";
   };
 
+  patches = [
+    ./pypy.patch
+  ];
+
   build-system = [ setuptools ];
   dependencies = [ litex ];
 

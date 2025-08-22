@@ -21,6 +21,10 @@ buildPythonPackage rec {
     hash = "sha256-atXa/rX9/w2wbNqVPdIB2eMTG7dSq+cfM3iffrGnAyo=";
   };
 
+  patches = [
+    ./pypy.patch
+  ];
+
   build-system = [ setuptools ];
   dependencies = [
     liteiclink
