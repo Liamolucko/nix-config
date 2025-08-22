@@ -48,7 +48,6 @@ in
   networking.hostName = "liam-asahi";
 
   hardware.asahi.extractPeripheralFirmware = !ciSafe;
-  hardware.asahi.useExperimentalGPUDriver = true;
 
   environment.systemPackages = [ pkgs.zed-editor ];
 
