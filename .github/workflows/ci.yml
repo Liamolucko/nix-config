@@ -33,7 +33,7 @@ jobs:
         with:
           name: liamolucko
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-      - run: nix build -L .#hol${{ matrix.kernel }} --option cores 1
+      - run: nix build -L .#hol${{ matrix.kernel }} --option cores 2
   build-litex-boards:
     name: Build litex-boards
     strategy:
