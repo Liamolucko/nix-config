@@ -23,6 +23,10 @@ buildPythonPackage rec {
     hash = "sha256-gDg2QXrC6HJ316tCrNC/1/kZK/+H5iGtm9YN4FubDXI=";
   };
 
+  patches = [
+    ./pypy.patch
+  ];
+
   build-system = [ setuptools ];
   dependencies = [
     migen

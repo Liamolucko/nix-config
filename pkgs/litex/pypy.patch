@@ -1,0 +1,21 @@
+diff --git a/litex/soc/integration/builder.py b/litex/soc/integration/builder.py
+index 9f7239a75..703b96c19 100644
+--- a/litex/soc/integration/builder.py
++++ b/litex/soc/integration/builder.py
+@@ -17,6 +17,7 @@ import argparse
+ import subprocess
+ import struct
+ import shutil
++import sys
+ 
+ from packaging.version import Version
+ 
+@@ -325,7 +326,7 @@ class Builder:
+             dst_dir  = os.path.join(self.software_dir, name)
+             makefile = os.path.join(src_dir, "Makefile")
+             if self.compile_software:
+-                subprocess.check_call(["make", "-C", dst_dir, "-f", makefile])
++                subprocess.check_call(["make", "-C", dst_dir, "-f", makefile, f"PYTHON={sys.executable}"])
+ 
+     def _initialize_rom_software(self):
+         # Get BIOS data from compiled BIOS binary.
