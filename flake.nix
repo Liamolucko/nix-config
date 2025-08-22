@@ -10,8 +10,6 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-apple-silicon.url = "github:flokli/nixos-apple-silicon/mainline-mesa";
     nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs";
-    openxc7.url = "github:openXC7/toolchain-nix";
-    openxc7.inputs.nixpkgs.follows = "nixpkgs";
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
     nix-vscode-extensions.inputs.nixpkgs.follows = "nixpkgs";
     mini-compile-commands = {
@@ -28,7 +26,6 @@
       nix-darwin,
       home-manager,
       nixos-apple-silicon,
-      openxc7,
       nix-vscode-extensions,
       mini-compile-commands,
     }:
@@ -100,7 +97,6 @@
       system:
       let
         pkgs = nixpkgs.legacyPackages.${system}.extend self.overlays.default;
-        openxc7Pkgs = openxc7.packages.${system};
         mcc-env = (pkgs.callPackage mini-compile-commands { }).wrap pkgs.stdenv;
       in
       {
@@ -113,7 +109,6 @@
           pkgs.runCommand "basys3-vivado"
             {
               nativeBuildInputs = [
-                pkgs.pkgsCross.riscv64-embedded.buildPackages.gccWithoutTargetLibc
                 pkgs.pkgsCross.riscv64-embedded.buildPackages.gccWithoutTargetLibc
                 pkgs.glibcLocales
                 pkgs.meson
@@ -137,7 +132,6 @@
             {
               nativeBuildInputs = [
                 pkgs.pkgsCross.riscv64-embedded.buildPackages.gccWithoutTargetLibc
-                pkgs.pkgsCross.riscv64-embedded.buildPackages.gccWithoutTargetLibc
                 pkgs.meson
                 pkgs.ninja
                 pkgs.python3
@@ -160,25 +154,27 @@
             {
               nativeBuildInputs = [
                 pkgs.pkgsCross.riscv64-embedded.buildPackages.gccWithoutTargetLibc
-                pkgs.pkgsCross.riscv64-embedded.buildPackages.gccWithoutTargetLibc
                 pkgs.meson
-                openxc7Pkgs.nextpnr-xilinx
+                pkgs.nextpnr-xilinx
                 pkgs.ninja
                 pkgs.prjxray-tools
-                pkgs.python3
-                (pkgs.python3.pkgs.litex-boards.overridePythonAttrs (old: {
-                  patches = [ ./litex-boards.patch ];
-                }))
-                pkgs.python3.pkgs.prjxray
-                pkgs.python3.pkgs.pythondata-cpu-vexriscv
-                pkgs.python3.pkgs.pythondata-software-compiler-rt
-                pkgs.python3.pkgs.pythondata-software-picolibc
+                pkgs.pypy3
+                (pkgs.python3.withPackages (ps: [
+                  (ps.litex-boards.overridePythonAttrs (old: {
+                    patches = [ ./litex-boards.patch ];
+                  }))
+                  ps.prjxray
+                  ps.pythondata-cpu-vexriscv
+                  ps.pythondata-software-compiler-rt
+                  ps.pythondata-software-picolibc
+                ]))
                 pkgs.yosys
               ];
-              env.CHIPDB = openxc7Pkgs.nextpnr-xilinx-chipdb.artix7;
-              env.PRJXRAY_DB_DIR = pkgs.prjxray-db;
+              env.NEXTPNR_XILINX_PYTHON_DIR = "${pkgs.nextpnr-xilinx}/share/nextpnr/python";
+              env.PRJXRAY_DB_DIR = "${pkgs.nextpnr-xilinx}/share/nextpnr/external/prjxray-db";
             }
             ''
+              export CHIPDB=$(mktemp -d)
               python -m litex_boards.targets.digilent_basys3 --output-dir "$out" --toolchain openxc7 --build
             '';
       }
