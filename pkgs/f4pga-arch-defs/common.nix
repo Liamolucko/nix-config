@@ -128,6 +128,8 @@ let
   litex = python3.pkgs.litex.overridePythonAttrs (old: {
     version = "2020.12-unstable-2021-02-09";
     src = "${src}/third_party/litex";
+    # TODO: if we ever switch to using pypy here, we'll need to make a backport of
+    # pypy.patch
     patches = [
       # Backport of https://github.com/enjoy-digital/litex/pull/1476.
       #
@@ -188,6 +190,9 @@ let
   litex-boards = python3.pkgs.litex-boards.overridePythonAttrs {
     version = "2020.12-unstable-2021-02-04";
     src = "${src}/third_party/litex-boards";
+    # TODO: if we ever switch to using pypy here, we'll need to make a backport of
+    # pypy.patch
+    patches = [ ];
     dependencies = [ litex ];
     # I'm not pulling in matching old versions of everything in the LiteX ecosystem
     # just to run these tests.
