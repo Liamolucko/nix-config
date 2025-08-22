@@ -78,7 +78,7 @@ jobs:
         with:
           name: liamolucko
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-      - run: nix build -L ".#checks.$(nix eval --raw --impure --expr 'builtins.currentSystem').basys3-openxc7"
+      - run: nix build -L ".#checks.$(nix eval --raw --impure --expr 'builtins.currentSystem').basys3-openxc7" --option sandbox true
   build-laptop-system:
     name: Build laptop system
     runs-on: macos-latest
