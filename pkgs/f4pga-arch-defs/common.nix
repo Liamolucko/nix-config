@@ -151,6 +151,9 @@ let
   litedram = python3.pkgs.litedram.overridePythonAttrs {
     version = "2020.12-unstable-2021-02-02";
     src = "${src}/third_party/litedram";
+    # TODO: if we ever switch to using pypy here, we'll need to make a backport of
+    # pypy.patch
+    patches = [ ];
     dependencies = [
       litex
       python3.pkgs.pyyaml
