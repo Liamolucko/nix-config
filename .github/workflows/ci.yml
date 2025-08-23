@@ -24,7 +24,6 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, ubuntu-24.04-arm]
-        kernel: [Stdknl, Expk]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -33,7 +32,7 @@ jobs:
         with:
           name: liamolucko
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-      - run: nix build -L .#hol${{ matrix.kernel }} --option cores 2
+      - run: nix build -L .#hol --option cores 2
   build-litex-boards:
     name: Build litex-boards
     strategy:

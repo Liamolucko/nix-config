@@ -11,8 +11,7 @@
   makeFontsConf,
   mlton,
   polyml,
-  # TODO: this breaks bootstrapTheory and will need to be turned off for cakeml
-  experimentalKernel ? true,
+  experimentalKernel ? false,
 }:
 
 let

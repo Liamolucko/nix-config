@@ -137,16 +137,15 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1755855545,
-        "narHash": "sha256-zofYHSgDqgQA+i0WSEQGzj9mFKGvh4P+SY/PyHHXn48=",
-        "owner": "flokli",
+        "lastModified": 1755974465,
+        "narHash": "sha256-c2rnzvxt+sEeaXLPFnpnaofxc2PwcipMywRj6unDtp8=",
+        "owner": "nix-community",
         "repo": "nixos-apple-silicon",
-        "rev": "0ad28067337a3a48456a5522673acca4f0bf9d0e",
+        "rev": "5b323bc36ce3b18cceaefff63bd58f74378b3b8a",
         "type": "github"
       },
       "original": {
-        "owner": "flokli",
-        "ref": "mainline-mesa",
+        "owner": "nix-community",
         "repo": "nixos-apple-silicon",
         "type": "github"
       }
