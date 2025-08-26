@@ -63,6 +63,7 @@ in
       oskarabrahamsson.hol4-mode
       pkief.material-icon-theme
       stkb.rewrap
+      tamasfe.even-better-toml
     ];
   };
 

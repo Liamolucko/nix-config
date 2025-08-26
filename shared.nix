@@ -8,6 +8,7 @@ in
 
   environment.systemPackages = [
     pkgs.binaryen
+    pkgs.cargo-binutils
     pkgs.cargo-expand
     pkgs.cargo-fuzz
     pkgs.clang-tools

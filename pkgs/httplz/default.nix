@@ -11,13 +11,13 @@
 
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "httplz";
-  version = "2.3.0";
+  version = "2.3.1";
 
   src = fetchFromGitHub {
     owner = "thecoshman";
     repo = "http";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-qinhdpm9eaTdpUk4ZZLaH1D/CZ22k4RisHu8clZCEGo=";
+    hash = "sha256-hkcE1ut/UfWF6HBNSaTW55TGi3iUYKCGH2lTVw5Qhhg=";
   };
 
   cargoLock = {
