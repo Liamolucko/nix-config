@@ -57,18 +57,9 @@ final: prev: {
 
   # https://github.com/NixOS/nixpkgs/pull/418861
   httplz = final.callPackage ./pkgs/httplz { };
-  isabelle =
-    (prev.isabelle.override (old: {
-      polyml = old.polyml.overrideAttrs (old: {
-        src = old.src.override {
-          rev = "1674d86542d2a58f588494aaef8bc8febd0a1a00";
-          sha256 = "sha256-P0mse8OPlccggTvPHApCXtHXcgewOw43C4Sdf5kg6/w=";
-        };
-      });
-    })).overrideAttrs
-      (old: {
-        patches = [ ./isabelle-fix-copied-permissions.patch ];
-      });
+  isabelle = prev.isabelle.overrideAttrs (old: {
+    patches = [ ./isabelle-fix-copied-permissions.patch ];
+  });
   yosys = prev.yosys.overrideAttrs (old: {
     patches = old.patches ++ [
       ./yosys-select-all.patch
