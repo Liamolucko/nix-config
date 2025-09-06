@@ -102,10 +102,14 @@ final: prev: {
       litex = python-final.callPackage ./pkgs/litex { };
       litex-boards = python-final.callPackage ./pkgs/litex-boards { };
       okonomiyaki = python-prev.okonomiyaki.overrideAttrs {
-        # Remove the no-longer-required darwin workaround.
+        # https://github.com/NixOS/nixpkgs/pull/360519
+        # https://github.com/NixOS/nixpkgs/pull/438892
+        postPatch = "";
         preCheck = ''
           substituteInPlace okonomiyaki/runtimes/tests/test_runtime.py \
             --replace 'runtime_info = PythonRuntime.from_running_python()' 'raise unittest.SkipTest() #'
+          substituteInPlace okonomiyaki/platforms/_platform.py \
+            --replace-fail 'name.split()[0]' '(name.split() or [""])[0]'
         '';
       };
       prjxray = python-final.callPackage ./pkgs/prjxray { };
