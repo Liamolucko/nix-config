@@ -31,13 +31,13 @@ in
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "hol4";
-  version = "trindemossen-1-unstable-2025-06-24";
+  version = "trindemossen-2";
 
   src = fetchFromGitHub {
     owner = "HOL-Theorem-Prover";
     repo = "HOL";
-    rev = "718b3aaabc70079271693d5540ba16669c2e7ad2";
-    hash = "sha256-L2gcWWHUat4lXRqwfMbJTCZMYaGWKY66N51yrUVX068=";
+    tag = finalAttrs.version;
+    hash = "sha256-esgqSlQ4M2DLNu02aALetuPJYsV/1RSEv65tEeVNno0=";
   };
 
   patches = [ ./no-abs-paths.patch ];
