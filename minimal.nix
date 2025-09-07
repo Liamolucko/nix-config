@@ -49,6 +49,8 @@ in
     (if pkgs.stdenv.isDarwin then pkgs.darwin.trash else pkgs.trashy)
   ];
 
+  services.tailscale.enable = true;
+
   programs.fish.enable = true;
   users.users.liam.shell = pkgs.fish;
 
