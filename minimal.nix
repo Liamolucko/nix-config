@@ -40,7 +40,6 @@ in
     pkgs.deno
     pkgs.file
     pkgs.gh
-    pkgs.ghostty.terminfo
     pkgs.httplz
     pkgs.jq
     pkgs.nix-output-monitor

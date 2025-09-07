@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   imports = [ ./minimal.nix ];
 
@@ -33,4 +33,6 @@
   };
 
   documentation.man.generateCaches = false;
+
+  environment.systemPackages = [ pkgs.ghostty.terminfo ];
 }
