@@ -22,7 +22,7 @@
   networking.hostName = "pi4";
   services.openssh.enable = true;
 
-  environment.systemPackages = [ pkgs.kitty.terminfo ];
+  environment.systemPackages = [ pkgs.wol ];
   programs.fex.enable = true;
 
   system.stateVersion = "24.05";
