@@ -35,6 +35,7 @@ in
     pkgs.texlab
     (pkgs.texlive.combine {
       inherit (pkgs.texlive)
+        biber
         collection-fontsextra
         collection-fontsrecommended
         collection-latexextra

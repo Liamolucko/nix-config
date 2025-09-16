@@ -70,7 +70,7 @@
         "texlab": {
           "build": {
             "executable": "make",
-            "args": ["BIBINPUTS=/Useres/liam/src/ts-bibtex"],
+            "args": ["BIBINPUTS=/Users/liam/src/ts-bibtex"],
             "onSave": true,
             "forwardSearchAfter": true
           },
