@@ -28,6 +28,10 @@ in
     HARDWAREDIR = "${config.home.homeDirectory}/src/cakeml-hardware";
   };
 
+  programs.fish.shellInit = ''
+    test -r '/Users/liam/.opam/opam-init/init.fish' && source '/Users/liam/.opam/opam-init/init.fish' > /dev/null 2> /dev/null; or true
+  '';
+
   programs.alacritty = {
     enable = true;
     package = if pkgs.stdenv.isDarwin then alacritty-mac else pkgs.alacritty;

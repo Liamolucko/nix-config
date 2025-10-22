@@ -69,8 +69,8 @@
       "settings": {
         "texlab": {
           "build": {
-            "executable": "make",
-            "args": ["BIBINPUTS=/Users/liam/src/ts-bibtex"],
+            "executable": "pdflatex",
+            "args": ["%f"],
             "onSave": true,
             "forwardSearchAfter": true
           },

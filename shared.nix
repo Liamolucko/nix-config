@@ -12,8 +12,6 @@ in
     pkgs.cargo-expand
     pkgs.cargo-fuzz
     pkgs.clang-tools
-    pkgs.coq_8_20
-    pkgs.coqPackages_8_20.vscoq-language-server
     pkgs.elan
     pkgs.emscripten # needed by tree-sitter
     pkgs.gnuplot
@@ -25,6 +23,7 @@ in
     pkgs.nixfmt-rfc-style
     pkgs.nodejs
     pkgs.nodePackages.pnpm
+    pkgs.opam
     pkgs.openfpgaloader
     pkgs.pulldown-cmark
     pkgs.rclone
@@ -37,8 +36,8 @@ in
       inherit (pkgs.texlive)
         biber
         collection-fontsextra
-        collection-fontsrecommended
         collection-latexextra
+        collection-mathscience
         scheme-small
         ;
     })

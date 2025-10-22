@@ -19,8 +19,8 @@ in
     ];
 
   nix.gc.automatic = true;
+  nix.gc.options = "--option keep-outputs true";
   nix.optimise.automatic = true;
-  nix.settings.keep-outputs = true;
   nix.settings.diff-hook = pkgs.writeShellScript "diff-hook" ''
     exec >&2
     echo "For derivation $3:"
@@ -40,7 +40,6 @@ in
     pkgs.deno
     pkgs.file
     pkgs.gh
-    pkgs.httplz
     pkgs.jq
     pkgs.nix-output-monitor
     pkgs.ripgrep
