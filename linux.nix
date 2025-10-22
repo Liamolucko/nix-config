@@ -26,7 +26,7 @@ in
   environment.systemPackages = [
     pkgs.gnome-tweaks
     pkgs.gnomeExtensions.caffeine
-    pkgs.libreoffice
+    pkgs.libreoffice-fresh
     pkgs.pciutils
     pkgs.rhythmbox
     pkgs.wl-clipboard
