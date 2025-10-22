@@ -20,7 +20,6 @@ jobs:
         with:
           name: liamolucko
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          extraPullNames: nixos-apple-silicon
       - run: nix build -L .#f4pga-arch-defs.{ql-eos-s3,xc7a50t}
   build-hol:
     name: Build HOL
@@ -92,8 +91,24 @@ jobs:
           name: liamolucko
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
       - run: nix build --impure -L .#darwinConfigurations.Liams-Laptop.system
+  build-asahi-kernel:
+    name: Build Asahi kernel
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true
+          swap-storage: false
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v30
+      - uses: cachix/cachix-action@v15
+        with:
+          name: liamolucko
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - run: nix build --impure -L .#nixosConfigurations.liam-asahi.config.boot.kernelPackages
   build-asahi-system:
     name: Build Asahi system
+    needs: build-asahi-kernel
     runs-on: ubuntu-24.04-arm
     steps:
       - uses: jlumbroso/free-disk-space@main
