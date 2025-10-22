@@ -160,8 +160,8 @@ jobs:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
       - run: |
           for branch in update main; do
-            if [ '${{ needs.build.laptop-system.result }}' != success ]
-              || [ '${{ needs.build.asahi-system.result }}' != success ]
+            if [ '${{ needs.build.laptop-system.result }}' != success ] \
+              || [ '${{ needs.build.asahi-system.result }}' != success ] \
               || [ '${{ needs.build.desktop-system.result }}' != success ]
             then continue
             fi
