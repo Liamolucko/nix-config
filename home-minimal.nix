@@ -52,20 +52,22 @@
 
   programs.git = {
     enable = true;
-    userName = "Liam Murphy";
-    userEmail = "liampm32@gmail.com";
     signing = {
       key = "0A01FCF4B19F9B8D";
       signByDefault = true;
     };
-    delta = {
-      enable = true;
-    };
-    extraConfig = {
+    settings = {
+      user.name = "Liam Murphy";
+      user.email = "liampm32@gmail.com";
       push.autoSetupRemote = true;
       merge.autoStash = true;
       rebase.autoStash = true;
     };
+  };
+
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
   };
 
   programs.direnv = {
