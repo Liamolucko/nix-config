@@ -182,4 +182,4 @@ jobs:
             cachix pin liamolucko $branch-laptop $(nix eval --impure --raw .#darwinConfigurations.Liams-Laptop.system.outPath) || true
             cachix pin liamolucko $branch-asahi $(nix eval --impure --raw .#nixosConfigurations.liam-asahi.config.system.build.toplevel.outPath) || true
             cachix pin liamolucko $branch-desktop $(nix eval --impure --raw .#nixosConfigurations.liam-desktop.config.system.build.toplevel.outPath) || true
-          end
+          done
