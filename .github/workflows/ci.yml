@@ -159,6 +159,7 @@ jobs:
           name: liamolucko
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
       - run: |
+          set -x
           for branch in update main; do
             if [ \("$branch" = main -a \
               \('${{ needs.build.laptop-system.result }}' != success \
@@ -170,13 +171,13 @@ jobs:
 
             for system in x86_64-linux aarch64-darwin aarch64-linux; do
               for chip in xc7a50t ql-eos-s3; do
-                cachix pin liamolucko $branch-f4pga-arch-defs-$chip-$system $(nix eval --raw .#legacyPackages.$system.f4pga-arch-defs.$chip.outPath) || true
+                cachix pin liamolucko $branch-f4pga-arch-defs-$chip-$system $(nix eval --raw .#packages.$system.f4pga-arch-defs.$chip.outPath) || true
               done
-              cachix pin liamolucko $branch-hol-$system $(nix eval --raw .#legacyPackages.$system.hol.outPath) || true
+              cachix pin liamolucko $branch-hol-$system $(nix eval --raw .#packages.$system.hol.outPath) || true
               for interp in python312 python313; do
-                cachix pin liamolucko $branch-$interp-litex-boards-$system $(nix eval --raw .#legacyPackages.$system.$interp.pkgs.litex-boards.outPath) || true
+                cachix pin liamolucko $branch-$interp-litex-boards-$system $(nix eval --raw .#packages.$system.$interp.pkgs.litex-boards.outPath) || true
               done
-              cachix pin liamolucko $branch-nextpnr-xilinx-$system $(nix eval --raw .#legacyPackages.$system.nextpnr-xilinx.outPath) || true
+              cachix pin liamolucko $branch-nextpnr-xilinx-$system $(nix eval --raw .#packages.$system.nextpnr-xilinx.outPath) || true
             done
 
             cachix pin liamolucko $branch-laptop $(nix eval --impure --raw .#darwinConfigurations.Liams-Laptop.system.outPath) || true
