@@ -105,7 +105,7 @@ jobs:
         with:
           name: liamolucko
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-      - run: nix build --impure -L .#nixosConfigurations.liam-asahi.config.boot.kernelPackages
+      - run: nix build --impure -L .#nixosConfigurations.liam-asahi.config.boot.kernelPackages.kernel
   build-asahi-system:
     name: Build Asahi system
     needs: build-asahi-kernel
@@ -160,9 +160,11 @@ jobs:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
       - run: |
           for branch in update main; do
-            if [ '${{ needs.build.laptop-system.result }}' != success ] \
-              || [ '${{ needs.build.asahi-system.result }}' != success ] \
-              || [ '${{ needs.build.desktop-system.result }}' != success ]
+            if [ ("$branch" = main -a \
+              ('${{ needs.build.laptop-system.result }}' != success \
+                -o '${{ needs.build.asahi-system.result }}' != success \
+                -o '${{ needs.build.desktop-system.result }}' != success)) \
+              -o ("$branch" = update -a "$GITHUB_HEAD_REF" != update_flake_lock_action) ]
             then continue
             fi
 
