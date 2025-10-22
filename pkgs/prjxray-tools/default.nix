@@ -4,20 +4,17 @@
   fetchFromGitHub,
   cmake,
 }:
-let
-  rev = "c6f57643";
-in
 stdenv.mkDerivation {
   pname = "prjxray-tools";
   # This isn't some weird pre-release version, the commit hash is actually part of
   # the version number (as they're formatted on Anaconda, anyway).
-  version = "0.1_3252_g${rev}";
+  version = "0.1-unstable-2025-04-06";
 
   src = fetchFromGitHub {
     owner = "f4pga";
     repo = "prjxray";
-    inherit rev;
-    hash = "sha256-nfbbOR+sS6qXRJad/31Le+4gPPh/psAIeSeu6wnS7gM=";
+    rev = "d10061648752d34e650a0ebec54f3c0d46be42e5";
+    hash = "sha256-dygOIBRAZGcd/xBkHDlGOztt4VPFtXo4MI5ljmmeJsI=";
     fetchSubmodules = true;
   };
   patches = [ ./no-abs-bash.patch ];

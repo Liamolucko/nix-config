@@ -25,6 +25,8 @@ let
     && hostSys != "i686-linux"
     && !stdenv.buildPlatform.isMusl
     && !stdenv.hostPlatform.isMusl
+    && !stdenv.buildPlatform.isDarwin
+    && !stdenv.hostPlatform.isDarwin
     && lib.elem buildSys mlton.meta.platforms
     && lib.elem hostSys mlton.meta.platforms;
 in
