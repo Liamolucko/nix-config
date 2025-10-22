@@ -20,6 +20,7 @@ jobs:
         with:
           name: liamolucko
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          extraPullNames: nixos-apple-silicon
       - run: nix build -L .#f4pga-arch-defs.{ql-eos-s3,xc7a50t}
   build-hol:
     name: Build HOL
