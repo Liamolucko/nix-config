@@ -162,9 +162,9 @@ jobs:
           set -x
           for branch in update main; do
             if [ \( "$branch" = main -a \
-              \( '${{ needs.build.laptop-system.result }}' != success \
-                -o '${{ needs.build.asahi-system.result }}' != success \
-                -o '${{ needs.build.desktop-system.result }}' != success \) \) \
+              \( '${{ needs.build-laptop-system.result }}' != success \
+                -o '${{ needs.build-asahi-system.result }}' != success \
+                -o '${{ needs.build-desktop-system.result }}' != success \) \) \
               -o \( "$branch" = update -a "$GITHUB_HEAD_REF" != update_flake_lock_action \) ]
             then continue
             fi
