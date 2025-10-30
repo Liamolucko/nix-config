@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  config,
   osConfig,
   ...
 }:
@@ -12,7 +13,22 @@
     enable = true;
     config = {
       Label = "org.nixos.maccy";
-      Program = "${pkgs.maccy}/Applications/Maccy.app/Contents/MacOS/Maccy";
+      ProgramArguments = [ "${pkgs.maccy}/Applications/Maccy.app/Contents/MacOS/Maccy" ];
+      KeepAlive = true;
+    };
+  };
+
+  launchd.agents.sage = {
+    enable = true;
+    config = {
+      Label = "org.nixos.sage";
+      ProgramArguments = [
+        (lib.getExe pkgs.sage)
+        "--notebook"
+        "--no-browser"
+        "--port=8888"
+      ];
+      WorkingDirectory = config.home.homeDirectory;
       KeepAlive = true;
     };
   };
