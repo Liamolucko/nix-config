@@ -3,7 +3,7 @@
   buildPythonPackage,
   fetchPypi,
   setuptools,
-  setuptools_scm,
+  setuptools-scm,
   ply,
   pyjson,
   pytestCheckHook,
@@ -24,7 +24,7 @@ buildPythonPackage rec {
 
   build-system = [
     setuptools
-    setuptools_scm
+    setuptools-scm
   ];
 
   dependencies = [

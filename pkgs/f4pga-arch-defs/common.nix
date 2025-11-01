@@ -27,6 +27,7 @@
   tinyprog,
   v2x,
   vtr,
+  writableTmpDirAsHomeHook,
   xc-fasm,
   yapf,
   yosys,
@@ -297,6 +298,8 @@ stdenv.mkDerivation {
     tinyprog
     v2x
     vtr'
+    # fusesoc puts a cache in $HOME.
+    writableTmpDirAsHomeHook
     xc-fasm
     yapf
     yosysWithPlugins
@@ -322,9 +325,7 @@ stdenv.mkDerivation {
       --subst-var-by qlfpga-symbiflow-plugins ${qlfpga-symbiflow-plugins}
     patchShebangs --build utils/quiet_cmd.sh
   '';
-  # fusesoc puts a cache in $HOME, so set it.
   preConfigure = ''
-    export HOME=$PWD
     export VPR_NUM_WORKERS=$NIX_BUILD_CORES
   '';
   cmakeFlags = [

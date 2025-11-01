@@ -70,7 +70,7 @@
         "texlab": {
           "build": {
             "executable": "pdflatex",
-            "args": ["%f"],
+            "args": ["-synctex=1", "%f"],
             "onSave": true,
             "forwardSearchAfter": true
           },
