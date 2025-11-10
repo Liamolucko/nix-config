@@ -40,11 +40,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1762704774,
-        "narHash": "sha256-iodz4xQbULkHqetbPu5BCSWsVEzZiiNSv0/dzfH4XiE=",
+        "lastModified": 1762787259,
+        "narHash": "sha256-t2U/GLLXHa2+kJkwnFNRVc2fEJ/lUfyZXBE5iKzJdcs=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "be4a9233dd3f6104c9b0fdd3d56f953eb519a4c7",
+        "rev": "37a3d97f2873e0f68711117c34d04b7c7ead8f4e",
         "type": "github"
       },
       "original": {
@@ -96,11 +96,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1762653575,
-        "narHash": "sha256-D7CQ4oMPjZVJidHgDV2oAxmx4To4BvnDLvi14Wb9nJg=",
+        "lastModified": 1762740031,
+        "narHash": "sha256-tvUa9nvNerFarHlsw4sipFVWOk9DhHIa+uTW7C0tcxw=",
         "owner": "nix-community",
         "repo": "nix-vscode-extensions",
-        "rev": "70fa84f8438a555bb3d0ff40b4ffdd9dff0e46cf",
+        "rev": "d09b10414e1a10f7f9a9c9ec01d689d9d23d3f9c",
         "type": "github"
       },
       "original": {
@@ -117,11 +117,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1762421567,
-        "narHash": "sha256-i5GIUYgnlNozrsxDKZtRiCyJGbbAI6Queiu3OGcuf4Y=",
+        "lastModified": 1762706659,
+        "narHash": "sha256-i7w+rZ6r03BxhxotAuyXBHpngZNEhf+s0CpDRaz/qCo=",
         "owner": "nix-community",
         "repo": "nixos-apple-silicon",
-        "rev": "43db10b6bdc6f80097ddc3acf833ec828af50d40",
+        "rev": "58083d06711fb6c15bee6cc9468ffc341763bfdc",
         "type": "github"
       },
       "original": {
