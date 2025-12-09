@@ -12,6 +12,8 @@ in
     pkgs.cargo-expand
     pkgs.cargo-fuzz
     pkgs.clang-tools
+    pkgs.dafny
+    pkgs.dotnet-runtime # TODO: is this actually needed (for Dafny)?
     pkgs.elan
     pkgs.emscripten # needed by tree-sitter
     pkgs.gnuplot
