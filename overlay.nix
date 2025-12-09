@@ -55,9 +55,33 @@ final: prev: {
       cp -r ${repo}/new/board_files $out/${final.vivado.version}/Vivado/data/boards/board_files
     '';
 
+  dafny = prev.dafny.overrideAttrs (old: {
+    patches = (old.patches or [ ]) ++ [
+      (final.fetchpatch2 {
+        url = "https://github.com/dafny-lang/dafny/commit/6d95522883a21554293bcb5186eaa48a974ea3b6.diff?full_index=1";
+        hash = "sha256-6+KZH3MSamCZO86kPow4mRMPp+e8GP+073fmyYix7Do=";
+      })
+    ];
+  });
+  # TODO: upstream
+  gfan = prev.gfan.overrideAttrs {
+    hardeningDisable = [ "libcxxhardeningfast" ];
+  };
   isabelle = prev.isabelle.overrideAttrs (old: {
     patches = [ ./isabelle-fix-copied-permissions.patch ];
   });
+  # https://github.com/NixOS/nixpkgs/pull/462090
+  sage = final.callPackage "${final.path}/pkgs/by-name/sa/sage/package.nix" {
+    pkgs = final // {
+      python3 = final.python3 // {
+        buildEnv = final.python3.buildEnv.overrideAttrs (oldAttrs: {
+          postBuild =
+            assert !(final.lib.hasInfix "--resolve-argv0" oldAttrs.postBuild);
+            final.lib.replaceString "--inherit-argv0" "--inherit-argv0 --resolve-argv0" oldAttrs.postBuild;
+        });
+      };
+    };
+  };
   yosys = prev.yosys.overrideAttrs (old: {
     patches = old.patches ++ [
       ./yosys-select-all.patch

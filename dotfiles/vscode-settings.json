@@ -20,5 +20,7 @@
   "workbench.startupEditor": "none",
   "[hol4]": {
     "editor.acceptSuggestionOnCommitCharacter": false
-  }
+  },
+  "dafny.version": "custom",
+  "dafny.cliPath": "/run/current-system/sw/bin/Dafny"
 }
