@@ -22,7 +22,7 @@ in
     pkgs.jre_headless # for kotlin-language-server
     pkgs.man-pages
     pkgs.nixd
-    pkgs.nixfmt-rfc-style
+    pkgs.nixfmt
     pkgs.nodejs
     pkgs.nodePackages.pnpm
     pkgs.opam

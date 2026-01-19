@@ -100,7 +100,7 @@
         mcc-env = (pkgs.callPackage mini-compile-commands { }).wrap pkgs.stdenv;
       in
       {
-        formatter = pkgs.nixfmt-rfc-style;
+        formatter = pkgs.nixfmt;
         packages = pkgs // {
           mccPackages = builtins.mapAttrs (name: value: value.override { stdenv = mcc-env; }) pkgs;
         };
@@ -119,11 +119,11 @@
                 pkgs.python3.pkgs.pythondata-software-compiler-rt
                 pkgs.python3.pkgs.pythondata-software-picolibc
                 (pkgs.vivado.override { modules = [ "Artix-7" ]; })
+                # Vivado needs to be able to write to $HOME.
+                pkgs.writableTmpDirAsHomeHook
               ];
             }
             ''
-              # Vivado needs to be able to write to $HOME.
-              export HOME="$PWD"
               python -m litex_boards.targets.digilent_basys3 --output-dir "$out" --build
             '';
 

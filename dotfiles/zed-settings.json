@@ -14,56 +14,59 @@
     "wesl": true,
     "wit": true,
     "xcode-themes": true,
-    "xml": true
+    "xml": true,
   },
   "buffer_font_size": 14.0,
   "features": { "edit_prediction_provider": "none" },
   "languages": {
     "BibTeX": {
-      "tab_size": 2
+      "tab_size": 2,
     },
     "Git Commit": { "wrap_guides": [72] },
     "Haskell": { "tab_size": 2 },
     "LaTeX": {
-      "tab_size": 2
+      "tab_size": 2,
     },
-    "Markdown": { "format_on_save": "on", "soft_wrap": "editor_width" },
+    "Markdown": {
+      "format_on_save": "off",
+      "soft_wrap": "editor_width",
+    },
     "Nix": {
       "language_servers": ["!nil", "..."],
       "tab_size": 2,
-      "formatter": { "external": { "command": "nixfmt", "arguments": [] } }
+      "formatter": { "external": { "command": "nixfmt", "arguments": [] } },
     },
     "Python": { "formatter": { "language_server": { "name": "ruff" } } },
     "Standard ML": {
-      "language_servers": ["!millet-ls", "..."]
+      "language_servers": ["!millet-ls", "..."],
     },
     "Typst": { "soft_wrap": "editor_width" },
     "Verilog": {
       "tab_size": 2,
       "completions": {
-        "words": "disabled"
-      }
+        "words": "disabled",
+      },
     },
     "TypeScript": {
       "language_servers": [
         "!vtsls",
         "!typescript-language-server",
         "deno",
-        "..."
-      ]
-    }
+        "...",
+      ],
+    },
   },
   "lsp": {
     "pylsp": {
       "initialization_options": {
-        "pylsp": { "plugins": { "pyflakes": { "enabled": false } } }
-      }
+        "pylsp": { "plugins": { "pyflakes": { "enabled": false } } },
+      },
     },
     "rust-analyzer": {
       "initialization_options": {
         "checkOnSave": { "command": "clippy" },
-        "imports": { "granularity": { "group": "module" } }
-      }
+        "imports": { "granularity": { "group": "module" } },
+      },
     },
     "texlab": {
       "settings": {
@@ -72,32 +75,32 @@
             "executable": "pdflatex",
             "args": ["-synctex=1", "%f"],
             "onSave": true,
-            "forwardSearchAfter": true
+            "forwardSearchAfter": true,
           },
           "forwardSearch": {
             "executable": "/Applications/Nix Apps/Skim.app/Contents/SharedSupport/displayline",
-            "args": ["-r", "-g", "%l", "%p", "%f"]
-          }
-        }
-      }
+            "args": ["-r", "-g", "%l", "%p", "%f"],
+          },
+        },
+      },
     },
     "deno": {
       "settings": {
         "deno": {
-          "enable": true
-        }
-      }
-    }
+          "enable": true,
+        },
+      },
+    },
   },
   "terminal": {
     "alternate_scroll": "on",
     "detect_venv": "off",
     "dock": "bottom",
-    "option_as_meta": true
+    "option_as_meta": true,
   },
   "theme": {
     "dark": "Xcode Default Darker",
     "light": "One Light",
-    "mode": "system"
-  }
+    "mode": "system",
+  },
 }
