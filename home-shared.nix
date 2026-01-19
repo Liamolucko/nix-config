@@ -63,7 +63,7 @@ in
       pkgs.open-vsx.jeanp413.open-remote-ssh
       leanprover.lean4
       mateocerquetella.xcode-12-theme
-      maximedenes.vscoq
+      rocq-prover.vsrocq
       nathanridley.autotrim
       oskarabrahamsson.hol4-mode
       pkief.material-icon-theme

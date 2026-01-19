@@ -5,12 +5,12 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "eqy";
-  version = "0.50";
+  version = "0.61";
   src = fetchFromGitHub {
     owner = "YosysHQ";
     repo = "eqy";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-wBBSHWjbg/9jq8btGEgRD2tlkf98uehe+kVgRbxjzes=";
+    hash = "sha256-k/sQSnxiVJVeZBG0bg+X5gtK6M3/p64slRArMH7MIEw=";
   };
 
   # TODO: patch paths to yosys and other things in exe_paths; exe_paths also isn't being used in EqySatStrategy and main.

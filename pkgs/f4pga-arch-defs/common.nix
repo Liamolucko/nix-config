@@ -69,21 +69,27 @@ let
       "tests/test_xsim.py"
     ];
   };
-  lowrisc-fusesoc = (fusesoc.override { edalize = lowrisc-edalize; }).overridePythonAttrs {
-    src = fetchFromGitHub {
-      owner = "lowRISC";
-      repo = "fusesoc";
-      # latest commit on 'ot' branch as of 2024-06-08
-      rev = "14dfc825ced58fe1fb343662fa80fc4fbd0fdc50";
-      hash = "sha256-Q+Q/X/hgpdzrHke2kXaXAsTp+8p1wRJi2pvtOKwd1/Q=";
-    };
-    postFixup = ''
-      # Don't add Python to PATH, since then it ends up taking priority over the
-      # `withPackages` version of it we want to use.
-      mv $out/bin/{.fusesoc-wrapped,fusesoc}
-      wrapProgram $out/bin/fusesoc $makeWrapperArgs
-    '';
-  };
+  lowrisc-fusesoc =
+    (fusesoc.override {
+      python3Packages = python3.pkgs // {
+        edalize = lowrisc-edalize;
+      };
+    }).overridePythonAttrs
+      {
+        src = fetchFromGitHub {
+          owner = "lowRISC";
+          repo = "fusesoc";
+          # latest commit on 'ot' branch as of 2024-06-08
+          rev = "14dfc825ced58fe1fb343662fa80fc4fbd0fdc50";
+          hash = "sha256-Q+Q/X/hgpdzrHke2kXaXAsTp+8p1wRJi2pvtOKwd1/Q=";
+        };
+        postFixup = ''
+          # Don't add Python to PATH, since then it ends up taking priority over the
+          # `withPackages` version of it we want to use.
+          mv $out/bin/{.fusesoc-wrapped,fusesoc}
+          wrapProgram $out/bin/fusesoc $makeWrapperArgs
+        '';
+      };
 
   # TODO: it seems like this repo has built artifacts commited to it, maybe
   # rebuild them?

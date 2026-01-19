@@ -70,20 +70,8 @@ final: prev: {
   isabelle = prev.isabelle.overrideAttrs (old: {
     patches = [ ./isabelle-fix-copied-permissions.patch ];
   });
-  # https://github.com/NixOS/nixpkgs/pull/462090
-  sage = final.callPackage "${final.path}/pkgs/by-name/sa/sage/package.nix" {
-    pkgs = final // {
-      python3 = final.python3 // {
-        buildEnv = final.python3.buildEnv.overrideAttrs (oldAttrs: {
-          postBuild =
-            assert !(final.lib.hasInfix "--resolve-argv0" oldAttrs.postBuild);
-            final.lib.replaceString "--inherit-argv0" "--inherit-argv0 --resolve-argv0" oldAttrs.postBuild;
-        });
-      };
-    };
-  };
   yosys = prev.yosys.overrideAttrs (old: {
-    patches = old.patches ++ [
+    patches = (old.patches or [ ]) ++ [
       ./yosys-select-all.patch
       # This is the version which is more in the spirit of the original change, by
       # preserving the distinction between libraries / executables and letting
