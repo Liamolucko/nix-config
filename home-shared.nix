@@ -14,7 +14,7 @@ let
   '';
   alacritty-mac = pkgs.runCommand pkgs.alacritty.name { } ''
     mkdir $out
-    ${lib.getExe pkgs.xorg.lndir} ${pkgs.alacritty} $out
+    ${lib.getExe pkgs.lndir} ${pkgs.alacritty} $out
     rm $out/Applications/Alacritty.app/Contents/Resources/alacritty.icns
     cp ${alacritty-mac-icons}/icon.icns $out/Applications/Alacritty.app/Contents/Resources/alacritty.icns
   '';
