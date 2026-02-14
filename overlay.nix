@@ -67,9 +67,31 @@ final: prev: {
   gfan = prev.gfan.overrideAttrs {
     hardeningDisable = [ "libcxxhardeningfast" ];
   };
-  isabelle = prev.isabelle.overrideAttrs (old: {
-    patches = [ ./isabelle-fix-copied-permissions.patch ];
+  givaro = prev.givaro.overrideAttrs (old: {
+    patches = (old.patches or [ ]) ++ [
+      (final.fetchpatch2 {
+        name = "libc++-support.patch";
+        url = "https://github.com/linbox-team/givaro/commit/464d53db36038c36a72bbad48c97bc141f62e161.diff?full_index=1";
+        hash = "sha256-aI9PPjIQCvt9QKywxid+FVx71Buo8d6U7d+PLsKR4+k=";
+      })
+    ];
   });
+  # https://github.com/NixOS/nixpkgs/pull/489725
+  vesktop = prev.vesktop.overrideAttrs {
+    buildPhase = ''
+      runHook preBuild
+
+      pnpm build
+      pnpm exec electron-builder \
+        --dir \
+        -c.asarUnpack="**/*.node" \
+        -c.electronDist=${if final.stdenv.hostPlatform.isDarwin then "." else "electron-dist"} \
+        -c.electronVersion=${final.electron.version} \
+        ${final.lib.optionalString final.stdenv.hostPlatform.isDarwin "-c.mac.identity=null"}
+
+      runHook postBuild
+    '';
+  };
   yosys = prev.yosys.overrideAttrs (old: {
     patches = (old.patches or [ ]) ++ [
       ./yosys-select-all.patch

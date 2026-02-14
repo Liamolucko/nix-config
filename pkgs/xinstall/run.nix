@@ -11,9 +11,9 @@ args@{
   requireFile,
   runCommand,
   glibc,
+  lndir,
   temurin-jre-bin-21,
   xinstall,
-  xorg,
   meta,
   pname,
   edition,
@@ -87,7 +87,7 @@ let
   logTee = lib.optionalString saveLogs "| tee $log";
 
   linkExtraPaths = lib.concatStringsSep "\n" (
-    lib.map (path: "${lib.getExe xorg.lndir} ${path} $out/opt/Xilinx") extraPaths
+    lib.map (path: "${lib.getExe lndir} ${path} $out/opt/Xilinx") extraPaths
   );
   timestampStrip = ''s/_[0-9]*\.\(desktop\|directory\)/\.\1/'';
 
