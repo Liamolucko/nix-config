@@ -4,23 +4,27 @@
   fetchFromGitHub,
   setuptools,
   litex,
+  pyyaml,
   unittestCheckHook,
 }:
 
-buildPythonPackage rec {
+buildPythonPackage (finalAttrs: {
   pname = "litesdcard";
-  version = "2024.04";
+  version = "2025.12";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "enjoy-digital";
     repo = "litesdcard";
-    rev = version;
-    hash = "sha256-s/kSPDOW/GV4Ejqcj7E0Eee44J7auT3xmG/9m7s2YKI=";
+    tag = finalAttrs.version;
+    hash = "sha256-ELIvG3sX2BQPLRuQx2LJYqnv0EYO102YoHbd0w9t+i8=";
   };
 
   build-system = [ setuptools ];
-  dependencies = [ litex ];
+  dependencies = [
+    litex
+    pyyaml
+  ];
 
   nativeCheckInputs = [ unittestCheckHook ];
 
@@ -29,4 +33,4 @@ buildPythonPackage rec {
     homepage = "https://github.com/enjoy-digital/litesdcard";
     license = lib.licenses.bsd2;
   };
-}
+})

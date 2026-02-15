@@ -4,23 +4,27 @@
   fetchFromGitHub,
   setuptools,
   litex,
+  pyyaml,
   unittestCheckHook,
 }:
 
-buildPythonPackage rec {
+buildPythonPackage (finalAttrs: {
   pname = "litescope";
-  version = "2024.04";
+  version = "2025.12";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "enjoy-digital";
     repo = "litescope";
-    rev = version;
-    hash = "sha256-VqelBmeIdLEhcEcVu6BTw54UqkwQ6zIAfH3M+kLd0b0=";
+    tag = finalAttrs.version;
+    hash = "sha256-bHA7tmQkeNgabqMHeVpGlaplsToWcDaJU+yG3LzcBWU=";
   };
 
   build-system = [ setuptools ];
-  dependencies = [ litex ];
+  dependencies = [
+    litex
+    pyyaml
+  ];
 
   nativeCheckInputs = [ unittestCheckHook ];
   preCheck = ''
@@ -32,4 +36,4 @@ buildPythonPackage rec {
     homepage = "https://github.com/enjoy-digital/litescope";
     license = lib.licenses.bsd2;
   };
-}
+})

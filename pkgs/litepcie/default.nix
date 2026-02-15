@@ -9,24 +9,17 @@
   unittestCheckHook,
 }:
 
-buildPythonPackage rec {
+buildPythonPackage (finalAttrs: {
   pname = "litepcie";
-  version = "2024.04";
+  version = "2025.12";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "enjoy-digital";
     repo = "litepcie";
-    rev = version;
-    hash = "sha256-oH4ATlgs+4R3qSjE0Z+23wQh8PgW8UYiiP7CVbp1Oh0=";
+    tag = finalAttrs.version;
+    hash = "sha256-Wi/gV7NmLOu8rLNWn4kECcB6gfdlOjOJQy64dwx0Dks=";
   };
-
-  patches = [
-    (fetchpatch {
-      url = "https://github.com/enjoy-digital/litepcie/commit/f8b1599bdbe7adb986384308afb62b1f2d040be8.patch";
-      hash = "sha256-hIuZq+5tgjqYZw60laVgdFwnpBVeXzu5b5qySBsJXDY=";
-    })
-  ];
 
   build-system = [ setuptools ];
   dependencies = [
@@ -44,4 +37,4 @@ buildPythonPackage rec {
     homepage = "https://github.com/enjoy-digital/litepcie";
     license = lib.licenses.bsd2;
   };
-}
+})

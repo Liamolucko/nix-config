@@ -124,6 +124,7 @@ final: prev: {
       hilbertcurve_1 = python-final.callPackage ./pkgs/hilbertcurve/1.nix { };
       litedram = python-final.callPackage ./pkgs/litedram { };
       liteeth = python-final.callPackage ./pkgs/liteeth { };
+      litei2c = python-final.callPackage ./pkgs/litei2c { };
       liteiclink = python-final.callPackage ./pkgs/liteiclink { };
       litejesd204b = python-final.callPackage ./pkgs/litejesd204b { };
       litepcie = python-final.callPackage ./pkgs/litepcie { };
@@ -133,34 +134,27 @@ final: prev: {
       litespi = python-final.callPackage ./pkgs/litespi { };
       litex = python-final.callPackage ./pkgs/litex { };
       litex-boards = python-final.callPackage ./pkgs/litex-boards { };
-      okonomiyaki = python-prev.okonomiyaki.overrideAttrs {
-        # https://github.com/NixOS/nixpkgs/pull/360519
-        # https://github.com/NixOS/nixpkgs/pull/438892
-        postPatch = "";
-        preCheck = ''
-          substituteInPlace okonomiyaki/runtimes/tests/test_runtime.py \
-            --replace 'runtime_info = PythonRuntime.from_running_python()' 'raise unittest.SkipTest() #'
-          substituteInPlace okonomiyaki/platforms/_platform.py \
-            --replace-fail 'name.split()[0]' '(name.split() or [""])[0]'
-        '';
-      };
       prjxray = python-final.callPackage ./pkgs/prjxray { };
       pyjson = python-final.callPackage ./pkgs/pyjson { };
-      pythondata-cpu-lm32 = python-final.callPackage ./pkgs/pythondata/cpu-lm32.nix { };
-      pythondata-cpu-mor1kx = python-final.callPackage ./pkgs/pythondata/cpu-mor1kx.nix { };
-      pythondata-cpu-marocchino = python-final.callPackage ./pkgs/pythondata/cpu-marocchino.nix { };
-      pythondata-cpu-microwatt = python-final.callPackage ./pkgs/pythondata/cpu-microwatt.nix { };
       pythondata-cpu-blackparrot = python-final.callPackage ./pkgs/pythondata/cpu-blackparrot.nix { };
+      pythondata-cpu-coreblocks = python-final.callPackage ./pkgs/pythondata/cpu-coreblocks.nix { };
       pythondata-cpu-cv32e40p = python-final.callPackage ./pkgs/pythondata/cpu-cv32e40p.nix { };
       pythondata-cpu-cv32e41p = python-final.callPackage ./pkgs/pythondata/cpu-cv32e41p.nix { };
       pythondata-cpu-cva5 = python-final.callPackage ./pkgs/pythondata/cpu-cva5.nix { };
       pythondata-cpu-cva6 = python-final.callPackage ./pkgs/pythondata/cpu-cva6.nix { };
       pythondata-cpu-ibex = python-final.callPackage ./pkgs/pythondata/cpu-ibex.nix { };
+      pythondata-cpu-lm32 = python-final.callPackage ./pkgs/pythondata/cpu-lm32.nix { };
+      pythondata-cpu-marocchino = python-final.callPackage ./pkgs/pythondata/cpu-marocchino.nix { };
+      pythondata-cpu-microwatt = python-final.callPackage ./pkgs/pythondata/cpu-microwatt.nix { };
       pythondata-cpu-minerva = python-final.callPackage ./pkgs/pythondata/cpu-minerva.nix { };
+      pythondata-cpu-mor1kx = python-final.callPackage ./pkgs/pythondata/cpu-mor1kx.nix { };
       pythondata-cpu-naxriscv = python-final.callPackage ./pkgs/pythondata/cpu-naxriscv.nix { };
+      pythondata-cpu-openc906 = python-final.callPackage ./pkgs/pythondata/cpu-openc906.nix { };
       pythondata-cpu-picorv32 = python-final.callPackage ./pkgs/pythondata/cpu-picorv32.nix { };
       pythondata-cpu-rocket = python-final.callPackage ./pkgs/pythondata/cpu-rocket.nix { };
+      pythondata-cpu-sentinel = python-final.callPackage ./pkgs/pythondata/cpu-sentinel.nix { };
       pythondata-cpu-serv = python-final.callPackage ./pkgs/pythondata/cpu-serv.nix { };
+      # vexiiriscv is missing a license
       pythondata-cpu-vexriscv = python-final.callPackage ./pkgs/pythondata/cpu-vexriscv.nix { };
       pythondata-cpu-vexriscv-smp = python-final.callPackage ./pkgs/pythondata/cpu-vexriscv-smp.nix { };
       pythondata-misc-tapcfg = python-final.callPackage ./pkgs/pythondata/misc-tapcfg.nix { };

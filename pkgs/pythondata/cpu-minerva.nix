@@ -1,6 +1,6 @@
 import ./common.nix {
   kind = "cpu";
   name = "minerva";
-  hash = "sha256-feJVsnkEyLXDWNfWtW5FT0auwfBU/+d7bCzZ644l2os=";
+  hash = "sha256-813eb86QKe634BSptYq6Yn/9AofrNcDvF9pFcpo599w=";
   license = licenses: licenses.bsd2;
 }

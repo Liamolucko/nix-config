@@ -3,6 +3,7 @@
   name,
   hash,
   license,
+  dependencies ? pkgs: [ ],
   doCheck ? true,
 }:
 {
@@ -15,20 +16,21 @@
 let
   dashedName = builtins.replaceStrings [ "_" ] [ "-" ] name;
 in
-buildPythonPackage rec {
+buildPythonPackage (finalAttrs: {
   pname = "pythondata-${kind}-${dashedName}";
-  version = "2024.04";
+  version = "2025.12";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "litex-hub";
     repo = "pythondata-${kind}-${name}";
-    rev = version;
+    tag = finalAttrs.version;
     inherit hash;
     fetchSubmodules = true;
   };
 
   build-system = [ setuptools ];
+  dependencies = dependencies python.pkgs;
 
   inherit doCheck;
   # TODO: cd into $out so that the version in /tmp/nix-build-* isn't accessible (same as pythonImportsCheck).
@@ -43,4 +45,4 @@ buildPythonPackage rec {
     homepage = "https://github.com/litex-hub/pythondata-${kind}-${name}";
     license = license lib.licenses;
   };
-}
+})

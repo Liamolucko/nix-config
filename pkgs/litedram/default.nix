@@ -21,16 +21,16 @@
   zlib,
 }:
 
-buildPythonPackage rec {
+buildPythonPackage (finalAttrs: {
   pname = "litedram";
-  version = "2024.04";
+  version = "2025.12";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "enjoy-digital";
     repo = "litedram";
-    rev = version;
-    hash = "sha256-YcLxKFEVnfk9ocFIOx0pnKkrM23GXbnssXvLtHZpJP8=";
+    tag = finalAttrs.version;
+    hash = "sha256-aN1QPR/5rg9kTmtTtvXDfbYCPd7mzH4SLXxzdnktR0A=";
   };
 
   patches = [
@@ -95,4 +95,4 @@ buildPythonPackage rec {
     homepage = "https://github.com/enjoy-digital/litedram";
     license = lib.licenses.bsd2;
   };
-}
+})

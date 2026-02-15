@@ -9,16 +9,16 @@
   unittestCheckHook,
 }:
 
-buildPythonPackage rec {
+buildPythonPackage (finalAttrs: {
   pname = "liteeth";
-  version = "2024.04";
+  version = "2025.12";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "enjoy-digital";
     repo = "liteeth";
-    rev = version;
-    hash = "sha256-atXa/rX9/w2wbNqVPdIB2eMTG7dSq+cfM3iffrGnAyo=";
+    tag = finalAttrs.version;
+    hash = "sha256-BMkMvp0LlBelkExVJhJO/3aB53Klkmg6rDe1INgz4vM=";
   };
 
   patches = [
@@ -39,4 +39,4 @@ buildPythonPackage rec {
     homepage = "https://github.com/enjoy-digital/liteeth";
     license = lib.licenses.bsd2;
   };
-}
+})

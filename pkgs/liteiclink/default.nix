@@ -8,16 +8,16 @@
   unittestCheckHook,
 }:
 
-buildPythonPackage rec {
+buildPythonPackage (finalAttrs: {
   pname = "liteiclink";
-  version = "2024.04";
+  version = "2025.12";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "enjoy-digital";
     repo = "liteiclink";
-    rev = version;
-    hash = "sha256-mnQBD9Paw94t+624ClHAJ9JS4aA09WA1RQvzD5QYXNo=";
+    tag = finalAttrs.version;
+    hash = "sha256-hniCGn4+akpEEFcK84H4pxwX8M+Ku/O7MDK8L670aSs=";
   };
 
   build-system = [ setuptools ];
@@ -38,4 +38,4 @@ buildPythonPackage rec {
     homepage = "https://github.com/enjoy-digital/liteiclink";
     license = lib.licenses.bsd2;
   };
-}
+})

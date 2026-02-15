@@ -5,23 +5,27 @@
   fetchFromGitHub,
   setuptools,
   litex,
+  pyyaml,
   unittestCheckHook,
 }:
 
-buildPythonPackage rec {
+buildPythonPackage (finalAttrs: {
   pname = "litesata";
-  version = "2024.04";
+  version = "2025.12";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "enjoy-digital";
     repo = "litesata";
-    rev = version;
-    hash = "sha256-Bl/y0EMZAk1C+/LBQasiogelmqW7hM5Y4gUe38fisQE=";
+    tag = finalAttrs.version;
+    hash = "sha256-rEzZZuueRSP5//8M4CV5xpL1VZASsflTMK5Yo83mnu0=";
   };
 
   build-system = [ setuptools ];
-  dependencies = [ litex ];
+  dependencies = [
+    litex
+    pyyaml
+  ];
 
   nativeCheckInputs = [ unittestCheckHook ];
   preCheck = ''
@@ -35,4 +39,4 @@ buildPythonPackage rec {
     homepage = "https://github.com/enjoy-digital/litesata";
     license = lib.licenses.bsd2;
   };
-}
+})

@@ -1,12 +1,14 @@
 diff --git a/test/test_gen.py b/test/test_gen.py
-index 20c9de3..45efb06 100644
+index 655a510..03f59ba 100644
 --- a/test/test_gen.py
 +++ b/test/test_gen.py
-@@ -6,11 +6,12 @@
+@@ -6,13 +6,14 @@
  
  import unittest
  import os
 +import sys
+ 
+ # Helper -------------------------------------------------------------------------------------------
  
  def build_config(name):
      errors = 0

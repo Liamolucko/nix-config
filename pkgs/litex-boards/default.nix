@@ -38,16 +38,16 @@ let
     hash = "sha256-XbguKDtA8fo7kWEQFUA2DAj2Z7yHRkKsaSR2h7igM4g=";
   };
 in
-buildPythonPackage rec {
+buildPythonPackage (finalAttrs: {
   pname = "litex-boards";
-  version = "2024.04";
+  version = "2025.12";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "litex-hub";
     repo = "litex-boards";
-    rev = version;
-    hash = "sha256-pHtVotOZDZKE4RGUIn2rZTCPBjpLiEJLuLyaOcDCQbg=";
+    tag = finalAttrs.version;
+    hash = "sha256-7ffLnBuc5nds/IB3mGjIhetwQjibjOB53w8BG6e+5+s=";
   };
 
   patches = [
@@ -84,4 +84,4 @@ buildPythonPackage rec {
     homepage = "https://github.com/litex-hub/litex-boards";
     license = lib.licenses.bsd2;
   };
-}
+})

@@ -4,23 +4,27 @@
   fetchFromGitHub,
   setuptools,
   litex,
+  pyyaml,
   unittestCheckHook,
 }:
 
-buildPythonPackage rec {
+buildPythonPackage (finalAttrs: {
   pname = "litespi";
-  version = "2024.04";
+  version = "2025.12";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "litex-hub";
     repo = "litespi";
-    rev = version;
-    hash = "sha256-ri4Kqr62mP6sviq3FwYGGtaZxe1yR0BEWW+5dwmkJ+g=";
+    tag = finalAttrs.version;
+    hash = "sha256-qh4ehg+cTyWCQAOaa6YMV3ItYtc7UINnERS2puhd11Q=";
   };
 
   build-system = [ setuptools ];
-  dependencies = [ litex ];
+  dependencies = [
+    litex
+    pyyaml
+  ];
 
   nativeCheckInputs = [ unittestCheckHook ];
 
@@ -29,4 +33,4 @@ buildPythonPackage rec {
     homepage = "https://github.com/litex-hub/litespi";
     license = lib.licenses.bsd2;
   };
-}
+})

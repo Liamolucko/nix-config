@@ -26,6 +26,7 @@
     "Haskell": { "tab_size": 2 },
     "LaTeX": {
       "tab_size": 2,
+      "wrap_guides": [72],
     },
     "Markdown": {
       "format_on_save": "off",

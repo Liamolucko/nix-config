@@ -6,15 +6,15 @@
   litex,
 }:
 
-buildPythonPackage rec {
+buildPythonPackage (finalAttrs: {
   pname = "valentyusb";
-  version = "2023.12";
+  version = "2025.12";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "litex-hub";
     repo = "valentyusb";
-    rev = version;
+    tag = finalAttrs.version;
     hash = "sha256-f8XMupO3Y4peHhFJmWG1BFL8vGRqjYXeyNsoiVf5xd0=";
   };
 
@@ -32,4 +32,4 @@ buildPythonPackage rec {
     homepage = "https://github.com/litex-hub/valentyusb";
     license = lib.licenses.bsd3;
   };
-}
+})
