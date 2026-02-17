@@ -67,15 +67,6 @@ final: prev: {
   gfan = prev.gfan.overrideAttrs {
     hardeningDisable = [ "libcxxhardeningfast" ];
   };
-  givaro = prev.givaro.overrideAttrs (old: {
-    patches = (old.patches or [ ]) ++ [
-      (final.fetchpatch2 {
-        name = "libc++-support.patch";
-        url = "https://github.com/linbox-team/givaro/commit/464d53db36038c36a72bbad48c97bc141f62e161.diff?full_index=1";
-        hash = "sha256-aI9PPjIQCvt9QKywxid+FVx71Buo8d6U7d+PLsKR4+k=";
-      })
-    ];
-  });
   # https://github.com/NixOS/nixpkgs/pull/489725
   vesktop = prev.vesktop.overrideAttrs {
     buildPhase = ''
