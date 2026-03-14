@@ -68,7 +68,7 @@ in
     pkgs.zed-editor
   ]
   ++ lib.optionals (!ciSafe) [
-    pkgs.docnav
+    # pkgs.docnav
     # We can put this back once https://github.com/NixOS/nixpkgs/pull/389014 is
     # merged.
     # pkgs.rgp
@@ -78,7 +78,7 @@ in
   services.udev.packages = lib.optionals (!ciSafe) [ vivado ];
   # Avoid accidentally GCing these if keep-outputs is turned off.
   system.extraDependencies = lib.optionals (!ciSafe) [
-    pkgs.docnav.payload
+    # pkgs.docnav.payload
     vivado.payload
     pkgs.xinstall.src
   ];

@@ -29,12 +29,16 @@ in
     pkgs.libreoffice-fresh
     pkgs.pciutils
     pkgs.rhythmbox
+    pkgs.solaar
     pkgs.wl-clipboard
     (pkgs.runCommand "open" { } ''
       mkdir -p $out/bin
       ln -s ${pkgs.xdg-utils}/bin/xdg-open $out/bin/open
     '')
   ];
+  services.udev.packages = [ pkgs.solaar ];
+
+  services.flatpak.enable = true;
 
   programs.gpaste.enable = true;
 
