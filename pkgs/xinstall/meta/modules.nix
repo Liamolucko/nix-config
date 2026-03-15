@@ -3,13 +3,13 @@
   lib,
   autoPatchelfHook,
   buildFHSEnv,
+  libx11,
   libxcrypt-legacy,
   makeWrapper,
   ncurses,
   ncurses5,
   qt5,
   replaceVars,
-  xorg,
   zlib,
   meta,
 }:
@@ -78,7 +78,7 @@ in
         ln -s ${libxcrypt-legacy}/lib/libcrypt.so.1 $out/opt/Xilinx/${versionedPath "Vivado"}/lib/lnx64.o
         ln -s ${ncurses}/lib/libtinfo.so.6 $out/opt/Xilinx/${versionedPath "Vivado"}/lib/lnx64.o
         ln -s ${ncurses5}/lib/libtinfo.so.5 $out/opt/Xilinx/${versionedPath "Vivado"}/lib/lnx64.o
-        ln -s ${xorg.libX11}/lib/libX11.so.6 $out/opt/Xilinx/${versionedPath "Vivado"}/lib/lnx64.o
+        ln -s ${libx11}/lib/libX11.so.6 $out/opt/Xilinx/${versionedPath "Vivado"}/lib/lnx64.o
         ln -s ${zlib}/lib/libz.so.1 $out/opt/Xilinx/${versionedPath "Vivado"}/lib/lnx64.o
 
         mv $out/opt/Xilinx/${versionedPath "Vivado"}/bin/{xelab,.xelab-wrapped}
@@ -105,7 +105,7 @@ in
     postFixup = lib.optionalString (lib.versionOlder meta.version "2024.2") ''
       ln -s ${libxcrypt-legacy}/lib/libcrypt.so.1 $out/opt/Xilinx/${versionedPath "Vitis_HLS"}/lib/lnx64.o
       ln -s ${ncurses5}/lib/libtinfo.so.5 $out/opt/Xilinx/${versionedPath "Vitis_HLS"}/lib/lnx64.o
-      ln -s ${xorg.libX11}/lib/libX11.so.6 $out/opt/Xilinx/${versionedPath "Vitis_HLS"}/lib/lnx64.o
+      ln -s ${libx11}/lib/libX11.so.6 $out/opt/Xilinx/${versionedPath "Vitis_HLS"}/lib/lnx64.o
       ln -s ${zlib}/lib/libz.so.1 $out/opt/Xilinx/${versionedPath "Vitis_HLS"}/lib/lnx64.o
     '';
   };
