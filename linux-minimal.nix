@@ -32,7 +32,7 @@
     "kernel.perf_event_paranoid" = 1;
   };
 
-  documentation.man.generateCaches = false;
+  documentation.man.cache.enable = false;
 
   environment.systemPackages = [ pkgs.ghostty.terminfo ];
 }
