@@ -15,12 +15,17 @@
   "terminal.integrated.defaultLocation": "editor",
   "terminal.integrated.fontSize": 14,
   "update.mode": "none",
-  "workbench.colorTheme": "Xcode Default (Dark Customized Version)",
+  "workbench.colorTheme": "Default Dark+",
   "workbench.iconTheme": "material-icon-theme",
   "workbench.startupEditor": "none",
   "[hol4]": {
     "editor.acceptSuggestionOnCommitCharacter": false
   },
   "dafny.version": "custom",
-  "dafny.cliPath": "/run/current-system/sw/bin/Dafny"
+  "dafny.cliPath": "/run/current-system/sw/bin/Dafny",
+  "viper.buildVersion": "External",
+  "[viper]": {
+    "editor.formatOnSave": false
+  },
+  "files.trimTrailingWhitespace": true
 }

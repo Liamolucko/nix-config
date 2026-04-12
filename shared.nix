@@ -24,7 +24,7 @@ in
     pkgs.nixd
     pkgs.nixfmt
     pkgs.nodejs
-    pkgs.nodePackages.pnpm
+    pkgs.pnpm
     pkgs.opam
     pkgs.openfpgaloader
     pkgs.pulldown-cmark
@@ -56,6 +56,7 @@ in
     pkgs.wasm-pack
     pkgs.wasm-tools
     pkgs.wgsl-analyzer
+    pkgs.z3
   ]
   ++ lib.optionals (!ciSafe) [
     pkgs.drawio

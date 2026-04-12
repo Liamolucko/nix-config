@@ -57,18 +57,18 @@ in
     enable = true;
     package = pkgs.vscodium;
     mutableExtensionsDir = false;
-    profiles.default.extensions = with pkgs.vscode-marketplace; [
+    profiles.default.extensions = with pkgs.open-vsx; [
       dafny-lang.ide-vscode
       iliazeus.vscode-ansi
-      pkgs.open-vsx.jeanp413.open-remote-ssh
+      jeanp413.open-remote-ssh
       leanprover.lean4
       mateocerquetella.xcode-12-theme
       rocq-prover.vsrocq
-      nathanridley.autotrim
-      oskarabrahamsson.hol4-mode
+      pkgs.vscode-marketplace.oskarabrahamsson.hol4-mode
       pkief.material-icon-theme
       stkb.rewrap
       tamasfe.even-better-toml
+      viper-admin.viper
     ];
   };
 
@@ -77,4 +77,6 @@ in
       ''
         ln -s '${config.home.homeDirectory}/src/nix-config/dotfiles/vscode-settings.json' $out
       '';
+
+  programs.java.enable = true;
 }

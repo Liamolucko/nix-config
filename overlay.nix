@@ -69,6 +69,38 @@ final: prev: {
   gfan = prev.gfan.overrideAttrs {
     hardeningDisable = [ "libcxxhardeningfast" ];
   };
+  linbox = prev.linbox.override {
+    blas = final.blas.override {
+      # something seems to be wrong with openblas 0.3.31+ on macOS, pin to 0.3.30 for
+      # now
+      openblas = final.openblas.overrideAttrs (old: {
+        version = "0.3.30";
+        src = old.src.override {
+          hash = "sha256-foP2OXUL6ttgYvCxLsxUiVdkPoTvGiHomdNudbSUmSE=";
+        };
+        patches = old.patches ++ [
+          # Fixes "Argument list too long" errors
+          (final.fetchpatch2 {
+            name = "linker-response-files-1.patch";
+            url = "https://github.com/OpenMathLib/OpenBLAS/commit/5aa483e16cfda07ca2df0b6ef88696f757bba3a4.diff?full_index=1";
+            hash = "sha256-jVI78j76DGhudq1K6LgBI80HOpHjpSngzitMq+BlEi0=";
+          })
+          (final.fetchpatch2 {
+            name = "linker-response-files-2.patch";
+            url = "https://github.com/OpenMathLib/OpenBLAS/commit/e04df1941d218aaa650143d90243ebded25b30ea.diff?full_index=1";
+            hash = "sha256-S0zhX687pFDXn5FmrtCTUCIl9fVXQvUz3Yxas1p46eg=";
+          })
+
+          # https://github.com/OpenMathLib/OpenBLAS/issues/5324
+          (final.fetchpatch2 {
+            name = "cmake-have-sme.patch";
+            url = "https://github.com/OpenMathLib/OpenBLAS/commit/cdebb4fd4b2bbbf856e5abdcedbe9a5cf348ef8e.diff?full_index=1";
+            hash = "sha256-1QI+0mer3fu9SRXLwBBqLXbyNXOK5MDWWHlTJqD9ems=";
+          })
+        ];
+      });
+    };
+  };
   # https://github.com/NixOS/nixpkgs/pull/489725
   vesktop = prev.vesktop.overrideAttrs {
     buildPhase = ''
