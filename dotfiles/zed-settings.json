@@ -1,6 +1,7 @@
 {
+  "diff_view_style": "unified",
   "edit_predictions": {
-    "provider": "none"
+    "provider": "none",
   },
   "agent": { "enabled": false },
   "auto_install_extensions": {
