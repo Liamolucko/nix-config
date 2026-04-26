@@ -65,7 +65,6 @@ in
 
   environment.systemPackages = [
     pkgs.renderdoc
-    pkgs.zed-editor
   ]
   ++ lib.optionals (!ciSafe) [
     # pkgs.docnav

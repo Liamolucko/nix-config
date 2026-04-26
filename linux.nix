@@ -23,14 +23,16 @@ in
   hardware.bluetooth.enable = true;
   services.libinput.enable = true;
 
+  # TODO: clipboard history
   environment.systemPackages = [
-    pkgs.gnome-tweaks
-    pkgs.gnomeExtensions.caffeine
+    pkgs.caffeine-ng
+    pkgs.ghostty
     pkgs.libreoffice-fresh
     pkgs.pciutils
     pkgs.rhythmbox
     pkgs.solaar
     pkgs.wl-clipboard
+    pkgs.zed-editor
     (pkgs.runCommand "open" { } ''
       mkdir -p $out/bin
       ln -s ${pkgs.xdg-utils}/bin/xdg-open $out/bin/open
@@ -41,13 +43,20 @@ in
 
   services.flatpak.enable = true;
 
-  programs.gpaste.enable = true;
-
   programs.firefox.enable = true;
   programs.firefox.preferences = {
     "apz.pangesture.delta_mode" = 2;
     "apz.pangesture.pixel_delta_mode_multiplier" = 25;
     "apz.gtk.touchpad_hold.enabled" = true;
+
+    "media.gmp-widevinecdm.version" = "system-installed";
+    "media.gmp-widevinecdm.visible" = true;
+    "media.gmp-widevinecdm.enabled" = true;
+    "media.gmp-widevinecdm.autoupdate" = false;
+  };
+
+  environment.sessionVariables = {
+    MOZ_GMP_PATH = "${pkgs.widevine-firefox}/gmp-widevinecdm/system-installed";
   };
 
   programs.steam.enable = lib.mkDefault (!ciSafe);

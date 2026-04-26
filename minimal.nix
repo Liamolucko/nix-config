@@ -16,6 +16,8 @@ in
       "steam"
       "steam-unwrapped"
       "vivado"
+      "widevine-cdm"
+      "widevine-firefox"
       "xinstall"
     ];
 

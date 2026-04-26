@@ -1,5 +1,7 @@
-{ ... }:
+{ osConfig, ... }:
 {
+  nixpkgs.config.allowUnfreePredicate = osConfig.nixpkgs.config.allowUnfreePredicate;
+
   home.sessionVariables = {
     # R = don't mess with control characters (i.e. make colours work)
     # S = truncate lines instead of wrapping

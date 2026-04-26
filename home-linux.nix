@@ -1,4 +1,10 @@
 { pkgs, ... }:
+let
+  _1password-autostart = pkgs.runCommand "1password-autostart" { } ''
+    cp '${pkgs._1password-gui}/share/applications/1password.desktop' "$out"
+    substituteInPlace "$out" --replace-fail "1password %U" "1password --silent"
+  '';
+in
 {
   home.username = "liam";
   home.homeDirectory = "/home/liam";
@@ -25,5 +31,8 @@
   };
 
   xdg.autostart.enable = true;
-  xdg.autostart.entries = [ "${pkgs.solaar.src}/share/autostart/solaar.desktop" ];
+  xdg.autostart.entries = [
+    _1password-autostart
+    "${pkgs.solaar.src}/share/autostart/solaar.desktop"
+  ];
 }

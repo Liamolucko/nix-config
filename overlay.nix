@@ -56,6 +56,21 @@ final: prev: {
       mkdir -p $out/${final.vivado.version}/Vivado/data/boards
       cp -r ${repo}/new/board_files $out/${final.vivado.version}/Vivado/data/boards/board_files
     '';
+  # from https://github.com/nix-community/nixos-apple-silicon/issues/145
+  widevine-firefox = final.stdenv.mkDerivation {
+    name = "widevine-firefox";
+    version = final.widevine-cdm.version;
+
+    buildCommand = ''
+      mkdir -p $out/gmp-widevinecdm/system-installed
+      ln -s "${final.widevine-cdm}/share/google/chrome/WidevineCdm/manifest.json" $out/gmp-widevinecdm/system-installed/manifest.json
+      ln -s "${final.widevine-cdm}/share/google/chrome/WidevineCdm/_platform_specific/linux_${
+        if final.stdenv.hostPlatform.isAarch64 then "arm64" else "x64"
+      }/libwidevinecdm.so" $out/gmp-widevinecdm/system-installed/libwidevinecdm.so
+    '';
+
+    meta = final.widevine-cdm.meta;
+  };
 
   dafny = prev.dafny.overrideAttrs (old: {
     patches = (old.patches or [ ]) ++ [
