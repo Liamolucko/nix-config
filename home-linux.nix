@@ -1,5 +1,10 @@
-{ pkgs, ... }:
+{
+  lib,
+  pkgs,
+  ...
+}:
 let
+  ciSafe = builtins.getEnv "CI_SAFE" != "";
   _1password-autostart = pkgs.runCommand "1password-autostart" { } ''
     cp '${pkgs._1password-gui}/share/applications/1password.desktop' "$out"
     substituteInPlace "$out" --replace-fail "1password %U" "1password --silent"
@@ -26,13 +31,9 @@ in
   gtk.cursorTheme.name = "Adwaita";
   gtk.iconTheme.name = "Adwaita";
 
-  programs.ssh = {
-    enable = true;
-  };
-
   xdg.autostart.enable = true;
   xdg.autostart.entries = [
-    _1password-autostart
     "${pkgs.solaar.src}/share/autostart/solaar.desktop"
-  ];
+  ]
+  ++ lib.optionals (!ciSafe) [ _1password-autostart ];
 }
