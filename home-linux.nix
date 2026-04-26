@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   home.username = "liam";
   home.homeDirectory = "/home/liam";
@@ -23,4 +23,7 @@
   programs.ssh = {
     enable = true;
   };
+
+  xdg.autostart.enable = true;
+  xdg.autostart.entries = [ "${pkgs.solaar.src}/share/autostart/solaar.desktop" ];
 }

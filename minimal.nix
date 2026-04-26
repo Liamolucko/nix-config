@@ -11,6 +11,7 @@ in
       "1password"
       "docnav"
       "drawio"
+      "obsidian"
       "rgp"
       "steam"
       "steam-unwrapped"

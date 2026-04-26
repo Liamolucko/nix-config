@@ -35,7 +35,8 @@ in
       mkdir -p $out/bin
       ln -s ${pkgs.xdg-utils}/bin/xdg-open $out/bin/open
     '')
-  ];
+  ]
+  ++ lib.optionals (!ciSafe) [ pkgs.obsidian ];
   services.udev.packages = [ pkgs.solaar ];
 
   services.flatpak.enable = true;
