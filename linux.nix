@@ -55,7 +55,7 @@ in
     "media.gmp-widevinecdm.autoupdate" = false;
   };
 
-  environment.sessionVariables = {
+  environment.sessionVariables = lib.optionalAttrs (!ciSafe) {
     MOZ_GMP_PATH = "${pkgs.widevine-firefox}/gmp-widevinecdm/system-installed";
   };
 
