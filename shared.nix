@@ -30,7 +30,8 @@ in
     pkgs.pulldown-cmark
     pkgs.rclone
     pkgs.ruff
-    (pkgs.lib.meta.hiPrio pkgs.rust-analyzer)
+    (lib.meta.hiPrio pkgs.rust-analyzer)
+    pkgs.sage
     pkgs.samply
     pkgs.surfer
     pkgs.texlab

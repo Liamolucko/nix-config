@@ -80,23 +80,18 @@ final: prev: {
       })
     ];
   });
-  # TODO: upstream
-  linbox = prev.linbox.override {
-    blas = final.blas.override {
-      # note that only updating it here is masking a test failure in sage due to
-      # something happening to have become slightly less precise between 0.3.32 and
-      # 0.3.33
-      openblas = final.openblas.overrideAttrs (old: {
-        version = "0.3.33";
-        src = old.src.override {
-          hash = "sha256-EArf0K2Gs+w8IRD5wkMOQv79e8yMoTgQfa9kzjXKn3Y=";
-        };
-        patches = [
-          (final.lib.elemAt old.patches 0)
-        ];
-      });
-    };
-  };
+  ecl = prev.ecl.overrideAttrs (old: {
+    patches = (old.patches or [ ]) ++ [ ./ecl-dynamic-first-env.patch ];
+  });
+  # full 0.3.33 breaks one of sage's tests (probably just need to increase its tolerance)
+  openblas = prev.openblas.overrideAttrs (old: {
+    patches = (old.patches or [ ]) ++ [
+      (final.fetchpatch2 {
+        url = "https://github.com/OpenMathLib/OpenBLAS/commit/ded9a96920bc701ebbc8c17560041d2c7fccf9a3.diff?full_index=1";
+        hash = "sha256-hpY+GrUeCWvcVfY78EM1xQ2sirQZH8xcN2e6TOgZAdE=";
+      })
+    ];
+  });
   # https://github.com/NixOS/nixpkgs/pull/489725
   vesktop = prev.vesktop.overrideAttrs {
     buildPhase = ''
