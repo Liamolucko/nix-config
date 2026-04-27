@@ -83,6 +83,9 @@ final: prev: {
   # TODO: upstream
   linbox = prev.linbox.override {
     blas = final.blas.override {
+      # note that only updating it here is masking a test failure in sage due to
+      # something happening to have become slightly less precise between 0.3.32 and
+      # 0.3.33
       openblas = final.openblas.overrideAttrs (old: {
         version = "0.3.33";
         src = old.src.override {
