@@ -8,7 +8,7 @@ in
     ./linux-minimal.nix
   ];
 
-  services.displayManager.cosmic-greeter.enable = true;
+  services.displayManager.gdm.enable = true;
   services.desktopManager.cosmic.enable = true;
 
   services.printing.enable = true;
