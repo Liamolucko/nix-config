@@ -50,26 +50,27 @@ in
   boot.loader.efi.canTouchEfiVariables = false;
 
   # fairydust DP alt mode branch
-  boot.kernelPackages =
-    let
-      pkgs' = config.hardware.asahi.pkgs;
-    in
-    lib.mkForce (
-      (pkgs'.linux-asahi.override {
-        _kernelPatches = config.boot.kernelPatches;
-      }).extend
-        (
-          final: prev: {
-            kernel = prev.kernel.overrideAttrs (old: {
-              src = old.src.override {
-                tag = null;
-                rev = "4e84610e5722c34e48fef3f33f7bd8faedb13348";
-                hash = "sha256-G32SzJW1paAUaBCnw5cou20WwpuVR8OZSDRpV58IUJU=";
-              };
-            });
-          }
-        )
-    );
+  # I'll put this back once it's rebased on top of the copyfail patch...
+  # boot.kernelPackages =
+  #   let
+  #     pkgs' = config.hardware.asahi.pkgs;
+  #   in
+  #   lib.mkForce (
+  #     (pkgs'.linux-asahi.override {
+  #       _kernelPatches = config.boot.kernelPatches;
+  #     }).extend
+  #       (
+  #         final: prev: {
+  #           kernel = prev.kernel.overrideAttrs (old: {
+  #             src = old.src.override {
+  #               tag = null;
+  #               rev = "4e84610e5722c34e48fef3f33f7bd8faedb13348";
+  #               hash = "sha256-G32SzJW1paAUaBCnw5cou20WwpuVR8OZSDRpV58IUJU=";
+  #             };
+  #           });
+  #         }
+  #       )
+  #   );
 
   networking.hostName = "liam-asahi";
 
