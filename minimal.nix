@@ -40,11 +40,11 @@ in
   environment.systemPackages = [
     pkgs.bat
     pkgs.btop
-    pkgs.deno
     pkgs.file
     pkgs.gh
     pkgs.jq
     pkgs.nix-output-monitor
+    pkgs.python3
     pkgs.ripgrep
     pkgs.rsync
     pkgs.rustup
