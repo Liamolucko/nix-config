@@ -8,7 +8,10 @@ let
   ciSafe = builtins.getEnv "CI_SAFE" != "";
 in
 {
-  imports = [ ./shared.nix ];
+  imports = [
+    ./shared.nix
+    modules/xquartz.nix
+  ];
 
   nix.settings.trusted-users = [ "@admin" ];
   # nix.settings.sandbox = true;
@@ -71,6 +74,8 @@ in
     pkgs.skimpdf
     pkgs.utm
   ];
+
+  services.xquartz.enable = true;
 
   users.users.liam.home = "/Users/liam";
   home-manager.users.liam = import ./home-mac.nix;

@@ -32,9 +32,13 @@ in
   nix.settings.run-diff-hook = true;
   nix.package = pkgs.lix;
 
-  nix.settings.substituters = [ "https://liamolucko.cachix.org" ];
+  nix.settings.substituters = [
+    "https://liamolucko.cachix.org"
+    "https://nix-cache.fossi-foundation.org"
+  ];
   nix.settings.trusted-public-keys = [
     "liamolucko.cachix.org-1:BUnxmHPZZOBq0CokNOYCcYBOCzFXJ9EjdY9BoQkDVJY="
+    "nix-cache.fossi-foundation.org:3+K59iFwXqKsL7BNu6Guy0v+uTlwsxYQxjspXzqLYQs="
   ];
 
   environment.systemPackages = [
