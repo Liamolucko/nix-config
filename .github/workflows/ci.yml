@@ -80,8 +80,8 @@ jobs:
           name: liamolucko
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
       - run: nix build -L ".#checks.$(nix eval --raw --impure --expr 'builtins.currentSystem').basys3-openxc7" --option sandbox true
-  build-sage:
-    name: Build Sage
+  build-j1:
+    name: Build -j1 dependencies
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, ubuntu-24.04-arm]
@@ -93,10 +93,10 @@ jobs:
         with:
           name: liamolucko
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-      - run: nix build -L .#sage -j 1
+      - run: nix build -L .#sage .#lix -j 1
   build-laptop-system:
     name: Build laptop system
-    needs: [build-sage]
+    needs: [build-j1]
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -123,7 +123,7 @@ jobs:
       - run: nix build --impure -L .#nixosConfigurations.liam-asahi.config.boot.kernelPackages.kernel
   build-asahi-system:
     name: Build Asahi system
-    needs: [build-asahi-kernel, build-sage]
+    needs: [build-asahi-kernel, build-j1]
     runs-on: ubuntu-24.04-arm
     steps:
       - uses: jlumbroso/free-disk-space@main
@@ -139,7 +139,7 @@ jobs:
       - run: nix build --impure -L .#nixosConfigurations.liam-asahi.config.system.build.toplevel
   build-desktop-system:
     name: Build desktop system
-    needs: [build-sage]
+    needs: [build-j1]
     runs-on: ubuntu-latest
     steps:
       - uses: jlumbroso/free-disk-space@main

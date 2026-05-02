@@ -80,9 +80,6 @@ final: prev: {
       })
     ];
   });
-  ecl = prev.ecl.overrideAttrs (old: {
-    patches = (old.patches or [ ]) ++ [ ./ecl-dynamic-first-env.patch ];
-  });
   # full 0.3.33 breaks one of sage's tests (probably just need to increase its tolerance)
   openblas = prev.openblas.overrideAttrs (old: {
     patches = (old.patches or [ ]) ++ [
