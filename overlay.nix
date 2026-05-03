@@ -80,15 +80,6 @@ final: prev: {
       })
     ];
   });
-  # full 0.3.33 breaks one of sage's tests (probably just need to increase its tolerance)
-  openblas = prev.openblas.overrideAttrs (old: {
-    patches = (old.patches or [ ]) ++ [
-      (final.fetchpatch2 {
-        url = "https://github.com/OpenMathLib/OpenBLAS/commit/ded9a96920bc701ebbc8c17560041d2c7fccf9a3.diff?full_index=1";
-        hash = "sha256-hpY+GrUeCWvcVfY78EM1xQ2sirQZH8xcN2e6TOgZAdE=";
-      })
-    ];
-  });
   yosys = prev.yosys.overrideAttrs (old: {
     patches = (old.patches or [ ]) ++ [
       ./yosys-select-all.patch

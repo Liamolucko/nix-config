@@ -31,7 +31,6 @@ in
     pkgs.rclone
     pkgs.ruff
     (lib.meta.hiPrio pkgs.rust-analyzer)
-    pkgs.sage
     pkgs.samply
     pkgs.surfer
     pkgs.texlab

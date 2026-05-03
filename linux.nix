@@ -43,6 +43,9 @@ in
 
   services.flatpak.enable = true;
 
+  qt.enable = true;
+  qt.style = "adwaita-dark";
+
   programs.firefox.enable = true;
   programs.firefox.preferences = {
     "apz.pangesture.delta_mode" = 2;
