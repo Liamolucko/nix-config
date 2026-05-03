@@ -9,7 +9,7 @@
     # As well as wanting it to behave that way, another reason I'm setting this is
     # because it stops Git from setting it and setting X, which breaks mouse
     # scrolling.
-    LESS = "RS";
+    LESS = "R";
   };
 
   # This needs to be specified both inside and outside of home-manager, so that

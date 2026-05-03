@@ -70,9 +70,14 @@ in
     # I've been doing this since long before that issue was opened though, I should
     # really go fix it at some point.
     pkgs.gnused
+    pkgs.adwaita-icon-theme
     pkgs.musescore
     pkgs.skimpdf
-    pkgs.utm
+  ];
+
+  environment.pathsToLink = [
+    "/share/icons"
+    "/share/pixmaps"
   ];
 
   services.xquartz.enable = true;

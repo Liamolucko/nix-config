@@ -44,16 +44,19 @@ in
   environment.systemPackages = [
     pkgs.bat
     pkgs.btop
+    pkgs.cachix
     pkgs.file
     pkgs.gh
     pkgs.jq
     pkgs.nix-output-monitor
+    pkgs.nixpkgs-review
     pkgs.python3
     pkgs.ripgrep
     pkgs.rsync
     pkgs.rustup
     pkgs.screen
     (if pkgs.stdenv.isDarwin then pkgs.darwin.trash else pkgs.trashy)
+    pkgs.tree
   ];
 
   services.tailscale.enable = true;
