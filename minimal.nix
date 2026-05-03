@@ -52,6 +52,7 @@ in
     pkgs.ripgrep
     pkgs.rsync
     pkgs.rustup
+    pkgs.screen
     (if pkgs.stdenv.isDarwin then pkgs.darwin.trash else pkgs.trashy)
   ];
 
