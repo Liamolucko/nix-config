@@ -21,7 +21,6 @@ in
     pkgs.isabelle
     pkgs.jre_headless # for kotlin-language-server
     pkgs.man-pages
-    pkgs.mattermost-desktop
     pkgs.nixd
     pkgs.nixfmt
     pkgs.nodejs

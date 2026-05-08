@@ -29,6 +29,7 @@ in
     pkgs.evince
     pkgs.ghostty
     pkgs.libreoffice-fresh
+    pkgs.mattermost-desktop
     pkgs.pciutils
     pkgs.rhythmbox
     pkgs.solaar
