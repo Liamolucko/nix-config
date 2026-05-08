@@ -25,7 +25,8 @@ in
 
   # TODO: clipboard history
   environment.systemPackages = [
-    pkgs.caffeine-ng
+    pkgs.cosmic-ext-applet-caffeine
+    pkgs.evince
     pkgs.ghostty
     pkgs.libreoffice-fresh
     pkgs.pciutils
@@ -40,6 +41,7 @@ in
   ]
   ++ lib.optionals (!ciSafe) [ pkgs.obsidian ];
   services.udev.packages = [ pkgs.solaar ];
+  environment.cosmic.excludePackages = [ pkgs.cosmic-term ];
 
   services.flatpak.enable = true;
 

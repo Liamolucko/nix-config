@@ -1,4 +1,9 @@
 {
+  "agent": {
+    "dock": "right",
+    "favorite_models": [],
+    "model_parameters": []
+  },
   "cli_default_open_behavior": "new_window",
   "disable_ai": true,
   "project_panel": {
