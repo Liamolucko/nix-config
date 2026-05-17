@@ -82,7 +82,7 @@ final: prev: {
   });
   # https://github.com/NixOS/nixpkgs/pull/519195
   mesa = prev.mesa.overrideAttrs {
-    postPatch = ''
+    postPatch = final.lib.optionalString final.stdenv.hostPlatform.isDarwin ''
       # Darwin only installs `swrast_dri.so`. It is symlinked to `libdril_dri.dylib`, but the script never terminates
       # checking for `swrast_dri.dylib`, which isn’t what will be created.
       substituteInPlace bin/install_megadrivers.py \
