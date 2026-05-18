@@ -62,10 +62,9 @@ in
           final: prev: {
             kernel = prev.kernel.overrideAttrs (old: {
               src = old.src.override {
-                owner = "Liamolucko";
                 tag = null;
-                rev = "d92c52c8924ed8cc4306b1cd3b389eef1fcff895";
-                hash = "sha256-ud2OGjeuNr23djMOnIUPHSbOMLl/0qTm6+H+QiXdaoI=";
+                rev = "f9f31e394acadb47e564a867a3538f6a87db956e";
+                hash = "sha256-vT9uGCgi0uKssJ78bctBh8NNR2GnOIPICKtdU1+GQYE=";
               };
             });
           }
