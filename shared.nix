@@ -28,7 +28,6 @@ in
     pkgs.opam
     pkgs.openfpgaloader
     pkgs.pulldown-cmark
-    pkgs.rclone
     pkgs.ruff
     (lib.meta.hiPrio pkgs.rust-analyzer)
     pkgs.samply
