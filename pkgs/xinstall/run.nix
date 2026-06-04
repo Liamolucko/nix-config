@@ -36,8 +36,11 @@ args@{
 let
   requireArchive =
     basename:
-    requireFile rec {
+    let
       name = "${basename}_${meta.version}_${meta.suffix}${meta.suffixes.${basename} or ""}.xz";
+    in
+    requireFile {
+      inherit name;
       message = ''
         Xilinx's archives cannot be downloaded automatically as they are gated behind
         export control.
@@ -57,6 +60,11 @@ let
         The specific archive that you are missing is ${name}.
       '';
       hash = meta.hashes.${basename};
+      meta = {
+        # Don't mark this as unfree: specifying each and every archive in
+        # allowUnfreePredicate would be impractical.
+        license = [ ];
+      };
     };
 
   archiveCmds = lib.concatStringsSep "\n" (

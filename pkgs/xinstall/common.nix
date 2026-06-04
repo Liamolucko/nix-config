@@ -10,6 +10,7 @@
   meta,
 }:
 let
+  installerName = "${meta.name}_${meta.version}_${meta.suffix}_Lin64.bin";
   patch =
     if lib.versionAtLeast meta.version "2025.1" then
       patches/xinstall-2025.1.patch
@@ -19,10 +20,13 @@ in
 stdenv.mkDerivation (finalAttrs: {
   pname = "xinstall";
   inherit (meta) version;
-  src = requireFile rec {
-    name = "${meta.name}_${meta.version}_${meta.suffix}_Lin64.bin";
-    url = "https://www.xilinx.com/member/forms/download/xef.html?filename=${name}";
+  src = requireFile {
+    name = installerName;
+    url = "https://www.xilinx.com/member/forms/download/xef.html?filename=${installerName}";
     hash = meta.webInstallerHash;
+    meta = {
+      license = [ ];
+    };
   };
 
   unpackCmd = "sh $curSrc --noexec --keep";
