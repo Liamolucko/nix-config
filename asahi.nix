@@ -63,8 +63,8 @@ in
             kernel = prev.kernel.overrideAttrs (old: {
               src = old.src.override {
                 tag = null;
-                rev = "ce3b823962dc839c5d5b0b8198f75bd8c60aeea3";
-                hash = "sha256-FnAY8ZiSR0NaX/qP47034A/mrBwVodWXChusX9H/hxs=";
+                rev = "77e0fe0c47e847221988f6397167bc23fec2a042";
+                hash = "sha256-wnNrbpa3dYceQU7ZeJ7eJH6k9QMqswctK/4xxGI9SZE=";
               };
             });
           }
