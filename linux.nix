@@ -10,6 +10,8 @@ in
 
   services.displayManager.gdm.enable = true;
   services.desktopManager.cosmic.enable = true;
+  # TODO: this shouldn't be needed, file an issue about it
+  services.gnome.core-os-services.enable = true;
 
   services.printing.enable = true;
   services.printing.browsed.enable = false;
