@@ -10,7 +10,6 @@ in
 {
   imports = [
     ./shared.nix
-    modules/xquartz.nix
   ];
 
   nix.settings.trusted-users = [ "@admin" ];
@@ -79,8 +78,6 @@ in
     "/share/icons"
     "/share/pixmaps"
   ];
-
-  services.xquartz.enable = true;
 
   users.users.liam.home = "/Users/liam";
   home-manager.users.liam = import ./home-mac.nix;
