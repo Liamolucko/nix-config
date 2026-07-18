@@ -80,21 +80,13 @@ final: prev: {
       })
     ];
   });
-  # https://github.com/NixOS/nixpkgs/pull/519195
-  mesa = prev.mesa.overrideAttrs (
-    final.lib.optionalAttrs final.stdenv.hostPlatform.isDarwin {
-      postPatch = ''
-        # Darwin only installs `swrast_dri.so`. It is symlinked to `libdril_dri.dylib`, but the script never terminates
-        # checking for `swrast_dri.dylib`, which isn’t what will be created.
-        substituteInPlace bin/install_megadrivers.py \
-          --replace-fail "            while ext != '.' + args.libname_suffix" "            while ext != '.so'"
-
-        # Use `st_mtimespec` on Darwin instead of `st_mtim`.
-        substituteInPlace src/gallium/drivers/llvmpipe/lp_context.c \
-          --replace-fail 'st_mtim.' 'st_mtimespec.'
-      '';
-    }
-  );
+  # https://github.com/NixOS/nixpkgs/pull/539058
+  verilator = prev.verilator.overrideAttrs (old: {
+    postPatch = old.postPatch
+    + final.lib.optionalString final.stdenv.hostPlatform.isDarwin ''
+      substituteInPlace src/flexfix --replace-fail 'platform.system() == "Darwin"' 'False'
+    '';
+  });
   yosys = prev.yosys.overrideAttrs (old: {
     patches = (old.patches or [ ]) ++ [
       ./yosys-select-all.patch
