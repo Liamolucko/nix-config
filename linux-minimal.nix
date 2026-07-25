@@ -18,6 +18,7 @@
     ];
   };
 
+  # TODO: do this on darwin too (right now nix-darwin tries to only apply this to the primary user which is silly)
   programs.gnupg.agent.enable = true;
 
   services.avahi = {

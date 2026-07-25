@@ -15,7 +15,7 @@
   "terminal.integrated.defaultLocation": "editor",
   "terminal.integrated.fontSize": 14,
   "update.mode": "none",
-  "workbench.colorTheme": "Default Dark+",
+  "workbench.colorTheme": "Dark+",
   "workbench.iconTheme": "material-icon-theme",
   "workbench.startupEditor": "none",
   "[hol4]": {

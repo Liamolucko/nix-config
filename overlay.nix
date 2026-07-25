@@ -171,4 +171,7 @@ final: prev: {
       #   ;
     })
   ];
+
+  # TODO: is there a way to extend the vscodeExtensions package set?
+  hol4-vscode = final.callPackage ./pkgs/hol4-vscode { };
 }
