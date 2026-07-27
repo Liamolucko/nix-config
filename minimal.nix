@@ -46,7 +46,6 @@ in
     pkgs.btop
     pkgs.cachix
     pkgs.file
-    pkgs.gh
     pkgs.jq
     pkgs.nix-output-monitor
     pkgs.nixpkgs-review

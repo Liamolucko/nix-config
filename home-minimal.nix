@@ -66,6 +66,7 @@
       rebase.autoStash = true;
     };
   };
+  programs.gh.enable = true;
 
   programs.delta = {
     enable = true;

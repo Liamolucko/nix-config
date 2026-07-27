@@ -18,14 +18,13 @@ in
     NIXOS_OZONE_WL = "1";
   };
 
-  programs.fish.shellInit = ''
-    # If SSH_AUTH_SOCK has already been set by SSH agent forwarding, leave it, since
-    # the user probably can't easily interact with the 1Password password prompt
-    # anyway in that case.
-    if ! echo $SSH_AUTH_SOCK | grep -q "$HOME/.ssh/agent"
-      set -gx SSH_AUTH_SOCK ~/.1password/agent.sock
-    end
-  '';
+  sshAuthSock = {
+    enable = true;
+    initialization.bash = "export SSH_AUTH_SOCK=$HOME/.1password/agent.sock";
+    initialization.fish = "set -x SSH_AUTH_SOCK $HOME/.1password/agent.sock";
+    # for some reason this option is required... this might work?
+    systemd.socketProviderUnit = "app-1password@autostart.service";
+  };
 
   gtk.enable = true;
   gtk.cursorTheme.name = "Adwaita";
