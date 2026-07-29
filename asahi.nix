@@ -1,6 +1,5 @@
 {
-  lib,
-  config,
+  pkgs,
   ...
 }:
 let
@@ -50,26 +49,44 @@ in
   boot.loader.efi.canTouchEfiVariables = false;
 
   # fairydust DP alt mode branch
-  boot.kernelPackages =
-    let
-      pkgs' = config.hardware.asahi.pkgs;
-    in
-    lib.mkForce (
-      (pkgs'.linux-asahi.override {
-        _kernelPatches = config.boot.kernelPatches;
-      }).extend
-        (
-          final: prev: {
-            kernel = prev.kernel.overrideAttrs (old: {
-              src = old.src.override {
-                tag = null;
-                rev = "c83992242bc1e38bfc861a91696534479a2dbdf4";
-                hash = "sha256-sGcgrrf/rpb8u9dvwiTFdNjp18UyuRhW94biH1WMO5I=";
-              };
-            });
-          }
-        )
-    );
+  config.boot.kernelPatches = [
+    {
+      name = "usb: typec: tipd: Track data_status changes for CD321x";
+      patch = (
+        pkgs.fetchpatch2 {
+          url = "https://github.com/AsahiLinux/linux/commit/19f8a0521912b183036812764161d476bf10c6b8.diff?full_index=1";
+          hash = "sha256-V7wJXIFeKnoofgRR9vPbeFh/S/E0qq0vB2SPbpqCTXI=";
+        }
+      );
+    }
+    {
+      name = "usb: typec: tipd: HACK: Use drm oob hotplug event";
+      patch = (
+        pkgs.fetchpatch2 {
+          url = "https://github.com/AsahiLinux/linux/commit/ecb9073f2e4b578762bcbdadf46495502ca2f13b.diff?full_index=1";
+          hash = "sha256-/UfWv8F99AmT8opCPfU+M2P6lz2L89Qiv9L+c2mxInU=";
+        }
+      );
+    }
+    {
+      name = "arm64: dts: apple: t60xx: j[34]1[46]: Add dp-altmode hacks";
+      patch = (
+        pkgs.fetchpatch2 {
+          url = "https://github.com/AsahiLinux/linux/commit/e4bd0f159ed29032e38b576cf51cc725bda2fcf2.diff?full_index=1";
+          hash = "sha256-I8wXioDRgkQq789dJxUP7M8MSLk7Vsn8DqUPF8y4/I0=";
+        }
+      );
+    }
+    {
+      name = "HACK: arm64: dts: apple: t60xx: j[34]1[46]: Mark ps_atc1_common as always on";
+      patch = (
+        pkgs.fetchpatch2 {
+          url = "https://github.com/AsahiLinux/linux/commit/449d9961a37ebb98034f0792d6d377ee3ccb5c65.diff?full_index=1";
+          hash = "sha256-zPHCI2SOEfehoGJdx4dXxffzrgqfpuqxNA+uOKJw/1g=";
+        }
+      );
+    }
+  ];
 
   networking.hostName = "liam-asahi";
 
