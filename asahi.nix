@@ -49,7 +49,7 @@ in
   boot.loader.efi.canTouchEfiVariables = false;
 
   # fairydust DP alt mode branch
-  config.boot.kernelPatches = [
+  boot.kernelPatches = [
     {
       name = "usb: typec: tipd: Track data_status changes for CD321x";
       patch = (
