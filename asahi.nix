@@ -55,7 +55,7 @@ in
       patch = (
         pkgs.fetchpatch2 {
           url = "https://github.com/AsahiLinux/linux/commit/19f8a0521912b183036812764161d476bf10c6b8.diff?full_index=1";
-          hash = "sha256-V7wJXIFeKnoofgRR9vPbeFh/S/E0qq0vB2SPbpqCTXI=";
+          hash = "sha256-o26a7vhXrOLh1DMJWq00urJCjl/K0qJ/xMli/MohVzs=";
         }
       );
     }
@@ -64,7 +64,7 @@ in
       patch = (
         pkgs.fetchpatch2 {
           url = "https://github.com/AsahiLinux/linux/commit/ecb9073f2e4b578762bcbdadf46495502ca2f13b.diff?full_index=1";
-          hash = "sha256-/UfWv8F99AmT8opCPfU+M2P6lz2L89Qiv9L+c2mxInU=";
+          hash = "sha256-1gB/5p6hwbtyHAfJk0dvlfJ8WFGToWlVda7ueBu8jjQ=";
         }
       );
     }
