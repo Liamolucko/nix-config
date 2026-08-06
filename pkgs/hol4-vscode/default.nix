@@ -30,8 +30,10 @@ vscode-utils.buildVscodeExtension (finalAttrs: {
   inherit pname version;
 
   vscodeExtPublisher = "oskarabrahamsson";
-  vscodeExtName = ".hol4-mode";
+  vscodeExtName = "hol4-mode";
   vscodeExtUniqueId = "${finalAttrs.vscodeExtPublisher}.${finalAttrs.vscodeExtName}";
 
   src = vsix;
+
+  # putting off adding meta until they add a license to the repo...
 })

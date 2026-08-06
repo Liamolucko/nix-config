@@ -18,6 +18,12 @@ let
     rm $out/Applications/Alacritty.app/Contents/Resources/alacritty.icns
     cp ${alacritty-mac-icons}/icon.icns $out/Applications/Alacritty.app/Contents/Resources/alacritty.icns
   '';
+
+  vscodium-config =
+    if pkgs.stdenv.hostPlatform.isDarwin then
+      "Library/Application Support/VSCodium"
+    else
+      ".config/VSCodium";
 in
 {
   home.sessionVariables = {
@@ -73,11 +79,9 @@ in
     ];
   };
 
-  home.file."Library/Application Support/VSCodium/User/settings.json".source =
-    pkgs.runCommand "vscode-settings" { }
-      ''
-        ln -s '${config.home.homeDirectory}/src/nix-config/dotfiles/vscode-settings.json' $out
-      '';
+  home.file."${vscodium-config}/User/settings.json".source = pkgs.runCommand "vscode-settings" { } ''
+    ln -s '${config.home.homeDirectory}/src/nix-config/dotfiles/vscode-settings.json' $out
+  '';
 
   programs.java.enable = true;
 }

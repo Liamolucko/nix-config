@@ -90,6 +90,7 @@ in
 
   networking.hostName = "liam-asahi";
 
+  hardware.asahi.enable = true;
   hardware.asahi.extractPeripheralFirmware = !ciSafe;
 
   # TODO: get working w/ FEX.
