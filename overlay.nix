@@ -80,13 +80,6 @@ final: prev: {
       })
     ];
   });
-  # https://github.com/NixOS/nixpkgs/pull/539058
-  verilator = prev.verilator.overrideAttrs (old: {
-    postPatch = old.postPatch
-    + final.lib.optionalString final.stdenv.hostPlatform.isDarwin ''
-      substituteInPlace src/flexfix --replace-fail 'platform.system() == "Darwin"' 'False'
-    '';
-  });
   yosys = prev.yosys.overrideAttrs (old: {
     patches = (old.patches or [ ]) ++ [
       ./yosys-select-all.patch
