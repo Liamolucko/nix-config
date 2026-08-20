@@ -54,8 +54,8 @@ in
       name = "usb: typec: tipd: Track data_status changes for CD321x";
       patch = (
         pkgs.fetchpatch2 {
-          url = "https://github.com/AsahiLinux/linux/commit/19f8a0521912b183036812764161d476bf10c6b8.diff?full_index=1";
-          hash = "sha256-o26a7vhXrOLh1DMJWq00urJCjl/K0qJ/xMli/MohVzs=";
+          url = "https://github.com/AsahiLinux/linux/commit/ca77753b966c8ce4e9412b0863de0c4d89b147fe.diff?full_index=1";
+          hash = "sha256-NZy1UAYlPdWvMLwknFkdCYKmpI/8IlP0yUvfBTdfVxw=";
         }
       );
     }
@@ -63,8 +63,8 @@ in
       name = "usb: typec: tipd: HACK: Use drm oob hotplug event";
       patch = (
         pkgs.fetchpatch2 {
-          url = "https://github.com/AsahiLinux/linux/commit/ecb9073f2e4b578762bcbdadf46495502ca2f13b.diff?full_index=1";
-          hash = "sha256-1gB/5p6hwbtyHAfJk0dvlfJ8WFGToWlVda7ueBu8jjQ=";
+          url = "https://github.com/AsahiLinux/linux/commit/7a95896e0cd9440176b1595f0961de8f595ea44e.diff?full_index=1";
+          hash = "sha256-gi0fqMXu/w0sIf0zZgbF7PI1PZmKuZogdsbpt4UkCU8=";
         }
       );
     }
