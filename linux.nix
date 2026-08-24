@@ -43,7 +43,7 @@ in
     '')
   ]
   ++ lib.optionals (!ciSafe) [ pkgs.obsidian ];
-  fonts.packages = [ pkgs.corefonts ];
+  fonts.packages = lib.optionals (!ciSafe) [ pkgs.corefonts ];
   services.udev.packages = [ pkgs.solaar ];
   environment.cosmic.excludePackages = [ pkgs.cosmic-term ];
 

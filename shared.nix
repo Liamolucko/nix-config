@@ -47,7 +47,7 @@ in
     pkgs.usbutils
     pkgs.uv
     # pkgs.verible # broken on macos right now
-    pkgs.veridian
+    # pkgs.veridian # ditto
     pkgs.verilator
     pkgs.vesktop
     pkgs.wabt
