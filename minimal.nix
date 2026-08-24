@@ -9,6 +9,7 @@ in
     !ciSafe
     && builtins.elem (lib.getName pkg) [
       "1password"
+      "corefonts"
       "docnav"
       "drawio"
       "obsidian"
@@ -54,7 +55,7 @@ in
     pkgs.rsync
     pkgs.rustup
     pkgs.screen
-    (if pkgs.stdenv.isDarwin then pkgs.darwin.trash else pkgs.trashy)
+    (if pkgs.stdenv.hostPlatform.isDarwin then pkgs.darwin.trash else pkgs.trashy)
     pkgs.tree
   ];
 

@@ -30,7 +30,7 @@ in
     pkgs.cosmic-ext-applet-caffeine
     pkgs.evince
     pkgs.ghostty
-    pkgs.libreoffice-fresh
+    pkgs.libreoffice-stable
     pkgs.mattermost-desktop
     pkgs.pciutils
     pkgs.rhythmbox
@@ -43,6 +43,7 @@ in
     '')
   ]
   ++ lib.optionals (!ciSafe) [ pkgs.obsidian ];
+  fonts.packages = [ pkgs.corefonts ];
   services.udev.packages = [ pkgs.solaar ];
   environment.cosmic.excludePackages = [ pkgs.cosmic-term ];
 

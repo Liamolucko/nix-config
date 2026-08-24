@@ -27,7 +27,7 @@ let
 in
 {
   home.sessionVariables = {
-    EDITOR = "${if pkgs.stdenv.isLinux then "zeditor" else "zed"} --wait";
+    EDITOR = "${if pkgs.stdenv.hostPlatform.isLinux then "zeditor" else "zed"} --wait";
     HOLDIR = "${config.home.homeDirectory}/src/HOL";
     CAKEMLDIR = "${config.home.homeDirectory}/src/cakeml";
     CHESHIREDIR = "${config.home.homeDirectory}/src/cheshire";
@@ -40,7 +40,7 @@ in
 
   programs.alacritty = {
     enable = true;
-    package = if pkgs.stdenv.isDarwin then alacritty-mac else pkgs.alacritty;
+    package = if pkgs.stdenv.hostPlatform.isDarwin then alacritty-mac else pkgs.alacritty;
     settings.general.import = [ "${pkgs.alacritty-theme}/dracula.toml" ];
   };
 

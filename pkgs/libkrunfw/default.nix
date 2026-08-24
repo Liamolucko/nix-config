@@ -17,7 +17,7 @@ stdenv.mkDerivation (finalAttrs: {
   #   --replace-fail '$(KERNEL_C_BUNDLE): $(KERNEL_BINARY_$(GUESTARCH))' '$(KERNEL_C_BUNDLE):'
   # '';
 
-  nativeBuildInputs = lib.optionals stdenv.isDarwin [ fixDarwinDylibNames ];
+  nativeBuildInputs = lib.optionals stdenv.hostPlatform.isDarwin [ fixDarwinDylibNames ];
 
   makeFlags = [
     "PREFIX=${placeholder "out"}"

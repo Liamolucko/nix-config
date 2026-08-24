@@ -28,26 +28,26 @@ in
     pkgs.opam
     pkgs.openfpgaloader
     pkgs.pulldown-cmark
+    pkgs.pympress
     pkgs.ruff
     (lib.meta.hiPrio pkgs.rust-analyzer)
     pkgs.samply
     pkgs.surfer
     pkgs.texlab
-    (pkgs.texlive.combine {
-      inherit (pkgs.texlive)
-        biber
-        collection-fontsextra
-        collection-latexextra
-        collection-mathscience
-        scheme-small
-        ;
-    })
+    (pkgs.texliveSmall.withPackages (ps: [
+      ps.biber
+      ps.collection-fontsextra
+      ps.collection-latexextra
+      ps.collection-mathscience
+      ps.epsf
+    ]))
     pkgs.tinymist
     pkgs.tree-sitter
     pkgs.typst
     pkgs.usbutils
     pkgs.uv
     # pkgs.verible # broken on macos right now
+    pkgs.veridian
     pkgs.verilator
     pkgs.vesktop
     pkgs.wabt
