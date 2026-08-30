@@ -72,8 +72,8 @@ in
       name = "arm64: dts: apple: t60xx: j[34]1[46]: Add dp-altmode hacks";
       patch = (
         pkgs.fetchpatch2 {
-          url = "https://github.com/AsahiLinux/linux/commit/e4bd0f159ed29032e38b576cf51cc725bda2fcf2.diff?full_index=1";
-          hash = "sha256-I8wXioDRgkQq789dJxUP7M8MSLk7Vsn8DqUPF8y4/I0=";
+          url = "https://github.com/AsahiLinux/linux/commit/29cf6a0512f3cf007359387ccff66059eaefefa7.diff?full_index=1";
+          hash = "sha256-/c5HLam1Phc2+7CPK2Wal4W9Fs/HXHI6cCZi6H1pa8M=";
         }
       );
     }
@@ -81,8 +81,8 @@ in
       name = "HACK: arm64: dts: apple: t60xx: j[34]1[46]: Mark ps_atc1_common as always on";
       patch = (
         pkgs.fetchpatch2 {
-          url = "https://github.com/AsahiLinux/linux/commit/449d9961a37ebb98034f0792d6d377ee3ccb5c65.diff?full_index=1";
-          hash = "sha256-zPHCI2SOEfehoGJdx4dXxffzrgqfpuqxNA+uOKJw/1g=";
+          url = "https://github.com/AsahiLinux/linux/commit/c471dd3ed9dd97f4cbac779443e6e35760970e7e.diff?full_index=1";
+          hash = "sha256-PFaw8+Uu3ls7SOkIW4L0rGrLb/8r+TdyA+3r4JXggBA=";
         }
       );
     }
