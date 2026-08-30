@@ -39,6 +39,7 @@ in
       ps.collection-fontsextra
       ps.collection-latexextra
       ps.collection-mathscience
+      ps.detex
       ps.epsf
     ]))
     pkgs.tinymist

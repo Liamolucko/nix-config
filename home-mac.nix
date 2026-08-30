@@ -33,7 +33,22 @@
   #   };
   # };
 
-  # TODO: add a launchd agent for rclone nfsmount
+  launchd.agents.solaar = {
+    enable = true;
+    config = {
+      # based on https://github.com/pwr-Solaar/Solaar/blob/master/tools/create-macos-launchagent.sh
+      Label = "io.github.pwr-solaar.solaar";
+      ProgramArguments = [
+        (lib.getExe pkgs.solaar)
+        "--window=hide"
+      ];
+      RunAtLoad = true;
+      KeepAlive = true;
+      StandardOutPath = "${config.home.homeDirectory}/Library/Logs/solaar.log";
+      StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/solaar.error.log";
+      ProcessType = "Background";
+    };
+  };
 
   # https://github.com/LnL7/nix-darwin/issues/122#issuecomment-1659465635
   programs.fish.loginShellInit = ''
