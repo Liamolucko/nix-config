@@ -3,7 +3,14 @@ let
   ciSafe = builtins.getEnv "CI_SAFE" != "";
 in
 {
-  nix.settings.experimental-features = "nix-command flakes";
+  nix.settings.experimental-features =
+    if pkgs.stdenv.hostPlatform.isDarwin then
+      "nix-command flakes"
+    else
+      [
+        "nix-command"
+        "flakes"
+      ];
   nixpkgs.config.allowUnfreePredicate =
     pkg:
     !ciSafe
