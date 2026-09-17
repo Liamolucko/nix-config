@@ -18,15 +18,10 @@ in
   nix.linux-builder = {
     enable = true;
     ephemeral = true;
+    package = pkgs.darwin.linux-builder-vz;
   }
   // lib.optionalAttrs (!ciSafe) {
-    systems = [
-      "i686-linux"
-      "x86_64-linux"
-      "aarch64-linux"
-    ];
     config = {
-      imports = [ modules/fex.nix ];
       nixpkgs.overlays = config.nixpkgs.overlays;
 
       # QEMU can only start VMs with 8 cores right now for some reason.
@@ -40,8 +35,6 @@ in
           size = 8 * 1024;
         }
       ];
-
-      programs.fex.enable = true;
 
       environment.systemPackages = [ pkgs.pkgsLinux.btop ];
     };
