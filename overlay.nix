@@ -80,6 +80,10 @@ final: prev: {
       })
     ];
   });
+  # https://github.com/NixOS/nixpkgs/pull/564042
+  mattermost-desktop = prev.mattermost-desktop.overrideAttrs {
+    autoPatchelfIgnoreMissingDeps = [ "libc.musl-*.so.*" ];
+  };
   yosys = prev.yosys.overrideAttrs (old: {
     patches = (old.patches or [ ]) ++ [
       ./yosys-select-all.patch
