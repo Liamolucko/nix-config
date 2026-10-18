@@ -16,9 +16,6 @@
   };
 
   # Other configuration
-  boot.loader.grub.enable = false;
-  boot.loader.generic-extlinux-compatible.enable = true;
-
   networking.hostName = "pi4";
   services.openssh.enable = true;
 

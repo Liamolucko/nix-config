@@ -10,6 +10,8 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-apple-silicon.url = "github:nix-community/nixos-apple-silicon";
     nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
+    nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
     nix-vscode-extensions.inputs.nixpkgs.follows = "nixpkgs";
     mini-compile-commands = {
@@ -26,6 +28,7 @@
       nix-darwin,
       home-manager,
       nixos-apple-silicon,
+      nixos-hardware,
       nix-vscode-extensions,
       mini-compile-commands,
     }:
@@ -76,6 +79,7 @@
         modules = [
           { nixpkgs.overlays = overlays; }
           home-manager.nixosModules.home-manager
+          nixos-hardware.nixosModules.raspberry-pi-4
           ./pi4.nix
         ];
       };
