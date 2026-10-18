@@ -105,6 +105,9 @@ final: prev: {
       ];
     }
   ) prev.yosys-symbiflow;
+  zotero = prev.zotero.overrideAttrs (old: {
+    buildPhase = final.lib.replaceString "build.sh" "build.sh -t" old.buildPhase;
+  });
 
   pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
     (python-final: python-prev: {

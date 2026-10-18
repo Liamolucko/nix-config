@@ -61,19 +61,11 @@
       "language_servers": ["!millet-ls", "..."]
     },
     "Typst": { "soft_wrap": "editor_width" },
-    "Verilog": {
+    "SystemVerilog": {
       "tab_size": 2,
       "completions": {
         "words": "disabled"
       }
-    },
-    "TypeScript": {
-      "language_servers": [
-        "!vtsls",
-        "!typescript-language-server",
-        "deno",
-        "..."
-      ]
     }
   },
   "lsp": {
@@ -104,10 +96,15 @@
         }
       }
     },
-    "deno": {
+    "tinymist": {
       "settings": {
-        "deno": {
-          "enable": true
+        "preview": {
+          "browsing": {
+            "args": [
+              "--data-plane-host=127.0.0.1:23635",
+              "--invert-colors=never"
+            ]
+          }
         }
       }
     }

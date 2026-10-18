@@ -69,7 +69,6 @@ in
       jeanp413.open-remote-ssh
       leanprover.lean4
       mateocerquetella.xcode-12-theme
-      myriad-dreamin.tinymist
       rocq-prover.vsrocq
       pkgs.hol4-vscode
       pkief.material-icon-theme

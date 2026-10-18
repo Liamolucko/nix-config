@@ -13,6 +13,7 @@ in
     pkgs.cargo-fuzz
     pkgs.clang-tools
     pkgs.dafny
+    pkgs.deno
     pkgs.dotnet-runtime # TODO: is this actually needed (for Dafny)?
     pkgs.elan
     pkgs.emscripten # needed by tree-sitter
@@ -57,6 +58,7 @@ in
     pkgs.wasm-tools
     pkgs.wgsl-analyzer
     pkgs.z3
+    pkgs.zotero
   ]
   ++ lib.optionals (!ciSafe) [
     pkgs.drawio

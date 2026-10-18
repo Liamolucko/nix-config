@@ -19,6 +19,7 @@ in
       "corefonts"
       "docnav"
       "drawio"
+      "firefox-esr-140-bin-unwrapped"
       "obsidian"
       "rgp"
       "steam"
@@ -28,6 +29,9 @@ in
       "widevine-firefox"
       "xinstall"
     ];
+  nixpkgs.config.permittedInsecurePackages = [
+    "firefox-esr-140-bin-unwrapped-140.17.0esr"
+  ];
 
   nix.gc.automatic = true;
   nix.gc.options = "--option keep-outputs true";
