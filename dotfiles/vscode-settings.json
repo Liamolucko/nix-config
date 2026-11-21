@@ -27,5 +27,6 @@
   "[viper]": {
     "editor.formatOnSave": false
   },
-  "files.trimTrailingWhitespace": true
+  "files.trimTrailingWhitespace": true,
+  "notebook.output.textLineLimit": 1000
 }

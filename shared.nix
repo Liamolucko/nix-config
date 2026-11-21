@@ -58,10 +58,10 @@ in
     pkgs.wasm-tools
     pkgs.wgsl-analyzer
     pkgs.z3
-    pkgs.zotero
   ]
   ++ lib.optionals (!ciSafe) [
     pkgs.drawio
+    pkgs.zotero
   ];
 
   fonts.packages = [ pkgs.gyre-fonts ];

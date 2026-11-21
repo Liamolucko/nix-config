@@ -110,6 +110,7 @@
     }
   },
   "terminal": {
+    "font_size": 14.0,
     "alternate_scroll": "on",
     "detect_venv": "off",
     "dock": "bottom",
